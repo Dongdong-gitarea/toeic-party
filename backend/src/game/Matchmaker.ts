@@ -67,8 +67,8 @@ export class Matchmaker {
       players: room.getPlayerList(),
     });
 
-    // Start game after brief delay
-    setTimeout(() => room.start(), 1500);
+    // Start game after showing "Match Found" for 2.5s
+    setTimeout(() => room.start(), 2500);
 
     // Reset fill timer for next batch
     if (this.queue.length > 0) {

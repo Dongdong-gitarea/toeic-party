@@ -20,10 +20,11 @@ interface PlayerInfo {
 
 interface QuestionForClient {
   id: string;
-  type: 'vocab' | 'listen' | 'fillblank';
+  type: 'vocab' | 'audio' | 'fillblank';
   prompt: string;
   options: string[];
   isFinal: boolean;
+  audioWord?: string;
 }
 
 interface AnswerResult {

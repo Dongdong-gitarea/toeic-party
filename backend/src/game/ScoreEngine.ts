@@ -18,7 +18,7 @@ export function calculateCorrect(
   isFinalQuestion: boolean,
 ): ScoreResult {
   const baseScore = 100;
-  const speedBonus = Math.round((remainingTimeMs / 1000) * 20);
+  const speedBonus = Math.round((remainingTimeMs / 1000) * 8);
   const newCombo = currentCombo + 1;
   const comboMultiplier = getComboMultiplier(newCombo);
 

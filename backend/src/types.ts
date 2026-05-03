@@ -1,5 +1,5 @@
 export type SkillType = 'shake' | 'fog' | 'timeCut';
-export type QuestionType = 'vocab' | 'listen' | 'fillblank';
+export type QuestionType = 'vocab' | 'audio' | 'fillblank';
 
 export interface Player {
   id: string;
@@ -36,6 +36,7 @@ export interface QuestionForClient {
   prompt: string;
   options: string[];
   isFinal: boolean;
+  audioWord?: string; // word to speak via TTS for audio type
 }
 
 export interface RankEntry {

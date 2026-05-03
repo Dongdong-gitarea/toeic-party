@@ -13,9 +13,9 @@ import { calculateCorrect, calculateWrong } from './ScoreEngine.js';
 import { pickQuestions } from '../data/questions.js';
 
 const QUESTIONS_PER_GAME = 10;
-const QUESTION_TIME_MS = 3000;
+const QUESTION_TIME_MS = 10000;
 const BETWEEN_QUESTIONS_MS = 1200;
-const PRE_GAME_COUNTDOWN_MS = 3000;
+const PRE_GAME_COUNTDOWN_MS = 4500;
 const ENERGY_PER_CORRECT = 1;
 const SKILL_COST = 3;
 
@@ -110,9 +110,10 @@ export class Room {
     const clientQ: QuestionForClient = {
       id: q.id,
       type: q.type,
-      prompt: q.prompt,
+      prompt: q.type === 'audio' ? 'Listen and choose the word' : q.prompt,
       options: q.options,
       isFinal,
+      ...(q.type === 'audio' ? { audioWord: q.word } : {}),
     };
 
     this.io.to(this.id).emit('NEW_QUESTION', {

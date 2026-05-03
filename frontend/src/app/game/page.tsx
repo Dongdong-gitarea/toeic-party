@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import Timer from '@/components/Timer';
@@ -43,6 +43,31 @@ export default function GamePage() {
     },
     [selectedAnswer, submitAnswer],
   );
+
+  // ── TTS for audio questions ──
+  const spokenRef = useRef('');
+
+  const speakWord = useCallback((word: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang = 'en-US';
+    u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+  }, []);
+
+  useEffect(() => {
+    if (
+      currentQuestion?.type === 'audio' &&
+      currentQuestion.audioWord &&
+      spokenRef.current !== currentQuestion.id
+    ) {
+      spokenRef.current = currentQuestion.id;
+      // Small delay so the UI renders first
+      const t = setTimeout(() => speakWord(currentQuestion.audioWord!), 300);
+      return () => clearTimeout(t);
+    }
+  }, [currentQuestion, speakWord]);
 
   const isAnswered = selectedAnswer !== null;
   const isRevealed = lastResult !== null;
@@ -139,9 +164,9 @@ export default function GamePage() {
                 Vocab
               </span>
             )}
-            {currentQuestion.type === 'listen' && (
+            {currentQuestion.type === 'audio' && (
               <span className="text-[10px] font-bold uppercase tracking-wider bg-violet-500/20 text-violet-400 px-2 py-0.5 rounded-full">
-                Listen
+                Listening
               </span>
             )}
             {currentQuestion.type === 'fillblank' && (
@@ -156,7 +181,7 @@ export default function GamePage() {
             )}
           </div>
           <Timer
-            duration={3}
+            duration={10}
             questionId={currentQuestion.id}
             timeCut={activeEffect?.skillType === 'timeCut'}
           />
@@ -174,14 +199,25 @@ export default function GamePage() {
             {currentQuestion.type === 'vocab' && (
               <p className="text-4xl sm:text-5xl font-black">{currentQuestion.prompt}</p>
             )}
-            {currentQuestion.type === 'listen' && (
-              <div>
-                <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2">
-                  What word is this?
+            {currentQuestion.type === 'audio' && currentQuestion.audioWord && (
+              <div className="flex flex-col items-center gap-4">
+                <p className="text-sm text-slate-400 font-medium uppercase tracking-wider">
+                  What word do you hear?
                 </p>
-                <p className="text-3xl sm:text-4xl font-bold text-violet-300 font-mono">
-                  {currentQuestion.prompt}
-                </p>
+                <button
+                  onClick={() => speakWord(currentQuestion.audioWord!)}
+                  className="w-20 h-20 rounded-full bg-violet-500/20 border-2 border-violet-500/40
+                    flex items-center justify-center hover:bg-violet-500/30 active:scale-95
+                    transition-all cursor-pointer"
+                >
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-violet-300">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
+                </button>
+                <p className="text-xs text-slate-500">Tap to replay</p>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (

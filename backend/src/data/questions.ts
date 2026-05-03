@@ -43,45 +43,45 @@ export const QUESTION_POOL: Question[] = [
     options: ['加強', '重組', '提醒', '報銷'], correctIndex: 3,
   },
 
-  // ─── Listen: IPA → English word ───
+  // ─── Audio: hear the word → pick correct spelling ───
   {
-    id: 'l01', type: 'listen', word: 'conference',
-    prompt: '/ˈkɒn.fər.əns/',
+    id: 'a01', type: 'audio', word: 'conference',
+    prompt: '',
     options: ['conference', 'confidence', 'consequence', 'convenience'], correctIndex: 0,
   },
   {
-    id: 'l02', type: 'listen', word: 'deadline',
-    prompt: '/ˈded.laɪn/',
+    id: 'a02', type: 'audio', word: 'deadline',
+    prompt: '',
     options: ['decline', 'deadline', 'define', 'design'], correctIndex: 1,
   },
   {
-    id: 'l03', type: 'listen', word: 'negotiate',
-    prompt: '/nɪˈɡoʊ.ʃi.eɪt/',
+    id: 'a03', type: 'audio', word: 'negotiate',
+    prompt: '',
     options: ['nominate', 'navigate', 'negotiate', 'generate'], correctIndex: 2,
   },
   {
-    id: 'l04', type: 'listen', word: 'achieve',
-    prompt: '/əˈtʃiːv/',
+    id: 'a04', type: 'audio', word: 'achieve',
+    prompt: '',
     options: ['receive', 'believe', 'deceive', 'achieve'], correctIndex: 3,
   },
   {
-    id: 'l05', type: 'listen', word: 'revenue',
-    prompt: '/ˈrev.ən.juː/',
+    id: 'a05', type: 'audio', word: 'revenue',
+    prompt: '',
     options: ['revenue', 'review', 'rescue', 'resume'], correctIndex: 0,
   },
   {
-    id: 'l06', type: 'listen', word: 'inventory',
-    prompt: '/ˈɪn.vən.tɔːr.i/',
+    id: 'a06', type: 'audio', word: 'inventory',
+    prompt: '',
     options: ['investment', 'inventory', 'innovation', 'invitation'], correctIndex: 1,
   },
   {
-    id: 'l07', type: 'listen', word: 'profit',
-    prompt: '/ˈprɒf.ɪt/',
+    id: 'a07', type: 'audio', word: 'profit',
+    prompt: '',
     options: ['project', 'process', 'profit', 'product'], correctIndex: 2,
   },
   {
-    id: 'l08', type: 'listen', word: 'warranty',
-    prompt: '/ˈwɒr.ən.ti/',
+    id: 'a08', type: 'audio', word: 'warranty',
+    prompt: '',
     options: ['warning', 'wardrobe', 'warehouse', 'warranty'], correctIndex: 3,
   },
 
