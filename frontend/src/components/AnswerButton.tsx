@@ -1,10 +1,10 @@
 'use client';
 
 const BASE_COLORS = [
-  'bg-blue-600 hover:bg-blue-500 border-blue-500/50',
-  'bg-emerald-600 hover:bg-emerald-500 border-emerald-500/50',
-  'bg-amber-600 hover:bg-amber-500 border-amber-500/50',
-  'bg-purple-600 hover:bg-purple-500 border-purple-500/50',
+  'bg-cyan-400 text-cyan-950 border-cyan-200 shadow-[0_5px_0_rgba(8,51,68,0.6)]',
+  'bg-emerald-400 text-emerald-950 border-emerald-200 shadow-[0_5px_0_rgba(6,78,59,0.6)]',
+  'bg-amber-300 text-amber-950 border-amber-100 shadow-[0_5px_0_rgba(120,53,15,0.6)]',
+  'bg-fuchsia-400 text-fuchsia-950 border-fuchsia-200 shadow-[0_5px_0_rgba(112,26,117,0.6)]',
 ];
 
 const LABELS = ['A', 'B', 'C', 'D'];
@@ -31,20 +31,20 @@ export default function AnswerButton({
   onClick,
 }: Props) {
   let classes =
-    'relative w-full min-h-[52px] p-3 sm:p-4 rounded-xl border-2 text-left font-bold text-base sm:text-lg transition-all duration-150 cursor-pointer select-none active:scale-[0.96] ';
+    'relative w-full min-h-[56px] px-3 py-3 sm:p-4 rounded-2xl border-4 text-left font-black text-base sm:text-lg transition-all duration-150 cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] ';
 
   if (correct === null) {
     classes += disabled
       ? 'opacity-50 cursor-not-allowed ' + BASE_COLORS[index]
       : BASE_COLORS[index];
   } else if (selected && correct) {
-    classes += 'bg-green-500 border-green-300 scale-[1.03] ring-2 ring-green-300/60';
+    classes += 'bg-emerald-300 text-emerald-950 border-emerald-100 scale-[1.04] shadow-[0_0_28px_rgba(110,231,183,0.7)]';
   } else if (selected && !correct) {
-    classes += 'bg-red-500 border-red-300 animate-shake';
+    classes += 'bg-rose-400 text-rose-950 border-rose-200 animate-shake';
   } else if (isCorrectAnswer) {
-    classes += 'bg-green-500/60 border-green-400';
+    classes += 'bg-emerald-300/80 text-emerald-950 border-emerald-200';
   } else {
-    classes += 'bg-slate-700/40 border-slate-600 opacity-30';
+    classes += 'bg-white/10 text-white/40 border-white/20 opacity-40';
   }
 
   return (
@@ -54,7 +54,7 @@ export default function AnswerButton({
       disabled={disabled}
       style={fogged ? { filter: 'blur(8px)' } : undefined}
     >
-      <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-black/25 text-sm font-black mr-3">
+      <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-black/20 text-sm font-black mr-2.5 shrink-0">
         {LABELS[index]}
       </span>
       {text}

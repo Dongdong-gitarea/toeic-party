@@ -157,8 +157,8 @@ export default function WordsPage() {
                     </button>
                   </div>
 
-                  {w.correctAnswer && (
-                    <p className="mt-1.5 text-sm text-amber-200 font-black">{w.correctAnswer}</p>
+                  {w.meaning && (
+                    <p className="mt-1.5 text-base text-amber-200 font-black">{w.meaning}</p>
                   )}
                   {w.definition && (
                     <p className="mt-1 text-xs text-white/75 leading-relaxed">{w.definition}</p>

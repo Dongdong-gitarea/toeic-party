@@ -18,7 +18,8 @@ export default function LobbyPage() {
   const router = useRouter();
   const {
     phase, gameMode, playerName, setPlayerName, setGameMode,
-    joinMatch, leaveMatch, initSocket, socketReady, unlockedChars, gamesPlayed, lobby, savedWords,
+    joinMatch, leaveMatch, setReady, initSocket, socketReady,
+    lobby, savedWords, selectedCharIdx, setSelectedChar, myReady,
   } = useGameStore();
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
 
@@ -41,10 +42,10 @@ export default function LobbyPage() {
   }, [lobby]);
 
   const isMatchmaking = phase === 'matchmaking';
+  const myChar = CHARACTERS[selectedCharIdx] ?? CHARACTERS[0]!;
 
   return (
     <main className="min-h-[100dvh] party-bg relative overflow-hidden flex flex-col items-center justify-center px-4 py-6">
-      {/* Decorative floating blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-amber-300/30 blur-3xl animate-blob-drift" />
         <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-300/20 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
@@ -61,23 +62,25 @@ export default function LobbyPage() {
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
             <div className="grid grid-cols-2 gap-3 mb-4">
               {Array.from({ length: lobby.capacity }).map((_, i) => {
-                const name = lobby.players[i];
+                const slot = lobby.players[i];
                 const char = CHARACTERS[i];
                 return (
                   <div
                     key={i}
-                    className={`rounded-2xl border-4 p-3 text-center ${
-                      name
-                        ? 'border-white/60 shadow-lg'
+                    className={`relative rounded-2xl border-4 p-3 text-center ${
+                      slot
+                        ? slot.ready
+                          ? 'border-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.4)]'
+                          : 'border-white/60'
                         : 'border-dashed border-white/30 animate-empty-pulse'
                     }`}
                     style={{
-                      background: name && char
+                      background: slot && char
                         ? `linear-gradient(135deg, ${char.color}55, ${char.color}10)`
                         : 'rgba(0,0,0,0.2)',
                     }}
                   >
-                    {name && char ? (
+                    {slot && char ? (
                       <>
                         <img
                           src={`${char.folder}/idle.png`}
@@ -86,7 +89,12 @@ export default function LobbyPage() {
                           style={{ animationDelay: `${i * 0.2}s` }}
                           draggable={false}
                         />
-                        <p className="text-sm font-black text-white truncate mt-1">{name}</p>
+                        <p className="text-sm font-black text-white truncate mt-1">{slot.name}</p>
+                        {slot.ready && (
+                          <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
+                            ✓ READY
+                          </span>
+                        )}
                       </>
                     ) : (
                       <>
@@ -109,25 +117,35 @@ export default function LobbyPage() {
                 0:{String(tickSeconds ?? lobby.secondsLeft).padStart(2, '0')}
               </div>
               <p className="text-[10px] font-bold text-white/60 tracking-wide">
-                until AI fills the rest
+                {lobby.count === 1 ? 'tap READY to start solo with AI' : 'all ready = instant start'}
               </p>
             </div>
           </div>
 
+          {/* READY toggle */}
+          <button
+            onClick={() => setReady(!myReady)}
+            className={`w-full py-5 rounded-2xl font-black text-2xl tracking-widest cursor-pointer transition-all border-4 ${
+              myReady
+                ? 'bg-emerald-400 text-emerald-950 border-emerald-500 shadow-[0_8px_0_rgba(6,78,59,0.7)] active:translate-y-[5px] active:shadow-[0_3px_0_rgba(6,78,59,0.7)]'
+                : 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_8px_0_rgba(120,53,15,0.7)] active:translate-y-[5px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)] hover:bg-amber-200'
+            }`}
+          >
+            {myReady ? '✓ READY!' : "I'M READY"}
+          </button>
+
           <button
             onClick={leaveMatch}
-            className="w-full py-4 rounded-2xl font-black text-base tracking-widest cursor-pointer
-              bg-white text-fuchsia-700 border-4 border-white
-              shadow-[0_6px_0_rgba(0,0,0,0.3)]
-              hover:bg-rose-100 active:translate-y-[3px] active:shadow-[0_3px_0_rgba(0,0,0,0.3)]
-              transition-all"
+            className="w-full py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+              bg-white/15 text-white border-4 border-white/30
+              hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
           >
             ← LEAVE LOBBY
           </button>
         </div>
       ) : (
         // ── Home view ──
-        <div className="relative z-10 w-full max-w-md flex flex-col items-center gap-5">
+        <div className="relative z-10 w-full max-w-md flex flex-col items-center gap-4">
           <div className="text-center animate-tilt-pop">
             <h1 className="text-5xl sm:text-6xl font-black tracking-tight leading-none">
               <span className="inline-block animate-wiggle text-amber-300 drop-shadow-[0_4px_0_rgba(0,0,0,0.4)]">
@@ -146,27 +164,32 @@ export default function LobbyPage() {
             </p>
           </div>
 
+          {/* Character picker */}
           <div
             className="w-full bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/20 p-3 animate-tilt-pop"
             style={{ animationDelay: '0.05s' }}
           >
-            <div className="flex justify-center gap-2">
+            <p className="text-center text-[10px] font-black text-white/70 tracking-widest mb-2">
+              PICK YOUR CHARACTER
+            </p>
+            <div className="grid grid-cols-4 gap-2">
               {CHARACTERS.map((char, i) => {
-                const isLocked = i >= unlockedChars;
-                const unlockAt = [0, 3, 5, 10][i]!;
-                const gamesLeft = unlockAt - gamesPlayed;
+                const selected = i === selectedCharIdx;
                 return (
-                  <div key={char.id} className="flex flex-col items-center">
-                    <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center p-1 ${
-                        isLocked ? 'opacity-40 grayscale' : 'animate-float-bob'
-                      }`}
-                      style={{
-                        backgroundColor: char.color + '40',
-                        border: `3px solid ${isLocked ? 'rgba(255,255,255,0.2)' : char.color}`,
-                        animationDelay: `${i * 0.15}s`,
-                      }}
-                    >
+                  <button
+                    key={char.id}
+                    onClick={() => setSelectedChar(i)}
+                    className={`flex flex-col items-center p-2 rounded-2xl border-4 transition-all cursor-pointer ${
+                      selected
+                        ? 'shadow-[0_0_20px_rgba(252,211,77,0.5)] -translate-y-1'
+                        : 'opacity-70 hover:opacity-100'
+                    }`}
+                    style={{
+                      backgroundColor: char.color + (selected ? '50' : '20'),
+                      borderColor: selected ? '#fcd34d' : char.color + '60',
+                    }}
+                  >
+                    <div className={`w-12 h-12 ${selected ? 'animate-float-bob' : ''}`}>
                       <img
                         src={`${char.folder}/idle.png`}
                         alt={char.name}
@@ -174,19 +197,13 @@ export default function LobbyPage() {
                         draggable={false}
                       />
                     </div>
-                    <span className={`text-[10px] mt-1 font-black ${isLocked ? 'text-white/40' : 'text-white'}`}>
+                    <span className={`text-[10px] mt-1 font-black ${selected ? 'text-white' : 'text-white/70'}`}>
                       {char.name.toUpperCase()}
                     </span>
-                    {isLocked && gamesLeft > 0 && (
-                      <span className="text-[8px] font-bold text-white/50">{gamesLeft} more</span>
-                    )}
-                  </div>
+                  </button>
                 );
               })}
             </div>
-            <p className="text-center text-[10px] font-bold text-white/60 mt-1.5 tracking-wide">
-              {unlockedChars}/{CHARACTERS.length} unlocked · {gamesPlayed} games
-            </p>
           </div>
 
           <input
@@ -235,17 +252,29 @@ export default function LobbyPage() {
               transition-all
               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
           >
-            START!
+            START AS {myChar.name.toUpperCase()}!
           </button>
 
-          <button
-            onClick={() => router.push('/words')}
-            className="w-full py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
-              bg-white/15 text-white border-4 border-white/30
-              hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
-          >
-            📚 MY WORDS ({savedWords.length})
-          </button>
+          <div className="grid grid-cols-2 gap-3 w-full">
+            <button
+              onClick={() => router.push('/words')}
+              className="py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+                bg-white/15 text-white border-4 border-white/30
+                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
+            >
+              📚 MY WORDS ({savedWords.length})
+            </button>
+            <button
+              onClick={() => router.push('/practice')}
+              className="py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+                bg-white/15 text-white border-4 border-white/30
+                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
+                disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={savedWords.length < 4}
+            >
+              🎯 PRACTICE
+            </button>
+          </div>
 
           {!socketReady && (
             <p className="text-center text-xs font-bold text-amber-300 -mt-2">Connecting to server...</p>

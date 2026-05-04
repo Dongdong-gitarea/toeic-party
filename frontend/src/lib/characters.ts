@@ -20,8 +20,10 @@ export function getCharacter(index: number): Character {
 
 export function getCharacterIndex(
   playerId: string,
-  players: { playerId: string }[],
+  players: { playerId: string; charIdx?: number }[],
 ): number {
+  const player = players.find((p) => p.playerId === playerId);
+  if (player?.charIdx !== undefined) return player.charIdx % CHARACTERS.length;
   const idx = players.findIndex((p) => p.playerId === playerId);
   return idx >= 0 ? idx % CHARACTERS.length : 0;
 }

@@ -41,6 +41,7 @@ function mergeReviewIntoSaved(
         wrongCount: existing.wrongCount + (r.correct ? 0 : 1),
         definition: r.definition || existing.definition,
         correctAnswer: r.correctAnswer || existing.correctAnswer,
+        meaning: r.meaning || existing.meaning,
         lastSeen: now,
       });
     } else {
@@ -48,6 +49,7 @@ function mergeReviewIntoSaved(
         word: r.word,
         correctAnswer: r.correctAnswer,
         definition: r.definition,
+        meaning: r.meaning ?? '',
         correctCount: r.correct ? 1 : 0,
         wrongCount: r.correct ? 0 : 1,
         starred: false,
@@ -72,6 +74,7 @@ interface PlayerInfo {
   playerId: string;
   name: string;
   isAI: boolean;
+  charIdx?: number;
 }
 
 interface QuestionForClient {
@@ -94,6 +97,10 @@ interface AnswerResult {
   combo: number;
   energy: number;
   isFinal: boolean;
+  word?: string;
+  correctAnswer?: string;
+  definition?: string;
+  meaning?: string;
 }
 
 interface RankEntry {
@@ -121,6 +128,7 @@ interface ReviewWord {
   yourAnswer: string;
   correctAnswer: string;
   definition: string;
+  meaning?: string;
   questionType: string;
 }
 
@@ -128,6 +136,7 @@ export interface SavedWord {
   word: string;
   correctAnswer: string;
   definition: string;
+  meaning: string;
   correctCount: number;
   wrongCount: number;
   starred: boolean;
@@ -139,8 +148,13 @@ interface SkillEffect {
   skillType: SkillType;
 }
 
+interface LobbyPlayer {
+  name: string;
+  ready: boolean;
+}
+
 interface LobbyState {
-  players: string[];
+  players: LobbyPlayer[];
   count: number;
   capacity: number;
   secondsLeft: number;
@@ -189,10 +203,18 @@ interface GameState {
   // Personal vocab notebook (persisted to localStorage)
   savedWords: SavedWord[];
 
+  // Ready state in lobby (local mirror of server flag)
+  myReady: boolean;
+
+  // Selected character index (free pick, persisted)
+  selectedCharIdx: number;
+
   setPlayerName: (name: string) => void;
   setGameMode: (mode: 'classic' | 'jump') => void;
+  setSelectedChar: (idx: number) => void;
   joinMatch: () => void;
   leaveMatch: () => void;
+  setReady: (ready: boolean) => void;
   submitAnswer: (answerIndex: number) => void;
   useSkill: (skillType: SkillType) => void;
   initSocket: () => void;
@@ -228,11 +250,18 @@ export const useGameStore = create<GameState>((set, get) => ({
   overtakeMsg: null,
   totalXP: typeof window !== 'undefined' ? Number(localStorage.getItem('tp_xp') || 0) : 0,
   gamesPlayed: typeof window !== 'undefined' ? Number(localStorage.getItem('tp_games') || 0) : 0,
-  unlockedChars: typeof window !== 'undefined' ? Number(localStorage.getItem('tp_chars') || 1) : 1,
+  unlockedChars: 4,
   savedWords: loadSavedWords(),
+  myReady: false,
+  selectedCharIdx:
+    typeof window !== 'undefined' ? Number(localStorage.getItem('tp_char_idx') || 0) : 0,
 
   setPlayerName: (name) => set({ playerName: name }),
   setGameMode: (mode) => set({ gameMode: mode }),
+  setSelectedChar: (idx) => {
+    if (typeof window !== 'undefined') localStorage.setItem('tp_char_idx', String(idx));
+    set({ selectedCharIdx: idx });
+  },
 
   initSocket: () => {
     if (get().socketReady) return;
@@ -383,15 +412,29 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   joinMatch: () => {
-    const { playerName } = get();
+    const { playerName, savedWords, selectedCharIdx } = get();
+    const weakWords = savedWords
+      .filter((w) => w.wrongCount >= w.correctCount && (w.wrongCount > 0 || w.correctCount === 0))
+      .sort((a, b) => b.wrongCount - a.wrongCount)
+      .slice(0, 60)
+      .map((w) => w.word);
     const socket = getSocket();
-    socket.emit('JOIN_MATCH', { playerName: playerName || 'Player' });
-    set({ phase: 'matchmaking', lobby: null });
+    socket.emit('JOIN_MATCH', {
+      playerName: playerName || 'Player',
+      weakWords,
+      charIdx: selectedCharIdx,
+    });
+    set({ phase: 'matchmaking', lobby: null, myReady: false });
   },
 
   leaveMatch: () => {
     getSocket().emit('LEAVE_QUEUE');
-    set({ phase: 'idle', lobby: null });
+    set({ phase: 'idle', lobby: null, myReady: false });
+  },
+
+  setReady: (ready: boolean) => {
+    getSocket().emit('READY_UP', { ready });
+    set({ myReady: ready });
   },
 
   submitAnswer: (answerIndex) => {
@@ -426,6 +469,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           word: r.word,
           correctAnswer: r.correctAnswer,
           definition: r.definition,
+          meaning: r.meaning ?? '',
           correctCount: r.correct ? 1 : 0,
           wrongCount: r.correct ? 0 : 1,
           starred: true,
@@ -466,6 +510,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       countdownValue: 3,
       activeEffect: null,
       effectTimer: null,
+      myReady: false,
     });
   },
 }));
