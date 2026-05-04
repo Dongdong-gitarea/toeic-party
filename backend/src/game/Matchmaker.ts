@@ -5,6 +5,9 @@ import { Room } from './Room.js';
 interface QueueEntry {
   socket: Socket;
   playerName: string;
+  ready: boolean;
+  weakWords: string[];
+  charIdx: number;
 }
 
 const FILL_TIMEOUT_MS = 15000;
@@ -21,19 +24,38 @@ export class Matchmaker {
     this.io = io;
   }
 
-  addPlayer(socket: Socket, playerName: string) {
-    this.queue.push({ socket, playerName });
+  addPlayer(
+    socket: Socket,
+    playerName: string,
+    weakWords: string[] = [],
+    charIdx = 0,
+  ) {
+    this.queue.push({ socket, playerName, ready: false, weakWords, charIdx });
     socket.emit('MATCHMAKING', { position: this.queue.length });
 
     if (this.queue.length >= MAX_PLAYERS) {
       this.broadcastLobby();
-      this.createRoom(this.queue.splice(0, MAX_PLAYERS));
+      this.startFromQueue(MAX_PLAYERS);
       return;
     }
 
     if (this.queue.length === 1 && !this.fillTimer) {
       this.fillStartedAt = Date.now();
       this.fillTimer = setTimeout(() => this.fillAndStart(), FILL_TIMEOUT_MS);
+    }
+
+    this.broadcastLobby();
+  }
+
+  setReady(socketId: string, ready: boolean) {
+    const entry = this.queue.find((e) => e.socket.id === socketId);
+    if (!entry) return;
+    entry.ready = ready;
+
+    // If everyone in queue is ready and there's at least one player, force start
+    if (this.queue.length > 0 && this.queue.every((e) => e.ready)) {
+      this.startFromQueue(this.queue.length);
+      return;
     }
 
     this.broadcastLobby();
@@ -52,7 +74,7 @@ export class Matchmaker {
   }
 
   private broadcastLobby() {
-    const players = this.queue.map((e) => e.playerName);
+    const players = this.queue.map((e) => ({ name: e.playerName, ready: e.ready }));
     const secondsLeft = this.fillStartedAt
       ? Math.max(0, Math.ceil((FILL_TIMEOUT_MS - (Date.now() - this.fillStartedAt)) / 1000))
       : Math.ceil(FILL_TIMEOUT_MS / 1000);
@@ -71,7 +93,11 @@ export class Matchmaker {
     this.fillTimer = null;
     this.fillStartedAt = null;
     if (this.queue.length === 0) return;
-    const entries = this.queue.splice(0);
+    this.startFromQueue(this.queue.length);
+  }
+
+  private startFromQueue(count: number) {
+    const entries = this.queue.splice(0, count);
     this.createRoom(entries);
   }
 
@@ -83,30 +109,28 @@ export class Matchmaker {
     }
 
     const roomId = nanoid(8);
-    const room = new Room(roomId, this.io, (id) => this.destroyRoom(id));
+    const weakWords = new Set<string>();
+    for (const e of entries) for (const w of e.weakWords) weakWords.add(w.toLowerCase());
 
-    // Add human players
+    const room = new Room(roomId, this.io, (id) => this.destroyRoom(id), [...weakWords]);
+
     for (const entry of entries) {
-      room.addPlayer(entry.socket.id, entry.playerName, false);
+      room.addPlayer(entry.socket.id, entry.playerName, false, entry.charIdx);
       entry.socket.join(roomId);
       entry.socket.data.roomId = roomId;
     }
 
-    // Fill remaining slots with AI
     room.fillWithAI();
 
     this.rooms.set(roomId, room);
 
-    // Notify all players
     this.io.to(roomId).emit('MATCH_FOUND', {
       roomId,
       players: room.getPlayerList(),
     });
 
-    // Start game after showing "Match Found" for 2.5s
     setTimeout(() => room.start(), 2500);
 
-    // Reset fill timer for next batch
     if (this.queue.length > 0) {
       this.fillStartedAt = Date.now();
       this.fillTimer = setTimeout(() => this.fillAndStart(), FILL_TIMEOUT_MS);

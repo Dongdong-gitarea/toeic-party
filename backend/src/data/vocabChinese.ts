@@ -1,6 +1,16 @@
 // Chinese vocab bank for English → Chinese questions
 // Each entry: [word, correct_chinese, wrong1, wrong2, wrong3]
 
+let chineseLookup: Map<string, string> | null = null;
+
+export function lookupChinese(word: string): string {
+  if (!chineseLookup) {
+    chineseLookup = new Map();
+    for (const [w, zh] of VOCAB_ZH) chineseLookup.set(w.toLowerCase(), zh);
+  }
+  return chineseLookup.get(word.toLowerCase()) ?? '';
+}
+
 export const VOCAB_ZH: [string, string, string, string, string][] = [
   ['conference', '會議', '競爭', '合約', '廣告'],
   ['deadline', '截止日期', '頭條新聞', '死路', '交易'],

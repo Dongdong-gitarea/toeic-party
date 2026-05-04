@@ -37,6 +37,23 @@ function pickRandom<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
+// Bias selection toward `weakLower`: take ~70% from weak pool, pad with random
+function pickWeighted<T>(
+  pool: T[],
+  getWord: (entry: T) => string,
+  weakLower: Set<string>,
+  n: number,
+): T[] {
+  if (n <= 0 || pool.length === 0) return [];
+  if (weakLower.size === 0) return pickRandom(pool, n);
+  const weakPool = pool.filter((p) => weakLower.has(getWord(p).toLowerCase()));
+  const otherPool = pool.filter((p) => !weakLower.has(getWord(p).toLowerCase()));
+  const targetWeak = Math.min(weakPool.length, Math.ceil(n * 0.7));
+  const fromWeak = pickRandom(weakPool, targetWeak);
+  const fromOther = pickRandom(otherPool, n - fromWeak.length);
+  return shuffle([...fromWeak, ...fromOther]).slice(0, n);
+}
+
 function truncDef(s: string, max = 35): string {
   return s.length > max ? s.slice(0, max - 1) + '…' : s;
 }
@@ -48,8 +65,8 @@ function lookupDef(word: string): string {
 }
 
 // ── Generate vocab (English → Chinese) from hand-crafted bank ──
-function generateVocabQuestions(count: number): Question[] {
-  const selected = pickRandom(VOCAB_ZH, Math.min(count, VOCAB_ZH.length));
+function generateVocabQuestions(count: number, weakLower: Set<string>): Question[] {
+  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length));
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
     return {
@@ -65,8 +82,8 @@ function generateVocabQuestions(count: number): Question[] {
 }
 
 // ── Generate audio (hear word → pick Chinese meaning) from vocab bank ──
-function generateAudioQuestions(count: number): Question[] {
-  const selected = pickRandom(VOCAB_ZH, Math.min(count, VOCAB_ZH.length));
+function generateAudioQuestions(count: number, weakLower: Set<string>): Question[] {
+  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length));
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
     return {
@@ -82,9 +99,9 @@ function generateAudioQuestions(count: number): Question[] {
 }
 
 // ── Generate definition match: show definition → pick correct word ──
-function generateDefinitionQuestions(count: number): Question[] {
+function generateDefinitionQuestions(count: number, weakLower: Set<string>): Question[] {
   const words = loadTSL().filter((w) => w.definition_en.length >= 5);
-  const selected = pickRandom(words, Math.min(count, words.length));
+  const selected = pickWeighted(words, (w) => w.word, weakLower, Math.min(count, words.length));
   return selected.map((w, idx) => {
     const wrongWords = pickRandom(
       words.filter((o) => o.word !== w.word),
@@ -104,19 +121,18 @@ function generateDefinitionQuestions(count: number): Question[] {
 }
 
 /**
- * Generate N questions with balanced type distribution:
- * - vocab: Chinese options (from hand-crafted bank)
- * - audio: English word options (from TSL 1250)
- * - fillblank: English word options (from TSL 1250)
+ * Generate N questions with balanced type distribution. When `weakWords`
+ * is non-empty, ~70% of questions are biased toward those words.
  */
-export function generateTSLQuestions(count: number): Question[] {
+export function generateTSLQuestions(count: number, weakWords: string[] = []): Question[] {
+  const weakLower = new Set(weakWords.map((w) => w.toLowerCase()));
   const vocabCount = Math.ceil(count / 3);
   const audioCount = Math.ceil(count / 3);
   const fillCount = count - vocabCount - audioCount;
 
-  const vocabQs = generateVocabQuestions(vocabCount);
-  const audioQs = generateAudioQuestions(audioCount);
-  const fillQs = generateDefinitionQuestions(fillCount);
+  const vocabQs = generateVocabQuestions(vocabCount, weakLower);
+  const audioQs = generateAudioQuestions(audioCount, weakLower);
+  const fillQs = generateDefinitionQuestions(fillCount, weakLower);
 
   return shuffle([...vocabQs, ...audioQs, ...fillQs]);
 }

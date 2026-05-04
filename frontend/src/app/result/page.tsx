@@ -269,8 +269,13 @@ export default function ResultPage() {
                         </button>
                       </div>
 
+                      {w.meaning && (
+                        <p className="mt-2 text-base font-black text-amber-200">
+                          {w.meaning}
+                        </p>
+                      )}
                       {w.definition && (
-                        <p className="mt-2 text-xs text-white/80 leading-relaxed font-medium">
+                        <p className="mt-1 text-xs text-white/75 leading-relaxed font-medium">
                           {w.definition}
                         </p>
                       )}
