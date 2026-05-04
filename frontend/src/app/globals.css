@@ -97,6 +97,39 @@ body {
   50% { transform: scale(1.12); }
 }
 
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes tilt-pop {
+  0% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+  60% { opacity: 1; transform: scale(1.05) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 25px) scale(0.95); }
+}
+
+@keyframes party-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes empty-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.04); }
+}
+
 @utility animate-float-up {
   animation: float-up 0.9s ease-out forwards;
 }
@@ -151,4 +184,30 @@ body {
 
 @utility animate-timer-pulse {
   animation: timer-pulse 0.8s ease-in-out infinite;
+}
+
+@utility animate-wiggle {
+  animation: wiggle 2.5s ease-in-out infinite;
+}
+
+@utility animate-float-bob {
+  animation: float-bob 2.4s ease-in-out infinite;
+}
+
+@utility animate-tilt-pop {
+  animation: tilt-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@utility animate-blob-drift {
+  animation: blob-drift 14s ease-in-out infinite;
+}
+
+@utility animate-empty-pulse {
+  animation: empty-pulse 1.6s ease-in-out infinite;
+}
+
+@utility party-bg {
+  background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 25%, #be185d 60%, #db2777 100%);
+  background-size: 250% 250%;
+  animation: party-gradient 18s ease infinite;
 }
