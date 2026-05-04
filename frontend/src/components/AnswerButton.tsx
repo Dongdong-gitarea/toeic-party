@@ -31,7 +31,7 @@ export default function AnswerButton({
   onClick,
 }: Props) {
   let classes =
-    'relative w-full p-4 sm:p-5 rounded-xl border-2 text-left font-bold text-lg sm:text-xl transition-all duration-150 cursor-pointer select-none ';
+    'relative w-full min-h-[52px] p-3 sm:p-4 rounded-xl border-2 text-left font-bold text-base sm:text-lg transition-all duration-150 cursor-pointer select-none active:scale-[0.96] ';
 
   if (correct === null) {
     classes += disabled

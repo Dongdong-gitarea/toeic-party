@@ -28,8 +28,7 @@ export function calculateCorrect(
   return { baseScore, speedBonus, comboMultiplier, total, newCombo };
 }
 
-export function calculateWrong(isFinalQuestion: boolean) {
-  let penalty = -50;
-  if (isFinalQuestion) penalty = Math.round(penalty * 2.5);
-  return { total: penalty, newCombo: 0 };
+export function calculateWrong(_isFinalQuestion: boolean) {
+  // No penalty — just combo reset. Keep players motivated.
+  return { total: 0, newCombo: 0 };
 }

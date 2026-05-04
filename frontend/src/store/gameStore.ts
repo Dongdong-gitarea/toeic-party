@@ -59,10 +59,13 @@ interface GameLabels {
   comboKing: string;
 }
 
-interface WrongWord {
+interface ReviewWord {
   word: string;
+  correct: boolean;
   yourAnswer: string;
   correctAnswer: string;
+  definition: string;
+  questionType: string;
 }
 
 interface SkillEffect {
@@ -72,6 +75,7 @@ interface SkillEffect {
 
 interface GameState {
   phase: Phase;
+  gameMode: 'classic' | 'jump';
   playerId: string | null;
   playerName: string;
 
@@ -92,19 +96,23 @@ interface GameState {
 
   finalRankings: FinalRankEntry[];
   labels: GameLabels | null;
-  wrongWords: WrongWord[];
+  reviewWords: ReviewWord[];
 
   countdownValue: number;
   socketReady: boolean;
 
   // Skill effects received
   activeEffect: SkillEffect | null;
+  overtakeMsg: string | null;
   effectTimer: NodeJS.Timeout | null;
 
   // Session XP
   totalXP: number;
+  gamesPlayed: number;
+  unlockedChars: number; // 1-4 characters unlocked
 
   setPlayerName: (name: string) => void;
+  setGameMode: (mode: 'classic' | 'jump') => void;
   joinMatch: () => void;
   submitAnswer: (answerIndex: number) => void;
   useSkill: (skillType: SkillType) => void;
@@ -114,6 +122,7 @@ interface GameState {
 
 export const useGameStore = create<GameState>((set, get) => ({
   phase: 'idle',
+  gameMode: 'classic',
   playerId: null,
   playerName: '',
   roomId: null,
@@ -129,14 +138,18 @@ export const useGameStore = create<GameState>((set, get) => ({
   myEnergy: 0,
   finalRankings: [],
   labels: null,
-  wrongWords: [],
+  reviewWords: [],
   countdownValue: 3,
   socketReady: false,
   activeEffect: null,
   effectTimer: null,
-  totalXP: 0,
+  overtakeMsg: null,
+  totalXP: typeof window !== 'undefined' ? Number(localStorage.getItem('tp_xp') || 0) : 0,
+  gamesPlayed: typeof window !== 'undefined' ? Number(localStorage.getItem('tp_games') || 0) : 0,
+  unlockedChars: typeof window !== 'undefined' ? Number(localStorage.getItem('tp_chars') || 1) : 1,
 
   setPlayerName: (name) => set({ playerName: name }),
+  setGameMode: (mode) => set({ gameMode: mode }),
 
   initSocket: () => {
     if (get().socketReady) return;
@@ -158,7 +171,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         rankings: [],
         finalRankings: [],
         labels: null,
-        wrongWords: [],
+        reviewWords: [],
       });
     });
 
@@ -206,10 +219,27 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
 
     socket.on('RANK_UPDATE', ({ rankings }) => {
+      // Detect overtake
+      const prev = get().rankings;
+      const myId = get().playerId;
+      if (myId && prev.length > 0) {
+        const oldRank = prev.findIndex((r) => r.playerId === myId);
+        const newRank = rankings.findIndex((r: RankEntry) => r.playerId === myId);
+        if (newRank >= 0 && oldRank > newRank) {
+          // Moved up! Get the name of who we passed
+          const passed = prev[newRank];
+          if (passed && passed.playerId !== myId) {
+            set({ overtakeMsg: `You passed ${passed.name}!` });
+            setTimeout(() => set({ overtakeMsg: null }), 2000);
+            sounds.rankUp();
+          }
+        }
+      }
       set({ rankings });
     });
 
     socket.on('SKILL_EFFECT', (effect: SkillEffect) => {
+      sounds.skillReceived();
       // Clear previous effect
       const prev = get().effectTimer;
       if (prev) clearTimeout(prev);
@@ -231,16 +261,30 @@ export const useGameStore = create<GameState>((set, get) => ({
         (r: FinalRankEntry) => r.playerId === get().playerId,
       );
       const xpGain = myPlayer ? Math.round(myPlayer.score / 2) : 0;
+      const newXP = get().totalXP + xpGain;
+      const newGames = get().gamesPlayed + 1;
+      // Unlock: 1=default, 3 games=2nd, 5 games=3rd, 10 games=4th
+      const unlocked = newGames >= 10 ? 4 : newGames >= 5 ? 3 : newGames >= 3 ? 2 : 1;
+
+      // Persist
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('tp_xp', String(newXP));
+        localStorage.setItem('tp_games', String(newGames));
+        localStorage.setItem('tp_chars', String(Math.max(get().unlockedChars, unlocked)));
+      }
+
       set({
         phase: 'result',
         finalRankings: rankings,
         labels,
-        totalXP: get().totalXP + xpGain,
+        totalXP: newXP,
+        gamesPlayed: newGames,
+        unlockedChars: Math.max(get().unlockedChars, unlocked),
       });
     });
 
-    socket.on('POST_GAME_STATS', ({ wrongWords }) => {
-      set({ wrongWords });
+    socket.on('POST_GAME_STATS', ({ reviewWords }) => {
+      set({ reviewWords });
     });
 
     socket.on('disconnect', () => {
@@ -283,7 +327,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       myEnergy: 0,
       finalRankings: [],
       labels: null,
-      wrongWords: [],
+      reviewWords: [],
       countdownValue: 3,
       activeEffect: null,
       effectTimer: null,

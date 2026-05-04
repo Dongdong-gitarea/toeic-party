@@ -63,7 +63,7 @@ export class Room {
       totalResponseTime: 0,
       answeredCount: 0,
       energy: 0,
-      wrongWords: [],
+      reviewWords: [],
     });
   }
 
@@ -132,8 +132,8 @@ export class Room {
   private scheduleAIAnswers(q: Question) {
     for (const player of this.players.values()) {
       if (!player.isAI) continue;
-      const delay = 500 + Math.random() * 2000;
-      const accuracy = 0.6 + Math.random() * 0.25;
+      const delay = 1500 + Math.random() * 2500;
+      const accuracy = 0.4 + Math.random() * 0.25;
       const isCorrect = Math.random() < accuracy;
       const answerIndex = isCorrect
         ? q.correctIndex
@@ -215,6 +215,15 @@ export class Room {
       player.answeredCount++;
       player.energy = Math.min(player.energy + ENERGY_PER_CORRECT, 9);
 
+      player.reviewWords.push({
+        word: q.word,
+        correct: true,
+        yourAnswer: q.options[answerIndex] ?? '—',
+        correctAnswer: q.options[q.correctIndex]!,
+        definition: q.definition ?? '',
+        questionType: q.type,
+      });
+
       return {
         correct: true,
         correctIndex: q.correctIndex,
@@ -234,10 +243,13 @@ export class Room {
       player.totalResponseTime += responseTime;
       player.answeredCount++;
 
-      player.wrongWords.push({
+      player.reviewWords.push({
         word: q.word,
+        correct: false,
         yourAnswer: q.options[answerIndex] ?? '—',
         correctAnswer: q.options[q.correctIndex]!,
+        definition: q.definition ?? '',
+        questionType: q.type,
       });
 
       return {
@@ -263,10 +275,13 @@ export class Room {
     for (const player of this.players.values()) {
       if (!this.answeredThisRound.has(player.id)) {
         player.combo = 0;
-        player.wrongWords.push({
+        player.reviewWords.push({
           word: q.word,
+          correct: false,
           yourAnswer: '(timeout)',
           correctAnswer: q.options[q.correctIndex]!,
+          definition: q.definition ?? '',
+          questionType: q.type,
         });
         if (!player.isAI) {
           this.io.to(player.id).emit('ANSWER_RESULT', {
@@ -365,7 +380,7 @@ export class Room {
     for (const player of players) {
       if (!player.isAI) {
         this.io.to(player.id).emit('POST_GAME_STATS', {
-          wrongWords: player.wrongWords,
+          reviewWords: player.reviewWords.map((rw) => ({ ...rw })),
         });
       }
     }

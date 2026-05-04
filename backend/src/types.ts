@@ -12,13 +12,16 @@ export interface Player {
   totalResponseTime: number;
   answeredCount: number;
   energy: number;
-  wrongWords: WrongWord[];
+  reviewWords: ReviewWord[];
 }
 
-export interface WrongWord {
+export interface ReviewWord {
   word: string;
+  correct: boolean;
   yourAnswer: string;
   correctAnswer: string;
+  definition: string;
+  questionType: QuestionType;
 }
 
 export interface Question {
@@ -27,7 +30,8 @@ export interface Question {
   prompt: string;
   options: string[];
   correctIndex: number;
-  word: string; // the actual word being tested (for wrong-word tracking)
+  word: string;
+  definition?: string; // English definition for post-game review
 }
 
 export interface QuestionForClient {
@@ -77,5 +81,5 @@ export interface SkillEffect {
 }
 
 export interface PostGameStats {
-  wrongWords: WrongWord[];
+  reviewWords: ReviewWord[];
 }

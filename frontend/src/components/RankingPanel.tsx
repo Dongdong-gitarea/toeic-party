@@ -1,5 +1,7 @@
 'use client';
 
+import { getCharacterIndex, getCharacter } from '@/lib/characters';
+
 interface RankEntry {
   playerId: string;
   name: string;
@@ -7,21 +9,22 @@ interface RankEntry {
   isAI: boolean;
 }
 
-const POSITION_COLORS = [
-  'text-yellow-400',
-  'text-slate-300',
-  'text-amber-600',
-  'text-slate-500',
-];
+interface PlayerInfo {
+  playerId: string;
+  name: string;
+  isAI: boolean;
+}
 
 const MEDALS = ['1st', '2nd', '3rd', '4th'];
 
 export default function RankingPanel({
   rankings,
   myPlayerId,
+  players = [],
 }: {
   rankings: RankEntry[];
   myPlayerId: string | null;
+  players?: PlayerInfo[];
 }) {
   if (rankings.length === 0) return null;
 
@@ -33,29 +36,28 @@ export default function RankingPanel({
       <div className="space-y-2">
         {rankings.map((entry, i) => {
           const isMe = entry.playerId === myPlayerId;
+          const charIdx = getCharacterIndex(entry.playerId, players);
+          const char = getCharacter(charIdx);
+
           return (
             <div
               key={entry.playerId}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-500 ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-500 ${
                 isMe
                   ? 'bg-indigo-500/20 border border-indigo-500/30'
                   : 'bg-slate-700/30'
               }`}
             >
-              <span
-                className={`text-sm font-bold w-8 ${POSITION_COLORS[i] ?? 'text-slate-500'}`}
-              >
+              <img src={`${char.folder}/idle.png`} alt={char.name} className="w-7 h-7 object-contain shrink-0" />
+              <span className="text-[10px] font-bold text-slate-500 w-6 shrink-0">
                 {MEDALS[i]}
               </span>
               <span className="flex-1 text-sm font-medium truncate">
                 {entry.name}
                 {isMe && (
-                  <span className="ml-1.5 text-[10px] bg-indigo-500 text-white px-1.5 py-0.5 rounded-full">
+                  <span className="ml-1 text-[10px] bg-indigo-500 text-white px-1.5 py-0.5 rounded-full">
                     YOU
                   </span>
-                )}
-                {entry.isAI && !isMe && (
-                  <span className="ml-1.5 text-[10px] text-slate-500">BOT</span>
                 )}
               </span>
               <span className="text-sm font-bold tabular-nums">{entry.score}</span>
