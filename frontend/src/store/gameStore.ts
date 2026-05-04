@@ -73,6 +73,13 @@ interface SkillEffect {
   skillType: SkillType;
 }
 
+interface LobbyState {
+  players: string[];
+  count: number;
+  capacity: number;
+  secondsLeft: number;
+}
+
 interface GameState {
   phase: Phase;
   gameMode: 'classic' | 'jump';
@@ -101,6 +108,8 @@ interface GameState {
   countdownValue: number;
   socketReady: boolean;
 
+  lobby: LobbyState | null;
+
   // Skill effects received
   activeEffect: SkillEffect | null;
   overtakeMsg: string | null;
@@ -114,6 +123,7 @@ interface GameState {
   setPlayerName: (name: string) => void;
   setGameMode: (mode: 'classic' | 'jump') => void;
   joinMatch: () => void;
+  leaveMatch: () => void;
   submitAnswer: (answerIndex: number) => void;
   useSkill: (skillType: SkillType) => void;
   initSocket: () => void;
@@ -141,6 +151,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   reviewWords: [],
   countdownValue: 3,
   socketReady: false,
+  lobby: null,
   activeEffect: null,
   effectTimer: null,
   overtakeMsg: null,
@@ -160,11 +171,16 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ playerId: socket.id, socketReady: true });
     });
 
+    socket.on('LOBBY_UPDATE', (state: LobbyState) => {
+      set({ lobby: state });
+    });
+
     socket.on('MATCH_FOUND', ({ roomId, players }) => {
       set({
         phase: 'found',
         roomId,
         players,
+        lobby: null,
         myScore: 0,
         myCombo: 0,
         myEnergy: 0,
@@ -296,7 +312,12 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { playerName } = get();
     const socket = getSocket();
     socket.emit('JOIN_MATCH', { playerName: playerName || 'Player' });
-    set({ phase: 'matchmaking' });
+    set({ phase: 'matchmaking', lobby: null });
+  },
+
+  leaveMatch: () => {
+    getSocket().emit('LEAVE_QUEUE');
+    set({ phase: 'idle', lobby: null });
   },
 
   submitAnswer: (answerIndex) => {
@@ -317,6 +338,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       phase: 'idle',
       roomId: null,
       players: [],
+      lobby: null,
       currentQuestion: null,
       questionNumber: 0,
       selectedAnswer: null,

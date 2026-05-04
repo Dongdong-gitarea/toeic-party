@@ -18,9 +18,10 @@ export default function LobbyPage() {
   const router = useRouter();
   const {
     phase, gameMode, playerName, setPlayerName, setGameMode,
-    joinMatch, initSocket, socketReady, unlockedChars, gamesPlayed,
+    joinMatch, leaveMatch, initSocket, socketReady, unlockedChars, gamesPlayed, lobby,
   } = useGameStore();
   const [dotCount, setDotCount] = useState(0);
+  const [tickSeconds, setTickSeconds] = useState<number | null>(null);
 
   useEffect(() => { initSocket(); }, [initSocket]);
   useEffect(() => { if (!playerName) setPlayerName(randomName()); }, [playerName, setPlayerName]);
@@ -32,6 +33,18 @@ export default function LobbyPage() {
     const interval = setInterval(() => setDotCount((d) => (d + 1) % 4), 500);
     return () => clearInterval(interval);
   }, [phase]);
+
+  useEffect(() => {
+    if (lobby == null) {
+      setTickSeconds(null);
+      return;
+    }
+    setTickSeconds(lobby.secondsLeft);
+    const interval = setInterval(() => {
+      setTickSeconds((s) => (s == null ? null : Math.max(0, s - 1)));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [lobby]);
 
   const isMatchmaking = phase === 'matchmaking';
 
@@ -106,25 +119,68 @@ export default function LobbyPage() {
           </button>
         </div>
 
-        {/* Start button */}
-        <button
-          onClick={joinMatch}
-          disabled={!socketReady || isMatchmaking || !playerName.trim()}
-          className={`w-full py-4 rounded-xl font-black text-lg transition-all duration-300 ${
-            isMatchmaking
-              ? 'bg-slate-700 text-slate-300 cursor-wait'
-              : 'bg-indigo-600 hover:bg-indigo-500 active:scale-[0.97] animate-pulse-glow cursor-pointer'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
-        >
-          {isMatchmaking ? (
+        {/* Lobby panel (shown while matchmaking) */}
+        {isMatchmaking && lobby && (
+          <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold tracking-wider text-slate-400">LOBBY</span>
+              <span className="text-xs font-bold text-indigo-300">
+                {lobby.count} / {lobby.capacity}
+              </span>
+            </div>
+
+            <ul className="space-y-1.5">
+              {Array.from({ length: lobby.capacity }).map((_, i) => {
+                const name = lobby.players[i];
+                return (
+                  <li
+                    key={i}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold ${
+                      name
+                        ? 'bg-slate-900/60 text-white'
+                        : 'bg-slate-900/30 text-slate-600'
+                    }`}
+                  >
+                    <span className={`w-2 h-2 rounded-full ${name ? 'bg-emerald-400' : 'bg-slate-700'}`} />
+                    {name || 'Waiting...'}
+                  </li>
+                );
+              })}
+            </ul>
+
+            <p className="text-center text-[11px] text-slate-400">
+              {tickSeconds != null && tickSeconds > 0
+                ? `Auto-start with AI in ${tickSeconds}s`
+                : 'Starting...'}
+            </p>
+          </div>
+        )}
+
+        {/* Start / Cancel button */}
+        {isMatchmaking ? (
+          <button
+            onClick={leaveMatch}
+            className="w-full py-4 rounded-xl font-black text-lg transition-all duration-200
+              bg-slate-800 border border-slate-700 text-slate-300
+              hover:bg-rose-600 hover:border-rose-600 hover:text-white
+              active:scale-[0.97] cursor-pointer"
+          >
             <span className="flex items-center justify-center gap-3">
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin-slow" />
-              Finding match{'.'.repeat(dotCount)}
+              Waiting{'.'.repeat(dotCount)} · Tap to cancel
             </span>
-          ) : (
-            'START MATCH'
-          )}
-        </button>
+          </button>
+        ) : (
+          <button
+            onClick={joinMatch}
+            disabled={!socketReady || !playerName.trim()}
+            className="w-full py-4 rounded-xl font-black text-lg transition-all duration-300
+              bg-indigo-600 hover:bg-indigo-500 active:scale-[0.97] animate-pulse-glow cursor-pointer
+              disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            START MATCH
+          </button>
+        )}
 
         {!socketReady && (
           <p className="text-center text-xs text-amber-400">Connecting to server...</p>
