@@ -74,18 +74,21 @@ export class Matchmaker {
   }
 
   private broadcastLobby() {
-    const players = this.queue.map((e) => ({ name: e.playerName, ready: e.ready }));
     const secondsLeft = this.fillStartedAt
       ? Math.max(0, Math.ceil((FILL_TIMEOUT_MS - (Date.now() - this.fillStartedAt)) / 1000))
       : Math.ceil(FILL_TIMEOUT_MS / 1000);
-    const payload = {
-      players,
-      count: players.length,
-      capacity: MAX_PLAYERS,
-      secondsLeft,
-    };
+    // Send a per-recipient payload so each client can tell which slot is theirs.
     for (const entry of this.queue) {
-      entry.socket.emit('LOBBY_UPDATE', payload);
+      entry.socket.emit('LOBBY_UPDATE', {
+        players: this.queue.map((e) => ({
+          name: e.playerName,
+          ready: e.ready,
+          you: e.socket.id === entry.socket.id,
+        })),
+        count: this.queue.length,
+        capacity: MAX_PLAYERS,
+        secondsLeft,
+      });
     }
   }
 

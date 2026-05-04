@@ -184,12 +184,11 @@ export default function GamePage() {
   const wrongReveal = isRevealed && lastResult && !lastResult.correct;
 
   return (
-    <main className={`min-h-[100dvh] party-bg relative overflow-hidden flex flex-col ${isShaking ? 'animate-screen-shake' : ''} ${hitShake ? 'animate-hit-shake' : ''}`}>
-      {/* Decorative blobs */}
+    <main className={`min-h-[100dvh] party-bg-game relative overflow-hidden flex flex-col ${isShaking ? 'animate-screen-shake' : ''} ${hitShake ? 'animate-hit-shake' : ''}`}>
+      {/* Decorative blobs — kept very subtle so they don't compete with the question */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-amber-300/20 blur-3xl animate-blob-drift" />
-        <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-300/15 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
-        <div className="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/20 blur-3xl animate-blob-drift" style={{ animationDelay: '8s' }} />
+        <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-indigo-400/10 blur-3xl animate-blob-drift" />
+        <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-fuchsia-400/10 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
       </div>
 
       {/* Overlays */}

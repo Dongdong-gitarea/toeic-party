@@ -76,7 +76,9 @@ export default function LobbyPage() {
                       slot
                         ? slot.ready
                           ? 'border-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.4)]'
-                          : 'border-white/60'
+                          : slot.you
+                            ? 'border-amber-300 shadow-[0_0_24px_rgba(252,211,77,0.4)]'
+                            : 'border-white/60'
                         : 'border-dashed border-white/30 animate-empty-pulse'
                     }`}
                     style={{
@@ -87,6 +89,11 @@ export default function LobbyPage() {
                   >
                     {slot && char ? (
                       <>
+                        {slot.you && (
+                          <span className="absolute top-1.5 left-1.5 text-[8px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full shadow-[0_2px_0_rgba(120,53,15,0.5)]">
+                            YOU
+                          </span>
+                        )}
                         <img
                           src={`${char.folder}/idle.png`}
                           alt=""
@@ -94,7 +101,7 @@ export default function LobbyPage() {
                           style={{ animationDelay: `${i * 0.2}s` }}
                           draggable={false}
                         />
-                        <p className="text-sm font-black text-white truncate mt-1">{slot.name}</p>
+                        <p className={`text-sm font-black truncate mt-1 ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
                         {slot.ready && (
                           <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
                             ✓ READY

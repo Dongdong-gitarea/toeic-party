@@ -1,10 +1,12 @@
 'use client';
 
-const BASE_COLORS = [
-  'bg-cyan-400 text-cyan-950 border-cyan-200 shadow-[0_5px_0_rgba(8,51,68,0.6)]',
-  'bg-emerald-400 text-emerald-950 border-emerald-200 shadow-[0_5px_0_rgba(6,78,59,0.6)]',
-  'bg-amber-300 text-amber-950 border-amber-100 shadow-[0_5px_0_rgba(120,53,15,0.6)]',
-  'bg-fuchsia-400 text-fuchsia-950 border-fuchsia-200 shadow-[0_5px_0_rgba(112,26,117,0.6)]',
+// Subtle accent colors used only on the A/B/C/D badge so the actual
+// answer text stays on a calm, uniform surface.
+const LABEL_COLORS = [
+  'bg-cyan-300 text-cyan-950',
+  'bg-emerald-300 text-emerald-950',
+  'bg-amber-300 text-amber-950',
+  'bg-fuchsia-300 text-fuchsia-950',
 ];
 
 const LABELS = ['A', 'B', 'C', 'D'];
@@ -30,34 +32,45 @@ export default function AnswerButton({
   fogged,
   onClick,
 }: Props) {
-  let classes =
-    'relative w-full min-h-[56px] px-3 py-3 sm:p-4 rounded-2xl border-4 text-left font-black text-base sm:text-lg transition-all duration-150 cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] ';
+  let cardClasses =
+    'relative w-full min-h-[60px] px-3 py-3 sm:p-4 rounded-2xl border-4 text-left font-bold text-base sm:text-lg leading-snug transition-all duration-150 cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] flex items-center gap-3 ';
+
+  let textColor = 'text-white';
+  let labelClass = LABEL_COLORS[index] ?? LABEL_COLORS[0]!;
 
   if (correct === null) {
-    classes += disabled
-      ? 'opacity-50 cursor-not-allowed ' + BASE_COLORS[index]
-      : BASE_COLORS[index];
+    // Idle / not yet answered — uniform calm card with subtle colored accent
+    cardClasses +=
+      (disabled ? 'opacity-50 cursor-not-allowed ' : '') +
+      'bg-slate-900/55 border-white/25 hover:bg-slate-900/75 backdrop-blur-sm shadow-[0_4px_0_rgba(0,0,0,0.35)]';
   } else if (selected && correct) {
-    classes += 'bg-emerald-300 text-emerald-950 border-emerald-100 scale-[1.04] shadow-[0_0_28px_rgba(110,231,183,0.7)]';
+    cardClasses +=
+      'bg-emerald-300 border-emerald-100 scale-[1.03] shadow-[0_0_28px_rgba(110,231,183,0.7)]';
+    textColor = 'text-emerald-950';
+    labelClass = 'bg-white text-emerald-700';
   } else if (selected && !correct) {
-    classes += 'bg-rose-400 text-rose-950 border-rose-200 animate-shake';
+    cardClasses += 'bg-rose-400 border-rose-200 animate-shake';
+    textColor = 'text-rose-950';
+    labelClass = 'bg-white text-rose-700';
   } else if (isCorrectAnswer) {
-    classes += 'bg-emerald-300/80 text-emerald-950 border-emerald-200';
+    cardClasses += 'bg-emerald-300/85 border-emerald-200';
+    textColor = 'text-emerald-950';
+    labelClass = 'bg-white text-emerald-700';
   } else {
-    classes += 'bg-white/10 text-white/40 border-white/20 opacity-40';
+    cardClasses += 'bg-slate-900/35 border-white/15 opacity-50';
   }
 
   return (
     <button
-      className={classes}
+      className={cardClasses}
       onClick={onClick}
       disabled={disabled}
       style={fogged ? { filter: 'blur(8px)' } : undefined}
     >
-      <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-black/20 text-sm font-black mr-2.5 shrink-0">
+      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-xl text-sm font-black shrink-0 ${labelClass}`}>
         {LABELS[index]}
       </span>
-      {text}
+      <span className={`flex-1 ${textColor}`}>{text}</span>
     </button>
   );
 }

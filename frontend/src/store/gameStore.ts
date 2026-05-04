@@ -151,6 +151,7 @@ interface SkillEffect {
 interface LobbyPlayer {
   name: string;
   ready: boolean;
+  you?: boolean;
 }
 
 interface LobbyState {
