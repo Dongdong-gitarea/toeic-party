@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
+import { speakWord } from '@/lib/speak';
 
 interface PQuestion {
   word: string;
@@ -20,15 +21,6 @@ function shuffle<T>(arr: T[]): T[] {
     [a[i], a[j]] = [a[j]!, a[i]!];
   }
   return a;
-}
-
-function speakWord(word: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = 'en-US';
-  u.rate = 0.85;
-  window.speechSynthesis.speak(u);
 }
 
 function buildQuestions(saved: SavedWord[], n: number): PQuestion[] {

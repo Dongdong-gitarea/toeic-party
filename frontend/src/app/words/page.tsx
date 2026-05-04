@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
+import { speakWord } from '@/lib/speak';
 
 type Filter = 'all' | 'starred' | 'practice' | 'mastered';
 
@@ -12,15 +13,6 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'practice', label: 'NEED PRACTICE' },
   { id: 'mastered', label: 'MASTERED' },
 ];
-
-function speakWord(word: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = 'en-US';
-  u.rate = 0.8;
-  window.speechSynthesis.speak(u);
-}
 
 function isMastered(w: SavedWord) {
   return w.correctCount >= 2 && w.correctCount > w.wrongCount;

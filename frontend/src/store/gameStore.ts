@@ -227,7 +227,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   phase: 'idle',
   gameMode: 'classic',
   playerId: null,
-  playerName: '',
+  playerName: typeof window !== 'undefined' ? localStorage.getItem('tp_name') || '' : '',
   roomId: null,
   players: [],
   currentQuestion: null,
@@ -256,7 +256,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   selectedCharIdx:
     typeof window !== 'undefined' ? Number(localStorage.getItem('tp_char_idx') || 0) : 0,
 
-  setPlayerName: (name) => set({ playerName: name }),
+  setPlayerName: (name) => {
+    if (typeof window !== 'undefined') localStorage.setItem('tp_name', name);
+    set({ playerName: name });
+  },
   setGameMode: (mode) => set({ gameMode: mode }),
   setSelectedChar: (idx) => {
     if (typeof window !== 'undefined') localStorage.setItem('tp_char_idx', String(idx));

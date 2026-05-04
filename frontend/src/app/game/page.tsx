@@ -4,6 +4,7 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
+import { speakWord } from '@/lib/speak';
 import Timer from '@/components/Timer';
 import AnswerButton from '@/components/AnswerButton';
 import GameArena from '@/components/GameArena';
@@ -74,24 +75,15 @@ export default function GamePage() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [lastResult]);
 
-  // TTS
+  // Auto-play audio prompts once per question
   const spokenRef = useRef('');
-  const speakWord = useCallback((word: string) => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(word);
-    u.lang = 'en-US';
-    u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  }, []);
-
   useEffect(() => {
     if (currentQuestion?.type === 'audio' && currentQuestion.audioWord && spokenRef.current !== currentQuestion.id) {
       spokenRef.current = currentQuestion.id;
-      const t = setTimeout(() => speakWord(currentQuestion.audioWord!), 300);
+      const t = setTimeout(() => { void speakWord(currentQuestion.audioWord!); }, 300);
       return () => clearTimeout(t);
     }
-  }, [currentQuestion, speakWord]);
+  }, [currentQuestion]);
 
   const handleAnswer = useCallback(
     (index: number) => { if (selectedAnswer === null) submitAnswer(index); },
