@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
+import { speakWord } from '@/lib/speak';
 
 const RANK_COLORS = [
   { bg: 'bg-amber-300', text: 'text-fuchsia-900', label: '1ST', glow: 'shadow-[0_0_30px_rgba(252,211,77,0.6)]' },
@@ -22,15 +23,6 @@ function getLevelInfo(xp: number) {
   if (xp >= 1500) return { name: 'GOLD', color: 'text-amber-300', bar: 'bg-amber-300', progress: 1, nextXP: 0 };
   if (xp >= 500) return { name: 'SILVER', color: 'text-slate-200', bar: 'bg-slate-200', progress: (xp - 500) / 1000, nextXP: 1500 - xp };
   return { name: 'BRONZE', color: 'text-orange-300', bar: 'bg-orange-300', progress: xp / 500, nextXP: 500 - xp };
-}
-
-function speakWord(word: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = 'en-US';
-  u.rate = 0.8;
-  window.speechSynthesis.speak(u);
 }
 
 export default function ResultPage() {

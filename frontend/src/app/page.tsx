@@ -24,7 +24,12 @@ export default function LobbyPage() {
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
 
   useEffect(() => { initSocket(); }, [initSocket]);
-  useEffect(() => { if (!playerName) setPlayerName(randomName()); }, [playerName, setPlayerName]);
+  // Generate a random name only on first mount when nothing is saved.
+  // After that, the input is fully under the user's control.
+  useEffect(() => {
+    if (!playerName) setPlayerName(randomName());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (phase === 'found' || phase === 'countdown' || phase === 'playing') router.push('/game');
   }, [phase, router]);
@@ -206,18 +211,32 @@ export default function LobbyPage() {
             </div>
           </div>
 
-          <input
-            type="text"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            maxLength={16}
-            className="w-full px-5 py-4 rounded-2xl font-black text-lg text-center
-              bg-white/95 text-fuchsia-900 placeholder-fuchsia-400/60
-              border-4 border-white/40
-              shadow-[0_6px_0_rgba(0,0,0,0.25)]
-              focus:outline-none focus:border-amber-300 transition"
-            placeholder="YOUR NAME"
-          />
+          <div className="w-full relative">
+            <input
+              type="text"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              maxLength={16}
+              className="w-full pl-5 pr-14 py-4 rounded-2xl font-black text-lg text-center
+                bg-white/95 text-fuchsia-900 placeholder-fuchsia-400/60
+                border-4 border-white/40
+                shadow-[0_6px_0_rgba(0,0,0,0.25)]
+                focus:outline-none focus:border-amber-300 transition"
+              placeholder="YOUR NAME"
+            />
+            <button
+              type="button"
+              onClick={() => setPlayerName(randomName())}
+              aria-label="Generate random name"
+              className="absolute top-1/2 right-2 -translate-y-1/2 w-10 h-10 rounded-xl
+                bg-amber-300 text-fuchsia-900 border-2 border-amber-400
+                shadow-[0_3px_0_rgba(120,53,15,0.5)]
+                hover:bg-amber-200 active:translate-y-[-50%] active:translate-y-[calc(-50%+2px)]
+                transition-all cursor-pointer flex items-center justify-center text-lg"
+            >
+              🎲
+            </button>
+          </div>
 
           <div className="grid grid-cols-2 gap-3 w-full">
             <button
