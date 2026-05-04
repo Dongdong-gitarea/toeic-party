@@ -18,7 +18,7 @@ export default function LobbyPage() {
   const router = useRouter();
   const {
     phase, gameMode, playerName, setPlayerName, setGameMode,
-    joinMatch, leaveMatch, initSocket, socketReady, unlockedChars, gamesPlayed, lobby,
+    joinMatch, leaveMatch, initSocket, socketReady, unlockedChars, gamesPlayed, lobby, savedWords,
   } = useGameStore();
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
 
@@ -236,6 +236,15 @@ export default function LobbyPage() {
               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
           >
             START!
+          </button>
+
+          <button
+            onClick={() => router.push('/words')}
+            className="w-full py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+              bg-white/15 text-white border-4 border-white/30
+              hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
+          >
+            📚 MY WORDS ({savedWords.length})
           </button>
 
           {!socketReady && (
