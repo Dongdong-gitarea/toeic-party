@@ -123,6 +123,7 @@ interface GameState {
   setPlayerName: (name: string) => void;
   setGameMode: (mode: 'classic' | 'jump') => void;
   joinMatch: () => void;
+  leaveMatch: () => void;
   submitAnswer: (answerIndex: number) => void;
   useSkill: (skillType: SkillType) => void;
   initSocket: () => void;
@@ -312,6 +313,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     const socket = getSocket();
     socket.emit('JOIN_MATCH', { playerName: playerName || 'Player' });
     set({ phase: 'matchmaking', lobby: null });
+  },
+
+  leaveMatch: () => {
+    getSocket().emit('LEAVE_QUEUE');
+    set({ phase: 'idle', lobby: null });
   },
 
   submitAnswer: (answerIndex) => {

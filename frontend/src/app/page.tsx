@@ -18,7 +18,7 @@ export default function LobbyPage() {
   const router = useRouter();
   const {
     phase, gameMode, playerName, setPlayerName, setGameMode,
-    joinMatch, initSocket, socketReady, unlockedChars, gamesPlayed, lobby,
+    joinMatch, leaveMatch, initSocket, socketReady, unlockedChars, gamesPlayed, lobby,
   } = useGameStore();
   const [dotCount, setDotCount] = useState(0);
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
@@ -156,25 +156,31 @@ export default function LobbyPage() {
           </div>
         )}
 
-        {/* Start button */}
-        <button
-          onClick={joinMatch}
-          disabled={!socketReady || isMatchmaking || !playerName.trim()}
-          className={`w-full py-4 rounded-xl font-black text-lg transition-all duration-300 ${
-            isMatchmaking
-              ? 'bg-slate-700 text-slate-300 cursor-wait'
-              : 'bg-indigo-600 hover:bg-indigo-500 active:scale-[0.97] animate-pulse-glow cursor-pointer'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
-        >
-          {isMatchmaking ? (
+        {/* Start / Cancel button */}
+        {isMatchmaking ? (
+          <button
+            onClick={leaveMatch}
+            className="w-full py-4 rounded-xl font-black text-lg transition-all duration-200
+              bg-slate-800 border border-slate-700 text-slate-300
+              hover:bg-rose-600 hover:border-rose-600 hover:text-white
+              active:scale-[0.97] cursor-pointer"
+          >
             <span className="flex items-center justify-center gap-3">
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin-slow" />
-              Waiting for players{'.'.repeat(dotCount)}
+              Waiting{'.'.repeat(dotCount)} · Tap to cancel
             </span>
-          ) : (
-            'START MATCH'
-          )}
-        </button>
+          </button>
+        ) : (
+          <button
+            onClick={joinMatch}
+            disabled={!socketReady || !playerName.trim()}
+            className="w-full py-4 rounded-xl font-black text-lg transition-all duration-300
+              bg-indigo-600 hover:bg-indigo-500 active:scale-[0.97] animate-pulse-glow cursor-pointer
+              disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            START MATCH
+          </button>
+        )}
 
         {!socketReady && (
           <p className="text-center text-xs text-amber-400">Connecting to server...</p>

@@ -27,6 +27,10 @@ io.on('connection', (socket) => {
     matchmaker.addPlayer(socket, playerName || 'Player');
   });
 
+  socket.on('LEAVE_QUEUE', () => {
+    matchmaker.removePlayer(socket.id);
+  });
+
   socket.on('SUBMIT_ANSWER', ({ answerIndex }: { answerIndex: number }) => {
     const room = matchmaker.getRoomBySocket(socket.id);
     room?.handleAnswer(socket.id, answerIndex);
