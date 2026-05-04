@@ -109,35 +109,69 @@ export default function GamePage() {
   // ── Countdown / Found ──
   if (phase === 'found' || phase === 'countdown') {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-4">
+      <main className="min-h-[100dvh] party-bg relative overflow-hidden flex flex-col items-center justify-center px-4">
+        {/* Decorative floating blobs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-amber-300/30 blur-3xl animate-blob-drift" />
+          <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-300/20 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
+          <div className="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/30 blur-3xl animate-blob-drift" style={{ animationDelay: '8s' }} />
+        </div>
+
         {phase === 'found' && (
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-black text-green-400 mb-6 animate-slide-up">
-              Match Found!
-            </h2>
-            <div className="flex justify-center gap-4 sm:gap-6">
-              {players.map((p, i) => {
-                const char = getCharacter(i);
-                return (
-                  <div key={p.playerId} className="flex flex-col items-center animate-bounce-in"
-                    style={{ animationDelay: `${i * 0.12}s` }}>
-                    <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center p-1.5 mb-1.5"
-                      style={{ backgroundColor: char.color + '20', border: `2px solid ${char.color}50`, boxShadow: `0 4px 16px ${char.color}30` }}>
-                      <img src={`${char.folder}/idle.png`} alt={char.name} className="w-full h-full object-contain" />
+          <div className="relative z-10 text-center w-full max-w-md flex flex-col items-center gap-5 animate-tilt-pop">
+            <div className="inline-block bg-amber-300 text-fuchsia-900 px-6 py-2 rounded-full font-black text-base tracking-widest shadow-[0_6px_0_#92400e] -rotate-2">
+              MATCH FOUND!
+            </div>
+
+            <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
+              <div className="grid grid-cols-2 gap-3">
+                {players.map((p, i) => {
+                  const char = getCharacter(i);
+                  const isMe = p.playerId === playerId;
+                  return (
+                    <div
+                      key={p.playerId}
+                      className={`rounded-2xl border-4 p-3 text-center animate-bounce-in ${
+                        isMe ? 'border-amber-300 shadow-[0_0_24px_rgba(252,211,77,0.5)]' : 'border-white/60'
+                      }`}
+                      style={{
+                        animationDelay: `${i * 0.12}s`,
+                        background: `linear-gradient(135deg, ${char.color}55, ${char.color}10)`,
+                      }}
+                    >
+                      <img
+                        src={`${char.folder}/idle.png`}
+                        alt={char.name}
+                        className="w-16 h-16 mx-auto object-contain animate-float-bob"
+                        style={{ animationDelay: `${i * 0.2}s` }}
+                        draggable={false}
+                      />
+                      <p className="text-sm font-black text-white truncate mt-1">{p.name}</p>
+                      {isMe && (
+                        <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-2 py-0.5 rounded-full">
+                          YOU
+                        </span>
+                      )}
+                      {p.isAI && !isMe && (
+                        <span className="inline-block mt-1 text-[9px] font-bold text-white/60">BOT</span>
+                      )}
                     </div>
-                    <span className="text-xs font-bold truncate max-w-[70px]">{p.name}</span>
-                    {p.playerId === playerId && <span className="text-[9px] bg-indigo-500 px-1.5 py-0.5 rounded-full mt-0.5">YOU</span>}
-                    {p.isAI && p.playerId !== playerId && <span className="text-[9px] text-slate-500 mt-0.5">BOT</span>}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}
+
         {phase === 'countdown' && (
-          <div className="text-center">
-            <p className="text-slate-400 text-base mb-3">Get Ready!</p>
-            <div key={countdownValue} className="text-8xl font-black text-indigo-400 animate-countdown-pop">
+          <div className="relative z-10 text-center">
+            <p className="text-white/90 text-base font-black uppercase tracking-[0.3em] mb-3 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
+              Get Ready!
+            </p>
+            <div
+              key={countdownValue}
+              className="text-[10rem] sm:text-[12rem] font-black text-amber-300 leading-none animate-countdown-pop drop-shadow-[0_6px_0_rgba(0,0,0,0.4)]"
+            >
               {countdownValue > 0 ? countdownValue : 'GO!'}
             </div>
           </div>
