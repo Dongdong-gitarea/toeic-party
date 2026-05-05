@@ -12,7 +12,7 @@ export interface Player {
   correctCount: number;
   totalResponseTime: number;
   answeredCount: number;
-  energy: number;
+  usedSkills: SkillType[];
   reviewWords: ReviewWord[];
 }
 
@@ -23,7 +23,8 @@ export interface ReviewWord {
   correctAnswer: string;
   definition: string;
   meaning: string; // Chinese meaning, always populated when available
-  example: string; // Example sentence
+  pos: string; // part of speech, e.g. "noun", "verb"; may be empty
+  example: string; // English example sentence (from examples.json); may be empty
   questionType: QuestionType;
 }
 
@@ -35,7 +36,8 @@ export interface Question {
   correctIndex: number;
   word: string;
   definition?: string; // English definition for post-game review
-  example?: string; // Example sentence
+  pos?: string; // part of speech, e.g. "noun", "verb"
+  example?: string; // English example sentence (from examples.json)
 }
 
 export interface QuestionForClient {
@@ -75,12 +77,12 @@ export interface AnswerResult {
   totalGained: number;
   totalScore: number;
   combo: number;
-  energy: number;
   isFinal: boolean;
   word: string;
   correctAnswer: string;
   definition: string;
   meaning: string;
+  pos: string;
   example: string;
 }
 

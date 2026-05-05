@@ -99,6 +99,28 @@ export class Matchmaker {
     this.broadcastLobby();
   }
 
+  setCharIdx(socketId: string, charIdx: number) {
+    const idx = Number.isInteger(charIdx) && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
+
+    // Private room first
+    const code = this.privateBySocket.get(socketId);
+    if (code) {
+      const room = this.privateRooms.get(code);
+      if (!room) return;
+      const member = room.members.find((m) => m.socket.id === socketId);
+      if (!member) return;
+      member.charIdx = idx;
+      this.broadcastPrivateLobby(code);
+      return;
+    }
+
+    // Public queue
+    const entry = this.queue.find((e) => e.socket.id === socketId);
+    if (!entry) return;
+    entry.charIdx = idx;
+    this.broadcastLobby();
+  }
+
   removePlayer(socketId: string) {
     // Private room first
     const code = this.privateBySocket.get(socketId);
@@ -227,6 +249,7 @@ export class Matchmaker {
         players: room.members.map((m) => ({
           name: m.playerName,
           ready: m.ready,
+          charIdx: m.charIdx,
           you: m.socket.id === entry.socket.id,
         })),
         count: room.members.length,
@@ -258,6 +281,7 @@ export class Matchmaker {
         players: this.queue.map((e) => ({
           name: e.playerName,
           ready: e.ready,
+          charIdx: e.charIdx,
           you: e.socket.id === entry.socket.id,
         })),
         count: this.queue.length,

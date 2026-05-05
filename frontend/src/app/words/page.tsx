@@ -2,18 +2,33 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  Volume2,
+  Star,
+  Inbox,
+  Plus,
+  ArrowLeft,
+  Check,
+  X as XIcon,
+  Layers,
+  AlertCircle,
+  CheckCircle2,
+  type LucideIcon,
+} from 'lucide-react';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
 import AddWordModal from '@/components/AddWordModal';
+import PosBadge from '@/components/PosBadge';
+import ExampleBlock from '@/components/ExampleBlock';
 
 type Filter = 'all' | 'starred' | 'practice' | 'mastered';
 
-const FILTER_KEYS: { id: Filter; key: string }[] = [
-  { id: 'all', key: 'words.filter.all' },
-  { id: 'starred', key: 'words.filter.starred' },
-  { id: 'practice', key: 'words.filter.practice' },
-  { id: 'mastered', key: 'words.filter.mastered' },
+const FILTER_KEYS: { id: Filter; key: string; Icon: LucideIcon }[] = [
+  { id: 'all', key: 'words.filter.all', Icon: Layers },
+  { id: 'starred', key: 'words.filter.starred', Icon: Star },
+  { id: 'practice', key: 'words.filter.practice', Icon: AlertCircle },
+  { id: 'mastered', key: 'words.filter.mastered', Icon: CheckCircle2 },
 ];
 
 function isMastered(w: SavedWord) {
@@ -64,11 +79,13 @@ export default function WordsPage() {
         <div className="w-full flex items-center justify-between mb-3">
           <button
             onClick={() => router.push('/')}
-            className="px-4 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
+            className="px-3 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
               bg-white/15 text-white border-4 border-white/30
-              hover:bg-white/25 active:translate-y-[2px] transition-all"
+              hover:bg-white/25 active:translate-y-[2px] transition-all
+              inline-flex items-center justify-center"
+            aria-label={t('words.home')}
           >
-            {t('words.home')}
+            <ArrowLeft className="w-4 h-4" strokeWidth={2.5} />
           </button>
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
             {t('words.title')}
@@ -78,9 +95,11 @@ export default function WordsPage() {
             className="px-3 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
               bg-amber-300 text-fuchsia-900 border-4 border-amber-400
               shadow-[0_3px_0_rgba(120,53,15,0.5)]
-              hover:bg-amber-200 active:translate-y-[2px] active:shadow-[0_1px_0_rgba(120,53,15,0.5)] transition-all"
+              hover:bg-amber-200 active:translate-y-[2px] active:shadow-[0_1px_0_rgba(120,53,15,0.5)] transition-all
+              inline-flex items-center justify-center"
+            aria-label={t('words.add')}
           >
-            +
+            <Plus className="w-4 h-4" strokeWidth={3} />
           </button>
         </div>
 
@@ -88,19 +107,30 @@ export default function WordsPage() {
 
         {/* Filter pills */}
         <div className="w-full grid grid-cols-2 gap-2 mb-4">
-          {FILTER_KEYS.map((f) => {
-            const active = filter === f.id;
+          {FILTER_KEYS.map(({ id, key, Icon }) => {
+            const active = filter === id;
             return (
               <button
-                key={f.id}
-                onClick={() => setFilter(f.id)}
-                className={`py-2.5 rounded-2xl font-bold text-[11px] tracking-widest transition-all border-4 cursor-pointer ${
+                key={id}
+                onClick={() => setFilter(id)}
+                className={`py-2.5 rounded-2xl font-bold text-[11px] tracking-widest transition-all border-4 cursor-pointer
+                  inline-flex items-center justify-center gap-1.5 ${
                   active
                     ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_4px_0_rgba(0,0,0,0.25)]'
                     : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
                 }`}
               >
-                {t(f.key)} · {counts[f.id]}
+                <Icon
+                  className="w-3.5 h-3.5"
+                  strokeWidth={2.5}
+                  fill={active && id === 'starred' ? 'currentColor' : 'none'}
+                />
+                <span>{t(key)}</span>
+                <span className={`text-[10px] font-black tabular-nums ${
+                  active ? 'opacity-70' : 'opacity-60'
+                }`}>
+                  {counts[id]}
+                </span>
               </button>
             );
           })}
@@ -109,7 +139,7 @@ export default function WordsPage() {
         {/* List */}
         {filtered.length === 0 ? (
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-8 text-center">
-            <p className="text-4xl mb-2">📭</p>
+            <Inbox className="w-10 h-10 mx-auto mb-2 text-white/60" strokeWidth={1.75} />
             <p className="text-white font-bold text-sm tracking-wide">
               {filter === 'all' ? t('words.empty') : t('words.empty2')}
             </p>
@@ -136,15 +166,16 @@ export default function WordsPage() {
                     <button
                       onClick={() => speakWord(w.word)}
                       className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center
-                        active:scale-90 cursor-pointer shrink-0 border-2 border-white/30"
+                        active:scale-90 cursor-pointer shrink-0 border-2 border-white/30 text-white"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                      </svg>
+                      <Volume2 className="w-3.5 h-3.5" strokeWidth={2.5} />
                     </button>
-                    <span className="text-lg font-bold text-white truncate flex-1">{w.word}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-lg font-bold text-white truncate">{w.word}</span>
+                        <PosBadge pos={w.pos} />
+                      </div>
+                    </div>
                     <button
                       onClick={() => toggleStarWord(w.word)}
                       className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shrink-0 transition-all border-2 ${
@@ -154,10 +185,11 @@ export default function WordsPage() {
                       }`}
                       aria-label={w.starred ? t('result.unstar') : t('result.save')}
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill={w.starred ? 'currentColor' : 'none'}
-                        stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
+                      <Star
+                        className="w-3.5 h-3.5"
+                        strokeWidth={2.5}
+                        fill={w.starred ? 'currentColor' : 'none'}
+                      />
                     </button>
                   </div>
 
@@ -168,9 +200,17 @@ export default function WordsPage() {
                     <p className="mt-1 text-xs text-white/75 leading-relaxed">{w.definition}</p>
                   )}
 
+                  <ExampleBlock word={w.word} example={w.example} />
+
                   <div className="mt-2 flex items-center gap-3 text-[10px] font-bold text-white/80 tracking-wider">
-                    <span className="text-emerald-300">{t('words.correctMark')} {w.correctCount}</span>
-                    <span className="text-rose-300">{t('words.wrongMark')} {w.wrongCount}</span>
+                    <span className="inline-flex items-center gap-0.5 text-emerald-300">
+                      <Check className="w-3 h-3" strokeWidth={3} />
+                      {w.correctCount}
+                    </span>
+                    <span className="inline-flex items-center gap-0.5 text-rose-300">
+                      <XIcon className="w-3 h-3" strokeWidth={3} />
+                      {w.wrongCount}
+                    </span>
                     <span>{t('words.times', { pct: accuracy, n: total })}</span>
                     <button
                       onClick={() => {

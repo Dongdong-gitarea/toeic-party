@@ -1,5 +1,52 @@
 # Changelog
 
+## 2026-05-05 (Mobile) — Round 4 (In-game Feedback Pt. 2)
+Five more in-game UX wins:
+- **Reverse overtake banner**: when another player passes you, a rose-coloured "X passed you!" banner with a ChevronDown icon now mirrors the existing green ascending banner. Light haptic buzz instead of a celebratory rank-up tone.
+- **"Waiting for N more…" indicator**: backend now broadcasts ANSWER_PROGRESS after each answer. When you've locked in but the round hasn't resolved yet, a small pulsing dot + "Waiting for {n} more…" appears at the bottom.
+- **Audio question telegraph**: the question card flashes a fuchsia ring on each new audio question so you don't miss "this one's a listening question" before the auto-play kicks in.
+- **Self skill cast pose**: hitting a skill button briefly swaps your header avatar to the cheer1 sprite for 600ms (with a tilt-pop) so the caster gets visible feedback (until now only the receivers saw an effect).
+- **Compact answer buttons during review**: AnswerButton drops to min-h-12 / smaller padding once an answer is revealed, leaving more room for the question card's definition reveal.
+
+## 2026-05-05 (Mobile) — Round 3 (In-game Feedback)
+High-leverage in-game feedback / clarity work:
+- **Review pause** lengthened from 4s → 5s when any human got it wrong (reading meaning + definition + example needs the extra second)
+- **Timer urgency** beefed up: at ≤ 1s the pulse is bigger and faster (`timer-pulse-final`), and a red drop-shadow halo comes in at ≤ 3s and intensifies at ≤ 1s
+- **Score breakdown** in the floating popup now also shows BASE / ⚡SPEED / 🔥COMBO chips so players learn why a fast/comboed answer scored more
+- **Skill effect banner** (SHAKE / FOG / TIME CUT) gets a 2-second shrinking progress bar so the receiving player can see how long it'll last
+- **Combo escalation**: at ≥ 5 the score row glows orange; at ≥ 7 a fullscreen "ON FIRE!" flash fires once on each new tier crossing
+- **Review-phase ETA bar** at the bottom of /game shows when the next question is coming
+- **Duplicate-character disambiguation**: the live ranking bar now puts a golden ring around the character icon for "you" so two players who picked the same character can still tell which one is them
+
+## 2026-05-05 (Mobile) — Round 2 (Polish + Char Picker Move)
+- Icon consistency pass:
+  - /game: 2 hand-rolled speaker SVGs → Volume2; question-type pills get Brain / Headphones / FileText; isFinal + final-round overlay get Flame; combo gets Flame above ×3; +N / WRONG feedback gets Check / X; SHAKE!/FOG!/TIME CUT! banner gets Waves / CloudFog / TimerOff
+  - /result: review-toggle ▼/▲ → ChevronDown / ChevronUp
+  - /words: filter pills get Layers / Star / AlertCircle / CheckCircle2 with count moved to a small tabular badge
+  - Home: rules text replaced with Users / ListChecks / Clock chips; lobby empty slot's "?" → UserPlus icon; populated slot card padding tightened (px-2.5 py-2, 14×14 avatar)
+  - RankingBar + RankingPanel: rank #1 shows filled Crown
+  - SettingsModal: title / language / close get icons
+  - AddWordModal: title / cancel / submit get icons
+- **Character picker moved from home page → lobby.** Players can now change character during the wait, and other players see updates live.
+  - New socket event: `CHANGE_CHAR { charIdx }`
+  - `LOBBY_UPDATE` payload now includes `charIdx` per player; legacy fallback to slot index for older clients/servers
+  - Home CTA simplified from "START AS {char}!" → "START!"
+  - Player slots in the lobby render each player's chosen character (was previously hardcoded to slot index)
+- Stale i18n cleanup: removed `home.rules`, `home.startAs`
+
+## 2026-05-05 (Mobile) — Sync Round
+- Merged Desktop Rounds 1-4 (1156-word vocab + 1250 examples + better distractors)
+- Adopted Desktop's `examples.json` as the single source of truth for example sentences; removed Mobile's hand-written `vocabExamples.ts` (50 entries, now superseded)
+- Dropped vestigial `exampleZh` field everywhere — Desktop's DB is English-only; if Chinese examples come back later, add them as a separate field rather than reviving this one
+- Plus this round's mobile-side work that pre-dated the merge:
+  - Skills simplified to one-use-each per match (replaces 3-energy cost system)
+  - All 34 emoji swapped to lucide-react icons (Settings / Dices / Crown / Zap / Flame / Volume2 / Star / RotateCw / BookMarked / Target / Users / Inbox / PartyPopper etc.)
+  - Home redesign: private-room buttons collapsed into one "Play with friends" → bottom sheet; study row demoted to small icon row (BookMarked + Target with badge); mode buttons gained one-line descriptions ("快速 10 題" / "答錯出局"); Practice hidden + hint until ≥4 saved words
+  - New `PlayWithFriendsSheet` component; `JoinRoomModal` deleted
+  - PosBadge component for n./v./adj./adv. pills next to headwords
+  - ExampleBlock highlights the headword in the example sentence
+  - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
+
 ## 2026-05-05 (Desktop) — Round 4
 - Vocab expanded to 1156 words (translated remaining 38 missing TSL words)
 - Added example sentences for ALL 1250 TSL words

@@ -1,5 +1,6 @@
 'use client';
 
+import { Settings as SettingsIcon, Globe, X as XIcon } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { useT, LANGUAGES } from '@/lib/i18n';
 
@@ -25,13 +26,15 @@ export default function SettingsModal({ open, onClose }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-center mb-4">
-          <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
+          <div className="inline-flex items-center gap-1.5 bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
+            <SettingsIcon className="w-4 h-4" strokeWidth={2.75} />
             {t('settings.title')}
           </div>
         </div>
 
         <div className="space-y-2">
-          <p className="text-[11px] font-black text-white/70 tracking-widest pl-1">
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-white/70 tracking-widest pl-1">
+            <Globe className="w-3.5 h-3.5" strokeWidth={2.5} />
             {t('settings.language')}
           </p>
           <div className="grid grid-cols-2 gap-2">
@@ -60,8 +63,10 @@ export default function SettingsModal({ open, onClose }: Props) {
             bg-white text-fuchsia-700 border-4 border-white
             shadow-[0_5px_0_rgba(0,0,0,0.3)]
             hover:bg-amber-100 active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.3)]
-            transition-all"
+            transition-all
+            inline-flex items-center justify-center gap-1.5"
         >
+          <XIcon className="w-4 h-4" strokeWidth={2.75} />
           {t('settings.close')}
         </button>
       </div>

@@ -2,7 +2,22 @@
 
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useGameStore } from '@/store/gameStore';
+import {
+  Volume2,
+  Brain,
+  Headphones,
+  FileText,
+  Flame,
+  Waves,
+  CloudFog,
+  TimerOff,
+  Check,
+  X as XIcon,
+  ChevronUp,
+  ChevronDown,
+  type LucideIcon,
+} from 'lucide-react';
+import { useGameStore, type SkillType } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
@@ -37,9 +52,9 @@ export default function GamePage() {
   const {
     phase, gameMode, playerId, currentQuestion,
     questionNumber, totalQuestions, selectedAnswer, lastResult,
-    rankings, myScore, myCombo, myEnergy,
+    rankings, myScore, myCombo, myUsedSkills,
     countdownValue, submitAnswer, useSkill, overtakeMsg,
-    players, activeEffect,
+    players, activeEffect, answeredCount, totalCount,
   } = useGameStore();
 
   const [flashType, setFlashType] = useState<'correct' | 'wrong' | null>(null);
@@ -47,6 +62,7 @@ export default function GamePage() {
   const [timeLeft, setTimeLeft] = useState(10);
   const displayScore = useCountUp(myScore);
   const [showFinalIntro, setShowFinalIntro] = useState(false);
+  const [showComboFlash, setShowComboFlash] = useState(false);
   const t = useT();
 
   // Final round entrance
@@ -77,6 +93,16 @@ export default function GamePage() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [lastResult]);
 
+  // Mega-combo fullscreen flash — fires once each time combo lands at >= 7
+  useEffect(() => {
+    if (!lastResult?.correct) return;
+    if (lastResult.combo >= 7) {
+      setShowComboFlash(true);
+      const t = setTimeout(() => setShowComboFlash(false), 800);
+      return () => clearTimeout(t);
+    }
+  }, [lastResult]);
+
   // Auto-play audio prompts once per question
   const spokenRef = useRef('');
   useEffect(() => {
@@ -90,6 +116,19 @@ export default function GamePage() {
   const handleAnswer = useCallback(
     (index: number) => { if (selectedAnswer === null) submitAnswer(index); },
     [selectedAnswer, submitAnswer],
+  );
+
+  // Briefly switch the header avatar to a "cast" pose when the local
+  // player fires off a skill, so it feels like *they* did something
+  // (the skill effect is shown to the receivers, not the caster).
+  const [castPose, setCastPose] = useState(false);
+  const castSkill = useCallback(
+    (type: SkillType) => {
+      useSkill(type);
+      setCastPose(true);
+      setTimeout(() => setCastPose(false), 600);
+    },
+    [useSkill],
   );
 
   const handleTimeUpdate = useCallback((t: number) => setTimeLeft(t), []);
@@ -200,22 +239,71 @@ export default function GamePage() {
       {showFinalIntro && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 pointer-events-none">
           <div className="text-center animate-countdown-pop">
-            <p className="text-base text-amber-300 font-bold uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
+            <div className="inline-flex items-center justify-center gap-1.5 mb-1">
+              <Flame className="w-4 h-4 text-amber-300" strokeWidth={2.75} />
+              <p className="text-base text-amber-300 font-bold uppercase tracking-[0.3em] drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
+              <Flame className="w-4 h-4 text-amber-300" strokeWidth={2.75} />
+            </div>
             <p className="text-6xl sm:text-8xl font-black text-white drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">×2.5</p>
           </div>
         </div>
       )}
+      {showComboFlash && (
+        <div className="fixed inset-0 z-[65] flex items-center justify-center pointer-events-none animate-skill-flash">
+          <div className="absolute inset-0 bg-orange-500/20" />
+          <div className="relative inline-flex items-center gap-2 bg-orange-400 text-orange-950 px-6 py-3 rounded-2xl border-4 border-orange-200 shadow-[0_8px_0_rgba(0,0,0,0.4)]">
+            <Flame className="w-7 h-7" strokeWidth={2.75} fill="currentColor" />
+            <p className="text-2xl font-black tracking-widest">ON FIRE!</p>
+            <Flame className="w-7 h-7" strokeWidth={2.75} fill="currentColor" />
+          </div>
+        </div>
+      )}
       {activeEffect && (
-        <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash">
-          <div className="bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-bold tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
-            {activeEffect.fromName}: {activeEffect.skillType === 'shake' ? 'SHAKE!' : activeEffect.skillType === 'fog' ? 'FOG!' : 'TIME CUT!'}
+        <div
+          key={`${activeEffect.fromName}-${activeEffect.skillType}-${Date.now()}`}
+          className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash"
+        >
+          <div className="relative inline-flex flex-col items-stretch overflow-hidden bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
+            <div className="inline-flex items-center justify-center gap-1.5 text-xs font-bold tracking-widest">
+              {(() => {
+                const map: Record<string, { Icon: LucideIcon; label: string }> = {
+                  shake: { Icon: Waves, label: 'SHAKE!' },
+                  fog: { Icon: CloudFog, label: 'FOG!' },
+                  timeCut: { Icon: TimerOff, label: 'TIME CUT!' },
+                };
+                const e = map[activeEffect.skillType] ?? map.shake!;
+                return (
+                  <>
+                    <e.Icon className="w-4 h-4" strokeWidth={2.75} />
+                    <span>{activeEffect.fromName}: {e.label}</span>
+                  </>
+                );
+              })()}
+            </div>
+            {/* Countdown bar — shrinks from full width to 0 over the
+                same 2s the store keeps activeEffect alive */}
+            <span
+              className="absolute left-0 bottom-0 h-1 w-full origin-left bg-rose-700/70"
+              style={{ animation: 'effect-shrink 2s linear forwards' }}
+            />
           </div>
         </div>
       )}
       {overtakeMsg && (
         <div className="fixed top-12 left-1/2 -translate-x-1/2 z-[55] animate-slide-up">
-          <div className="bg-emerald-300 text-emerald-950 px-4 py-2 rounded-full text-xs font-bold tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)]">
-            {overtakeMsg}
+          <div
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)] ${
+              overtakeMsg.kind === 'up'
+                ? 'bg-emerald-300 text-emerald-950'
+                : 'bg-rose-300 text-rose-950'
+            }`}
+          >
+            {overtakeMsg.kind === 'up' ? (
+              <ChevronUp className="w-3.5 h-3.5" strokeWidth={3} />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5" strokeWidth={3} />
+            )}
+            {overtakeMsg.text}
           </div>
         </div>
       )}
@@ -227,13 +315,37 @@ export default function GamePage() {
             className="w-9 h-9 rounded-xl flex items-center justify-center p-1 border-2"
             style={{ backgroundColor: myChar.color + '40', borderColor: myChar.color }}
           >
-            <img src={`${myChar.folder}/idle.png`} alt="" className="w-full h-full object-contain" />
+            <img
+              src={`${myChar.folder}/${castPose ? 'cheer1' : 'idle'}.png`}
+              alt=""
+              className={`w-full h-full object-contain ${castPose ? 'animate-tilt-pop' : ''}`}
+            />
           </div>
           <span className="text-sm font-bold text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
-          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-bold bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.vocab')}</span>}
-          {currentQuestion.type === 'audio' && <span className="text-[9px] font-bold bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.audio')}</span>}
-          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-bold bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.fillblank')}</span>}
-          {isFinal && <span className="text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">×2.5</span>}
+          {currentQuestion.type === 'vocab' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Brain className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.vocab')}
+            </span>
+          )}
+          {currentQuestion.type === 'audio' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Headphones className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.audio')}
+            </span>
+          )}
+          {currentQuestion.type === 'fillblank' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <FileText className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.fillblank')}
+            </span>
+          )}
+          {isFinal && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
+              <Flame className="w-3 h-3" strokeWidth={2.75} />
+              ×2.5
+            </span>
+          )}
         </div>
         <Timer duration={10} questionId={currentQuestion.id} compact
           timeCut={activeEffect?.skillType === 'timeCut'} onTimeUpdate={handleTimeUpdate} />
@@ -246,7 +358,19 @@ export default function GamePage() {
 
       {/* ── Main game content ── */}
       <div className="relative z-10 flex-1 flex flex-col px-2 py-1 overflow-hidden">
-        <ScorePopup score={lastResult?.totalGained ?? null} combo={myCombo} />
+        <ScorePopup
+          score={lastResult?.totalGained ?? null}
+          combo={myCombo}
+          breakdown={
+            lastResult && lastResult.correct
+              ? {
+                  base: lastResult.baseScore,
+                  speed: lastResult.speedBonus,
+                  combo: lastResult.comboMultiplier,
+                }
+              : null
+          }
+        />
 
         {/* Question card */}
         {gameMode === 'jump' ? (
@@ -260,12 +384,8 @@ export default function GamePage() {
               <div className="flex items-center justify-center gap-2">
                 <button onClick={() => speakWord(currentQuestion.audioWord!)}
                   className="w-9 h-9 rounded-full bg-fuchsia-300 border-2 border-fuchsia-200
-                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(112,26,117,0.5)]">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  </svg>
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(112,26,117,0.5)] text-fuchsia-950">
+                  <Volume2 className="w-4 h-4" strokeWidth={2.5} />
                 </button>
                 <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
               </div>
@@ -275,15 +395,25 @@ export default function GamePage() {
             )}
           </div>
         ) : (
-          <div className={`rounded-3xl p-4 sm:p-5 border-4 text-center mb-2 backdrop-blur-sm ${
-            wrongReveal
-              ? 'bg-rose-400/25 border-rose-200'
-              : isRevealed
-                ? 'bg-emerald-400/25 border-emerald-200'
-                : isFinal
-                  ? 'bg-rose-300/30 border-rose-200'
-                  : 'bg-white/15 border-white/30'
-          }`}>
+          <div
+            // Re-key on each new audio question so the telegraph
+            // pulse re-runs when the question changes.
+            key={currentQuestion.type === 'audio' ? `audio-${currentQuestion.id}` : 'q-card'}
+            className={`rounded-3xl p-4 sm:p-5 border-4 text-center mb-2 backdrop-blur-sm ${
+              wrongReveal
+                ? 'bg-rose-400/25 border-rose-200'
+                : isRevealed
+                  ? 'bg-emerald-400/25 border-emerald-200'
+                  : isFinal
+                    ? 'bg-rose-300/30 border-rose-200'
+                    : 'bg-white/15 border-white/30'
+            }`}
+            style={
+              currentQuestion.type === 'audio' && !isRevealed
+                ? { animation: 'audio-telegraph 0.7s ease-out 1' }
+                : undefined
+            }
+          >
             {currentQuestion.type === 'vocab' && (
               <p className="text-3xl sm:text-4xl font-black text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">{currentQuestion.prompt}</p>
             )}
@@ -291,13 +421,8 @@ export default function GamePage() {
               <div className="flex items-center justify-center gap-3">
                 <button onClick={() => speakWord(currentQuestion.audioWord!)}
                   className="w-14 h-14 rounded-full bg-fuchsia-300 border-4 border-fuchsia-200
-                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(112,26,117,0.5)]">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                  </svg>
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(112,26,117,0.5)] text-fuchsia-950">
+                  <Volume2 className="w-6 h-6" strokeWidth={2.5} />
                 </button>
                 <span className="text-sm font-medium text-white/90">{t('game.tapToHear')}</span>
               </div>
@@ -361,27 +486,71 @@ export default function GamePage() {
         </div>
 
         {/* Score + Skills */}
-        <div className="mt-2 space-y-1.5 bg-white/10 backdrop-blur-sm rounded-2xl border-2 border-white/20 px-3 py-2">
+        <div className={`mt-2 space-y-1.5 backdrop-blur-sm rounded-2xl px-3 py-2 transition-[background,border,box-shadow] ${
+          myCombo >= 5
+            ? 'bg-orange-500/20 border-2 border-orange-300/60 shadow-[0_0_24px_rgba(251,146,60,0.45)]'
+            : 'bg-white/10 border-2 border-white/20'
+        }`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-white/80 tracking-wider">
                 {t('game.score')} <span className="ml-1 text-amber-300 font-black text-base tabular-nums drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{displayScore}</span>
               </span>
               {myCombo > 0 && (
-                <span className={`font-black text-orange-300 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
+                <span className={`inline-flex items-center gap-0.5 font-black text-orange-300 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
+                  {myCombo >= 3 && <Flame className="w-3.5 h-3.5" strokeWidth={2.75} fill="currentColor" />}
                   ×{[1, 1.2, 1.5, 2][Math.min(myCombo, 3)]}
                 </span>
               )}
             </div>
             {lastResult && (
-              <span className={`text-xs font-bold tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
-                {lastResult.correct ? `+${lastResult.totalGained}` : t('game.wrong')}
+              <span className={`inline-flex items-center gap-0.5 text-xs font-bold tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
+                {lastResult.correct ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                    +{lastResult.totalGained}
+                  </>
+                ) : (
+                  <>
+                    <XIcon className="w-3.5 h-3.5" strokeWidth={3} />
+                    {t('game.wrong')}
+                  </>
+                )}
               </span>
             )}
           </div>
-          <SkillBar energy={myEnergy} disabled={isAnswered} isFinal={isFinal} onUse={useSkill} />
+          <SkillBar usedSkills={myUsedSkills} disabled={isAnswered} isFinal={isFinal} onUse={castSkill} />
         </div>
       </div>
+
+      {/* Waiting-on-others hint — only between "I answered" and "everyone
+          answered / round resolved". Once isRevealed flips on, the
+          review bar takes over. */}
+      {isAnswered && !isRevealed && totalCount > 1 && answeredCount < totalCount && (
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[40] pointer-events-none animate-slide-up">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white/80 text-[10px] font-bold tracking-widest border border-white/15 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+            {t('game.waitingOthers', { n: totalCount - answeredCount })}
+          </span>
+        </div>
+      )}
+
+      {/* Review-phase ETA bar — fills over the same window the server pauses
+          (keyed off question id so it resets cleanly each round). The
+          duration is set to match the longer of the two server pauses
+          (5s); if the next question lands earlier, the bar gets
+          interrupted, which is fine. */}
+      {isRevealed && (
+        <div
+          key={`review-bar-${currentQuestion.id}`}
+          className="absolute bottom-0 left-0 right-0 h-1 bg-amber-300/15 overflow-hidden pointer-events-none"
+        >
+          <span
+            className="block h-full origin-left bg-amber-300"
+            style={{ animation: 'review-fill 5s linear forwards' }}
+          />
+        </div>
+      )}
     </main>
   );
 }

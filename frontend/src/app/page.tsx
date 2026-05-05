@@ -2,12 +2,23 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  Settings as SettingsIcon,
+  Dices,
+  Check,
+  BookMarked,
+  Target,
+  Users,
+  UserPlus,
+  ListChecks,
+  Clock,
+} from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { CHARACTERS } from '@/lib/characters';
 import { useT } from '@/lib/i18n';
 import SettingsModal from '@/components/SettingsModal';
 import BrandIntro from '@/components/BrandIntro';
-import JoinRoomModal from '@/components/JoinRoomModal';
+import PlayWithFriendsSheet from '@/components/PlayWithFriendsSheet';
 
 const FUN_NAMES = [
   'QuizNinja', 'WordHunter', 'SpeedReader', 'VocabKing',
@@ -27,10 +38,9 @@ export default function LobbyPage() {
   } = useGameStore();
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [joinOpen, setJoinOpen] = useState(false);
+  const [friendsOpen, setFriendsOpen] = useState(false);
   const [copyDone, setCopyDone] = useState(false);
   const t = useT();
-  const createPrivateRoom = useGameStore((s) => s.createPrivateRoom);
 
   useEffect(() => { initSocket(); }, [initSocket]);
   // Generate a random name only on first mount when nothing is saved.
@@ -56,7 +66,6 @@ export default function LobbyPage() {
   }, [lobby]);
 
   const isMatchmaking = phase === 'matchmaking';
-  const myChar = CHARACTERS[selectedCharIdx] ?? CHARACTERS[0]!;
 
   return (
     <main className="min-h-[100dvh] party-bg relative overflow-hidden flex flex-col items-center justify-center px-4 py-6">
@@ -74,12 +83,12 @@ export default function LobbyPage() {
         className="absolute top-3 right-3 z-20 w-11 h-11 rounded-full
           bg-white/15 backdrop-blur-sm border-2 border-white/30 text-white
           hover:bg-white/25 active:scale-95 transition-all cursor-pointer
-          flex items-center justify-center text-xl shadow-[0_3px_0_rgba(0,0,0,0.25)]"
+          flex items-center justify-center shadow-[0_3px_0_rgba(0,0,0,0.25)]"
       >
-        ⚙️
+        <SettingsIcon className="w-5 h-5" strokeWidth={2.25} />
       </button>
       <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
-      <JoinRoomModal open={joinOpen} onClose={() => setJoinOpen(false)} />
+      <PlayWithFriendsSheet open={friendsOpen} onClose={() => setFriendsOpen(false)} />
 
       {isMatchmaking && lobby ? (
         // ── Lobby takeover ──
@@ -127,15 +136,58 @@ export default function LobbyPage() {
             </div>
           )}
 
+          {/* Character picker — moved here from home so players choose during the wait */}
+          <div className="w-full bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/20 p-3">
+            <p className="text-center text-[10px] font-bold text-white/70 tracking-widest mb-2">
+              {t('home.pickChar')}
+            </p>
+            <div className="grid grid-cols-4 gap-2">
+              {CHARACTERS.map((char, i) => {
+                const selected = i === selectedCharIdx;
+                return (
+                  <button
+                    key={char.id}
+                    onClick={() => setSelectedChar(i)}
+                    className={`flex flex-col items-center p-1.5 rounded-2xl border-4 transition-all cursor-pointer ${
+                      selected
+                        ? 'shadow-[0_0_20px_rgba(252,211,77,0.5)] -translate-y-0.5'
+                        : 'opacity-70 hover:opacity-100'
+                    }`}
+                    style={{
+                      backgroundColor: char.color + (selected ? '50' : '20'),
+                      borderColor: selected ? '#fcd34d' : char.color + '60',
+                    }}
+                  >
+                    <div className={`w-10 h-10 ${selected ? 'animate-float-bob' : ''}`}>
+                      <img
+                        src={`${char.folder}/idle.png`}
+                        alt={char.name}
+                        className="w-full h-full object-contain"
+                        draggable={false}
+                      />
+                    </div>
+                    <span className={`text-[9px] mt-0.5 font-bold ${selected ? 'text-white' : 'text-white/70'}`}>
+                      {char.name.toUpperCase()}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
             <div className="grid grid-cols-2 gap-3 mb-4">
               {Array.from({ length: lobby.capacity }).map((_, i) => {
                 const slot = lobby.players[i];
-                const char = CHARACTERS[i];
+                // Use each player's chosen character. Fallback to slot index
+                // for legacy server payloads without charIdx.
+                const charIdxForSlot =
+                  typeof slot?.charIdx === 'number' ? slot.charIdx : i;
+                const char = CHARACTERS[charIdxForSlot];
                 return (
                   <div
                     key={i}
-                    className={`relative rounded-2xl border-4 p-3 text-center ${
+                    className={`relative rounded-2xl border-4 px-2.5 py-2 text-center ${
                       slot
                         ? slot.ready
                           ? 'border-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.4)]'
@@ -153,28 +205,29 @@ export default function LobbyPage() {
                     {slot && char ? (
                       <>
                         {slot.you && (
-                          <span className="absolute top-1.5 left-1.5 text-[8px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full shadow-[0_2px_0_rgba(120,53,15,0.5)]">
+                          <span className="absolute top-1 left-1 text-[8px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full shadow-[0_2px_0_rgba(120,53,15,0.5)]">
                             {t('common.you')}
                           </span>
                         )}
                         <img
                           src={`${char.folder}/idle.png`}
                           alt=""
-                          className="w-16 h-16 mx-auto object-contain animate-float-bob"
+                          className="w-14 h-14 mx-auto object-contain animate-float-bob"
                           style={{ animationDelay: `${i * 0.2}s` }}
                           draggable={false}
                         />
-                        <p className={`text-sm font-bold truncate mt-1 ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
+                        <p className={`text-xs font-bold truncate ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
                         {slot.ready && (
-                          <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
+                            <Check className="w-3 h-3" strokeWidth={3} />
                             {t('lobby.readyDone')}
                           </span>
                         )}
                       </>
                     ) : (
                       <>
-                        <div className="w-16 h-16 mx-auto rounded-full bg-white/10 flex items-center justify-center text-3xl font-black text-white/40">
-                          ?
+                        <div className="w-14 h-14 mx-auto rounded-full bg-white/10 flex items-center justify-center text-white/40">
+                          <UserPlus className="w-7 h-7" strokeWidth={1.75} />
                         </div>
                         <p className="text-xs font-bold text-white/50 mt-1">{t('lobby.waiting')}</p>
                       </>
@@ -206,12 +259,13 @@ export default function LobbyPage() {
           {/* READY toggle */}
           <button
             onClick={() => setReady(!myReady)}
-            className={`w-full py-5 rounded-2xl font-black text-2xl tracking-widest cursor-pointer transition-all border-4 ${
+            className={`w-full py-5 rounded-2xl font-black text-2xl tracking-widest cursor-pointer transition-all border-4 inline-flex items-center justify-center gap-2 ${
               myReady
                 ? 'bg-emerald-400 text-emerald-950 border-emerald-500 shadow-[0_8px_0_rgba(6,78,59,0.7)] active:translate-y-[5px] active:shadow-[0_3px_0_rgba(6,78,59,0.7)]'
                 : 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_8px_0_rgba(120,53,15,0.7)] active:translate-y-[5px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)] hover:bg-amber-200'
             }`}
           >
+            {myReady && <Check className="w-6 h-6" strokeWidth={3} />}
             {myReady ? t('lobby.readyDone') : t('lobby.imReady')}
           </button>
 
@@ -245,48 +299,6 @@ export default function LobbyPage() {
             </p>
           </div>
 
-          {/* Character picker */}
-          <div
-            className="w-full bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/20 p-3 animate-tilt-pop"
-            style={{ animationDelay: '0.05s' }}
-          >
-            <p className="text-center text-[10px] font-bold text-white/70 tracking-widest mb-2">
-              {t('home.pickChar')}
-            </p>
-            <div className="grid grid-cols-4 gap-2">
-              {CHARACTERS.map((char, i) => {
-                const selected = i === selectedCharIdx;
-                return (
-                  <button
-                    key={char.id}
-                    onClick={() => setSelectedChar(i)}
-                    className={`flex flex-col items-center p-2 rounded-2xl border-4 transition-all cursor-pointer ${
-                      selected
-                        ? 'shadow-[0_0_20px_rgba(252,211,77,0.5)] -translate-y-1'
-                        : 'opacity-70 hover:opacity-100'
-                    }`}
-                    style={{
-                      backgroundColor: char.color + (selected ? '50' : '20'),
-                      borderColor: selected ? '#fcd34d' : char.color + '60',
-                    }}
-                  >
-                    <div className={`w-12 h-12 ${selected ? 'animate-float-bob' : ''}`}>
-                      <img
-                        src={`${char.folder}/idle.png`}
-                        alt={char.name}
-                        className="w-full h-full object-contain"
-                        draggable={false}
-                      />
-                    </div>
-                    <span className={`text-[10px] mt-1 font-bold ${selected ? 'text-white' : 'text-white/70'}`}>
-                      {char.name.toUpperCase()}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           <div className="w-full relative">
             <input
               type="text"
@@ -307,33 +319,43 @@ export default function LobbyPage() {
               className="absolute top-1/2 right-2 -translate-y-1/2 w-10 h-10 rounded-xl
                 bg-amber-300 text-fuchsia-900 border-2 border-amber-400
                 shadow-[0_3px_0_rgba(120,53,15,0.5)]
-                hover:bg-amber-200 active:translate-y-[-50%] active:translate-y-[calc(-50%+2px)]
-                transition-all cursor-pointer flex items-center justify-center text-lg"
+                hover:bg-amber-200
+                transition-colors cursor-pointer flex items-center justify-center"
             >
-              🎲
+              <Dices className="w-5 h-5" strokeWidth={2.25} />
             </button>
           </div>
 
           <div className="grid grid-cols-2 gap-3 w-full">
             <button
               onClick={() => setGameMode('classic')}
-              className={`py-3 rounded-2xl font-black text-sm tracking-widest transition-all border-4 cursor-pointer ${
+              className={`py-2.5 rounded-2xl font-black text-sm tracking-widest transition-all border-4 cursor-pointer flex flex-col items-center gap-0.5 ${
                 gameMode === 'classic'
                   ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_5px_0_rgba(0,0,0,0.25)]'
                   : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
               }`}
             >
-              {t('home.classic')}
+              <span className="leading-none">{t('home.classic')}</span>
+              <span className={`text-[10px] font-bold tracking-normal leading-none ${
+                gameMode === 'classic' ? 'text-fuchsia-900/70' : 'text-white/50'
+              }`}>
+                {t('home.classicDesc')}
+              </span>
             </button>
             <button
               onClick={() => setGameMode('jump')}
-              className={`py-3 rounded-2xl font-black text-sm tracking-widest transition-all border-4 cursor-pointer ${
+              className={`py-2.5 rounded-2xl font-black text-sm tracking-widest transition-all border-4 cursor-pointer flex flex-col items-center gap-0.5 ${
                 gameMode === 'jump'
                   ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_5px_0_rgba(0,0,0,0.25)]'
                   : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
               }`}
             >
-              {t('home.jump')}
+              <span className="leading-none">{t('home.jump')}</span>
+              <span className={`text-[10px] font-bold tracking-normal leading-none ${
+                gameMode === 'jump' ? 'text-fuchsia-900/70' : 'text-white/50'
+              }`}>
+                {t('home.jumpDesc')}
+              </span>
             </button>
           </div>
 
@@ -347,60 +369,78 @@ export default function LobbyPage() {
               transition-all
               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
           >
-            {t('home.startAs', { char: myChar.name.toUpperCase() })}
+            {t('home.start')}
           </button>
 
-          <div className="grid grid-cols-2 gap-3 w-full">
+          <button
+            onClick={() => setFriendsOpen(true)}
+            disabled={!socketReady || !playerName.trim()}
+            className="w-full py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
+              bg-fuchsia-500/25 text-white border-4 border-fuchsia-300/50
+              hover:bg-fuchsia-500/40 active:translate-y-[2px] transition-all backdrop-blur-sm
+              disabled:opacity-40 disabled:cursor-not-allowed
+              inline-flex items-center justify-center gap-2"
+          >
+            <Users className="w-4 h-4" strokeWidth={2.5} />
+            {t('home.playWithFriends')}
+          </button>
+
+          {/* Study row — demoted, lives at the bottom */}
+          <div className="w-full flex items-center justify-center gap-2 mt-1 flex-wrap">
             <button
               onClick={() => router.push('/words')}
-              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
-                bg-white/15 text-white border-4 border-white/30
-                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
+              className="px-4 py-2 rounded-xl font-bold text-[11px] tracking-widest cursor-pointer
+                bg-white/10 text-white/85 border-2 border-white/20
+                hover:bg-white/20 active:translate-y-[1px] transition-all backdrop-blur-sm
+                inline-flex items-center gap-1.5"
             >
-              {t('home.myWords', { n: savedWords.length })}
+              <BookMarked className="w-3.5 h-3.5" strokeWidth={2.5} />
+              <span>{t('words.title')}</span>
+              {savedWords.length > 0 && (
+                <span className="ml-0.5 text-[10px] font-black tabular-nums bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full">
+                  {savedWords.length}
+                </span>
+              )}
             </button>
-            <button
-              onClick={() => router.push('/practice')}
-              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
-                bg-white/15 text-white border-4 border-white/30
-                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
-                disabled:opacity-40 disabled:cursor-not-allowed"
-              disabled={savedWords.length < 4}
-            >
-              {t('home.practice')}
-            </button>
-          </div>
 
-          <div className="grid grid-cols-2 gap-3 w-full">
-            <button
-              onClick={createPrivateRoom}
-              disabled={!socketReady || !playerName.trim()}
-              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
-                bg-fuchsia-500/30 text-white border-4 border-fuchsia-300/60
-                hover:bg-fuchsia-500/50 active:translate-y-[2px] transition-all backdrop-blur-sm
-                disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {t('home.createRoom')}
-            </button>
-            <button
-              onClick={() => setJoinOpen(true)}
-              disabled={!socketReady || !playerName.trim()}
-              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
-                bg-white/15 text-white border-4 border-white/30
-                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
-                disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {t('home.joinRoom')}
-            </button>
+            {savedWords.length >= 4 ? (
+              <button
+                onClick={() => router.push('/practice')}
+                className="px-4 py-2 rounded-xl font-bold text-[11px] tracking-widest cursor-pointer
+                  bg-white/10 text-white/85 border-2 border-white/20
+                  hover:bg-white/20 active:translate-y-[1px] transition-all backdrop-blur-sm
+                  inline-flex items-center gap-1.5"
+              >
+                <Target className="w-3.5 h-3.5" strokeWidth={2.5} />
+                <span>{t('home.practice')}</span>
+              </button>
+            ) : (
+              <span className="px-3 py-2 text-[10px] font-bold tracking-wide text-white/45 italic">
+                {t('home.practiceLockedHint')}
+              </span>
+            )}
           </div>
 
           {!socketReady && (
             <p className="text-center text-xs font-bold text-amber-300 -mt-2">{t('common.connecting')}</p>
           )}
 
-          <p className="text-center text-[11px] font-semibold text-white/60 tracking-widest">
-            {t('home.rules')}
-          </p>
+          <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-white/60 tracking-wider">
+            <span className="inline-flex items-center gap-1">
+              <Users className="w-3 h-3" strokeWidth={2.5} />
+              4
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="inline-flex items-center gap-1">
+              <ListChecks className="w-3 h-3" strokeWidth={2.5} />
+              10
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="inline-flex items-center gap-1">
+              <Clock className="w-3 h-3" strokeWidth={2.5} />
+              10s
+            </span>
+          </div>
         </div>
       )}
     </main>

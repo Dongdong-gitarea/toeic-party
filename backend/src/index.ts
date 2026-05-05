@@ -3,6 +3,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { Matchmaker } from './game/Matchmaker.js';
+import { sanitizePlayerName } from './util/sanitizeName.js';
 import type { SkillType } from './types.js';
 
 const PORT = Number(process.env.PORT) || 3001;
@@ -33,7 +34,7 @@ io.on('connection', (socket) => {
     const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
     matchmaker.addPlayer(
       socket,
-      playerName || 'Player',
+      sanitizePlayerName(playerName),
       Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
       idx,
     );
@@ -47,6 +48,10 @@ io.on('connection', (socket) => {
     matchmaker.setReady(socket.id, !!ready);
   });
 
+  socket.on('CHANGE_CHAR', ({ charIdx }: { charIdx: number }) => {
+    matchmaker.setCharIdx(socket.id, charIdx);
+  });
+
   socket.on('CREATE_PRIVATE', (
     {
       playerName,
@@ -57,7 +62,7 @@ io.on('connection', (socket) => {
     const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
     matchmaker.createPrivateRoom(
       socket,
-      playerName || 'Player',
+      sanitizePlayerName(playerName),
       Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
       idx,
     );
@@ -80,7 +85,7 @@ io.on('connection', (socket) => {
     matchmaker.joinPrivateRoom(
       socket,
       code,
-      playerName || 'Player',
+      sanitizePlayerName(playerName),
       Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
       idx,
     );
