@@ -293,6 +293,12 @@ export default function ResultPage() {
                         </p>
                       )}
 
+                      {w.example && (
+                        <p className="mt-1 text-[11px] text-white/55 leading-relaxed font-normal italic">
+                          &ldquo;{w.example}&rdquo;
+                        </p>
+                      )}
+
                       {!w.correct && (
                         <div className="mt-2 flex items-center gap-2 text-xs font-bold">
                           <span className="text-rose-200 line-through">{w.yourAnswer}</span>

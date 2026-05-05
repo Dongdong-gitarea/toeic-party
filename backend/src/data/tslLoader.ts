@@ -16,12 +16,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 let tslWords: TSLWord[] = [];
+let examplesMap: Record<string, string> = {};
 
 function loadTSL(): TSLWord[] {
   if (tslWords.length > 0) return tslWords;
   const raw = readFileSync(join(__dirname, 'tsl.json'), 'utf-8');
   tslWords = JSON.parse(raw) as TSLWord[];
   return tslWords;
+}
+
+function loadExamples(): Record<string, string> {
+  if (Object.keys(examplesMap).length > 0) return examplesMap;
+  try {
+    const raw = readFileSync(join(__dirname, 'examples.json'), 'utf-8');
+    examplesMap = JSON.parse(raw) as Record<string, string>;
+  } catch {
+    examplesMap = {};
+  }
+  return examplesMap;
+}
+
+export function lookupExample(word: string): string {
+  const examples = loadExamples();
+  return examples[word.toLowerCase()] ?? '';
 }
 
 function shuffle<T>(arr: T[]): T[] {

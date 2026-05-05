@@ -132,6 +132,7 @@ interface ReviewWord {
   correctAnswer: string;
   definition: string;
   meaning?: string;
+  example?: string;
   questionType: string;
 }
 

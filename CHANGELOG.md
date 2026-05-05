@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-05 (Desktop) — Round 4
+- Vocab expanded to 1156 words (translated remaining 38 missing TSL words)
+- Added example sentences for ALL 1250 TSL words
+  - 461 real examples from Dictionary API
+  - 789 TOEIC-style template sentences as fallback
+  - Stored in `backend/src/data/examples.json`
+- New: `lookupExample()` function in tslLoader.ts
+- Example sentences shown in post-game word review cards
+- Types updated: ReviewWord + AnswerResult now include `example` field
+
 ## 2026-05-05 (Desktop) — Round 3
 - Expanded vocab 1043 → 1119 words
 - Fixed 2 duplicate distractor bugs (considerably, relocate)

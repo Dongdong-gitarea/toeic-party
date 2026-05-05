@@ -23,6 +23,7 @@ export interface ReviewWord {
   correctAnswer: string;
   definition: string;
   meaning: string; // Chinese meaning, always populated when available
+  example: string; // Example sentence
   questionType: QuestionType;
 }
 
@@ -34,6 +35,7 @@ export interface Question {
   correctIndex: number;
   word: string;
   definition?: string; // English definition for post-game review
+  example?: string; // Example sentence
 }
 
 export interface QuestionForClient {
@@ -79,6 +81,7 @@ export interface AnswerResult {
   correctAnswer: string;
   definition: string;
   meaning: string;
+  example: string;
 }
 
 export interface SkillEffect {

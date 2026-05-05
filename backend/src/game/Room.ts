@@ -12,6 +12,7 @@ import type {
 import { calculateCorrect, calculateWrong } from './ScoreEngine.js';
 import { pickQuestions } from '../data/questions.js';
 import { lookupChinese } from '../data/vocabChinese.js';
+import { lookupExample } from '../data/tslLoader.js';
 
 const QUESTIONS_PER_GAME = 10;
 const QUESTION_TIME_MS = 10000;
@@ -242,6 +243,7 @@ export class Room {
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
+        example: lookupExample(q.word),
         questionType: q.type,
       });
 
@@ -260,6 +262,7 @@ export class Room {
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
+        example: lookupExample(q.word),
       };
     } else {
       const { total: penalty } = calculateWrong(isFinal);
@@ -275,6 +278,7 @@ export class Room {
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
+        example: lookupExample(q.word),
         questionType: q.type,
       });
 
@@ -293,6 +297,7 @@ export class Room {
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
+        example: lookupExample(q.word),
       };
     }
   }
@@ -312,6 +317,7 @@ export class Room {
           correctAnswer: q.options[q.correctIndex]!,
           definition: q.definition ?? '',
           meaning: lookupChinese(q.word),
+        example: lookupExample(q.word),
           questionType: q.type,
         });
         if (!player.isAI) {
@@ -330,6 +336,7 @@ export class Room {
             correctAnswer: q.options[q.correctIndex]!,
             definition: q.definition ?? '',
             meaning: lookupChinese(q.word),
+        example: lookupExample(q.word),
           } satisfies AnswerResult);
         }
       }
