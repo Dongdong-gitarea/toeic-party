@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-05 (Mobile) — Hotfix: per-match word dedup
+- Bug: with vocab + audio + fillblank each pulling questions independently from the same pool, the **same headword could appear twice in a single 10-question match** (once as vocab, once as audio). Players reported "單字好像都重複".
+- Fix: `generateTSLQuestions` now passes a shared `excludeLower` set through each generator step; `pickWeighted` filters that set out of the pool before sampling. 200-game smoke test: 0 duplicates.
+- Affected: `backend/src/data/tslLoader.ts`. No type-shape changes, no client changes needed.
+
 ## 2026-05-05 (Mobile) — Round 4 (In-game Feedback Pt. 2)
 Five more in-game UX wins:
 - **Reverse overtake banner**: when another player passes you, a rose-coloured "X passed you!" banner with a ChevronDown icon now mirrors the existing green ascending banner. Light haptic buzz instead of a celebratory rank-up tone.
