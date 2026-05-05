@@ -9,57 +9,23 @@ const SKILL_DEFS: { type: SkillType; emoji: string; nameKey: string; descKey: st
   { type: 'timeCut', emoji: '⏱️', nameKey: 'skill.cut.name', descKey: 'skill.cut.desc' },
 ];
 
-const COST = 3;
-const MAX_ENERGY = 9;
-
 interface Props {
-  energy: number;
+  usedSkills: SkillType[];
   disabled: boolean;
   isFinal: boolean;
   onUse: (type: SkillType) => void;
 }
 
-export default function SkillBar({ energy, disabled, isFinal, onUse }: Props) {
+export default function SkillBar({ usedSkills, disabled, isFinal, onUse }: Props) {
   const t = useT();
-  const canAffordSkill = energy >= COST;
-  const canUse = canAffordSkill && !disabled && !isFinal;
-
-  const filled = Math.min(energy, MAX_ENERGY);
 
   return (
     <div className="space-y-1.5">
-      {/* Energy meter */}
-      <div className="flex items-center gap-2 px-1">
-        <span className="text-[10px] font-bold text-white/70 tracking-widest shrink-0">
-          {t('skill.energy')}
-        </span>
-        <div className="flex-1 flex gap-0.5">
-          {Array.from({ length: MAX_ENERGY }).map((_, i) => {
-            const isFilled = i < filled;
-            const isCostMarker = (i + 1) % COST === 0; // visual tick at 3, 6, 9
-            return (
-              <div
-                key={i}
-                className={`flex-1 h-2 rounded-sm transition-all duration-300 ${
-                  isFilled
-                    ? canAffordSkill
-                      ? 'bg-amber-300 shadow-[0_0_4px_rgba(252,211,77,0.6)]'
-                      : 'bg-amber-300/50'
-                    : 'bg-white/10'
-                } ${isCostMarker && !isFilled ? 'border-r-2 border-white/30' : ''}`}
-              />
-            );
-          })}
-        </div>
-        <span className={`text-[11px] font-bold tabular-nums shrink-0 ${canAffordSkill ? 'text-amber-300' : 'text-white/50'}`}>
-          {energy}/{MAX_ENERGY}
-        </span>
-      </div>
-
       {/* Skill buttons */}
       <div className="grid grid-cols-3 gap-2">
         {SKILL_DEFS.map((skill) => {
-          const usableNow = canUse;
+          const used = usedSkills.includes(skill.type);
+          const usableNow = !used && !disabled && !isFinal;
           return (
             <button
               key={skill.type}
@@ -68,22 +34,25 @@ export default function SkillBar({ energy, disabled, isFinal, onUse }: Props) {
               className={`relative min-h-[60px] px-2 py-2 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-0.5 ${
                 usableNow
                   ? 'bg-amber-300/15 border-amber-300/60 text-white hover:bg-amber-300/25 active:translate-y-[2px] active:shadow-[0_2px_0_rgba(120,53,15,0.4)] shadow-[0_3px_0_rgba(120,53,15,0.4)] cursor-pointer'
-                  : 'bg-white/5 border-white/10 text-white/40 cursor-not-allowed'
+                  : used
+                    ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
+                    : 'bg-white/5 border-white/10 text-white/40 cursor-not-allowed'
               }`}
             >
-              <span className="text-xl leading-none">{skill.emoji}</span>
+              <span className={`text-xl leading-none ${used ? 'grayscale opacity-50' : ''}`}>
+                {skill.emoji}
+              </span>
               <span className="text-[11px] font-bold tracking-wide leading-none">
                 {t(skill.nameKey)}
               </span>
-              <span className={`text-[9px] font-bold tracking-wider leading-none ${
-                usableNow ? 'text-amber-300' : 'text-white/40'
-              }`}>
-                ⚡{COST}
-              </span>
-              {/* Always-visible mini description */}
               <span className="text-[9px] text-white/55 leading-tight text-center mt-0.5 line-clamp-1">
-                {t(skill.descKey)}
+                {used ? t('skill.used') : t(skill.descKey)}
               </span>
+              {used && (
+                <span className="absolute top-1 right-1 text-[9px] font-black tracking-widest text-rose-300/80">
+                  ✓
+                </span>
+              )}
             </button>
           );
         })}

@@ -98,7 +98,6 @@ interface AnswerResult {
   totalGained: number;
   totalScore: number;
   combo: number;
-  energy: number;
   isFinal: boolean;
   word?: string;
   correctAnswer?: string;
@@ -185,7 +184,7 @@ interface GameState {
   rankings: RankEntry[];
   myScore: number;
   myCombo: number;
-  myEnergy: number;
+  myUsedSkills: SkillType[];
 
   finalRankings: FinalRankEntry[];
   labels: GameLabels | null;
@@ -252,7 +251,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   rankings: [],
   myScore: 0,
   myCombo: 0,
-  myEnergy: 0,
+  myUsedSkills: [],
   finalRankings: [],
   labels: null,
   reviewWords: [],
@@ -323,7 +322,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         lobby: null,
         myScore: 0,
         myCombo: 0,
-        myEnergy: 0,
+        myUsedSkills: [],
         rankings: [],
         finalRankings: [],
         labels: null,
@@ -372,7 +371,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         lastResult: result,
         myScore: result.totalScore,
         myCombo: result.combo,
-        myEnergy: result.energy,
       });
     });
 
@@ -410,8 +408,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ activeEffect: effect, effectTimer: timer });
     });
 
-    socket.on('SKILL_USED', ({ energy }: { energy: number }) => {
-      set({ myEnergy: energy });
+    socket.on('SKILL_USED', ({ usedSkills }: { skillType: SkillType; usedSkills: SkillType[] }) => {
+      set({ myUsedSkills: usedSkills });
     });
 
     socket.on('GAME_END', ({ rankings, labels }) => {
@@ -516,7 +514,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   useSkill: (skillType) => {
-    if (get().myEnergy < 3) return;
+    if (get().myUsedSkills.includes(skillType)) return;
     haptic('heavy');
     getSocket().emit('USE_SKILL', { skillType });
   },
@@ -609,7 +607,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       rankings: [],
       myScore: 0,
       myCombo: 0,
-      myEnergy: 0,
+      myUsedSkills: [],
       finalRankings: [],
       labels: null,
       reviewWords: [],

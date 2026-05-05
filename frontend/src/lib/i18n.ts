@@ -112,7 +112,7 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.close': '關閉',
 
     // Skills
-    'skill.energy': '能量',
+    'skill.used': '已使用',
     'skill.shake.name': '震波',
     'skill.shake.desc': '搖晃對手',
     'skill.fog.name': '迷霧',
@@ -239,7 +239,7 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.language': 'Language',
     'settings.close': 'Close',
 
-    'skill.energy': 'ENERGY',
+    'skill.used': 'USED',
     'skill.shake.name': 'SHAKE',
     'skill.shake.desc': 'Shake opponent',
     'skill.fog.name': 'FOG',

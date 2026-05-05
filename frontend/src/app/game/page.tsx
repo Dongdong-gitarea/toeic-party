@@ -37,7 +37,7 @@ export default function GamePage() {
   const {
     phase, gameMode, playerId, currentQuestion,
     questionNumber, totalQuestions, selectedAnswer, lastResult,
-    rankings, myScore, myCombo, myEnergy,
+    rankings, myScore, myCombo, myUsedSkills,
     countdownValue, submitAnswer, useSkill, overtakeMsg,
     players, activeEffect,
   } = useGameStore();
@@ -379,7 +379,7 @@ export default function GamePage() {
               </span>
             )}
           </div>
-          <SkillBar energy={myEnergy} disabled={isAnswered} isFinal={isFinal} onUse={useSkill} />
+          <SkillBar usedSkills={myUsedSkills} disabled={isAnswered} isFinal={isFinal} onUse={useSkill} />
         </div>
       </div>
     </main>

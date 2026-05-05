@@ -18,8 +18,7 @@ const QUESTION_TIME_MS = 10000;
 const BETWEEN_QUESTIONS_FAST_MS = 1800;  // when nobody got it wrong
 const BETWEEN_QUESTIONS_REVIEW_MS = 4000;  // when at least one human got it wrong — give time to read the definition
 const PRE_GAME_COUNTDOWN_MS = 4500;
-const ENERGY_PER_CORRECT = 1;
-const SKILL_COST = 3;
+const ALL_SKILLS: SkillType[] = ['shake', 'fog', 'timeCut'];
 
 const AI_NAMES = ['AI-Alpha', 'AI-Beta', 'AI-Gamma', 'AI-Delta'];
 
@@ -70,7 +69,7 @@ export class Room {
       correctCount: 0,
       totalResponseTime: 0,
       answeredCount: 0,
-      energy: 0,
+      usedSkills: [],
       reviewWords: [],
     });
   }
@@ -163,17 +162,17 @@ export class Room {
         if (this.state === 'playing' && !this.answeredThisRound.has(player.id)) {
           this.processAnswer(player.id, answerIndex);
 
-          // AI might use skill
-          if (
-            player.energy >= SKILL_COST &&
-            !this.isFinalQuestion &&
-            Math.random() < 0.3
-          ) {
-            const skills: SkillType[] = ['shake', 'fog', 'timeCut'];
-            this.handleSkill(
-              player.id,
-              skills[Math.floor(Math.random() * skills.length)]!,
+          // AI might use a skill it hasn't used yet
+          if (!this.isFinalQuestion && Math.random() < 0.35) {
+            const available = ALL_SKILLS.filter(
+              (s) => !player.usedSkills.includes(s),
             );
+            if (available.length > 0) {
+              this.handleSkill(
+                player.id,
+                available[Math.floor(Math.random() * available.length)]!,
+              );
+            }
           }
         }
       }, delay);
@@ -233,7 +232,6 @@ export class Room {
       player.correctCount++;
       player.totalResponseTime += responseTime;
       player.answeredCount++;
-      player.energy = Math.min(player.energy + ENERGY_PER_CORRECT, 9);
 
       player.reviewWords.push({
         word: q.word,
@@ -254,7 +252,6 @@ export class Room {
         totalGained: total,
         totalScore: player.score,
         combo: newCombo,
-        energy: player.energy,
         isFinal,
         word: q.word,
         correctAnswer: q.options[q.correctIndex]!,
@@ -287,7 +284,6 @@ export class Room {
         totalGained: penalty,
         totalScore: player.score,
         combo: 0,
-        energy: player.energy,
         isFinal,
         word: q.word,
         correctAnswer: q.options[q.correctIndex]!,
@@ -324,7 +320,6 @@ export class Room {
             totalGained: 0,
             totalScore: player.score,
             combo: 0,
-            energy: player.energy,
             isFinal: this.isFinalQuestion,
             word: q.word,
             correctAnswer: q.options[q.correctIndex]!,
@@ -360,11 +355,11 @@ export class Room {
   handleSkill(playerId: string, skillType: SkillType) {
     const player = this.players.get(playerId);
     if (!player) return;
-    if (player.energy < SKILL_COST) return;
+    if (player.usedSkills.includes(skillType)) return;
     if (this.state !== 'playing') return;
     if (this.isFinalQuestion) return; // no skills on final question
 
-    player.energy -= SKILL_COST;
+    player.usedSkills.push(skillType);
 
     // Broadcast effect to all OTHER human players
     for (const [id, p] of this.players) {
@@ -379,7 +374,7 @@ export class Room {
     if (!player.isAI) {
       this.io.to(playerId).emit('SKILL_USED', {
         skillType,
-        energy: player.energy,
+        usedSkills: [...player.usedSkills],
       });
     }
   }

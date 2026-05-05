@@ -12,7 +12,7 @@ export interface Player {
   correctCount: number;
   totalResponseTime: number;
   answeredCount: number;
-  energy: number;
+  usedSkills: SkillType[];
   reviewWords: ReviewWord[];
 }
 
@@ -73,7 +73,6 @@ export interface AnswerResult {
   totalGained: number;
   totalScore: number;
   combo: number;
-  energy: number;
   isFinal: boolean;
   word: string;
   correctAnswer: string;
