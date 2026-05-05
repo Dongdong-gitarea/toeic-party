@@ -1,12 +1,19 @@
 'use client';
 
+import { Waves, CloudFog, TimerOff, Check } from 'lucide-react';
+import type { ComponentType } from 'react';
 import type { SkillType } from '@/store/gameStore';
 import { useT } from '@/lib/i18n';
 
-const SKILL_DEFS: { type: SkillType; emoji: string; nameKey: string; descKey: string }[] = [
-  { type: 'shake', emoji: '🌀', nameKey: 'skill.shake.name', descKey: 'skill.shake.desc' },
-  { type: 'fog', emoji: '🌫️', nameKey: 'skill.fog.name', descKey: 'skill.fog.desc' },
-  { type: 'timeCut', emoji: '⏱️', nameKey: 'skill.cut.name', descKey: 'skill.cut.desc' },
+const SKILL_DEFS: {
+  type: SkillType;
+  Icon: ComponentType<{ className?: string; strokeWidth?: number }>;
+  nameKey: string;
+  descKey: string;
+}[] = [
+  { type: 'shake', Icon: Waves, nameKey: 'skill.shake.name', descKey: 'skill.shake.desc' },
+  { type: 'fog', Icon: CloudFog, nameKey: 'skill.fog.name', descKey: 'skill.fog.desc' },
+  { type: 'timeCut', Icon: TimerOff, nameKey: 'skill.cut.name', descKey: 'skill.cut.desc' },
 ];
 
 interface Props {
@@ -21,36 +28,34 @@ export default function SkillBar({ usedSkills, disabled, isFinal, onUse }: Props
 
   return (
     <div className="space-y-1.5">
-      {/* Skill buttons */}
       <div className="grid grid-cols-3 gap-2">
-        {SKILL_DEFS.map((skill) => {
-          const used = usedSkills.includes(skill.type);
+        {SKILL_DEFS.map(({ type, Icon, nameKey, descKey }) => {
+          const used = usedSkills.includes(type);
           const usableNow = !used && !disabled && !isFinal;
           return (
             <button
-              key={skill.type}
-              onClick={() => onUse(skill.type)}
+              key={type}
+              onClick={() => onUse(type)}
               disabled={!usableNow}
               className={`relative min-h-[60px] px-2 py-2 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-0.5 ${
                 usableNow
                   ? 'bg-amber-300/15 border-amber-300/60 text-white hover:bg-amber-300/25 active:translate-y-[2px] active:shadow-[0_2px_0_rgba(120,53,15,0.4)] shadow-[0_3px_0_rgba(120,53,15,0.4)] cursor-pointer'
-                  : used
-                    ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
-                    : 'bg-white/5 border-white/10 text-white/40 cursor-not-allowed'
+                  : 'bg-white/5 border-white/10 text-white/40 cursor-not-allowed'
               }`}
             >
-              <span className={`text-xl leading-none ${used ? 'grayscale opacity-50' : ''}`}>
-                {skill.emoji}
-              </span>
+              <Icon
+                className={`w-5 h-5 ${used ? 'opacity-40' : ''}`}
+                strokeWidth={2.25}
+              />
               <span className="text-[11px] font-bold tracking-wide leading-none">
-                {t(skill.nameKey)}
+                {t(nameKey)}
               </span>
               <span className="text-[9px] text-white/55 leading-tight text-center mt-0.5 line-clamp-1">
-                {used ? t('skill.used') : t(skill.descKey)}
+                {used ? t('skill.used') : t(descKey)}
               </span>
               {used && (
-                <span className="absolute top-1 right-1 text-[9px] font-black tracking-widest text-rose-300/80">
-                  ✓
+                <span className="absolute top-1 right-1 text-rose-300/80">
+                  <Check className="w-3 h-3" strokeWidth={3} />
                 </span>
               )}
             </button>

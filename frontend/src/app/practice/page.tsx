@@ -2,6 +2,15 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookMarked,
+  Check,
+  PartyPopper,
+  Volume2,
+  X as XIcon,
+} from 'lucide-react';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
@@ -107,21 +116,23 @@ export default function PracticePage() {
         <div className="w-full flex items-center justify-between mb-3">
           <button
             onClick={() => router.push('/')}
-            className="px-4 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
+            className="px-3 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
               bg-white/15 text-white border-4 border-white/30
-              hover:bg-white/25 active:translate-y-[2px] transition-all"
+              hover:bg-white/25 active:translate-y-[2px] transition-all
+              inline-flex items-center justify-center"
+            aria-label={t('practice.home')}
           >
-            {t('practice.home')}
+            <ArrowLeft className="w-4 h-4" strokeWidth={2.5} />
           </button>
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
             {t('practice.title')}
           </div>
-          <div className="w-[78px]" />
+          <div className="w-10 h-10" />
         </div>
 
         {questions.length === 0 ? (
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-8 text-center">
-            <p className="text-4xl mb-3">📚</p>
+            <BookMarked className="w-10 h-10 mx-auto mb-3 text-white/70" strokeWidth={1.75} />
             <p className="text-white font-bold text-base mb-2">{t('practice.needMore')}</p>
             <p className="text-sm font-bold text-white/70 mb-4">
               {t('practice.howTo')}
@@ -140,11 +151,18 @@ export default function PracticePage() {
           // ── Summary ──
           <div className="w-full flex flex-col items-center gap-4 animate-tilt-pop">
             <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-6 text-center">
+              <PartyPopper className="w-9 h-9 mx-auto mb-1 text-amber-300" strokeWidth={2} />
               <p className="text-2xl font-black text-white mb-1">{t('practice.done')}</p>
               <p className="text-base font-bold text-amber-200">{t('practice.accuracy', { pct: accuracyPct })}</p>
               <div className="mt-4 flex justify-center gap-6 text-sm font-bold tracking-widest">
-                <span className="text-emerald-300">✓ {stats.correct}</span>
-                <span className="text-rose-300">✗ {stats.wrong}</span>
+                <span className="inline-flex items-center gap-1 text-emerald-300">
+                  <Check className="w-4 h-4" strokeWidth={3} />
+                  {stats.correct}
+                </span>
+                <span className="inline-flex items-center gap-1 text-rose-300">
+                  <XIcon className="w-4 h-4" strokeWidth={3} />
+                  {stats.wrong}
+                </span>
               </div>
             </div>
             <button
@@ -161,8 +179,10 @@ export default function PracticePage() {
               onClick={() => router.push('/words')}
               className="w-full py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
                 bg-white/15 text-white border-4 border-white/30
-                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
+                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
+                inline-flex items-center justify-center gap-2"
             >
+              <BookMarked className="w-4 h-4" strokeWidth={2.5} />
               {t('practice.backToWords')}
             </button>
           </div>
@@ -172,8 +192,14 @@ export default function PracticePage() {
             <div className="w-full mb-3 flex items-center justify-between text-xs font-bold tracking-widest text-white/80">
               <span>{t('practice.qProgress', { n: idx + 1, total })}</span>
               <span className="flex gap-3">
-                <span className="text-emerald-300">✓ {stats.correct}</span>
-                <span className="text-rose-300">✗ {stats.wrong}</span>
+                <span className="inline-flex items-center gap-0.5 text-emerald-300">
+                  <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                  {stats.correct}
+                </span>
+                <span className="inline-flex items-center gap-0.5 text-rose-300">
+                  <XIcon className="w-3.5 h-3.5" strokeWidth={3} />
+                  {stats.wrong}
+                </span>
               </span>
             </div>
 
@@ -191,14 +217,9 @@ export default function PracticePage() {
                 onClick={() => speakWord(current.word)}
                 className="w-12 h-12 rounded-full bg-fuchsia-300 border-4 border-fuchsia-200
                   flex items-center justify-center mx-auto mb-3 active:scale-95 cursor-pointer
-                  shadow-[0_4px_0_rgba(112,26,117,0.5)]"
+                  shadow-[0_4px_0_rgba(112,26,117,0.5)] text-fuchsia-950"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                </svg>
+                <Volume2 className="w-5 h-5" strokeWidth={2.5} />
               </button>
               <p className="text-3xl sm:text-4xl font-black text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">
                 {current.word}
@@ -244,9 +265,11 @@ export default function PracticePage() {
                 shadow-[0_6px_0_rgba(120,53,15,0.7)]
                 hover:bg-amber-200 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(120,53,15,0.7)]
                 transition-all
-                disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
+                disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-amber-300
+                inline-flex items-center justify-center gap-2"
             >
               {idx + 1 >= total ? t('practice.finish') : t('practice.next')}
+              {idx + 1 < total && <ArrowRight className="w-5 h-5" strokeWidth={3} />}
             </button>
           </>
         ) : null}
