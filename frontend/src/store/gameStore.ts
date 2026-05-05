@@ -163,6 +163,7 @@ interface SkillEffect {
 interface LobbyPlayer {
   name: string;
   ready: boolean;
+  charIdx?: number;
   you?: boolean;
 }
 
@@ -292,6 +293,11 @@ export const useGameStore = create<GameState>((set, get) => ({
   setSelectedChar: (idx) => {
     if (typeof window !== 'undefined') localStorage.setItem('tp_char_idx', String(idx));
     set({ selectedCharIdx: idx });
+    // Tell the server so the lobby reflects the change live. Server is a
+    // no-op for sockets not currently in the queue or a private room.
+    if (get().socketReady) {
+      getSocket().emit('CHANGE_CHAR', { charIdx: idx });
+    }
   },
   setLocale: (locale) => {
     if (typeof window !== 'undefined') localStorage.setItem('tp_locale', locale);

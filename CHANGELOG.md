@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-05-05 (Mobile) — Round 2 (Polish + Char Picker Move)
+- Icon consistency pass:
+  - /game: 2 hand-rolled speaker SVGs → Volume2; question-type pills get Brain / Headphones / FileText; isFinal + final-round overlay get Flame; combo gets Flame above ×3; +N / WRONG feedback gets Check / X; SHAKE!/FOG!/TIME CUT! banner gets Waves / CloudFog / TimerOff
+  - /result: review-toggle ▼/▲ → ChevronDown / ChevronUp
+  - /words: filter pills get Layers / Star / AlertCircle / CheckCircle2 with count moved to a small tabular badge
+  - Home: rules text replaced with Users / ListChecks / Clock chips; lobby empty slot's "?" → UserPlus icon; populated slot card padding tightened (px-2.5 py-2, 14×14 avatar)
+  - RankingBar + RankingPanel: rank #1 shows filled Crown
+  - SettingsModal: title / language / close get icons
+  - AddWordModal: title / cancel / submit get icons
+- **Character picker moved from home page → lobby.** Players can now change character during the wait, and other players see updates live.
+  - New socket event: `CHANGE_CHAR { charIdx }`
+  - `LOBBY_UPDATE` payload now includes `charIdx` per player; legacy fallback to slot index for older clients/servers
+  - Home CTA simplified from "START AS {char}!" → "START!"
+  - Player slots in the lobby render each player's chosen character (was previously hardcoded to slot index)
+- Stale i18n cleanup: removed `home.rules`, `home.startAs`
+
 ## 2026-05-05 (Mobile) — Sync Round
 - Merged Desktop Rounds 1-4 (1156-word vocab + 1250 examples + better distractors)
 - Adopted Desktop's `examples.json` as the single source of truth for example sentences; removed Mobile's hand-written `vocabExamples.ts` (50 entries, now superseded)

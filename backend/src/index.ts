@@ -48,6 +48,10 @@ io.on('connection', (socket) => {
     matchmaker.setReady(socket.id, !!ready);
   });
 
+  socket.on('CHANGE_CHAR', ({ charIdx }: { charIdx: number }) => {
+    matchmaker.setCharIdx(socket.id, charIdx);
+  });
+
   socket.on('CREATE_PRIVATE', (
     {
       playerName,

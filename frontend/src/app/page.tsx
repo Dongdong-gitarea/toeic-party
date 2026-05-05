@@ -66,7 +66,6 @@ export default function LobbyPage() {
   }, [lobby]);
 
   const isMatchmaking = phase === 'matchmaking';
-  const myChar = CHARACTERS[selectedCharIdx] ?? CHARACTERS[0]!;
 
   return (
     <main className="min-h-[100dvh] party-bg relative overflow-hidden flex flex-col items-center justify-center px-4 py-6">
@@ -137,11 +136,54 @@ export default function LobbyPage() {
             </div>
           )}
 
+          {/* Character picker — moved here from home so players choose during the wait */}
+          <div className="w-full bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/20 p-3">
+            <p className="text-center text-[10px] font-bold text-white/70 tracking-widest mb-2">
+              {t('home.pickChar')}
+            </p>
+            <div className="grid grid-cols-4 gap-2">
+              {CHARACTERS.map((char, i) => {
+                const selected = i === selectedCharIdx;
+                return (
+                  <button
+                    key={char.id}
+                    onClick={() => setSelectedChar(i)}
+                    className={`flex flex-col items-center p-1.5 rounded-2xl border-4 transition-all cursor-pointer ${
+                      selected
+                        ? 'shadow-[0_0_20px_rgba(252,211,77,0.5)] -translate-y-0.5'
+                        : 'opacity-70 hover:opacity-100'
+                    }`}
+                    style={{
+                      backgroundColor: char.color + (selected ? '50' : '20'),
+                      borderColor: selected ? '#fcd34d' : char.color + '60',
+                    }}
+                  >
+                    <div className={`w-10 h-10 ${selected ? 'animate-float-bob' : ''}`}>
+                      <img
+                        src={`${char.folder}/idle.png`}
+                        alt={char.name}
+                        className="w-full h-full object-contain"
+                        draggable={false}
+                      />
+                    </div>
+                    <span className={`text-[9px] mt-0.5 font-bold ${selected ? 'text-white' : 'text-white/70'}`}>
+                      {char.name.toUpperCase()}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
             <div className="grid grid-cols-2 gap-3 mb-4">
               {Array.from({ length: lobby.capacity }).map((_, i) => {
                 const slot = lobby.players[i];
-                const char = CHARACTERS[i];
+                // Use each player's chosen character. Fallback to slot index
+                // for legacy server payloads without charIdx.
+                const charIdxForSlot =
+                  typeof slot?.charIdx === 'number' ? slot.charIdx : i;
+                const char = CHARACTERS[charIdxForSlot];
                 return (
                   <div
                     key={i}
@@ -257,48 +299,6 @@ export default function LobbyPage() {
             </p>
           </div>
 
-          {/* Character picker */}
-          <div
-            className="w-full bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/20 p-3 animate-tilt-pop"
-            style={{ animationDelay: '0.05s' }}
-          >
-            <p className="text-center text-[10px] font-bold text-white/70 tracking-widest mb-2">
-              {t('home.pickChar')}
-            </p>
-            <div className="grid grid-cols-4 gap-2">
-              {CHARACTERS.map((char, i) => {
-                const selected = i === selectedCharIdx;
-                return (
-                  <button
-                    key={char.id}
-                    onClick={() => setSelectedChar(i)}
-                    className={`flex flex-col items-center p-2 rounded-2xl border-4 transition-all cursor-pointer ${
-                      selected
-                        ? 'shadow-[0_0_20px_rgba(252,211,77,0.5)] -translate-y-1'
-                        : 'opacity-70 hover:opacity-100'
-                    }`}
-                    style={{
-                      backgroundColor: char.color + (selected ? '50' : '20'),
-                      borderColor: selected ? '#fcd34d' : char.color + '60',
-                    }}
-                  >
-                    <div className={`w-12 h-12 ${selected ? 'animate-float-bob' : ''}`}>
-                      <img
-                        src={`${char.folder}/idle.png`}
-                        alt={char.name}
-                        className="w-full h-full object-contain"
-                        draggable={false}
-                      />
-                    </div>
-                    <span className={`text-[10px] mt-1 font-bold ${selected ? 'text-white' : 'text-white/70'}`}>
-                      {char.name.toUpperCase()}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           <div className="w-full relative">
             <input
               type="text"
@@ -369,7 +369,7 @@ export default function LobbyPage() {
               transition-all
               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
           >
-            {t('home.startAs', { char: myChar.name.toUpperCase() })}
+            {t('home.start')}
           </button>
 
           <button
