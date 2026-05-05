@@ -224,7 +224,6 @@ export class Room {
     const meta = {
       pos: q.pos ?? '',
       example: q.example ?? '',
-      exampleZh: q.exampleZh ?? '',
     };
 
     if (correct) {
@@ -310,7 +309,6 @@ export class Room {
     const meta = {
       pos: q.pos ?? '',
       example: q.example ?? '',
-      exampleZh: q.exampleZh ?? '',
     };
     for (const player of this.players.values()) {
       if (!this.answeredThisRound.has(player.id)) {

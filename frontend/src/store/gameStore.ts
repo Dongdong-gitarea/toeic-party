@@ -47,7 +47,6 @@ function mergeReviewIntoSaved(
         meaning: r.meaning || existing.meaning,
         pos: r.pos || existing.pos,
         example: r.example || existing.example,
-        exampleZh: r.exampleZh || existing.exampleZh,
         lastSeen: now,
       });
     } else {
@@ -58,7 +57,6 @@ function mergeReviewIntoSaved(
         meaning: r.meaning ?? '',
         pos: r.pos ?? '',
         example: r.example ?? '',
-        exampleZh: r.exampleZh ?? '',
         correctCount: r.correct ? 1 : 0,
         wrongCount: r.correct ? 0 : 1,
         starred: false,
@@ -111,7 +109,6 @@ interface AnswerResult {
   meaning?: string;
   pos?: string;
   example?: string;
-  exampleZh?: string;
 }
 
 interface RankEntry {
@@ -142,7 +139,6 @@ interface ReviewWord {
   meaning?: string;
   pos?: string;
   example?: string;
-  exampleZh?: string;
   questionType: string;
 }
 
@@ -153,7 +149,6 @@ export interface SavedWord {
   meaning: string;
   pos?: string;
   example?: string;
-  exampleZh?: string;
   correctCount: number;
   wrongCount: number;
   starred: boolean;
@@ -558,7 +553,6 @@ export const useGameStore = create<GameState>((set, get) => ({
           meaning: r.meaning ?? '',
           pos: r.pos ?? '',
           example: r.example ?? '',
-          exampleZh: r.exampleZh ?? '',
           correctCount: r.correct ? 1 : 0,
           wrongCount: r.correct ? 0 : 1,
           starred: true,

@@ -5,7 +5,6 @@ import { useT } from '@/lib/i18n';
 interface Props {
   word: string;
   example?: string;
-  exampleZh?: string;
 }
 
 // Wrap occurrences of the headword (case-insensitive) in <mark>.
@@ -27,7 +26,7 @@ function highlight(sentence: string, word: string) {
   );
 }
 
-export default function ExampleBlock({ word, example, exampleZh }: Props) {
+export default function ExampleBlock({ word, example }: Props) {
   const t = useT();
   if (!example) return null;
   return (
@@ -38,11 +37,6 @@ export default function ExampleBlock({ word, example, exampleZh }: Props) {
       <p className="text-xs text-white/90 leading-snug">
         {highlight(example, word)}
       </p>
-      {exampleZh && (
-        <p className="mt-0.5 text-[11px] text-white/60 leading-snug">
-          {exampleZh}
-        </p>
-      )}
     </div>
   );
 }

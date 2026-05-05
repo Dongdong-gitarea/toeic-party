@@ -177,7 +177,7 @@ export default function WordsPage() {
                     <p className="mt-1 text-xs text-white/75 leading-relaxed">{w.definition}</p>
                   )}
 
-                  <ExampleBlock word={w.word} example={w.example} exampleZh={w.exampleZh} />
+                  <ExampleBlock word={w.word} example={w.example} />
 
                   <div className="mt-2 flex items-center gap-3 text-[10px] font-bold text-white/80 tracking-wider">
                     <span className="inline-flex items-center gap-0.5 text-emerald-300">
