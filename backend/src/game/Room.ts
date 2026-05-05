@@ -11,10 +11,12 @@ import type {
 } from '../types.js';
 import { calculateCorrect, calculateWrong } from './ScoreEngine.js';
 import { pickQuestions } from '../data/questions.js';
+import { lookupChinese } from '../data/vocabChinese.js';
 
 const QUESTIONS_PER_GAME = 10;
 const QUESTION_TIME_MS = 10000;
-const BETWEEN_QUESTIONS_MS = 1200;
+const BETWEEN_QUESTIONS_FAST_MS = 1800;  // when nobody got it wrong
+const BETWEEN_QUESTIONS_REVIEW_MS = 4000;  // when at least one human got it wrong — give time to read the definition
 const PRE_GAME_COUNTDOWN_MS = 4500;
 const ENERGY_PER_CORRECT = 1;
 const SKILL_COST = 3;
@@ -36,11 +38,16 @@ export class Room {
   private onDestroy: (roomId: string) => void;
   private questionTimer: NodeJS.Timeout | null = null;
 
-  constructor(id: string, io: Server, onDestroy: (roomId: string) => void) {
+  constructor(
+    id: string,
+    io: Server,
+    onDestroy: (roomId: string) => void,
+    weakWords: string[] = [],
+  ) {
     this.id = id;
     this.io = io;
     this.onDestroy = onDestroy;
-    this.questions = pickQuestions(QUESTIONS_PER_GAME);
+    this.questions = pickQuestions(QUESTIONS_PER_GAME, weakWords);
   }
 
   get playerCount() {
@@ -51,11 +58,12 @@ export class Room {
     return this.currentQuestionIndex === this.questions.length - 1;
   }
 
-  addPlayer(id: string, name: string, isAI: boolean) {
+  addPlayer(id: string, name: string, isAI: boolean, charIdx = 0) {
     this.players.set(id, {
       id,
       name,
       isAI,
+      charIdx,
       score: 0,
       combo: 0,
       maxCombo: 0,
@@ -68,10 +76,21 @@ export class Room {
   }
 
   fillWithAI() {
+    const used = new Set<number>();
+    for (const p of this.players.values()) used.add(p.charIdx);
     let aiIdx = 0;
     while (this.playerCount < 4) {
       const id = `ai-${this.id}-${aiIdx}`;
-      this.addPlayer(id, AI_NAMES[aiIdx] ?? `AI-${aiIdx}`, true);
+      // Pick a charIdx not yet used; fall back to aiIdx
+      let charIdx = 0;
+      for (let i = 0; i < 4; i++) {
+        if (!used.has(i)) {
+          charIdx = i;
+          used.add(i);
+          break;
+        }
+      }
+      this.addPlayer(id, AI_NAMES[aiIdx] ?? `AI-${aiIdx}`, true, charIdx);
       aiIdx++;
     }
   }
@@ -81,6 +100,7 @@ export class Room {
       playerId: p.id,
       name: p.name,
       isAI: p.isAI,
+      charIdx: p.charIdx,
     }));
   }
 
@@ -221,6 +241,7 @@ export class Room {
         yourAnswer: q.options[answerIndex] ?? '—',
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
+        meaning: lookupChinese(q.word),
         questionType: q.type,
       });
 
@@ -235,6 +256,10 @@ export class Room {
         combo: newCombo,
         energy: player.energy,
         isFinal,
+        word: q.word,
+        correctAnswer: q.options[q.correctIndex]!,
+        definition: q.definition ?? '',
+        meaning: lookupChinese(q.word),
       };
     } else {
       const { total: penalty } = calculateWrong(isFinal);
@@ -249,6 +274,7 @@ export class Room {
         yourAnswer: q.options[answerIndex] ?? '—',
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
+        meaning: lookupChinese(q.word),
         questionType: q.type,
       });
 
@@ -263,6 +289,10 @@ export class Room {
         combo: 0,
         energy: player.energy,
         isFinal,
+        word: q.word,
+        correctAnswer: q.options[q.correctIndex]!,
+        definition: q.definition ?? '',
+        meaning: lookupChinese(q.word),
       };
     }
   }
@@ -281,6 +311,7 @@ export class Room {
           yourAnswer: '(timeout)',
           correctAnswer: q.options[q.correctIndex]!,
           definition: q.definition ?? '',
+          meaning: lookupChinese(q.word),
           questionType: q.type,
         });
         if (!player.isAI) {
@@ -295,6 +326,10 @@ export class Room {
             combo: 0,
             energy: player.energy,
             isFinal: this.isFinalQuestion,
+            word: q.word,
+            correctAnswer: q.options[q.correctIndex]!,
+            definition: q.definition ?? '',
+            meaning: lookupChinese(q.word),
           } satisfies AnswerResult);
         }
       }
@@ -302,10 +337,22 @@ export class Room {
 
     this.io.to(this.id).emit('RANK_UPDATE', { rankings: this.getRankings() });
 
+    // Give players longer to read the definition when any human got it wrong.
+    let anyHumanWrong = false;
+    for (const player of this.players.values()) {
+      if (player.isAI) continue;
+      const last = player.reviewWords[player.reviewWords.length - 1];
+      if (last && last.word === q.word && !last.correct) {
+        anyHumanWrong = true;
+        break;
+      }
+    }
+    const pause = anyHumanWrong ? BETWEEN_QUESTIONS_REVIEW_MS : BETWEEN_QUESTIONS_FAST_MS;
+
     this.schedule(() => {
       this.state = 'playing';
       this.nextQuestion();
-    }, BETWEEN_QUESTIONS_MS);
+    }, pause);
   }
 
   // ── Skills ──

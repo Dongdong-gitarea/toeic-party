@@ -1,0 +1,20 @@
+{
+  "name": "TOEIC PARTY",
+  "short_name": "TOEIC PARTY",
+  "description": "快問快答多人多益對戰",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1020",
+  "theme_color": "#4c1d95",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "education"]
+}

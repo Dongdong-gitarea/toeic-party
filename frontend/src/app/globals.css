@@ -97,6 +97,50 @@ body {
   50% { transform: scale(1.12); }
 }
 
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes tilt-pop {
+  0% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+  60% { opacity: 1; transform: scale(1.05) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 25px) scale(0.95); }
+}
+
+@keyframes party-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes empty-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.04); }
+}
+
+@keyframes intro-pop {
+  0% { opacity: 0; transform: scale(0.4) translateY(40px) rotate(-6deg); }
+  60% { opacity: 1; transform: scale(1.1) translateY(-6px) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); }
+}
+
+@keyframes intro-exit {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
 @utility animate-float-up {
   animation: float-up 0.9s ease-out forwards;
 }
@@ -151,4 +195,56 @@ body {
 
 @utility animate-timer-pulse {
   animation: timer-pulse 0.8s ease-in-out infinite;
+}
+
+@utility animate-wiggle {
+  animation: wiggle 2.5s ease-in-out infinite;
+}
+
+@utility animate-float-bob {
+  animation: float-bob 2.4s ease-in-out infinite;
+}
+
+@utility animate-tilt-pop {
+  animation: tilt-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@utility animate-blob-drift {
+  animation: blob-drift 14s ease-in-out infinite;
+}
+
+@utility animate-empty-pulse {
+  animation: empty-pulse 1.6s ease-in-out infinite;
+}
+
+@utility animate-intro-pop {
+  animation: intro-pop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility animate-intro-exit {
+  animation: intro-exit 0.4s ease-in forwards;
+}
+
+@utility party-bg {
+  background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 25%, #be185d 60%, #db2777 100%);
+  background-size: 250% 250%;
+  animation: party-gradient 18s ease infinite;
+}
+
+/* Calmer variant for in-game screens — same hue family but darker so the
+   answer cards and timer have enough contrast to read comfortably. */
+@utility party-bg-game {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #5b21b6 60%, #831843 100%);
+  background-size: 220% 220%;
+  animation: party-gradient 24s ease infinite;
+}
+
+/* Solid dark surface used during actual gameplay — minimal motion, maximum
+   text contrast. The radial accents add a hint of party tint without
+   competing with the question and answer cards. */
+@utility bg-game-dark {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(190, 24, 93, 0.12) 0%, transparent 60%),
+    #0b1020;
 }

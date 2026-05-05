@@ -23,8 +23,67 @@ const matchmaker = new Matchmaker(io);
 io.on('connection', (socket) => {
   console.log(`[+] ${socket.id}`);
 
-  socket.on('JOIN_MATCH', ({ playerName }: { playerName: string }) => {
-    matchmaker.addPlayer(socket, playerName || 'Player');
+  socket.on('JOIN_MATCH', (
+    {
+      playerName,
+      weakWords,
+      charIdx,
+    }: { playerName: string; weakWords?: string[]; charIdx?: number },
+  ) => {
+    const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
+    matchmaker.addPlayer(
+      socket,
+      playerName || 'Player',
+      Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
+      idx,
+    );
+  });
+
+  socket.on('LEAVE_QUEUE', () => {
+    matchmaker.removePlayer(socket.id);
+  });
+
+  socket.on('READY_UP', ({ ready }: { ready: boolean }) => {
+    matchmaker.setReady(socket.id, !!ready);
+  });
+
+  socket.on('CREATE_PRIVATE', (
+    {
+      playerName,
+      weakWords,
+      charIdx,
+    }: { playerName: string; weakWords?: string[]; charIdx?: number },
+  ) => {
+    const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
+    matchmaker.createPrivateRoom(
+      socket,
+      playerName || 'Player',
+      Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
+      idx,
+    );
+  });
+
+  socket.on('JOIN_PRIVATE', (
+    {
+      code,
+      playerName,
+      weakWords,
+      charIdx,
+    }: {
+      code: string;
+      playerName: string;
+      weakWords?: string[];
+      charIdx?: number;
+    },
+  ) => {
+    const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
+    matchmaker.joinPrivateRoom(
+      socket,
+      code,
+      playerName || 'Player',
+      Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
+      idx,
+    );
   });
 
   socket.on('SUBMIT_ANSWER', ({ answerIndex }: { answerIndex: number }) => {

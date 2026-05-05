@@ -4,6 +4,8 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
+import { speakWord } from '@/lib/speak';
+import { useT } from '@/lib/i18n';
 import Timer from '@/components/Timer';
 import AnswerButton from '@/components/AnswerButton';
 import GameArena from '@/components/GameArena';
@@ -45,6 +47,7 @@ export default function GamePage() {
   const [timeLeft, setTimeLeft] = useState(10);
   const displayScore = useCountUp(myScore);
   const [showFinalIntro, setShowFinalIntro] = useState(false);
+  const t = useT();
 
   // Final round entrance
   useEffect(() => {
@@ -74,24 +77,15 @@ export default function GamePage() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [lastResult]);
 
-  // TTS
+  // Auto-play audio prompts once per question
   const spokenRef = useRef('');
-  const speakWord = useCallback((word: string) => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(word);
-    u.lang = 'en-US';
-    u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  }, []);
-
   useEffect(() => {
     if (currentQuestion?.type === 'audio' && currentQuestion.audioWord && spokenRef.current !== currentQuestion.id) {
       spokenRef.current = currentQuestion.id;
-      const t = setTimeout(() => speakWord(currentQuestion.audioWord!), 300);
+      const t = setTimeout(() => { void speakWord(currentQuestion.audioWord!); }, 300);
       return () => clearTimeout(t);
     }
-  }, [currentQuestion, speakWord]);
+  }, [currentQuestion]);
 
   const handleAnswer = useCallback(
     (index: number) => { if (selectedAnswer === null) submitAnswer(index); },
@@ -109,36 +103,70 @@ export default function GamePage() {
   // ── Countdown / Found ──
   if (phase === 'found' || phase === 'countdown') {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-4">
+      <main className="min-h-[100dvh] party-bg relative overflow-hidden flex flex-col items-center justify-center px-4">
+        {/* Decorative floating blobs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-amber-300/30 blur-3xl animate-blob-drift" />
+          <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-300/20 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
+          <div className="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/30 blur-3xl animate-blob-drift" style={{ animationDelay: '8s' }} />
+        </div>
+
         {phase === 'found' && (
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-black text-green-400 mb-6 animate-slide-up">
-              Match Found!
-            </h2>
-            <div className="flex justify-center gap-4 sm:gap-6">
-              {players.map((p, i) => {
-                const char = getCharacter(i);
-                return (
-                  <div key={p.playerId} className="flex flex-col items-center animate-bounce-in"
-                    style={{ animationDelay: `${i * 0.12}s` }}>
-                    <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center p-1.5 mb-1.5"
-                      style={{ backgroundColor: char.color + '20', border: `2px solid ${char.color}50`, boxShadow: `0 4px 16px ${char.color}30` }}>
-                      <img src={`${char.folder}/idle.png`} alt={char.name} className="w-full h-full object-contain" />
+          <div className="relative z-10 text-center w-full max-w-md flex flex-col items-center gap-5 animate-tilt-pop">
+            <div className="inline-block bg-amber-300 text-fuchsia-900 px-6 py-2 rounded-full font-black text-base tracking-widest shadow-[0_6px_0_#92400e] -rotate-2">
+              {t('game.matchFound')}
+            </div>
+
+            <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
+              <div className="grid grid-cols-2 gap-3">
+                {players.map((p, i) => {
+                  const char = getCharacter(i);
+                  const isMe = p.playerId === playerId;
+                  return (
+                    <div
+                      key={p.playerId}
+                      className={`rounded-2xl border-4 p-3 text-center animate-bounce-in ${
+                        isMe ? 'border-amber-300 shadow-[0_0_24px_rgba(252,211,77,0.5)]' : 'border-white/60'
+                      }`}
+                      style={{
+                        animationDelay: `${i * 0.12}s`,
+                        background: `linear-gradient(135deg, ${char.color}55, ${char.color}10)`,
+                      }}
+                    >
+                      <img
+                        src={`${char.folder}/idle.png`}
+                        alt={char.name}
+                        className="w-16 h-16 mx-auto object-contain animate-float-bob"
+                        style={{ animationDelay: `${i * 0.2}s` }}
+                        draggable={false}
+                      />
+                      <p className="text-sm font-bold text-white truncate mt-1">{p.name}</p>
+                      {isMe && (
+                        <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-2 py-0.5 rounded-full">
+                          {t('common.you')}
+                        </span>
+                      )}
+                      {p.isAI && !isMe && (
+                        <span className="inline-block mt-1 text-[9px] font-bold text-white/60">{t('common.bot')}</span>
+                      )}
                     </div>
-                    <span className="text-xs font-bold truncate max-w-[70px]">{p.name}</span>
-                    {p.playerId === playerId && <span className="text-[9px] bg-indigo-500 px-1.5 py-0.5 rounded-full mt-0.5">YOU</span>}
-                    {p.isAI && p.playerId !== playerId && <span className="text-[9px] text-slate-500 mt-0.5">BOT</span>}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}
+
         {phase === 'countdown' && (
-          <div className="text-center">
-            <p className="text-slate-400 text-base mb-3">Get Ready!</p>
-            <div key={countdownValue} className="text-8xl font-black text-indigo-400 animate-countdown-pop">
-              {countdownValue > 0 ? countdownValue : 'GO!'}
+          <div className="relative z-10 text-center">
+            <p className="text-white/90 text-base font-bold uppercase tracking-[0.3em] mb-3 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
+              {t('game.getReady')}
+            </p>
+            <div
+              key={countdownValue}
+              className="text-[10rem] sm:text-[12rem] font-black text-amber-300 leading-none animate-countdown-pop drop-shadow-[0_6px_0_rgba(0,0,0,0.4)]"
+            >
+              {countdownValue > 0 ? countdownValue : t('game.go')}
             </div>
           </div>
         )}
@@ -148,16 +176,17 @@ export default function GamePage() {
 
   if (!currentQuestion) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-slate-600 border-t-indigo-400 rounded-full animate-spin-slow" />
+      <main className="min-h-screen party-bg flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-white/30 border-t-amber-300 rounded-full animate-spin-slow" />
       </main>
     );
   }
 
   const isFinal = currentQuestion.isFinal;
+  const wrongReveal = isRevealed && lastResult && !lastResult.correct;
 
   return (
-    <main className={`min-h-[100dvh] flex flex-col ${isShaking ? 'animate-screen-shake' : ''} ${hitShake ? 'animate-hit-shake' : ''}`}>
+    <main className={`min-h-[100dvh] bg-game-dark relative overflow-hidden flex flex-col ${isShaking ? 'animate-screen-shake' : ''} ${hitShake ? 'animate-hit-shake' : ''}`}>
 
       {/* Overlays */}
       {flashType && (
@@ -171,99 +200,136 @@ export default function GamePage() {
       {showFinalIntro && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 pointer-events-none">
           <div className="text-center animate-countdown-pop">
-            <p className="text-base text-red-400 font-bold uppercase tracking-widest mb-1">Final Round</p>
-            <p className="text-6xl sm:text-8xl font-black text-white">x2.5</p>
+            <p className="text-base text-amber-300 font-bold uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
+            <p className="text-6xl sm:text-8xl font-black text-white drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">×2.5</p>
           </div>
         </div>
       )}
       {activeEffect && (
         <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash">
-          <div className="bg-red-500/90 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-white shadow-lg">
+          <div className="bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-bold tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
             {activeEffect.fromName}: {activeEffect.skillType === 'shake' ? 'SHAKE!' : activeEffect.skillType === 'fog' ? 'FOG!' : 'TIME CUT!'}
           </div>
         </div>
       )}
       {overtakeMsg && (
-        <div className="fixed top-10 left-1/2 -translate-x-1/2 z-[55] animate-slide-up">
-          <div className="bg-green-500/90 backdrop-blur px-4 py-1.5 rounded-lg text-xs font-black text-white shadow-lg">{overtakeMsg}</div>
+        <div className="fixed top-12 left-1/2 -translate-x-1/2 z-[55] animate-slide-up">
+          <div className="bg-emerald-300 text-emerald-950 px-4 py-2 rounded-full text-xs font-bold tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)]">
+            {overtakeMsg}
+          </div>
         </div>
       )}
 
       {/* ── Header: avatar + Q counter + timer ── */}
-      <div className="flex items-center justify-between px-3 py-2 bg-slate-900/80 border-b border-slate-800">
+      <div className="relative z-10 flex items-center justify-between px-3 py-2 bg-white/10 backdrop-blur-md border-b-4 border-white/20">
         <div className="flex items-center gap-2">
-          <img src={`${myChar.folder}/idle.png`} alt="" className="w-7 h-7 object-contain" />
-          <span className="text-sm font-bold text-slate-300">Q{questionNumber}/{totalQuestions}</span>
-          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded-full">Vocab</span>}
-          {currentQuestion.type === 'audio' && <span className="text-[9px] font-bold bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full">Listen</span>}
-          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-bold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full">Def</span>}
-          {isFinal && <span className="text-[9px] font-black bg-red-500/30 text-red-400 px-1.5 py-0.5 rounded-full border border-red-500/40">x2.5</span>}
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center p-1 border-2"
+            style={{ backgroundColor: myChar.color + '40', borderColor: myChar.color }}
+          >
+            <img src={`${myChar.folder}/idle.png`} alt="" className="w-full h-full object-contain" />
+          </div>
+          <span className="text-sm font-bold text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
+          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-bold bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.vocab')}</span>}
+          {currentQuestion.type === 'audio' && <span className="text-[9px] font-bold bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.audio')}</span>}
+          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-bold bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.fillblank')}</span>}
+          {isFinal && <span className="text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">×2.5</span>}
         </div>
         <Timer duration={10} questionId={currentQuestion.id} compact
           timeCut={activeEffect?.skillType === 'timeCut'} onTimeUpdate={handleTimeUpdate} />
       </div>
 
       {/* ── Ranking bar ── */}
-      <div className="px-2 py-1.5">
+      <div className="relative z-10 px-2 py-1.5">
         <RankingBar rankings={rankings} myPlayerId={playerId} players={players} />
       </div>
 
       {/* ── Main game content ── */}
-      <div className="flex-1 flex flex-col px-2 py-1 relative overflow-hidden">
+      <div className="relative z-10 flex-1 flex flex-col px-2 py-1 overflow-hidden">
         <ScorePopup score={lastResult?.totalGained ?? null} combo={myCombo} />
 
-        {/* Question — compact for Jump, full for Classic */}
+        {/* Question card */}
         {gameMode === 'jump' ? (
-          <div className={`rounded-lg px-3 py-1.5 border text-center mb-1 ${
-            isFinal ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-800/50 border-slate-700/40'
+          <div className={`rounded-2xl px-3 py-1.5 border-4 text-center mb-1 ${
+            isFinal ? 'bg-rose-300/30 border-rose-200' : 'bg-white/15 border-white/30'
           }`}>
             {currentQuestion.type === 'vocab' && (
-              <p className="text-xl sm:text-2xl font-black">{currentQuestion.prompt}</p>
+              <p className="text-xl sm:text-2xl font-black text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">{currentQuestion.prompt}</p>
             )}
             {currentQuestion.type === 'audio' && currentQuestion.audioWord && (
               <div className="flex items-center justify-center gap-2">
                 <button onClick={() => speakWord(currentQuestion.audioWord!)}
-                  className="w-8 h-8 rounded-full bg-violet-500/20 border border-violet-500/40
-                    flex items-center justify-center active:scale-95 cursor-pointer">
+                  className="w-9 h-9 rounded-full bg-fuchsia-300 border-2 border-fuchsia-200
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(112,26,117,0.5)]">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-violet-300">
+                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                   </svg>
                 </button>
-                <span className="text-xs text-slate-400">Tap to hear</span>
+                <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
-              <p className="text-sm font-semibold text-slate-200">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+              <p className="text-sm font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
             )}
           </div>
         ) : (
-          <div className={`rounded-xl p-3 sm:p-4 border text-center mb-2 ${
-            isFinal ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-800/60 border-slate-700/50'
+          <div className={`rounded-3xl p-4 sm:p-5 border-4 text-center mb-2 backdrop-blur-sm ${
+            wrongReveal
+              ? 'bg-rose-400/25 border-rose-200'
+              : isRevealed
+                ? 'bg-emerald-400/25 border-emerald-200'
+                : isFinal
+                  ? 'bg-rose-300/30 border-rose-200'
+                  : 'bg-white/15 border-white/30'
           }`}>
             {currentQuestion.type === 'vocab' && (
-              <p className="text-3xl sm:text-4xl font-black">{currentQuestion.prompt}</p>
+              <p className="text-3xl sm:text-4xl font-black text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">{currentQuestion.prompt}</p>
             )}
             {currentQuestion.type === 'audio' && currentQuestion.audioWord && (
               <div className="flex items-center justify-center gap-3">
                 <button onClick={() => speakWord(currentQuestion.audioWord!)}
-                  className="w-12 h-12 rounded-full bg-violet-500/20 border-2 border-violet-500/40
-                    flex items-center justify-center active:scale-95 cursor-pointer">
+                  className="w-14 h-14 rounded-full bg-fuchsia-300 border-4 border-fuchsia-200
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(112,26,117,0.5)]">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-violet-300">
+                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
                   </svg>
                 </button>
-                <span className="text-sm text-slate-400">What word do you hear?</span>
+                <span className="text-sm font-medium text-white/90">{t('game.tapToHear')}</span>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
               <div>
-                <p className="text-[10px] text-amber-400 font-medium uppercase tracking-wider mb-1">Which word means:</p>
-                <p className="text-lg sm:text-xl font-semibold text-slate-200">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+                <p className="text-[10px] font-bold text-amber-200 uppercase tracking-[0.25em] mb-1">{t('game.whichMeans')}</p>
+                <p className="text-lg sm:text-xl font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+              </div>
+            )}
+
+            {/* Definition reveal during review phase */}
+            {isRevealed && lastResult && (lastResult.definition || lastResult.meaning) && (
+              <div className="mt-3 pt-3 border-t-2 border-dashed border-white/30">
+                <div className="flex items-center gap-2 mb-1 justify-center">
+                  <span className="text-sm font-bold uppercase tracking-widest text-amber-200">
+                    {lastResult.word}
+                  </span>
+                  {lastResult.meaning && (
+                    <>
+                      <span className="text-[10px] font-bold text-white/70">→</span>
+                      <span className="text-base font-bold text-emerald-200">
+                        {lastResult.meaning}
+                      </span>
+                    </>
+                  )}
+                </div>
+                {lastResult.definition && (
+                  <p className="text-[11px] sm:text-xs text-white/85 leading-relaxed font-medium text-center">
+                    {lastResult.definition}
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -282,7 +348,7 @@ export default function GamePage() {
               questionId={currentQuestion.id}
             />
           ) : (
-            <div className="grid grid-cols-2 gap-2 flex-1 content-center">
+            <div className="grid grid-cols-2 gap-2.5 flex-1 content-center">
               {currentQuestion.options.map((opt, i) => (
                 <AnswerButton key={i} index={i} text={opt}
                   disabled={isAnswered} selected={selectedAnswer === i}
@@ -295,21 +361,21 @@ export default function GamePage() {
         </div>
 
         {/* Score + Skills */}
-        <div className="mt-1 space-y-1">
-          <div className="flex items-center justify-between text-sm">
+        <div className="mt-2 space-y-1.5 bg-white/10 backdrop-blur-sm rounded-2xl border-2 border-white/20 px-3 py-2">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-slate-400 text-xs">
-                Score: <span className="text-white font-black text-base tabular-nums">{displayScore}</span>
+              <span className="text-xs font-semibold text-white/80 tracking-wider">
+                {t('game.score')} <span className="ml-1 text-amber-300 font-black text-base tabular-nums drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{displayScore}</span>
               </span>
               {myCombo > 0 && (
-                <span className={`font-black text-orange-400 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
-                  x{[1, 1.2, 1.5, 2][Math.min(myCombo, 3)]}
+                <span className={`font-black text-orange-300 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
+                  ×{[1, 1.2, 1.5, 2][Math.min(myCombo, 3)]}
                 </span>
               )}
             </div>
             {lastResult && (
-              <span className={`text-xs font-bold ${lastResult.correct ? 'text-green-400' : 'text-red-400'}`}>
-                {lastResult.correct ? `+${lastResult.totalGained}` : 'Wrong!'}
+              <span className={`text-xs font-bold tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
+                {lastResult.correct ? `+${lastResult.totalGained}` : t('game.wrong')}
               </span>
             )}
           </div>

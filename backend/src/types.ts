@@ -5,6 +5,7 @@ export interface Player {
   id: string;
   name: string;
   isAI: boolean;
+  charIdx: number;
   score: number;
   combo: number;
   maxCombo: number;
@@ -21,6 +22,7 @@ export interface ReviewWord {
   yourAnswer: string;
   correctAnswer: string;
   definition: string;
+  meaning: string; // Chinese meaning, always populated when available
   questionType: QuestionType;
 }
 
@@ -73,6 +75,10 @@ export interface AnswerResult {
   combo: number;
   energy: number;
   isFinal: boolean;
+  word: string;
+  correctAnswer: string;
+  definition: string;
+  meaning: string;
 }
 
 export interface SkillEffect {
