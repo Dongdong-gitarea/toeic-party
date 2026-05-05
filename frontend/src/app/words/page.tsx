@@ -62,7 +62,7 @@ export default function WordsPage() {
         <div className="w-full flex items-center justify-between mb-3">
           <button
             onClick={() => router.push('/')}
-            className="px-4 py-2 rounded-xl font-black text-xs tracking-widest cursor-pointer
+            className="px-4 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
               bg-white/15 text-white border-4 border-white/30
               hover:bg-white/25 active:translate-y-[2px] transition-all"
           >
@@ -82,7 +82,7 @@ export default function WordsPage() {
               <button
                 key={f.id}
                 onClick={() => setFilter(f.id)}
-                className={`py-2.5 rounded-2xl font-black text-[11px] tracking-widest transition-all border-4 cursor-pointer ${
+                className={`py-2.5 rounded-2xl font-bold text-[11px] tracking-widest transition-all border-4 cursor-pointer ${
                   active
                     ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_4px_0_rgba(0,0,0,0.25)]'
                     : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
@@ -98,7 +98,7 @@ export default function WordsPage() {
         {filtered.length === 0 ? (
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-8 text-center">
             <p className="text-4xl mb-2">📭</p>
-            <p className="text-white font-black text-sm tracking-wide">
+            <p className="text-white font-bold text-sm tracking-wide">
               {filter === 'all' ? t('words.empty') : t('words.empty2')}
             </p>
           </div>
@@ -132,7 +132,7 @@ export default function WordsPage() {
                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                       </svg>
                     </button>
-                    <span className="text-lg font-black text-white truncate flex-1">{w.word}</span>
+                    <span className="text-lg font-bold text-white truncate flex-1">{w.word}</span>
                     <button
                       onClick={() => toggleStarWord(w.word)}
                       className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shrink-0 transition-all border-2 ${
@@ -150,13 +150,13 @@ export default function WordsPage() {
                   </div>
 
                   {w.meaning && (
-                    <p className="mt-1.5 text-base text-amber-200 font-black">{w.meaning}</p>
+                    <p className="mt-1.5 text-base text-amber-200 font-bold">{w.meaning}</p>
                   )}
                   {w.definition && (
                     <p className="mt-1 text-xs text-white/75 leading-relaxed">{w.definition}</p>
                   )}
 
-                  <div className="mt-2 flex items-center gap-3 text-[10px] font-black text-white/80 tracking-wider">
+                  <div className="mt-2 flex items-center gap-3 text-[10px] font-bold text-white/80 tracking-wider">
                     <span className="text-emerald-300">{t('words.correctMark')} {w.correctCount}</span>
                     <span className="text-rose-300">{t('words.wrongMark')} {w.wrongCount}</span>
                     <span>{t('words.times', { pct: accuracy, n: total })}</span>

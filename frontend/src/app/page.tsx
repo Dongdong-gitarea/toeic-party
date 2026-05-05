@@ -118,7 +118,7 @@ export default function LobbyPage() {
                           style={{ animationDelay: `${i * 0.2}s` }}
                           draggable={false}
                         />
-                        <p className={`text-sm font-black truncate mt-1 ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
+                        <p className={`text-sm font-bold truncate mt-1 ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
                         {slot.ready && (
                           <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
                             {t('lobby.readyDone')}
@@ -139,7 +139,7 @@ export default function LobbyPage() {
             </div>
 
             <div className="flex flex-col items-center gap-1 pt-2 border-t-2 border-dashed border-white/20">
-              <p className="text-[11px] font-black text-white/70 tracking-widest mt-2">
+              <p className="text-[11px] font-bold text-white/70 tracking-widest mt-2">
                 {lobby.count} / {lobby.capacity} {t('lobby.players')}
               </p>
               <div className="text-5xl font-black text-amber-300 tabular-nums leading-none drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">
@@ -165,7 +165,7 @@ export default function LobbyPage() {
 
           <button
             onClick={leaveMatch}
-            className="w-full py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+            className="w-full py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
               bg-white/15 text-white border-4 border-white/30
               hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
           >
@@ -188,7 +188,7 @@ export default function LobbyPage() {
                 PARTY
               </span>
             </h1>
-            <p className="mt-2 text-xs font-black text-white/80 uppercase tracking-[0.3em]">
+            <p className="mt-2 text-xs font-bold text-white/80 uppercase tracking-[0.3em]">
               {t('home.subtitle')}
             </p>
           </div>
@@ -198,7 +198,7 @@ export default function LobbyPage() {
             className="w-full bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/20 p-3 animate-tilt-pop"
             style={{ animationDelay: '0.05s' }}
           >
-            <p className="text-center text-[10px] font-black text-white/70 tracking-widest mb-2">
+            <p className="text-center text-[10px] font-bold text-white/70 tracking-widest mb-2">
               {t('home.pickChar')}
             </p>
             <div className="grid grid-cols-4 gap-2">
@@ -226,7 +226,7 @@ export default function LobbyPage() {
                         draggable={false}
                       />
                     </div>
-                    <span className={`text-[10px] mt-1 font-black ${selected ? 'text-white' : 'text-white/70'}`}>
+                    <span className={`text-[10px] mt-1 font-bold ${selected ? 'text-white' : 'text-white/70'}`}>
                       {char.name.toUpperCase()}
                     </span>
                   </button>
@@ -301,7 +301,7 @@ export default function LobbyPage() {
           <div className="grid grid-cols-2 gap-3 w-full">
             <button
               onClick={() => router.push('/words')}
-              className="py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
                 bg-white/15 text-white border-4 border-white/30
                 hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
             >
@@ -309,7 +309,7 @@ export default function LobbyPage() {
             </button>
             <button
               onClick={() => router.push('/practice')}
-              className="py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
                 bg-white/15 text-white border-4 border-white/30
                 hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
                 disabled:opacity-40 disabled:cursor-not-allowed"
@@ -323,7 +323,7 @@ export default function LobbyPage() {
             <p className="text-center text-xs font-bold text-amber-300 -mt-2">{t('common.connecting')}</p>
           )}
 
-          <p className="text-center text-[11px] font-black text-white/60 tracking-widest">
+          <p className="text-center text-[11px] font-semibold text-white/60 tracking-widest">
             {t('home.rules')}
           </p>
         </div>

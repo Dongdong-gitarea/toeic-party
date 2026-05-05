@@ -93,7 +93,7 @@ export default function ResultPage() {
             {isWinner ? t('result.youWon') : t('result.gameOver')}
           </div>
           {gapText && (
-            <p className="mt-3 text-sm font-black text-white/90 tracking-wide drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
+            <p className="mt-3 text-sm font-bold text-white/90 tracking-wide drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
               {gapText}
             </p>
           )}
@@ -137,7 +137,7 @@ export default function ResultPage() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="font-black text-white truncate">{entry.name}</span>
+                    <span className="font-bold text-white truncate">{entry.name}</span>
                     {isMe && (
                       <span className="text-[9px] bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full font-black tracking-widest shrink-0">
                         {t('common.you')}
@@ -206,7 +206,7 @@ export default function ResultPage() {
         {/* My Words shortcut */}
         <button
           onClick={() => router.push('/words')}
-          className="w-full py-3 mb-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+          className="w-full py-3 mb-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
             bg-white/15 text-white border-4 border-white/30
             hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
         >
@@ -218,7 +218,7 @@ export default function ResultPage() {
           <div className="w-full">
             <button
               onClick={() => setShowWords(!showWords)}
-              className="w-full py-2.5 rounded-2xl font-black text-xs tracking-widest cursor-pointer
+              className="w-full py-2.5 rounded-2xl font-bold text-xs tracking-widest cursor-pointer
                 bg-white/10 text-white/80 border-2 border-white/20
                 hover:bg-white/15 transition-all"
             >
@@ -250,7 +250,7 @@ export default function ResultPage() {
                             <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                           </svg>
                         </button>
-                        <span className="text-lg font-black text-white truncate flex-1">{w.word}</span>
+                        <span className="text-lg font-bold text-white truncate flex-1">{w.word}</span>
                         <span className={`text-[10px] font-black px-2 py-0.5 rounded-full tracking-widest shrink-0 ${
                           w.correct ? 'bg-emerald-400 text-emerald-950' : 'bg-rose-400 text-rose-950'
                         }`}>
@@ -273,12 +273,12 @@ export default function ResultPage() {
                       </div>
 
                       {w.meaning && (
-                        <p className="mt-2 text-base font-black text-amber-200">
+                        <p className="mt-2 text-base font-bold text-amber-200">
                           {w.meaning}
                         </p>
                       )}
                       {w.definition && (
-                        <p className="mt-1 text-xs text-white/75 leading-relaxed font-medium">
+                        <p className="mt-1 text-xs text-white/75 leading-relaxed font-normal">
                           {w.definition}
                         </p>
                       )}
