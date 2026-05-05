@@ -37,7 +37,7 @@ export default function ResultPage() {
   const router = useRouter();
   const {
     phase, finalRankings, labels, playerId, reviewWords,
-    totalXP, reset, players, savedWords, toggleStarWord,
+    totalXP, reset, players, savedWords, toggleStarWord, joinMatch,
   } = useGameStore();
   const [showWords, setShowWords] = useState(false);
   const t = useT();
@@ -191,14 +191,24 @@ export default function ResultPage() {
           </div>
         </div>
 
-        {/* PLAY AGAIN */}
+        {/* REMATCH — primary CTA */}
         <button
-          onClick={() => { reset(); router.push('/'); }}
-          className="w-full py-5 mb-3 rounded-2xl font-black text-2xl tracking-widest cursor-pointer
+          onClick={() => { reset(); joinMatch(); router.push('/'); }}
+          className="w-full py-5 mb-2 rounded-2xl font-black text-2xl tracking-widest cursor-pointer
             bg-amber-300 text-fuchsia-900 border-4 border-amber-400
             shadow-[0_8px_0_rgba(120,53,15,0.7)]
             hover:bg-amber-200 active:translate-y-[5px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)]
             transition-all"
+        >
+          {t('result.rematch')}
+        </button>
+
+        {/* PLAY AGAIN — back to home for character/mode change */}
+        <button
+          onClick={() => { reset(); router.push('/'); }}
+          className="w-full py-3 mb-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
+            bg-white/15 text-white border-4 border-white/30
+            hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
         >
           {t('result.playAgain')}
         </button>

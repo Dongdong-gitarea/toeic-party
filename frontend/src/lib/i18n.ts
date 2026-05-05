@@ -110,6 +110,39 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.title': '設定',
     'settings.language': '介面語言',
     'settings.close': '關閉',
+
+    // Skills
+    'skill.energy': '能量',
+    'skill.shake.name': '震波',
+    'skill.shake.desc': '搖晃對手',
+    'skill.fog.name': '迷霧',
+    'skill.fog.desc': '模糊選項',
+    'skill.cut.name': '縮時',
+    'skill.cut.desc': '對手 -3 秒',
+    'skill.noFinal': '最終回合無法使用',
+
+    // Private rooms
+    'home.createRoom': '🔗 建立私房',
+    'home.joinRoom': '輸入房號加入',
+    'home.joinPlaceholder': '輸入房號',
+    'home.joinSubmit': '加入',
+    'home.joinError': '找不到此房號或房間已滿',
+    'lobby.roomCode': '房號',
+    'lobby.copyCode': '複製',
+    'lobby.copied': '已複製！',
+    'lobby.share': '分享',
+    'lobby.private': '私人房間',
+
+    // Rematch
+    'result.rematch': '🔁 再來一場',
+
+    // Manual add word
+    'words.add': '+ 新增單字',
+    'words.addTitle': '新增單字',
+    'words.addEnglish': '英文單字',
+    'words.addMeaning': '中文意思',
+    'words.addSubmit': '加入單字本',
+    'words.addCancel': '取消',
   },
   en: {
     'common.you': 'YOU',
@@ -205,6 +238,35 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.title': 'Settings',
     'settings.language': 'Language',
     'settings.close': 'Close',
+
+    'skill.energy': 'ENERGY',
+    'skill.shake.name': 'SHAKE',
+    'skill.shake.desc': 'Shake opponent',
+    'skill.fog.name': 'FOG',
+    'skill.fog.desc': 'Blur options',
+    'skill.cut.name': 'CUT',
+    'skill.cut.desc': 'Opponent -3s',
+    'skill.noFinal': 'No skills on final question',
+
+    'home.createRoom': '🔗 PRIVATE ROOM',
+    'home.joinRoom': 'JOIN BY CODE',
+    'home.joinPlaceholder': 'ROOM CODE',
+    'home.joinSubmit': 'JOIN',
+    'home.joinError': 'Room not found or full',
+    'lobby.roomCode': 'CODE',
+    'lobby.copyCode': 'COPY',
+    'lobby.copied': 'COPIED!',
+    'lobby.share': 'SHARE',
+    'lobby.private': 'PRIVATE ROOM',
+
+    'result.rematch': '🔁 REMATCH',
+
+    'words.add': '+ ADD WORD',
+    'words.addTitle': 'Add Word',
+    'words.addEnglish': 'English word',
+    'words.addMeaning': 'Chinese meaning',
+    'words.addSubmit': 'Save to notebook',
+    'words.addCancel': 'Cancel',
   },
 };
 

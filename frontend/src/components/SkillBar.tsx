@@ -1,12 +1,16 @@
 'use client';
 
 import type { SkillType } from '@/store/gameStore';
+import { useT } from '@/lib/i18n';
 
-const SKILLS: { type: SkillType; label: string; desc: string }[] = [
-  { type: 'shake', label: 'SHAKE', desc: 'Screen shake 2s' },
-  { type: 'fog', label: 'FOG', desc: 'Blur options 2s' },
-  { type: 'timeCut', label: '-2s', desc: 'Cut opponent time' },
+const SKILL_DEFS: { type: SkillType; emoji: string; nameKey: string; descKey: string }[] = [
+  { type: 'shake', emoji: '🌀', nameKey: 'skill.shake.name', descKey: 'skill.shake.desc' },
+  { type: 'fog', emoji: '🌫️', nameKey: 'skill.fog.name', descKey: 'skill.fog.desc' },
+  { type: 'timeCut', emoji: '⏱️', nameKey: 'skill.cut.name', descKey: 'skill.cut.desc' },
 ];
+
+const COST = 3;
+const MAX_ENERGY = 9;
 
 interface Props {
   energy: number;
@@ -16,45 +20,79 @@ interface Props {
 }
 
 export default function SkillBar({ energy, disabled, isFinal, onUse }: Props) {
-  const canUse = energy >= 3 && !disabled && !isFinal;
+  const t = useT();
+  const canAffordSkill = energy >= COST;
+  const canUse = canAffordSkill && !disabled && !isFinal;
+
+  const filled = Math.min(energy, MAX_ENERGY);
 
   return (
-    <div className="flex items-center gap-3">
-      {/* Energy dots */}
-      <div className="flex gap-1 mr-1">
-        {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              energy > i
-                ? 'bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.6)]'
-                : 'bg-slate-700'
-            }`}
-          />
-        ))}
+    <div className="space-y-1.5">
+      {/* Energy meter */}
+      <div className="flex items-center gap-2 px-1">
+        <span className="text-[10px] font-bold text-white/70 tracking-widest shrink-0">
+          {t('skill.energy')}
+        </span>
+        <div className="flex-1 flex gap-0.5">
+          {Array.from({ length: MAX_ENERGY }).map((_, i) => {
+            const isFilled = i < filled;
+            const isCostMarker = (i + 1) % COST === 0; // visual tick at 3, 6, 9
+            return (
+              <div
+                key={i}
+                className={`flex-1 h-2 rounded-sm transition-all duration-300 ${
+                  isFilled
+                    ? canAffordSkill
+                      ? 'bg-amber-300 shadow-[0_0_4px_rgba(252,211,77,0.6)]'
+                      : 'bg-amber-300/50'
+                    : 'bg-white/10'
+                } ${isCostMarker && !isFilled ? 'border-r-2 border-white/30' : ''}`}
+              />
+            );
+          })}
+        </div>
+        <span className={`text-[11px] font-bold tabular-nums shrink-0 ${canAffordSkill ? 'text-amber-300' : 'text-white/50'}`}>
+          {energy}/{MAX_ENERGY}
+        </span>
       </div>
 
       {/* Skill buttons */}
-      {SKILLS.map((skill) => (
-        <button
-          key={skill.type}
-          onClick={() => onUse(skill.type)}
-          disabled={!canUse}
-          title={skill.desc}
-          className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-            canUse
-              ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 hover:bg-yellow-500/30 active:scale-95 cursor-pointer'
-              : 'bg-slate-800/50 text-slate-600 border border-slate-700/30 cursor-not-allowed'
-          }`}
-        >
-          {skill.label}
-        </button>
-      ))}
+      <div className="grid grid-cols-3 gap-2">
+        {SKILL_DEFS.map((skill) => {
+          const usableNow = canUse;
+          return (
+            <button
+              key={skill.type}
+              onClick={() => onUse(skill.type)}
+              disabled={!usableNow}
+              className={`relative min-h-[60px] px-2 py-2 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-0.5 ${
+                usableNow
+                  ? 'bg-amber-300/15 border-amber-300/60 text-white hover:bg-amber-300/25 active:translate-y-[2px] active:shadow-[0_2px_0_rgba(120,53,15,0.4)] shadow-[0_3px_0_rgba(120,53,15,0.4)] cursor-pointer'
+                  : 'bg-white/5 border-white/10 text-white/40 cursor-not-allowed'
+              }`}
+            >
+              <span className="text-xl leading-none">{skill.emoji}</span>
+              <span className="text-[11px] font-bold tracking-wide leading-none">
+                {t(skill.nameKey)}
+              </span>
+              <span className={`text-[9px] font-bold tracking-wider leading-none ${
+                usableNow ? 'text-amber-300' : 'text-white/40'
+              }`}>
+                ⚡{COST}
+              </span>
+              {/* Always-visible mini description */}
+              <span className="text-[9px] text-white/55 leading-tight text-center mt-0.5 line-clamp-1">
+                {t(skill.descKey)}
+              </span>
+            </button>
+          );
+        })}
+      </div>
 
       {isFinal && (
-        <span className="text-[10px] text-red-400 font-bold uppercase">
-          No skills on final Q
-        </span>
+        <p className="text-[10px] text-rose-300 font-bold uppercase tracking-widest text-center">
+          {t('skill.noFinal')}
+        </p>
       )}
     </div>
   );

@@ -6,6 +6,8 @@ import { useGameStore } from '@/store/gameStore';
 import { CHARACTERS } from '@/lib/characters';
 import { useT } from '@/lib/i18n';
 import SettingsModal from '@/components/SettingsModal';
+import BrandIntro from '@/components/BrandIntro';
+import JoinRoomModal from '@/components/JoinRoomModal';
 
 const FUN_NAMES = [
   'QuizNinja', 'WordHunter', 'SpeedReader', 'VocabKing',
@@ -25,7 +27,10 @@ export default function LobbyPage() {
   } = useGameStore();
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
+  const [copyDone, setCopyDone] = useState(false);
   const t = useT();
+  const createPrivateRoom = useGameStore((s) => s.createPrivateRoom);
 
   useEffect(() => { initSocket(); }, [initSocket]);
   // Generate a random name only on first mount when nothing is saved.
@@ -55,6 +60,7 @@ export default function LobbyPage() {
 
   return (
     <main className="min-h-[100dvh] party-bg relative overflow-hidden flex flex-col items-center justify-center px-4 py-6">
+      <BrandIntro />
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-amber-300/30 blur-3xl animate-blob-drift" />
         <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-300/20 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
@@ -73,13 +79,53 @@ export default function LobbyPage() {
         ⚙️
       </button>
       <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      <JoinRoomModal open={joinOpen} onClose={() => setJoinOpen(false)} />
 
       {isMatchmaking && lobby ? (
         // ── Lobby takeover ──
         <div className="relative z-10 w-full max-w-md flex flex-col items-center gap-5 animate-tilt-pop">
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-6 py-2 rounded-full font-black text-base tracking-widest shadow-[0_6px_0_#92400e] -rotate-2">
-            {t('lobby.waitingRoom')}
+            {lobby.isPrivate ? t('lobby.private') : t('lobby.waitingRoom')}
           </div>
+
+          {/* Room code chip — private rooms only */}
+          {lobby.code && (
+            <div className="w-full bg-fuchsia-500/15 border-4 border-fuchsia-300/40 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold tracking-widest text-fuchsia-200/80">
+                  {t('lobby.roomCode')}
+                </p>
+                <p className="text-3xl font-black text-white tabular-nums tracking-[0.3em] mt-0.5">
+                  {lobby.code}
+                </p>
+              </div>
+              <button
+                onClick={async () => {
+                  try {
+                    if (typeof navigator !== 'undefined' && navigator.share) {
+                      await navigator.share({
+                        title: 'TOEIC PARTY',
+                        text: `加入我的房間：${lobby.code}`,
+                      });
+                    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                      await navigator.clipboard.writeText(lobby.code!);
+                      setCopyDone(true);
+                      setTimeout(() => setCopyDone(false), 1500);
+                    }
+                  } catch {
+                    // user cancelled share or clipboard blocked
+                  }
+                }}
+                className="shrink-0 px-4 py-3 rounded-xl font-bold text-xs tracking-widest
+                  bg-amber-300 text-fuchsia-900 border-2 border-amber-200
+                  shadow-[0_3px_0_rgba(120,53,15,0.5)]
+                  hover:bg-amber-200 active:translate-y-[2px] active:shadow-[0_1px_0_rgba(120,53,15,0.5)]
+                  transition-all cursor-pointer"
+              >
+                {copyDone ? t('lobby.copied') : t('lobby.share')}
+              </button>
+            </div>
+          )}
 
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
             <div className="grid grid-cols-2 gap-3 mb-4">
@@ -142,11 +188,17 @@ export default function LobbyPage() {
               <p className="text-[11px] font-bold text-white/70 tracking-widest mt-2">
                 {lobby.count} / {lobby.capacity} {t('lobby.players')}
               </p>
-              <div className="text-5xl font-black text-amber-300 tabular-nums leading-none drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">
-                0:{String(tickSeconds ?? lobby.secondsLeft).padStart(2, '0')}
-              </div>
+              {!lobby.isPrivate && (
+                <div className="text-5xl font-black text-amber-300 tabular-nums leading-none drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">
+                  0:{String(tickSeconds ?? lobby.secondsLeft).padStart(2, '0')}
+                </div>
+              )}
               <p className="text-[10px] font-bold text-white/60 tracking-wide">
-                {lobby.count === 1 ? t('lobby.soloHint') : t('lobby.allReadyHint')}
+                {lobby.isPrivate
+                  ? t('lobby.allReadyHint')
+                  : lobby.count === 1
+                    ? t('lobby.soloHint')
+                    : t('lobby.allReadyHint')}
               </p>
             </div>
           </div>
@@ -316,6 +368,29 @@ export default function LobbyPage() {
               disabled={savedWords.length < 4}
             >
               {t('home.practice')}
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 w-full">
+            <button
+              onClick={createPrivateRoom}
+              disabled={!socketReady || !playerName.trim()}
+              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
+                bg-fuchsia-500/30 text-white border-4 border-fuchsia-300/60
+                hover:bg-fuchsia-500/50 active:translate-y-[2px] transition-all backdrop-blur-sm
+                disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {t('home.createRoom')}
+            </button>
+            <button
+              onClick={() => setJoinOpen(true)}
+              disabled={!socketReady || !playerName.trim()}
+              className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
+                bg-white/15 text-white border-4 border-white/30
+                hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
+                disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {t('home.joinRoom')}
             </button>
           </div>
 

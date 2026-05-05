@@ -15,7 +15,8 @@ import { lookupChinese } from '../data/vocabChinese.js';
 
 const QUESTIONS_PER_GAME = 10;
 const QUESTION_TIME_MS = 10000;
-const BETWEEN_QUESTIONS_MS = 2500;
+const BETWEEN_QUESTIONS_FAST_MS = 1800;  // when nobody got it wrong
+const BETWEEN_QUESTIONS_REVIEW_MS = 4000;  // when at least one human got it wrong — give time to read the definition
 const PRE_GAME_COUNTDOWN_MS = 4500;
 const ENERGY_PER_CORRECT = 1;
 const SKILL_COST = 3;
@@ -336,10 +337,22 @@ export class Room {
 
     this.io.to(this.id).emit('RANK_UPDATE', { rankings: this.getRankings() });
 
+    // Give players longer to read the definition when any human got it wrong.
+    let anyHumanWrong = false;
+    for (const player of this.players.values()) {
+      if (player.isAI) continue;
+      const last = player.reviewWords[player.reviewWords.length - 1];
+      if (last && last.word === q.word && !last.correct) {
+        anyHumanWrong = true;
+        break;
+      }
+    }
+    const pause = anyHumanWrong ? BETWEEN_QUESTIONS_REVIEW_MS : BETWEEN_QUESTIONS_FAST_MS;
+
     this.schedule(() => {
       this.state = 'playing';
       this.nextQuestion();
-    }, BETWEEN_QUESTIONS_MS);
+    }, pause);
   }
 
   // ── Skills ──

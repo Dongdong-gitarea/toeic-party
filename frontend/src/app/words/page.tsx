@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
+import AddWordModal from '@/components/AddWordModal';
 
 type Filter = 'all' | 'starred' | 'practice' | 'mastered';
 
@@ -27,6 +28,7 @@ export default function WordsPage() {
   const router = useRouter();
   const { savedWords, toggleStarWord, removeSavedWord } = useGameStore();
   const [filter, setFilter] = useState<Filter>('all');
+  const [addOpen, setAddOpen] = useState(false);
   const t = useT();
 
   const filtered = useMemo(() => {
@@ -71,8 +73,18 @@ export default function WordsPage() {
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
             {t('words.title')}
           </div>
-          <div className="w-[78px]" />
+          <button
+            onClick={() => setAddOpen(true)}
+            className="px-3 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
+              bg-amber-300 text-fuchsia-900 border-4 border-amber-400
+              shadow-[0_3px_0_rgba(120,53,15,0.5)]
+              hover:bg-amber-200 active:translate-y-[2px] active:shadow-[0_1px_0_rgba(120,53,15,0.5)] transition-all"
+          >
+            +
+          </button>
         </div>
+
+        <AddWordModal open={addOpen} onClose={() => setAddOpen(false)} />
 
         {/* Filter pills */}
         <div className="w-full grid grid-cols-2 gap-2 mb-4">
