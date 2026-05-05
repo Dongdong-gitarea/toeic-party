@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-05-05 (Desktop) — Round 3
+- Expanded vocab 1043 → 1119 words
+- Fixed 2 duplicate distractor bugs (considerably, relocate)
+- Added 43 extra TOEIC core words beyond TSL (litigation, procurement, demographic, etc.)
+- Top 200 coverage: 98% (197/200)
+- Total TSL coverage: 86% (1076/1250) + 43 extra TOEIC = 1119 total
+- 0 duplicate distractors
+
 ## 2026-05-05 (Desktop) — Round 2
 - Expanded vocab from 526 → 1043 Traditional Chinese words (83% TSL coverage)
 - Added CET6 (5651 words) + TOEFL (13477 words) as additional sources
