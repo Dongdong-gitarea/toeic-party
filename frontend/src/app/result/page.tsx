@@ -6,6 +6,8 @@ import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
+import PosBadge from '@/components/PosBadge';
+import ExampleBlock from '@/components/ExampleBlock';
 
 const RANK_BG = [
   { bg: 'bg-amber-300', text: 'text-fuchsia-900', glow: 'shadow-[0_0_30px_rgba(252,211,77,0.6)]' },
@@ -260,7 +262,12 @@ export default function ResultPage() {
                             <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                           </svg>
                         </button>
-                        <span className="text-lg font-bold text-white truncate flex-1">{w.word}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-lg font-bold text-white truncate">{w.word}</span>
+                            <PosBadge pos={w.pos} />
+                          </div>
+                        </div>
                         <span className={`text-[10px] font-black px-2 py-0.5 rounded-full tracking-widest shrink-0 ${
                           w.correct ? 'bg-emerald-400 text-emerald-950' : 'bg-rose-400 text-rose-950'
                         }`}>
@@ -300,6 +307,8 @@ export default function ResultPage() {
                           <span className="text-emerald-200">{w.correctAnswer}</span>
                         </div>
                       )}
+
+                      <ExampleBlock word={w.word} example={w.example} exampleZh={w.exampleZh} />
                     </div>
                   );
                 })}

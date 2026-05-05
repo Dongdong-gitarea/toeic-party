@@ -221,6 +221,11 @@ export class Room {
     const remainingTime = Math.max(0, QUESTION_TIME_MS - responseTime);
     const correct = answerIndex === q.correctIndex;
     const isFinal = this.isFinalQuestion;
+    const meta = {
+      pos: q.pos ?? '',
+      example: q.example ?? '',
+      exampleZh: q.exampleZh ?? '',
+    };
 
     if (correct) {
       const { baseScore, speedBonus, comboMultiplier, total, newCombo } =
@@ -241,6 +246,7 @@ export class Room {
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
         questionType: q.type,
+        ...meta,
       });
 
       return {
@@ -257,6 +263,7 @@ export class Room {
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
+        ...meta,
       };
     } else {
       const { total: penalty } = calculateWrong(isFinal);
@@ -273,6 +280,7 @@ export class Room {
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
         questionType: q.type,
+        ...meta,
       });
 
       return {
@@ -289,6 +297,7 @@ export class Room {
         correctAnswer: q.options[q.correctIndex]!,
         definition: q.definition ?? '',
         meaning: lookupChinese(q.word),
+        ...meta,
       };
     }
   }
@@ -298,6 +307,11 @@ export class Room {
     this.state = 'reviewing';
 
     const q = this.questions[this.currentQuestionIndex]!;
+    const meta = {
+      pos: q.pos ?? '',
+      example: q.example ?? '',
+      exampleZh: q.exampleZh ?? '',
+    };
     for (const player of this.players.values()) {
       if (!this.answeredThisRound.has(player.id)) {
         player.combo = 0;
@@ -309,6 +323,7 @@ export class Room {
           definition: q.definition ?? '',
           meaning: lookupChinese(q.word),
           questionType: q.type,
+          ...meta,
         });
         if (!player.isAI) {
           this.io.to(player.id).emit('ANSWER_RESULT', {
@@ -325,6 +340,7 @@ export class Room {
             correctAnswer: q.options[q.correctIndex]!,
             definition: q.definition ?? '',
             meaning: lookupChinese(q.word),
+            ...meta,
           } satisfies AnswerResult);
         }
       }

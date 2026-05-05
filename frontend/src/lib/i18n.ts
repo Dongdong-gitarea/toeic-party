@@ -111,6 +111,13 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.language': '介面語言',
     'settings.close': '關閉',
 
+    // Vocab metadata
+    'vocab.example': '例句',
+    'pos.noun': '名詞',
+    'pos.verb': '動詞',
+    'pos.adj': '形容詞',
+    'pos.adv': '副詞',
+
     // Skills
     'skill.used': '已使用',
     'skill.shake.name': '震波',
@@ -238,6 +245,12 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.title': 'Settings',
     'settings.language': 'Language',
     'settings.close': 'Close',
+
+    'vocab.example': 'EXAMPLE',
+    'pos.noun': 'noun',
+    'pos.verb': 'verb',
+    'pos.adj': 'adj.',
+    'pos.adv': 'adv.',
 
     'skill.used': 'USED',
     'skill.shake.name': 'SHAKE',

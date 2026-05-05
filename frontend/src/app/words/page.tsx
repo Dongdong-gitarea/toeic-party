@@ -6,6 +6,8 @@ import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
 import AddWordModal from '@/components/AddWordModal';
+import PosBadge from '@/components/PosBadge';
+import ExampleBlock from '@/components/ExampleBlock';
 
 type Filter = 'all' | 'starred' | 'practice' | 'mastered';
 
@@ -144,7 +146,12 @@ export default function WordsPage() {
                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                       </svg>
                     </button>
-                    <span className="text-lg font-bold text-white truncate flex-1">{w.word}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-lg font-bold text-white truncate">{w.word}</span>
+                        <PosBadge pos={w.pos} />
+                      </div>
+                    </div>
                     <button
                       onClick={() => toggleStarWord(w.word)}
                       className={`w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shrink-0 transition-all border-2 ${
@@ -167,6 +174,8 @@ export default function WordsPage() {
                   {w.definition && (
                     <p className="mt-1 text-xs text-white/75 leading-relaxed">{w.definition}</p>
                   )}
+
+                  <ExampleBlock word={w.word} example={w.example} exampleZh={w.exampleZh} />
 
                   <div className="mt-2 flex items-center gap-3 text-[10px] font-bold text-white/80 tracking-wider">
                     <span className="text-emerald-300">{t('words.correctMark')} {w.correctCount}</span>

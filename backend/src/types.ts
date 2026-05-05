@@ -23,6 +23,9 @@ export interface ReviewWord {
   correctAnswer: string;
   definition: string;
   meaning: string; // Chinese meaning, always populated when available
+  pos: string; // part of speech, e.g. "noun", "verb"; may be empty
+  example: string; // English example sentence; may be empty
+  exampleZh: string; // Chinese gloss for the example; may be empty
   questionType: QuestionType;
 }
 
@@ -34,6 +37,9 @@ export interface Question {
   correctIndex: number;
   word: string;
   definition?: string; // English definition for post-game review
+  pos?: string; // part of speech, e.g. "noun", "verb"
+  example?: string; // English example sentence
+  exampleZh?: string; // Chinese gloss for the example sentence
 }
 
 export interface QuestionForClient {
@@ -78,6 +84,9 @@ export interface AnswerResult {
   correctAnswer: string;
   definition: string;
   meaning: string;
+  pos: string;
+  example: string;
+  exampleZh: string;
 }
 
 export interface SkillEffect {

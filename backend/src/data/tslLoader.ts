@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import type { Question, QuestionType } from '../types.js';
 import { VOCAB_ZH } from './vocabChinese.js';
+import { lookupExample } from './vocabExamples.js';
 
 interface TSLWord {
   rank: number;
@@ -64,12 +65,33 @@ function lookupDef(word: string): string {
   return w?.definition_en ?? '';
 }
 
+// Look up TSL part-of-speech for a word
+export function lookupPos(word: string): string {
+  const w = loadTSL().find((t) => t.word.toLowerCase() === word.toLowerCase());
+  return w?.pos ?? '';
+}
+
+// Attach pos + example onto a Question, looked up by the headword.
+function withMeta<T extends { word: string }>(q: T): T & {
+  pos: string;
+  example: string;
+  exampleZh: string;
+} {
+  const ex = lookupExample(q.word);
+  return {
+    ...q,
+    pos: lookupPos(q.word),
+    example: ex?.en ?? '',
+    exampleZh: ex?.zh ?? '',
+  };
+}
+
 // ── Generate vocab (English → Chinese) from hand-crafted bank ──
 function generateVocabQuestions(count: number, weakLower: Set<string>): Question[] {
   const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length));
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
-    return {
+    return withMeta({
       id: `zh-v-${idx}-${word}`,
       type: 'vocab' as const,
       word,
@@ -77,7 +99,7 @@ function generateVocabQuestions(count: number, weakLower: Set<string>): Question
       options,
       correctIndex: options.indexOf(correct),
       definition: lookupDef(word),
-    };
+    });
   });
 }
 
@@ -86,7 +108,7 @@ function generateAudioQuestions(count: number, weakLower: Set<string>): Question
   const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length));
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
-    return {
+    return withMeta({
       id: `zh-a-${idx}-${word}`,
       type: 'audio' as const,
       word,
@@ -94,7 +116,7 @@ function generateAudioQuestions(count: number, weakLower: Set<string>): Question
       options,
       correctIndex: options.indexOf(correct),
       definition: lookupDef(word),
-    };
+    });
   });
 }
 
@@ -108,7 +130,7 @@ function generateDefinitionQuestions(count: number, weakLower: Set<string>): Que
       3,
     ).map((o) => o.word);
     const options = shuffle([w.word, ...wrongWords]);
-    return {
+    return withMeta({
       id: `tsl-d-${idx}-${w.rank}`,
       type: 'fillblank' as const,
       word: w.word,
@@ -116,7 +138,7 @@ function generateDefinitionQuestions(count: number, weakLower: Set<string>): Que
       options,
       correctIndex: options.indexOf(w.word),
       definition: w.definition_en,
-    };
+    });
   });
 }
 
