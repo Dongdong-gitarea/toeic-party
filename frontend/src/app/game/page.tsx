@@ -140,7 +140,7 @@ export default function GamePage() {
                         style={{ animationDelay: `${i * 0.2}s` }}
                         draggable={false}
                       />
-                      <p className="text-sm font-black text-white truncate mt-1">{p.name}</p>
+                      <p className="text-sm font-bold text-white truncate mt-1">{p.name}</p>
                       {isMe && (
                         <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-2 py-0.5 rounded-full">
                           {t('common.you')}
@@ -159,7 +159,7 @@ export default function GamePage() {
 
         {phase === 'countdown' && (
           <div className="relative z-10 text-center">
-            <p className="text-white/90 text-base font-black uppercase tracking-[0.3em] mb-3 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
+            <p className="text-white/90 text-base font-bold uppercase tracking-[0.3em] mb-3 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
               {t('game.getReady')}
             </p>
             <div
@@ -186,12 +186,7 @@ export default function GamePage() {
   const wrongReveal = isRevealed && lastResult && !lastResult.correct;
 
   return (
-    <main className={`min-h-[100dvh] party-bg-game relative overflow-hidden flex flex-col ${isShaking ? 'animate-screen-shake' : ''} ${hitShake ? 'animate-hit-shake' : ''}`}>
-      {/* Decorative blobs — kept very subtle so they don't compete with the question */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-indigo-400/10 blur-3xl animate-blob-drift" />
-        <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-fuchsia-400/10 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
-      </div>
+    <main className={`min-h-[100dvh] bg-game-dark relative overflow-hidden flex flex-col ${isShaking ? 'animate-screen-shake' : ''} ${hitShake ? 'animate-hit-shake' : ''}`}>
 
       {/* Overlays */}
       {flashType && (
@@ -205,21 +200,21 @@ export default function GamePage() {
       {showFinalIntro && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 pointer-events-none">
           <div className="text-center animate-countdown-pop">
-            <p className="text-base text-amber-300 font-black uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
+            <p className="text-base text-amber-300 font-bold uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
             <p className="text-6xl sm:text-8xl font-black text-white drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">×2.5</p>
           </div>
         </div>
       )}
       {activeEffect && (
         <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash">
-          <div className="bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-black tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
+          <div className="bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-bold tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
             {activeEffect.fromName}: {activeEffect.skillType === 'shake' ? 'SHAKE!' : activeEffect.skillType === 'fog' ? 'FOG!' : 'TIME CUT!'}
           </div>
         </div>
       )}
       {overtakeMsg && (
         <div className="fixed top-12 left-1/2 -translate-x-1/2 z-[55] animate-slide-up">
-          <div className="bg-emerald-300 text-emerald-950 px-4 py-2 rounded-full text-xs font-black tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)]">
+          <div className="bg-emerald-300 text-emerald-950 px-4 py-2 rounded-full text-xs font-bold tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)]">
             {overtakeMsg}
           </div>
         </div>
@@ -234,11 +229,11 @@ export default function GamePage() {
           >
             <img src={`${myChar.folder}/idle.png`} alt="" className="w-full h-full object-contain" />
           </div>
-          <span className="text-sm font-black text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
-          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-black bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.vocab')}</span>}
-          {currentQuestion.type === 'audio' && <span className="text-[9px] font-black bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.audio')}</span>}
-          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-black bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.fillblank')}</span>}
-          {isFinal && <span className="text-[9px] font-black bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">×2.5</span>}
+          <span className="text-sm font-bold text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
+          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-bold bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.vocab')}</span>}
+          {currentQuestion.type === 'audio' && <span className="text-[9px] font-bold bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.audio')}</span>}
+          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-bold bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.fillblank')}</span>}
+          {isFinal && <span className="text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">×2.5</span>}
         </div>
         <Timer duration={10} questionId={currentQuestion.id} compact
           timeCut={activeEffect?.skillType === 'timeCut'} onTimeUpdate={handleTimeUpdate} />
@@ -272,11 +267,11 @@ export default function GamePage() {
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                   </svg>
                 </button>
-                <span className="text-xs font-bold text-white/80">{t('game.tapToHear')}</span>
+                <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
-              <p className="text-sm font-black text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+              <p className="text-sm font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
             )}
           </div>
         ) : (
@@ -304,13 +299,13 @@ export default function GamePage() {
                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
                   </svg>
                 </button>
-                <span className="text-sm font-black text-white/90">{t('game.tapToHear')}</span>
+                <span className="text-sm font-medium text-white/90">{t('game.tapToHear')}</span>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
               <div>
-                <p className="text-[10px] font-black text-amber-200 uppercase tracking-[0.25em] mb-1">{t('game.whichMeans')}</p>
-                <p className="text-lg sm:text-xl font-black text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+                <p className="text-[10px] font-bold text-amber-200 uppercase tracking-[0.25em] mb-1">{t('game.whichMeans')}</p>
+                <p className="text-lg sm:text-xl font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
               </div>
             )}
 
@@ -318,13 +313,13 @@ export default function GamePage() {
             {isRevealed && lastResult && (lastResult.definition || lastResult.meaning) && (
               <div className="mt-3 pt-3 border-t-2 border-dashed border-white/30">
                 <div className="flex items-center gap-2 mb-1 justify-center">
-                  <span className="text-sm font-black uppercase tracking-widest text-amber-200">
+                  <span className="text-sm font-bold uppercase tracking-widest text-amber-200">
                     {lastResult.word}
                   </span>
                   {lastResult.meaning && (
                     <>
-                      <span className="text-[10px] font-black text-white/70">→</span>
-                      <span className="text-base font-black text-emerald-200">
+                      <span className="text-[10px] font-bold text-white/70">→</span>
+                      <span className="text-base font-bold text-emerald-200">
                         {lastResult.meaning}
                       </span>
                     </>
@@ -369,7 +364,7 @@ export default function GamePage() {
         <div className="mt-2 space-y-1.5 bg-white/10 backdrop-blur-sm rounded-2xl border-2 border-white/20 px-3 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-black text-white/80 tracking-wider">
+              <span className="text-xs font-semibold text-white/80 tracking-wider">
                 {t('game.score')} <span className="ml-1 text-amber-300 font-black text-base tabular-nums drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{displayScore}</span>
               </span>
               {myCombo > 0 && (
@@ -379,7 +374,7 @@ export default function GamePage() {
               )}
             </div>
             {lastResult && (
-              <span className={`text-xs font-black tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
+              <span className={`text-xs font-bold tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
                 {lastResult.correct ? `+${lastResult.totalGained}` : t('game.wrong')}
               </span>
             )}

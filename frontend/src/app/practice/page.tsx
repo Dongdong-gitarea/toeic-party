@@ -107,7 +107,7 @@ export default function PracticePage() {
         <div className="w-full flex items-center justify-between mb-3">
           <button
             onClick={() => router.push('/')}
-            className="px-4 py-2 rounded-xl font-black text-xs tracking-widest cursor-pointer
+            className="px-4 py-2 rounded-xl font-bold text-xs tracking-widest cursor-pointer
               bg-white/15 text-white border-4 border-white/30
               hover:bg-white/25 active:translate-y-[2px] transition-all"
           >
@@ -122,7 +122,7 @@ export default function PracticePage() {
         {questions.length === 0 ? (
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-8 text-center">
             <p className="text-4xl mb-3">📚</p>
-            <p className="text-white font-black text-base mb-2">{t('practice.needMore')}</p>
+            <p className="text-white font-bold text-base mb-2">{t('practice.needMore')}</p>
             <p className="text-sm font-bold text-white/70 mb-4">
               {t('practice.howTo')}
             </p>
@@ -141,8 +141,8 @@ export default function PracticePage() {
           <div className="w-full flex flex-col items-center gap-4 animate-tilt-pop">
             <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-6 text-center">
               <p className="text-2xl font-black text-white mb-1">{t('practice.done')}</p>
-              <p className="text-base font-black text-amber-200">{t('practice.accuracy', { pct: accuracyPct })}</p>
-              <div className="mt-4 flex justify-center gap-6 text-sm font-black tracking-widest">
+              <p className="text-base font-bold text-amber-200">{t('practice.accuracy', { pct: accuracyPct })}</p>
+              <div className="mt-4 flex justify-center gap-6 text-sm font-bold tracking-widest">
                 <span className="text-emerald-300">✓ {stats.correct}</span>
                 <span className="text-rose-300">✗ {stats.wrong}</span>
               </div>
@@ -159,7 +159,7 @@ export default function PracticePage() {
             </button>
             <button
               onClick={() => router.push('/words')}
-              className="w-full py-3 rounded-2xl font-black text-sm tracking-widest cursor-pointer
+              className="w-full py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
                 bg-white/15 text-white border-4 border-white/30
                 hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
             >
@@ -169,7 +169,7 @@ export default function PracticePage() {
         ) : current ? (
           <>
             {/* Progress */}
-            <div className="w-full mb-3 flex items-center justify-between text-xs font-black tracking-widest text-white/80">
+            <div className="w-full mb-3 flex items-center justify-between text-xs font-bold tracking-widest text-white/80">
               <span>{t('practice.qProgress', { n: idx + 1, total })}</span>
               <span className="flex gap-3">
                 <span className="text-emerald-300">✓ {stats.correct}</span>
@@ -215,7 +215,7 @@ export default function PracticePage() {
               {current.options.map((opt, i) => {
                 const isCorrect = i === current.correctIndex;
                 const isPicked = i === selected;
-                let cls = 'min-h-[64px] px-3 py-3 rounded-2xl border-4 font-black text-base transition-all cursor-pointer active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] ';
+                let cls = 'min-h-[64px] px-3 py-3 rounded-2xl border-4 font-semibold text-base transition-all cursor-pointer active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] ';
                 if (selected === null) {
                   cls += 'bg-white text-fuchsia-900 border-white shadow-[0_5px_0_rgba(0,0,0,0.25)] hover:bg-amber-100';
                 } else if (isPicked && isCorrect) {
