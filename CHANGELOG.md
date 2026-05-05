@@ -52,6 +52,19 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
+## 2026-05-05 (Desktop) — Round 6
+- Vocab: 1243 → 1283 words (added 40 ETS TOEIC Part 5/6/7 favorites)
+  - Transition words: despite, although, nevertheless, furthermore, consequently, whereas
+  - Grammar-test adjectives: comprehensive, feasible, provisional, stringent, versatile
+  - Business nouns: infrastructure, milestone, grievance, commodity, quota
+- NEW: `learningExtras.json` with two learning datasets:
+  - **20 Confusable Pairs** (affect/effect, personal/personnel, complement/compliment, etc.)
+    with Chinese explanations for each pair
+  - **25 TOEIC Collocations** (make a reservation, submit a proposal, meet a deadline, etc.)
+    with examples — ready for future "collocation quiz" mode
+- 40 TOEIC-context example sentences added for new words
+- ETS core coverage: 59% → 99%
+
 ## 2026-05-05 (Desktop) — Round 5
 - Vocab expanded 1156 → 1243 words
   - Added 43 missing TOEIC core words (appointment, insurance, executive, etc.)

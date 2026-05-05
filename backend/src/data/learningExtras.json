@@ -1,0 +1,271 @@
+{
+  "confusables": [
+    [
+      "affect",
+      "影響(v)",
+      "effect",
+      "效果(n)",
+      "affect 是動詞「影響」，effect 是名詞「效果」"
+    ],
+    [
+      "personal",
+      "個人的",
+      "personnel",
+      "人員",
+      "personal 形容詞「個人的」，personnel 名詞「全體人員」"
+    ],
+    [
+      "complement",
+      "補充",
+      "compliment",
+      "讚美",
+      "complement 互補，compliment 稱讚"
+    ],
+    [
+      "principal",
+      "主要的/校長",
+      "principle",
+      "原則",
+      "principal 是人或形容詞，principle 是抽象概念"
+    ],
+    [
+      "accept",
+      "接受",
+      "except",
+      "除了",
+      "accept 動詞「接受」，except 介詞「除了」"
+    ],
+    [
+      "advise",
+      "建議(v)",
+      "advice",
+      "建議(n)",
+      "advise 動詞，advice 名詞（不可數）"
+    ],
+    [
+      "assure",
+      "向…保證",
+      "ensure",
+      "確保",
+      "assure 對人保證，ensure 確保事情發生"
+    ],
+    [
+      "beside",
+      "在旁邊",
+      "besides",
+      "此外",
+      "beside 空間位置，besides 表追加"
+    ],
+    [
+      "stationary",
+      "靜止的",
+      "stationery",
+      "文具",
+      "stationary 不動的，stationery 紙筆文具"
+    ],
+    [
+      "precede",
+      "在…之前",
+      "proceed",
+      "繼續進行",
+      "precede 時間先後，proceed 往前走"
+    ],
+    [
+      "council",
+      "委員會",
+      "counsel",
+      "諮詢/律師",
+      "council 組織，counsel 建議或律師"
+    ],
+    [
+      "eligible",
+      "有資格的",
+      "illegible",
+      "難以辨認的",
+      "eligible 符合條件，illegible 字跡潦草"
+    ],
+    [
+      "economic",
+      "經濟的",
+      "economical",
+      "節約的",
+      "economic 關於經濟，economical 省錢的"
+    ],
+    [
+      "respectful",
+      "尊敬的",
+      "respective",
+      "各自的",
+      "respectful 態度恭敬，respective 分別的"
+    ],
+    [
+      "rise",
+      "上升(vi)",
+      "raise",
+      "提高(vt)",
+      "rise 自己升，raise 把東西抬高"
+    ],
+    [
+      "lay",
+      "放置(vt)",
+      "lie",
+      "躺/位於(vi)",
+      "lay 需受詞，lie 不需受詞"
+    ],
+    [
+      "borrow",
+      "借入",
+      "lend",
+      "借出",
+      "borrow 從別人那裡借，lend 借給別人"
+    ],
+    [
+      "aboard",
+      "在船/飛機上",
+      "abroad",
+      "在國外",
+      "aboard 交通工具上，abroad 海外"
+    ],
+    [
+      "access",
+      "使用權",
+      "assess",
+      "評估",
+      "access 進入/取得，assess 評價"
+    ],
+    [
+      "adapt",
+      "適應",
+      "adopt",
+      "採用/收養",
+      "adapt 調整適應，adopt 正式採納"
+    ]
+  ],
+  "collocations": [
+    [
+      "make a reservation",
+      "預訂",
+      "I'd like to make a reservation for two."
+    ],
+    [
+      "submit a proposal",
+      "提交提案",
+      "Please submit a proposal by end of day."
+    ],
+    [
+      "meet a deadline",
+      "趕上截止日期",
+      "The team worked overtime to meet the deadline."
+    ],
+    [
+      "place an order",
+      "下訂單",
+      "We need to place an order for more supplies."
+    ],
+    [
+      "attend a conference",
+      "參加會議",
+      "Over 500 people attended the conference."
+    ],
+    [
+      "conduct a survey",
+      "進行調查",
+      "HR will conduct a survey on employee satisfaction."
+    ],
+    [
+      "file a complaint",
+      "提出投訴",
+      "The customer filed a complaint about the service."
+    ],
+    [
+      "renew a contract",
+      "續約",
+      "The tenant decided to renew the contract for another year."
+    ],
+    [
+      "issue a refund",
+      "退款",
+      "The store will issue a refund within 5 business days."
+    ],
+    [
+      "schedule an appointment",
+      "安排預約",
+      "Please schedule an appointment with the doctor."
+    ],
+    [
+      "reach a compromise",
+      "達成妥協",
+      "After hours of discussion, they reached a compromise."
+    ],
+    [
+      "exceed expectations",
+      "超出預期",
+      "Sales this quarter exceeded expectations by 20%."
+    ],
+    [
+      "review a document",
+      "審閱文件",
+      "The lawyer will review the document before signing."
+    ],
+    [
+      "approve a budget",
+      "批准預算",
+      "The board approved the budget for next fiscal year."
+    ],
+    [
+      "implement a policy",
+      "實施政策",
+      "The company will implement the new policy in January."
+    ],
+    [
+      "comply with regulations",
+      "遵守法規",
+      "All products must comply with safety regulations."
+    ],
+    [
+      "negotiate a deal",
+      "談判交易",
+      "She successfully negotiated a deal with the supplier."
+    ],
+    [
+      "launch a campaign",
+      "發起活動",
+      "The company launched a marketing campaign last week."
+    ],
+    [
+      "resolve a dispute",
+      "解決糾紛",
+      "The mediator helped resolve the dispute between parties."
+    ],
+    [
+      "allocate resources",
+      "分配資源",
+      "The manager will allocate resources to priority projects."
+    ],
+    [
+      "process an application",
+      "處理申請",
+      "It takes 3 weeks to process an application."
+    ],
+    [
+      "notify in advance",
+      "提前通知",
+      "Please notify us in advance if you cannot attend."
+    ],
+    [
+      "reimburse expenses",
+      "報銷費用",
+      "The company will reimburse travel expenses."
+    ],
+    [
+      "extend a warranty",
+      "延長保固",
+      "You can extend the warranty for an additional fee."
+    ],
+    [
+      "postpone a meeting",
+      "延後會議",
+      "The meeting was postponed due to the storm."
+    ]
+  ]
+}
