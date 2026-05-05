@@ -52,6 +52,17 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
+## 2026-05-05 (Desktop) — Round 5
+- Vocab expanded 1156 → 1243 words
+  - Added 43 missing TOEIC core words (appointment, insurance, executive, etc.)
+  - Added 44 topic gap fillers (HR, Marketing, Legal, etc.)
+- TOEIC topic coverage: ALL 10 topics now 90-100% ✅
+  (Office, HR, Finance, Marketing, Travel, Tech, Manufacturing, Legal, Real Estate, Customer Service)
+- Example sentences improved: real 460→825 (62%), template 790→503 (38%)
+  - 77 more fetched from Dictionary API
+  - 66 hand-written TOEIC-context sentences for core words
+- Total examples: 1328 (covers all vocab + extras)
+
 ## 2026-05-05 (Desktop) — Round 4
 - Vocab expanded to 1156 words (translated remaining 38 missing TSL words)
 - Added example sentences for ALL 1250 TSL words
