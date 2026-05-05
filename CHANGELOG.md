@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-05 (Mobile) — Round 3 (In-game Feedback)
+High-leverage in-game feedback / clarity work:
+- **Review pause** lengthened from 4s → 5s when any human got it wrong (reading meaning + definition + example needs the extra second)
+- **Timer urgency** beefed up: at ≤ 1s the pulse is bigger and faster (`timer-pulse-final`), and a red drop-shadow halo comes in at ≤ 3s and intensifies at ≤ 1s
+- **Score breakdown** in the floating popup now also shows BASE / ⚡SPEED / 🔥COMBO chips so players learn why a fast/comboed answer scored more
+- **Skill effect banner** (SHAKE / FOG / TIME CUT) gets a 2-second shrinking progress bar so the receiving player can see how long it'll last
+- **Combo escalation**: at ≥ 5 the score row glows orange; at ≥ 7 a fullscreen "ON FIRE!" flash fires once on each new tier crossing
+- **Review-phase ETA bar** at the bottom of /game shows when the next question is coming
+- **Duplicate-character disambiguation**: the live ranking bar now puts a golden ring around the character icon for "you" so two players who picked the same character can still tell which one is them
+
 ## 2026-05-05 (Mobile) — Round 2 (Polish + Char Picker Move)
 - Icon consistency pass:
   - /game: 2 hand-rolled speaker SVGs → Volume2; question-type pills get Brain / Headphones / FileText; isFinal + final-round overlay get Flame; combo gets Flame above ×3; +N / WRONG feedback gets Check / X; SHAKE!/FOG!/TIME CUT! banner gets Waves / CloudFog / TimerOff

@@ -54,11 +54,17 @@ export default function RankingBar({
                 <span className="text-[10px] font-black">{i + 1}</span>
               )}
             </span>
-            <img
-              src={`${char.folder}/idle.png`}
-              alt={char.name}
-              className="w-5 h-5 object-contain shrink-0"
-            />
+            <div
+              className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                isMe ? 'ring-2 ring-amber-300 ring-offset-1 ring-offset-slate-900' : ''
+              }`}
+            >
+              <img
+                src={`${char.folder}/idle.png`}
+                alt={char.name}
+                className="w-5 h-5 object-contain"
+              />
+            </div>
             <span className="text-[10px] font-medium truncate flex-1 min-w-0">
               {isMe ? 'You' : entry.name}
             </span>

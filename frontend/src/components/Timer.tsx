@@ -56,12 +56,23 @@ export default function Timer({
   const progress = timeLeft / duration;
   const offset = C * (1 - progress);
   const urgent = timeLeft <= 3;
+  const final = timeLeft <= 1;
   const color = timeLeft > 5 ? '#10B981' : timeLeft > 3 ? '#FBBF24' : '#EF4444';
 
   const size = compact ? 40 : 56;
+  const animClass = final
+    ? 'animate-timer-pulse-final'
+    : urgent
+      ? 'animate-timer-pulse'
+      : '';
+  const haloShadow = urgent
+    ? final
+      ? '0 0 18px rgba(239,68,68,0.85)'
+      : '0 0 12px rgba(239,68,68,0.55)'
+    : 'none';
 
   return (
-    <div className={`relative ${urgent ? 'animate-timer-pulse' : ''}`} style={{ width: size, height: size }}>
+    <div className={`relative ${animClass}`} style={{ width: size, height: size, filter: `drop-shadow(${haloShadow})` }}>
       <svg viewBox="0 0 44 44" className="w-full h-full -rotate-90">
         <circle cx="22" cy="22" r={R} fill="none" stroke="#1E293B" strokeWidth="4" />
         <circle cx="22" cy="22" r={R} fill="none" stroke={color} strokeWidth="4"

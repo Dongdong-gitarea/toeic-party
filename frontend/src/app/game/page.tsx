@@ -60,6 +60,7 @@ export default function GamePage() {
   const [timeLeft, setTimeLeft] = useState(10);
   const displayScore = useCountUp(myScore);
   const [showFinalIntro, setShowFinalIntro] = useState(false);
+  const [showComboFlash, setShowComboFlash] = useState(false);
   const t = useT();
 
   // Final round entrance
@@ -88,6 +89,16 @@ export default function GamePage() {
     const t1 = setTimeout(() => setFlashType(null), 400);
     const t2 = setTimeout(() => setHitShake(false), 400);
     return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [lastResult]);
+
+  // Mega-combo fullscreen flash — fires once each time combo lands at >= 7
+  useEffect(() => {
+    if (!lastResult?.correct) return;
+    if (lastResult.combo >= 7) {
+      setShowComboFlash(true);
+      const t = setTimeout(() => setShowComboFlash(false), 800);
+      return () => clearTimeout(t);
+    }
   }, [lastResult]);
 
   // Auto-play audio prompts once per question
@@ -222,23 +233,44 @@ export default function GamePage() {
           </div>
         </div>
       )}
+      {showComboFlash && (
+        <div className="fixed inset-0 z-[65] flex items-center justify-center pointer-events-none animate-skill-flash">
+          <div className="absolute inset-0 bg-orange-500/20" />
+          <div className="relative inline-flex items-center gap-2 bg-orange-400 text-orange-950 px-6 py-3 rounded-2xl border-4 border-orange-200 shadow-[0_8px_0_rgba(0,0,0,0.4)]">
+            <Flame className="w-7 h-7" strokeWidth={2.75} fill="currentColor" />
+            <p className="text-2xl font-black tracking-widest">ON FIRE!</p>
+            <Flame className="w-7 h-7" strokeWidth={2.75} fill="currentColor" />
+          </div>
+        </div>
+      )}
       {activeEffect && (
-        <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash">
-          <div className="inline-flex items-center gap-1.5 bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-bold tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
-            {(() => {
-              const map: Record<string, { Icon: LucideIcon; label: string }> = {
-                shake: { Icon: Waves, label: 'SHAKE!' },
-                fog: { Icon: CloudFog, label: 'FOG!' },
-                timeCut: { Icon: TimerOff, label: 'TIME CUT!' },
-              };
-              const e = map[activeEffect.skillType] ?? map.shake!;
-              return (
-                <>
-                  <e.Icon className="w-4 h-4" strokeWidth={2.75} />
-                  <span>{activeEffect.fromName}: {e.label}</span>
-                </>
-              );
-            })()}
+        <div
+          key={`${activeEffect.fromName}-${activeEffect.skillType}-${Date.now()}`}
+          className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash"
+        >
+          <div className="relative inline-flex flex-col items-stretch overflow-hidden bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
+            <div className="inline-flex items-center justify-center gap-1.5 text-xs font-bold tracking-widest">
+              {(() => {
+                const map: Record<string, { Icon: LucideIcon; label: string }> = {
+                  shake: { Icon: Waves, label: 'SHAKE!' },
+                  fog: { Icon: CloudFog, label: 'FOG!' },
+                  timeCut: { Icon: TimerOff, label: 'TIME CUT!' },
+                };
+                const e = map[activeEffect.skillType] ?? map.shake!;
+                return (
+                  <>
+                    <e.Icon className="w-4 h-4" strokeWidth={2.75} />
+                    <span>{activeEffect.fromName}: {e.label}</span>
+                  </>
+                );
+              })()}
+            </div>
+            {/* Countdown bar — shrinks from full width to 0 over the
+                same 2s the store keeps activeEffect alive */}
+            <span
+              className="absolute left-0 bottom-0 h-1 w-full origin-left bg-rose-700/70"
+              style={{ animation: 'effect-shrink 2s linear forwards' }}
+            />
           </div>
         </div>
       )}
@@ -296,7 +328,19 @@ export default function GamePage() {
 
       {/* ── Main game content ── */}
       <div className="relative z-10 flex-1 flex flex-col px-2 py-1 overflow-hidden">
-        <ScorePopup score={lastResult?.totalGained ?? null} combo={myCombo} />
+        <ScorePopup
+          score={lastResult?.totalGained ?? null}
+          combo={myCombo}
+          breakdown={
+            lastResult && lastResult.correct
+              ? {
+                  base: lastResult.baseScore,
+                  speed: lastResult.speedBonus,
+                  combo: lastResult.comboMultiplier,
+                }
+              : null
+          }
+        />
 
         {/* Question card */}
         {gameMode === 'jump' ? (
@@ -402,7 +446,11 @@ export default function GamePage() {
         </div>
 
         {/* Score + Skills */}
-        <div className="mt-2 space-y-1.5 bg-white/10 backdrop-blur-sm rounded-2xl border-2 border-white/20 px-3 py-2">
+        <div className={`mt-2 space-y-1.5 backdrop-blur-sm rounded-2xl px-3 py-2 transition-[background,border,box-shadow] ${
+          myCombo >= 5
+            ? 'bg-orange-500/20 border-2 border-orange-300/60 shadow-[0_0_24px_rgba(251,146,60,0.45)]'
+            : 'bg-white/10 border-2 border-white/20'
+        }`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-white/80 tracking-wider">
@@ -434,6 +482,23 @@ export default function GamePage() {
           <SkillBar usedSkills={myUsedSkills} disabled={isAnswered} isFinal={isFinal} onUse={useSkill} />
         </div>
       </div>
+
+      {/* Review-phase ETA bar — fills over the same window the server pauses
+          (keyed off question id so it resets cleanly each round). The
+          duration is set to match the longer of the two server pauses
+          (5s); if the next question lands earlier, the bar gets
+          interrupted, which is fine. */}
+      {isRevealed && (
+        <div
+          key={`review-bar-${currentQuestion.id}`}
+          className="absolute bottom-0 left-0 right-0 h-1 bg-amber-300/15 overflow-hidden pointer-events-none"
+        >
+          <span
+            className="block h-full origin-left bg-amber-300"
+            style={{ animation: 'review-fill 5s linear forwards' }}
+          />
+        </div>
+      )}
     </main>
   );
 }

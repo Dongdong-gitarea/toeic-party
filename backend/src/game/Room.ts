@@ -16,7 +16,7 @@ import { lookupChinese } from '../data/vocabChinese.js';
 const QUESTIONS_PER_GAME = 10;
 const QUESTION_TIME_MS = 10000;
 const BETWEEN_QUESTIONS_FAST_MS = 1800;  // when nobody got it wrong
-const BETWEEN_QUESTIONS_REVIEW_MS = 4000;  // when at least one human got it wrong — give time to read the definition
+const BETWEEN_QUESTIONS_REVIEW_MS = 5000;  // when at least one human got it wrong — give time to read meaning + definition + example
 const PRE_GAME_COUNTDOWN_MS = 4500;
 const ALL_SKILLS: SkillType[] = ['shake', 'fog', 'timeCut'];
 
