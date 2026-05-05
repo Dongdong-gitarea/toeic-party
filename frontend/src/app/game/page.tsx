@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
+import { useT } from '@/lib/i18n';
 import Timer from '@/components/Timer';
 import AnswerButton from '@/components/AnswerButton';
 import GameArena from '@/components/GameArena';
@@ -46,6 +47,7 @@ export default function GamePage() {
   const [timeLeft, setTimeLeft] = useState(10);
   const displayScore = useCountUp(myScore);
   const [showFinalIntro, setShowFinalIntro] = useState(false);
+  const t = useT();
 
   // Final round entrance
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function GamePage() {
         {phase === 'found' && (
           <div className="relative z-10 text-center w-full max-w-md flex flex-col items-center gap-5 animate-tilt-pop">
             <div className="inline-block bg-amber-300 text-fuchsia-900 px-6 py-2 rounded-full font-black text-base tracking-widest shadow-[0_6px_0_#92400e] -rotate-2">
-              MATCH FOUND!
+              {t('game.matchFound')}
             </div>
 
             <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
@@ -141,11 +143,11 @@ export default function GamePage() {
                       <p className="text-sm font-black text-white truncate mt-1">{p.name}</p>
                       {isMe && (
                         <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-2 py-0.5 rounded-full">
-                          YOU
+                          {t('common.you')}
                         </span>
                       )}
                       {p.isAI && !isMe && (
-                        <span className="inline-block mt-1 text-[9px] font-bold text-white/60">BOT</span>
+                        <span className="inline-block mt-1 text-[9px] font-bold text-white/60">{t('common.bot')}</span>
                       )}
                     </div>
                   );
@@ -158,13 +160,13 @@ export default function GamePage() {
         {phase === 'countdown' && (
           <div className="relative z-10 text-center">
             <p className="text-white/90 text-base font-black uppercase tracking-[0.3em] mb-3 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
-              Get Ready!
+              {t('game.getReady')}
             </p>
             <div
               key={countdownValue}
               className="text-[10rem] sm:text-[12rem] font-black text-amber-300 leading-none animate-countdown-pop drop-shadow-[0_6px_0_rgba(0,0,0,0.4)]"
             >
-              {countdownValue > 0 ? countdownValue : 'GO!'}
+              {countdownValue > 0 ? countdownValue : t('game.go')}
             </div>
           </div>
         )}
@@ -203,7 +205,7 @@ export default function GamePage() {
       {showFinalIntro && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 pointer-events-none">
           <div className="text-center animate-countdown-pop">
-            <p className="text-base text-amber-300 font-black uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">Final Round</p>
+            <p className="text-base text-amber-300 font-black uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
             <p className="text-6xl sm:text-8xl font-black text-white drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">×2.5</p>
           </div>
         </div>
@@ -233,9 +235,9 @@ export default function GamePage() {
             <img src={`${myChar.folder}/idle.png`} alt="" className="w-full h-full object-contain" />
           </div>
           <span className="text-sm font-black text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
-          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-black bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">VOCAB</span>}
-          {currentQuestion.type === 'audio' && <span className="text-[9px] font-black bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">LISTEN</span>}
-          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-black bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">DEF</span>}
+          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-black bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.vocab')}</span>}
+          {currentQuestion.type === 'audio' && <span className="text-[9px] font-black bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.audio')}</span>}
+          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-black bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.fillblank')}</span>}
           {isFinal && <span className="text-[9px] font-black bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">×2.5</span>}
         </div>
         <Timer duration={10} questionId={currentQuestion.id} compact
@@ -270,7 +272,7 @@ export default function GamePage() {
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                   </svg>
                 </button>
-                <span className="text-xs font-bold text-white/80">Tap to hear</span>
+                <span className="text-xs font-bold text-white/80">{t('game.tapToHear')}</span>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
@@ -302,12 +304,12 @@ export default function GamePage() {
                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
                   </svg>
                 </button>
-                <span className="text-sm font-black text-white/90">Tap to hear</span>
+                <span className="text-sm font-black text-white/90">{t('game.tapToHear')}</span>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
               <div>
-                <p className="text-[10px] font-black text-amber-200 uppercase tracking-[0.25em] mb-1">Which word means</p>
+                <p className="text-[10px] font-black text-amber-200 uppercase tracking-[0.25em] mb-1">{t('game.whichMeans')}</p>
                 <p className="text-lg sm:text-xl font-black text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
               </div>
             )}
@@ -368,7 +370,7 @@ export default function GamePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-xs font-black text-white/80 tracking-wider">
-                SCORE <span className="ml-1 text-amber-300 font-black text-base tabular-nums drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{displayScore}</span>
+                {t('game.score')} <span className="ml-1 text-amber-300 font-black text-base tabular-nums drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{displayScore}</span>
               </span>
               {myCombo > 0 && (
                 <span className={`font-black text-orange-300 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
@@ -378,7 +380,7 @@ export default function GamePage() {
             </div>
             {lastResult && (
               <span className={`text-xs font-black tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
-                {lastResult.correct ? `+${lastResult.totalGained}` : 'WRONG!'}
+                {lastResult.correct ? `+${lastResult.totalGained}` : t('game.wrong')}
               </span>
             )}
           </div>

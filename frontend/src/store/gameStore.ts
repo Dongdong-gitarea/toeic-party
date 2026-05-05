@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { getSocket } from '@/lib/socket';
 import { sounds } from '@/lib/sounds';
 
+export type Locale = 'zh' | 'en';
+
 const SAVED_WORDS_KEY = 'tp_words';
 
 function loadSavedWords(): SavedWord[] {
@@ -210,9 +212,13 @@ interface GameState {
   // Selected character index (free pick, persisted)
   selectedCharIdx: number;
 
+  // UI language (persisted)
+  locale: Locale;
+
   setPlayerName: (name: string) => void;
   setGameMode: (mode: 'classic' | 'jump') => void;
   setSelectedChar: (idx: number) => void;
+  setLocale: (locale: Locale) => void;
   joinMatch: () => void;
   leaveMatch: () => void;
   setReady: (ready: boolean) => void;
@@ -256,6 +262,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   myReady: false,
   selectedCharIdx:
     typeof window !== 'undefined' ? Number(localStorage.getItem('tp_char_idx') || 0) : 0,
+  locale:
+    typeof window !== 'undefined'
+      ? ((localStorage.getItem('tp_locale') as Locale) || 'zh')
+      : 'zh',
 
   setPlayerName: (name) => {
     if (typeof window !== 'undefined') localStorage.setItem('tp_name', name);
@@ -265,6 +275,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   setSelectedChar: (idx) => {
     if (typeof window !== 'undefined') localStorage.setItem('tp_char_idx', String(idx));
     set({ selectedCharIdx: idx });
+  },
+  setLocale: (locale) => {
+    if (typeof window !== 'undefined') localStorage.setItem('tp_locale', locale);
+    set({ locale });
   },
 
   initSocket: () => {

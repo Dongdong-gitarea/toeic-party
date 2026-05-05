@@ -5,24 +5,32 @@ import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
+import { useT } from '@/lib/i18n';
 
-const RANK_COLORS = [
-  { bg: 'bg-amber-300', text: 'text-fuchsia-900', label: '1ST', glow: 'shadow-[0_0_30px_rgba(252,211,77,0.6)]' },
-  { bg: 'bg-slate-200', text: 'text-fuchsia-900', label: '2ND', glow: '' },
-  { bg: 'bg-orange-400', text: 'text-orange-950', label: '3RD', glow: '' },
-  { bg: 'bg-white/40', text: 'text-white', label: '4TH', glow: '' },
+const RANK_BG = [
+  { bg: 'bg-amber-300', text: 'text-fuchsia-900', glow: 'shadow-[0_0_30px_rgba(252,211,77,0.6)]' },
+  { bg: 'bg-slate-200', text: 'text-fuchsia-900', glow: '' },
+  { bg: 'bg-orange-400', text: 'text-orange-950', glow: '' },
+  { bg: 'bg-white/40', text: 'text-white', glow: '' },
 ];
 
-const LABEL_MAP: Record<string, { label: string; bg: string }> = {
-  mvp: { label: 'MVP', bg: 'bg-amber-300 text-fuchsia-900' },
-  fastest: { label: '⚡ FASTEST', bg: 'bg-cyan-300 text-fuchsia-900' },
-  comboKing: { label: '🔥 COMBO KING', bg: 'bg-orange-300 text-fuchsia-900' },
+const RANK_LABEL_KEYS = ['result.rank1', 'result.rank2', 'result.rank3', 'result.rank4'];
+
+const LABEL_BG: Record<string, string> = {
+  mvp: 'bg-amber-300 text-fuchsia-900',
+  fastest: 'bg-cyan-300 text-fuchsia-900',
+  comboKing: 'bg-orange-300 text-fuchsia-900',
+};
+const LABEL_KEYS: Record<string, string> = {
+  mvp: 'result.label.mvp',
+  fastest: 'result.label.fastest',
+  comboKing: 'result.label.comboKing',
 };
 
 function getLevelInfo(xp: number) {
-  if (xp >= 1500) return { name: 'GOLD', color: 'text-amber-300', bar: 'bg-amber-300', progress: 1, nextXP: 0 };
-  if (xp >= 500) return { name: 'SILVER', color: 'text-slate-200', bar: 'bg-slate-200', progress: (xp - 500) / 1000, nextXP: 1500 - xp };
-  return { name: 'BRONZE', color: 'text-orange-300', bar: 'bg-orange-300', progress: xp / 500, nextXP: 500 - xp };
+  if (xp >= 1500) return { key: 'result.level.gold', color: 'text-amber-300', bar: 'bg-amber-300', progress: 1, nextXP: 0 };
+  if (xp >= 500) return { key: 'result.level.silver', color: 'text-slate-200', bar: 'bg-slate-200', progress: (xp - 500) / 1000, nextXP: 1500 - xp };
+  return { key: 'result.level.bronze', color: 'text-orange-300', bar: 'bg-orange-300', progress: xp / 500, nextXP: 500 - xp };
 }
 
 export default function ResultPage() {
@@ -32,6 +40,7 @@ export default function ResultPage() {
     totalXP, reset, players, savedWords, toggleStarWord,
   } = useGameStore();
   const [showWords, setShowWords] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     if (phase !== 'result' || finalRankings.length === 0) {
@@ -55,9 +64,9 @@ export default function ResultPage() {
   if (myRankIdx > 0) {
     const above = finalRankings[myRankIdx - 1]!;
     const me = finalRankings[myRankIdx]!;
-    gapText = `Only ${above.score - me.score} pts from #${myRankIdx}!`;
+    gapText = t('result.gapBehind', { pts: above.score - me.score, rank: myRankIdx });
   } else if (myRankIdx === 0 && finalRankings.length > 1) {
-    gapText = `Won by ${finalRankings[0]!.score - finalRankings[1]!.score} pts!`;
+    gapText = t('result.wonBy', { pts: finalRankings[0]!.score - finalRankings[1]!.score });
   }
 
   const level = getLevelInfo(totalXP);
@@ -81,7 +90,7 @@ export default function ResultPage() {
         {/* Title */}
         <div className="text-center mb-3 animate-tilt-pop">
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-6 py-2 rounded-full font-black text-base tracking-widest shadow-[0_6px_0_#92400e] -rotate-2">
-            {isWinner ? 'YOU WON!' : 'GAME OVER'}
+            {isWinner ? t('result.youWon') : t('result.gameOver')}
           </div>
           {gapText && (
             <p className="mt-3 text-sm font-black text-white/90 tracking-wide drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
@@ -93,7 +102,8 @@ export default function ResultPage() {
         {/* Rankings */}
         <div className="w-full space-y-2.5 mb-5">
           {finalRankings.map((entry, i) => {
-            const style = RANK_COLORS[i] ?? RANK_COLORS[3]!;
+            const style = RANK_BG[i] ?? RANK_BG[3]!;
+            const rankLabelKey = RANK_LABEL_KEYS[i] ?? RANK_LABEL_KEYS[3]!;
             const isMe = entry.playerId === playerId;
             const charIdx = getCharacterIndex(entry.playerId, players);
             const char = getCharacter(charIdx);
@@ -110,9 +120,9 @@ export default function ResultPage() {
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${style.bg} ${style.text}`}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-[10px] shrink-0 ${style.bg} ${style.text}`}
                 >
-                  {style.label}
+                  {t(rankLabelKey)}
                 </div>
 
                 <div
@@ -130,25 +140,26 @@ export default function ResultPage() {
                     <span className="font-black text-white truncate">{entry.name}</span>
                     {isMe && (
                       <span className="text-[9px] bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full font-black tracking-widest shrink-0">
-                        YOU
+                        {t('common.you')}
                       </span>
                     )}
                   </div>
                   <div className="flex gap-2 mt-0.5 text-[10px] font-bold text-white/70 tracking-wide">
-                    <span>{entry.correctCount}/10 correct</span>
-                    <span>×{entry.maxCombo} max combo</span>
+                    <span>{entry.correctCount}/10 {t('result.correct')}</span>
+                    <span>×{entry.maxCombo} {t('result.combo')}</span>
                   </div>
                   {entryLabels.length > 0 && (
                     <div className="flex gap-1.5 mt-1.5 flex-wrap">
                       {entryLabels.map((key) => {
-                        const l = LABEL_MAP[key];
-                        if (!l) return null;
+                        const bg = LABEL_BG[key];
+                        const lkey = LABEL_KEYS[key];
+                        if (!bg || !lkey) return null;
                         return (
                           <span
                             key={key}
-                            className={`text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider ${l.bg}`}
+                            className={`text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider ${bg}`}
                           >
-                            {l.label}
+                            {t(lkey)}
                           </span>
                         );
                       })}
@@ -167,9 +178,9 @@ export default function ResultPage() {
         {/* Level bar */}
         <div className="w-full mb-4 px-1 animate-slide-up" style={{ animationDelay: '0.4s' }}>
           <div className="flex items-center justify-between mb-1.5">
-            <span className={`text-sm font-black tracking-widest ${level.color}`}>{level.name}</span>
+            <span className={`text-sm font-black tracking-widest ${level.color}`}>{t(level.key)}</span>
             <span className="text-xs font-bold text-white/80 tabular-nums">
-              {totalXP} XP{level.nextXP > 0 ? ` · ${level.nextXP} to next` : ''}
+              {totalXP} XP{level.nextXP > 0 ? t('result.toNext', { n: level.nextXP }) : ''}
             </span>
           </div>
           <div className="w-full h-3 bg-black/30 rounded-full overflow-hidden border-2 border-white/20">
@@ -189,7 +200,7 @@ export default function ResultPage() {
             hover:bg-amber-200 active:translate-y-[5px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)]
             transition-all"
         >
-          PLAY AGAIN
+          {t('result.playAgain')}
         </button>
 
         {/* My Words shortcut */}
@@ -199,7 +210,7 @@ export default function ResultPage() {
             bg-white/15 text-white border-4 border-white/30
             hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
         >
-          📚 MY WORDS ({savedWords.length})
+          {t('home.myWords', { n: savedWords.length })}
         </button>
 
         {/* Word Review */}
@@ -211,7 +222,7 @@ export default function ResultPage() {
                 bg-white/10 text-white/80 border-2 border-white/20
                 hover:bg-white/15 transition-all"
             >
-              {showWords ? '▲ HIDE' : '▼ REVIEW'} WORDS ({reviewWords.length})
+              {showWords ? t('result.hide') : t('result.review', { n: reviewWords.length })}
             </button>
 
             {showWords && (
@@ -252,7 +263,7 @@ export default function ResultPage() {
                               ? 'bg-amber-300 border-amber-200 text-fuchsia-900 shadow-[0_3px_0_rgba(120,53,15,0.5)] active:translate-y-[2px] active:shadow-[0_1px_0_rgba(120,53,15,0.5)]'
                               : 'bg-white/10 border-white/30 text-white/60 hover:bg-white/20'
                           }`}
-                          aria-label={starred ? 'Unstar' : 'Save to notebook'}
+                          aria-label={starred ? t('result.unstar') : t('result.save')}
                         >
                           <svg width="14" height="14" viewBox="0 0 24 24" fill={starred ? 'currentColor' : 'none'}
                             stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

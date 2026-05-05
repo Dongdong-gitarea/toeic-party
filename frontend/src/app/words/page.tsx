@@ -4,14 +4,15 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
+import { useT } from '@/lib/i18n';
 
 type Filter = 'all' | 'starred' | 'practice' | 'mastered';
 
-const FILTERS: { id: Filter; label: string }[] = [
-  { id: 'all', label: 'ALL' },
-  { id: 'starred', label: '⭐ STARRED' },
-  { id: 'practice', label: 'NEED PRACTICE' },
-  { id: 'mastered', label: 'MASTERED' },
+const FILTER_KEYS: { id: Filter; key: string }[] = [
+  { id: 'all', key: 'words.filter.all' },
+  { id: 'starred', key: 'words.filter.starred' },
+  { id: 'practice', key: 'words.filter.practice' },
+  { id: 'mastered', key: 'words.filter.mastered' },
 ];
 
 function isMastered(w: SavedWord) {
@@ -26,6 +27,7 @@ export default function WordsPage() {
   const router = useRouter();
   const { savedWords, toggleStarWord, removeSavedWord } = useGameStore();
   const [filter, setFilter] = useState<Filter>('all');
+  const t = useT();
 
   const filtered = useMemo(() => {
     const list = savedWords.filter((w) => {
@@ -64,17 +66,17 @@ export default function WordsPage() {
               bg-white/15 text-white border-4 border-white/30
               hover:bg-white/25 active:translate-y-[2px] transition-all"
           >
-            ← HOME
+            {t('words.home')}
           </button>
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
-            MY WORDS
+            {t('words.title')}
           </div>
           <div className="w-[78px]" />
         </div>
 
         {/* Filter pills */}
         <div className="w-full grid grid-cols-2 gap-2 mb-4">
-          {FILTERS.map((f) => {
+          {FILTER_KEYS.map((f) => {
             const active = filter === f.id;
             return (
               <button
@@ -86,7 +88,7 @@ export default function WordsPage() {
                     : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
                 }`}
               >
-                {f.label} · {counts[f.id]}
+                {t(f.key)} · {counts[f.id]}
               </button>
             );
           })}
@@ -97,9 +99,7 @@ export default function WordsPage() {
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-8 text-center">
             <p className="text-4xl mb-2">📭</p>
             <p className="text-white font-black text-sm tracking-wide">
-              {filter === 'all'
-                ? 'No words yet. Play a game to start collecting!'
-                : 'Nothing here yet.'}
+              {filter === 'all' ? t('words.empty') : t('words.empty2')}
             </p>
           </div>
         ) : (
@@ -140,7 +140,7 @@ export default function WordsPage() {
                           ? 'bg-amber-300 border-amber-200 text-fuchsia-900 shadow-[0_3px_0_rgba(120,53,15,0.5)]'
                           : 'bg-white/10 border-white/30 text-white/60'
                       }`}
-                      aria-label={w.starred ? 'Unstar' : 'Star'}
+                      aria-label={w.starred ? t('result.unstar') : t('result.save')}
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill={w.starred ? 'currentColor' : 'none'}
                         stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -157,17 +157,17 @@ export default function WordsPage() {
                   )}
 
                   <div className="mt-2 flex items-center gap-3 text-[10px] font-black text-white/80 tracking-wider">
-                    <span className="text-emerald-300">✓ {w.correctCount}</span>
-                    <span className="text-rose-300">✗ {w.wrongCount}</span>
-                    <span>{accuracy}% · {total} times</span>
+                    <span className="text-emerald-300">{t('words.correctMark')} {w.correctCount}</span>
+                    <span className="text-rose-300">{t('words.wrongMark')} {w.wrongCount}</span>
+                    <span>{t('words.times', { pct: accuracy, n: total })}</span>
                     <button
                       onClick={() => {
-                        if (confirm(`Remove "${w.word}" from notebook?`)) removeSavedWord(w.word);
+                        if (confirm(t('words.deleteConfirm', { word: w.word }))) removeSavedWord(w.word);
                       }}
                       className="ml-auto text-white/40 hover:text-rose-300 cursor-pointer"
-                      aria-label="Remove"
+                      aria-label={t('words.delete')}
                     >
-                      DELETE
+                      {t('words.delete')}
                     </button>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ export default function WordsPage() {
         )}
 
         <p className="mt-4 text-center text-[10px] font-bold text-white/60 tracking-wider">
-          Words are saved automatically after each game
+          {t('words.note')}
         </p>
       </div>
     </main>

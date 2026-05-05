@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
+import { useT } from '@/lib/i18n';
 
 interface PQuestion {
   word: string;
@@ -58,6 +59,8 @@ export default function PracticePage() {
   const [stats, setStats] = useState({ correct: 0, wrong: 0 });
   const [done, setDone] = useState(false);
 
+  const t = useT();
+
   useEffect(() => {
     setQuestions(buildQuestions(savedWords, 10));
   }, [savedWords]);
@@ -108,10 +111,10 @@ export default function PracticePage() {
               bg-white/15 text-white border-4 border-white/30
               hover:bg-white/25 active:translate-y-[2px] transition-all"
           >
-            ← HOME
+            {t('practice.home')}
           </button>
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
-            PRACTICE
+            {t('practice.title')}
           </div>
           <div className="w-[78px]" />
         </div>
@@ -119,9 +122,9 @@ export default function PracticePage() {
         {questions.length === 0 ? (
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-8 text-center">
             <p className="text-4xl mb-3">📚</p>
-            <p className="text-white font-black text-base mb-2">Need at least 4 saved words</p>
+            <p className="text-white font-black text-base mb-2">{t('practice.needMore')}</p>
             <p className="text-sm font-bold text-white/70 mb-4">
-              Play a few games to build your vocab notebook first.
+              {t('practice.howTo')}
             </p>
             <button
               onClick={() => router.push('/')}
@@ -130,16 +133,15 @@ export default function PracticePage() {
                 shadow-[0_5px_0_rgba(120,53,15,0.6)]
                 active:translate-y-[3px] active:shadow-[0_2px_0_rgba(120,53,15,0.6)] transition-all"
             >
-              START A GAME
+              {t('practice.startGame')}
             </button>
           </div>
         ) : done ? (
           // ── Summary ──
           <div className="w-full flex flex-col items-center gap-4 animate-tilt-pop">
             <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-6 text-center">
-              <p className="text-4xl mb-1">🎉</p>
-              <p className="text-2xl font-black text-white mb-1">PRACTICE DONE</p>
-              <p className="text-base font-black text-amber-200">{accuracyPct}% accuracy</p>
+              <p className="text-2xl font-black text-white mb-1">{t('practice.done')}</p>
+              <p className="text-base font-black text-amber-200">{t('practice.accuracy', { pct: accuracyPct })}</p>
               <div className="mt-4 flex justify-center gap-6 text-sm font-black tracking-widest">
                 <span className="text-emerald-300">✓ {stats.correct}</span>
                 <span className="text-rose-300">✗ {stats.wrong}</span>
@@ -153,7 +155,7 @@ export default function PracticePage() {
                 hover:bg-amber-200 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(120,53,15,0.7)]
                 transition-all"
             >
-              PRACTICE AGAIN
+              {t('practice.again')}
             </button>
             <button
               onClick={() => router.push('/words')}
@@ -161,14 +163,14 @@ export default function PracticePage() {
                 bg-white/15 text-white border-4 border-white/30
                 hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
             >
-              📚 BACK TO MY WORDS
+              {t('practice.backToWords')}
             </button>
           </div>
         ) : current ? (
           <>
             {/* Progress */}
             <div className="w-full mb-3 flex items-center justify-between text-xs font-black tracking-widest text-white/80">
-              <span>Q{idx + 1} / {total}</span>
+              <span>{t('practice.qProgress', { n: idx + 1, total })}</span>
               <span className="flex gap-3">
                 <span className="text-emerald-300">✓ {stats.correct}</span>
                 <span className="text-rose-300">✗ {stats.wrong}</span>
@@ -244,13 +246,13 @@ export default function PracticePage() {
                 transition-all
                 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
             >
-              {idx + 1 >= total ? 'FINISH' : 'NEXT →'}
+              {idx + 1 >= total ? t('practice.finish') : t('practice.next')}
             </button>
           </>
         ) : null}
 
         <p className="mt-4 text-center text-[10px] font-bold text-white/60 tracking-wider">
-          No timer · No opponents · Pure practice
+          {t('practice.untimed')}
         </p>
       </div>
     </main>
