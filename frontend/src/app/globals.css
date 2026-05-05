@@ -130,6 +130,17 @@ body {
   50% { opacity: 0.7; transform: scale(1.04); }
 }
 
+@keyframes intro-pop {
+  0% { opacity: 0; transform: scale(0.4) translateY(40px) rotate(-6deg); }
+  60% { opacity: 1; transform: scale(1.1) translateY(-6px) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); }
+}
+
+@keyframes intro-exit {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
 @utility animate-float-up {
   animation: float-up 0.9s ease-out forwards;
 }
@@ -204,6 +215,14 @@ body {
 
 @utility animate-empty-pulse {
   animation: empty-pulse 1.6s ease-in-out infinite;
+}
+
+@utility animate-intro-pop {
+  animation: intro-pop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility animate-intro-exit {
+  animation: intro-exit 0.4s ease-in forwards;
 }
 
 @utility party-bg {

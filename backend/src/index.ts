@@ -47,6 +47,45 @@ io.on('connection', (socket) => {
     matchmaker.setReady(socket.id, !!ready);
   });
 
+  socket.on('CREATE_PRIVATE', (
+    {
+      playerName,
+      weakWords,
+      charIdx,
+    }: { playerName: string; weakWords?: string[]; charIdx?: number },
+  ) => {
+    const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
+    matchmaker.createPrivateRoom(
+      socket,
+      playerName || 'Player',
+      Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
+      idx,
+    );
+  });
+
+  socket.on('JOIN_PRIVATE', (
+    {
+      code,
+      playerName,
+      weakWords,
+      charIdx,
+    }: {
+      code: string;
+      playerName: string;
+      weakWords?: string[];
+      charIdx?: number;
+    },
+  ) => {
+    const idx = typeof charIdx === 'number' && charIdx >= 0 && charIdx < 4 ? charIdx : 0;
+    matchmaker.joinPrivateRoom(
+      socket,
+      code,
+      playerName || 'Player',
+      Array.isArray(weakWords) ? weakWords.slice(0, 80) : [],
+      idx,
+    );
+  });
+
   socket.on('SUBMIT_ANSWER', ({ answerIndex }: { answerIndex: number }) => {
     const room = matchmaker.getRoomBySocket(socket.id);
     room?.handleAnswer(socket.id, answerIndex);

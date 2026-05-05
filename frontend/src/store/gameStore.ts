@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { getSocket } from '@/lib/socket';
 import { sounds } from '@/lib/sounds';
+import { haptic } from '@/lib/haptics';
 
 export type Locale = 'zh' | 'en';
 
@@ -161,6 +162,8 @@ interface LobbyState {
   count: number;
   capacity: number;
   secondsLeft: number;
+  code?: string;
+  isPrivate?: boolean;
 }
 
 interface GameState {
@@ -222,12 +225,16 @@ interface GameState {
   joinMatch: () => void;
   leaveMatch: () => void;
   setReady: (ready: boolean) => void;
+  createPrivateRoom: () => void;
+  joinPrivateRoom: (code: string) => void;
+  joinError: string | null;
   submitAnswer: (answerIndex: number) => void;
   useSkill: (skillType: SkillType) => void;
   initSocket: () => void;
   reset: () => void;
   toggleStarWord: (word: string) => void;
   removeSavedWord: (word: string) => void;
+  addManualWord: (word: string, meaning: string) => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -260,6 +267,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   unlockedChars: 4,
   savedWords: loadSavedWords(),
   myReady: false,
+  joinError: null,
   selectedCharIdx:
     typeof window !== 'undefined' ? Number(localStorage.getItem('tp_char_idx') || 0) : 0,
   locale:
@@ -292,6 +300,19 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     socket.on('LOBBY_UPDATE', (state: LobbyState) => {
       set({ lobby: state });
+    });
+
+    socket.on('PRIVATE_ROOM_JOINED', () => {
+      set({ phase: 'matchmaking', myReady: false, joinError: null });
+    });
+
+    socket.on('PRIVATE_ROOM_ERROR', ({ reason }: { reason: string }) => {
+      const messages: Record<string, string> = {
+        not_found: 'home.joinError',
+        full: 'home.joinError',
+        expired: 'home.joinError',
+      };
+      set({ joinError: messages[reason] ?? 'home.joinError', phase: 'idle', lobby: null });
     });
 
     socket.on('MATCH_FOUND', ({ roomId, players }) => {
@@ -341,9 +362,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     socket.on('ANSWER_RESULT', (result: AnswerResult) => {
       if (result.correct) {
         sounds.correct();
+        haptic(result.combo >= 3 ? 'heavy' : 'success');
         if (result.combo >= 3) sounds.combo();
       } else {
         sounds.wrong();
+        haptic('error');
       }
       set({
         lastResult: result,
@@ -375,6 +398,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     socket.on('SKILL_EFFECT', (effect: SkillEffect) => {
       sounds.skillReceived();
+      haptic('error');
       // Clear previous effect
       const prev = get().effectTimer;
       if (prev) clearTimeout(prev);
@@ -455,14 +479,45 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ myReady: ready });
   },
 
+  createPrivateRoom: () => {
+    const { playerName, savedWords, selectedCharIdx } = get();
+    const weakWords = savedWords
+      .filter((w) => w.wrongCount >= w.correctCount && (w.wrongCount > 0 || w.correctCount === 0))
+      .slice(0, 60)
+      .map((w) => w.word);
+    set({ joinError: null });
+    getSocket().emit('CREATE_PRIVATE', {
+      playerName: playerName || 'Player',
+      weakWords,
+      charIdx: selectedCharIdx,
+    });
+  },
+
+  joinPrivateRoom: (code: string) => {
+    const { playerName, savedWords, selectedCharIdx } = get();
+    const weakWords = savedWords
+      .filter((w) => w.wrongCount >= w.correctCount && (w.wrongCount > 0 || w.correctCount === 0))
+      .slice(0, 60)
+      .map((w) => w.word);
+    set({ joinError: null });
+    getSocket().emit('JOIN_PRIVATE', {
+      code: code.toUpperCase().trim(),
+      playerName: playerName || 'Player',
+      weakWords,
+      charIdx: selectedCharIdx,
+    });
+  },
+
   submitAnswer: (answerIndex) => {
     if (get().selectedAnswer !== null) return;
     set({ selectedAnswer: answerIndex });
+    haptic('tap');
     getSocket().emit('SUBMIT_ANSWER', { answerIndex });
   },
 
   useSkill: (skillType) => {
     if (get().myEnergy < 3) return;
+    haptic('heavy');
     getSocket().emit('USE_SKILL', { skillType });
   },
 
@@ -502,6 +557,39 @@ export const useGameStore = create<GameState>((set, get) => ({
   removeSavedWord: (word: string) => {
     const key = word.toLowerCase();
     const next = get().savedWords.filter((w) => w.word.toLowerCase() !== key);
+    persistSavedWords(next);
+    set({ savedWords: next });
+  },
+
+  addManualWord: (word: string, meaning: string) => {
+    const trimmed = word.trim();
+    const trimmedMeaning = meaning.trim();
+    if (!trimmed || !trimmedMeaning) return;
+    const key = trimmed.toLowerCase();
+    const current = get().savedWords;
+    const existing = current.find((w) => w.word.toLowerCase() === key);
+    let next: SavedWord[];
+    if (existing) {
+      next = current.map((w) =>
+        w.word.toLowerCase() === key
+          ? { ...w, meaning: trimmedMeaning, starred: true, lastSeen: Date.now() }
+          : w,
+      );
+    } else {
+      next = [
+        ...current,
+        {
+          word: trimmed,
+          correctAnswer: trimmedMeaning,
+          definition: '',
+          meaning: trimmedMeaning,
+          correctCount: 0,
+          wrongCount: 0,
+          starred: true,
+          lastSeen: Date.now(),
+        },
+      ];
+    }
     persistSavedWords(next);
     set({ savedWords: next });
   },
