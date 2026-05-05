@@ -9,6 +9,9 @@ import {
   BookMarked,
   Target,
   Users,
+  UserPlus,
+  ListChecks,
+  Clock,
 } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { CHARACTERS } from '@/lib/characters';
@@ -142,7 +145,7 @@ export default function LobbyPage() {
                 return (
                   <div
                     key={i}
-                    className={`relative rounded-2xl border-4 p-3 text-center ${
+                    className={`relative rounded-2xl border-4 px-2.5 py-2 text-center ${
                       slot
                         ? slot.ready
                           ? 'border-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.4)]'
@@ -160,18 +163,18 @@ export default function LobbyPage() {
                     {slot && char ? (
                       <>
                         {slot.you && (
-                          <span className="absolute top-1.5 left-1.5 text-[8px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full shadow-[0_2px_0_rgba(120,53,15,0.5)]">
+                          <span className="absolute top-1 left-1 text-[8px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full shadow-[0_2px_0_rgba(120,53,15,0.5)]">
                             {t('common.you')}
                           </span>
                         )}
                         <img
                           src={`${char.folder}/idle.png`}
                           alt=""
-                          className="w-16 h-16 mx-auto object-contain animate-float-bob"
+                          className="w-14 h-14 mx-auto object-contain animate-float-bob"
                           style={{ animationDelay: `${i * 0.2}s` }}
                           draggable={false}
                         />
-                        <p className={`text-sm font-bold truncate mt-1 ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
+                        <p className={`text-xs font-bold truncate ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
                         {slot.ready && (
                           <span className="inline-flex items-center gap-1 mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
                             <Check className="w-3 h-3" strokeWidth={3} />
@@ -181,8 +184,8 @@ export default function LobbyPage() {
                       </>
                     ) : (
                       <>
-                        <div className="w-16 h-16 mx-auto rounded-full bg-white/10 flex items-center justify-center text-3xl font-black text-white/40">
-                          ?
+                        <div className="w-14 h-14 mx-auto rounded-full bg-white/10 flex items-center justify-center text-white/40">
+                          <UserPlus className="w-7 h-7" strokeWidth={1.75} />
                         </div>
                         <p className="text-xs font-bold text-white/50 mt-1">{t('lobby.waiting')}</p>
                       </>
@@ -422,9 +425,22 @@ export default function LobbyPage() {
             <p className="text-center text-xs font-bold text-amber-300 -mt-2">{t('common.connecting')}</p>
           )}
 
-          <p className="text-center text-[11px] font-semibold text-white/60 tracking-widest">
-            {t('home.rules')}
-          </p>
+          <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-white/60 tracking-wider">
+            <span className="inline-flex items-center gap-1">
+              <Users className="w-3 h-3" strokeWidth={2.5} />
+              4
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="inline-flex items-center gap-1">
+              <ListChecks className="w-3 h-3" strokeWidth={2.5} />
+              10
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="inline-flex items-center gap-1">
+              <Clock className="w-3 h-3" strokeWidth={2.5} />
+              10s
+            </span>
+          </div>
         </div>
       )}
     </main>

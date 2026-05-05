@@ -2,7 +2,19 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Volume2, Star, Inbox, Plus, ArrowLeft, Check, X as XIcon } from 'lucide-react';
+import {
+  Volume2,
+  Star,
+  Inbox,
+  Plus,
+  ArrowLeft,
+  Check,
+  X as XIcon,
+  Layers,
+  AlertCircle,
+  CheckCircle2,
+  type LucideIcon,
+} from 'lucide-react';
 import { useGameStore, type SavedWord } from '@/store/gameStore';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
@@ -12,11 +24,11 @@ import ExampleBlock from '@/components/ExampleBlock';
 
 type Filter = 'all' | 'starred' | 'practice' | 'mastered';
 
-const FILTER_KEYS: { id: Filter; key: string }[] = [
-  { id: 'all', key: 'words.filter.all' },
-  { id: 'starred', key: 'words.filter.starred' },
-  { id: 'practice', key: 'words.filter.practice' },
-  { id: 'mastered', key: 'words.filter.mastered' },
+const FILTER_KEYS: { id: Filter; key: string; Icon: LucideIcon }[] = [
+  { id: 'all', key: 'words.filter.all', Icon: Layers },
+  { id: 'starred', key: 'words.filter.starred', Icon: Star },
+  { id: 'practice', key: 'words.filter.practice', Icon: AlertCircle },
+  { id: 'mastered', key: 'words.filter.mastered', Icon: CheckCircle2 },
 ];
 
 function isMastered(w: SavedWord) {
@@ -95,19 +107,30 @@ export default function WordsPage() {
 
         {/* Filter pills */}
         <div className="w-full grid grid-cols-2 gap-2 mb-4">
-          {FILTER_KEYS.map((f) => {
-            const active = filter === f.id;
+          {FILTER_KEYS.map(({ id, key, Icon }) => {
+            const active = filter === id;
             return (
               <button
-                key={f.id}
-                onClick={() => setFilter(f.id)}
-                className={`py-2.5 rounded-2xl font-bold text-[11px] tracking-widest transition-all border-4 cursor-pointer ${
+                key={id}
+                onClick={() => setFilter(id)}
+                className={`py-2.5 rounded-2xl font-bold text-[11px] tracking-widest transition-all border-4 cursor-pointer
+                  inline-flex items-center justify-center gap-1.5 ${
                   active
                     ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_4px_0_rgba(0,0,0,0.25)]'
                     : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
                 }`}
               >
-                {t(f.key)} · {counts[f.id]}
+                <Icon
+                  className="w-3.5 h-3.5"
+                  strokeWidth={2.5}
+                  fill={active && id === 'starred' ? 'currentColor' : 'none'}
+                />
+                <span>{t(key)}</span>
+                <span className={`text-[10px] font-black tabular-nums ${
+                  active ? 'opacity-70' : 'opacity-60'
+                }`}>
+                  {counts[id]}
+                </span>
               </button>
             );
           })}

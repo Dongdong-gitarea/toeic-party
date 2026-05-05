@@ -12,6 +12,8 @@ import {
   Star,
   RotateCw,
   BookMarked,
+  ChevronDown,
+  ChevronUp,
   type LucideIcon,
 } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
@@ -255,9 +257,20 @@ export default function ResultPage() {
               onClick={() => setShowWords(!showWords)}
               className="w-full py-2.5 rounded-2xl font-bold text-xs tracking-widest cursor-pointer
                 bg-white/10 text-white/80 border-2 border-white/20
-                hover:bg-white/15 transition-all"
+                hover:bg-white/15 transition-all
+                inline-flex items-center justify-center gap-1.5"
             >
-              {showWords ? t('result.hide') : t('result.review', { n: reviewWords.length })}
+              {showWords ? (
+                <>
+                  <ChevronUp className="w-3.5 h-3.5" strokeWidth={2.75} />
+                  {t('result.hide')}
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-3.5 h-3.5" strokeWidth={2.75} />
+                  {t('result.review', { n: reviewWords.length })}
+                </>
+              )}
             </button>
 
             {showWords && (

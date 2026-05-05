@@ -24,7 +24,6 @@ const dict: Record<Lang, Record<string, string>> = {
     'home.start': '開戰！',
     'home.myWords': '我的單字 ({n})',
     'home.practice': '練習',
-    'home.rules': '4 玩家 · 10 題 · 每題 10 秒',
 
     // Lobby
     'lobby.waitingRoom': '等待室',
@@ -57,8 +56,8 @@ const dict: Record<Lang, Record<string, string>> = {
     'result.gapBehind': '只差 {pts} 分到第 {rank} 名！',
     'result.wonBy': '領先 {pts} 分獲勝！',
     'result.playAgain': '再玩一次',
-    'result.review': '▼ 複習單字 ({n})',
-    'result.hide': '▲ 收合',
+    'result.review': '複習單字 ({n})',
+    'result.hide': '收合',
     'result.correct': '答對',
     'result.combo': '最高連擊',
     'result.rank1': '冠軍',
@@ -170,7 +169,6 @@ const dict: Record<Lang, Record<string, string>> = {
     'home.start': 'START!',
     'home.myWords': 'MY WORDS ({n})',
     'home.practice': 'PRACTICE',
-    'home.rules': '4 PLAYERS · 10 QUESTIONS · 10s EACH',
 
     'lobby.waitingRoom': 'WAITING ROOM',
     'lobby.waiting': 'Waiting…',
@@ -200,8 +198,8 @@ const dict: Record<Lang, Record<string, string>> = {
     'result.gapBehind': 'Only {pts} pts from #{rank}!',
     'result.wonBy': 'Won by {pts} pts!',
     'result.playAgain': 'PLAY AGAIN',
-    'result.review': '▼ REVIEW WORDS ({n})',
-    'result.hide': '▲ HIDE',
+    'result.review': 'REVIEW WORDS ({n})',
+    'result.hide': 'HIDE',
     'result.correct': 'correct',
     'result.combo': 'max combo',
     'result.rank1': '1ST',

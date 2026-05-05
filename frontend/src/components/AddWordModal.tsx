@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Plus, X as XIcon, Check } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { useT } from '@/lib/i18n';
 
@@ -36,7 +37,8 @@ export default function AddWordModal({ open, onClose }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-center mb-4">
-          <div className="inline-block bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
+          <div className="inline-flex items-center gap-1.5 bg-amber-300 text-fuchsia-900 px-5 py-2 rounded-full font-black text-sm tracking-widest shadow-[0_5px_0_#92400e] -rotate-2">
+            <Plus className="w-4 h-4" strokeWidth={3} />
             {t('words.addTitle')}
           </div>
         </div>
@@ -88,8 +90,10 @@ export default function AddWordModal({ open, onClose }: Props) {
             onClick={onClose}
             className="py-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
               bg-white/10 text-white border-4 border-white/20
-              hover:bg-white/20 active:translate-y-[2px] transition-all"
+              hover:bg-white/20 active:translate-y-[2px] transition-all
+              inline-flex items-center justify-center gap-1.5"
           >
+            <XIcon className="w-4 h-4" strokeWidth={2.75} />
             {t('words.addCancel')}
           </button>
           <button
@@ -103,8 +107,10 @@ export default function AddWordModal({ open, onClose }: Props) {
               bg-amber-300 text-fuchsia-900 border-4 border-amber-400
               shadow-[0_4px_0_rgba(120,53,15,0.5)]
               hover:bg-amber-200 active:translate-y-[3px] active:shadow-[0_1px_0_rgba(120,53,15,0.5)] transition-all
-              disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
+              disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-amber-300
+              inline-flex items-center justify-center gap-1.5"
           >
+            <Check className="w-4 h-4" strokeWidth={3} />
             {t('words.addSubmit')}
           </button>
         </div>

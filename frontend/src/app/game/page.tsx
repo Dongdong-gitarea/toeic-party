@@ -2,6 +2,19 @@
 
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  Volume2,
+  Brain,
+  Headphones,
+  FileText,
+  Flame,
+  Waves,
+  CloudFog,
+  TimerOff,
+  Check,
+  X as XIcon,
+  type LucideIcon,
+} from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
@@ -200,15 +213,32 @@ export default function GamePage() {
       {showFinalIntro && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 pointer-events-none">
           <div className="text-center animate-countdown-pop">
-            <p className="text-base text-amber-300 font-bold uppercase tracking-[0.3em] mb-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
+            <div className="inline-flex items-center justify-center gap-1.5 mb-1">
+              <Flame className="w-4 h-4 text-amber-300" strokeWidth={2.75} />
+              <p className="text-base text-amber-300 font-bold uppercase tracking-[0.3em] drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{t('game.finalRound')}</p>
+              <Flame className="w-4 h-4 text-amber-300" strokeWidth={2.75} />
+            </div>
             <p className="text-6xl sm:text-8xl font-black text-white drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">×2.5</p>
           </div>
         </div>
       )}
       {activeEffect && (
         <div className="fixed top-2 left-1/2 -translate-x-1/2 z-[60] animate-skill-flash">
-          <div className="bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-bold tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
-            {activeEffect.fromName}: {activeEffect.skillType === 'shake' ? 'SHAKE!' : activeEffect.skillType === 'fog' ? 'FOG!' : 'TIME CUT!'}
+          <div className="inline-flex items-center gap-1.5 bg-rose-400 text-rose-950 px-4 py-2 rounded-2xl text-xs font-bold tracking-widest shadow-[0_4px_0_rgba(0,0,0,0.4)] border-2 border-rose-200">
+            {(() => {
+              const map: Record<string, { Icon: LucideIcon; label: string }> = {
+                shake: { Icon: Waves, label: 'SHAKE!' },
+                fog: { Icon: CloudFog, label: 'FOG!' },
+                timeCut: { Icon: TimerOff, label: 'TIME CUT!' },
+              };
+              const e = map[activeEffect.skillType] ?? map.shake!;
+              return (
+                <>
+                  <e.Icon className="w-4 h-4" strokeWidth={2.75} />
+                  <span>{activeEffect.fromName}: {e.label}</span>
+                </>
+              );
+            })()}
           </div>
         </div>
       )}
@@ -230,10 +260,30 @@ export default function GamePage() {
             <img src={`${myChar.folder}/idle.png`} alt="" className="w-full h-full object-contain" />
           </div>
           <span className="text-sm font-bold text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
-          {currentQuestion.type === 'vocab' && <span className="text-[9px] font-bold bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.vocab')}</span>}
-          {currentQuestion.type === 'audio' && <span className="text-[9px] font-bold bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.audio')}</span>}
-          {currentQuestion.type === 'fillblank' && <span className="text-[9px] font-bold bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">{t('game.qType.fillblank')}</span>}
-          {isFinal && <span className="text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">×2.5</span>}
+          {currentQuestion.type === 'vocab' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-cyan-300 text-cyan-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Brain className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.vocab')}
+            </span>
+          )}
+          {currentQuestion.type === 'audio' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-fuchsia-300 text-fuchsia-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Headphones className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.audio')}
+            </span>
+          )}
+          {currentQuestion.type === 'fillblank' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-amber-300 text-amber-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <FileText className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.fillblank')}
+            </span>
+          )}
+          {isFinal && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
+              <Flame className="w-3 h-3" strokeWidth={2.75} />
+              ×2.5
+            </span>
+          )}
         </div>
         <Timer duration={10} questionId={currentQuestion.id} compact
           timeCut={activeEffect?.skillType === 'timeCut'} onTimeUpdate={handleTimeUpdate} />
@@ -260,12 +310,8 @@ export default function GamePage() {
               <div className="flex items-center justify-center gap-2">
                 <button onClick={() => speakWord(currentQuestion.audioWord!)}
                   className="w-9 h-9 rounded-full bg-fuchsia-300 border-2 border-fuchsia-200
-                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(112,26,117,0.5)]">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  </svg>
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(112,26,117,0.5)] text-fuchsia-950">
+                  <Volume2 className="w-4 h-4" strokeWidth={2.5} />
                 </button>
                 <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
               </div>
@@ -291,13 +337,8 @@ export default function GamePage() {
               <div className="flex items-center justify-center gap-3">
                 <button onClick={() => speakWord(currentQuestion.audioWord!)}
                   className="w-14 h-14 rounded-full bg-fuchsia-300 border-4 border-fuchsia-200
-                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(112,26,117,0.5)]">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-950">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                  </svg>
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(112,26,117,0.5)] text-fuchsia-950">
+                  <Volume2 className="w-6 h-6" strokeWidth={2.5} />
                 </button>
                 <span className="text-sm font-medium text-white/90">{t('game.tapToHear')}</span>
               </div>
@@ -368,14 +409,25 @@ export default function GamePage() {
                 {t('game.score')} <span className="ml-1 text-amber-300 font-black text-base tabular-nums drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">{displayScore}</span>
               </span>
               {myCombo > 0 && (
-                <span className={`font-black text-orange-300 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
+                <span className={`inline-flex items-center gap-0.5 font-black text-orange-300 ${myCombo >= 3 ? 'animate-combo-fire text-base' : 'text-sm'}`}>
+                  {myCombo >= 3 && <Flame className="w-3.5 h-3.5" strokeWidth={2.75} fill="currentColor" />}
                   ×{[1, 1.2, 1.5, 2][Math.min(myCombo, 3)]}
                 </span>
               )}
             </div>
             {lastResult && (
-              <span className={`text-xs font-bold tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
-                {lastResult.correct ? `+${lastResult.totalGained}` : t('game.wrong')}
+              <span className={`inline-flex items-center gap-0.5 text-xs font-bold tracking-wider ${lastResult.correct ? 'text-emerald-300' : 'text-rose-300'}`}>
+                {lastResult.correct ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                    +{lastResult.totalGained}
+                  </>
+                ) : (
+                  <>
+                    <XIcon className="w-3.5 h-3.5" strokeWidth={3} />
+                    {t('game.wrong')}
+                  </>
+                )}
               </span>
             )}
           </div>

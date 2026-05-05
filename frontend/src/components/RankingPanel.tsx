@@ -1,5 +1,6 @@
 'use client';
 
+import { Crown } from 'lucide-react';
 import { getCharacterIndex, getCharacter } from '@/lib/characters';
 
 interface RankEntry {
@@ -49,8 +50,12 @@ export default function RankingPanel({
               }`}
             >
               <img src={`${char.folder}/idle.png`} alt={char.name} className="w-7 h-7 object-contain shrink-0" />
-              <span className="text-[10px] font-bold text-slate-500 w-6 shrink-0">
-                {MEDALS[i]}
+              <span className="w-6 shrink-0 inline-flex items-center justify-center">
+                {i === 0 ? (
+                  <Crown className="w-4 h-4 text-amber-300" strokeWidth={2.5} fill="currentColor" />
+                ) : (
+                  <span className="text-[10px] font-bold text-slate-500">{MEDALS[i]}</span>
+                )}
               </span>
               <span className="flex-1 text-sm font-medium truncate">
                 {entry.name}
