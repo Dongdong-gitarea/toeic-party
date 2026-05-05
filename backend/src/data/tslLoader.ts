@@ -54,17 +54,23 @@ function pickRandom<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// Bias selection toward `weakLower`: take ~70% from weak pool, pad with random
+// Bias selection toward `weakLower`: take ~70% from weak pool, pad with random.
+// `excludeLower` words are skipped entirely so the same headword doesn't
+// appear twice in one match (e.g. once as vocab, once as audio).
 function pickWeighted<T>(
   pool: T[],
   getWord: (entry: T) => string,
   weakLower: Set<string>,
   n: number,
+  excludeLower: Set<string> = new Set(),
 ): T[] {
   if (n <= 0 || pool.length === 0) return [];
-  if (weakLower.size === 0) return pickRandom(pool, n);
-  const weakPool = pool.filter((p) => weakLower.has(getWord(p).toLowerCase()));
-  const otherPool = pool.filter((p) => !weakLower.has(getWord(p).toLowerCase()));
+  const available = excludeLower.size > 0
+    ? pool.filter((p) => !excludeLower.has(getWord(p).toLowerCase()))
+    : pool;
+  if (weakLower.size === 0) return pickRandom(available, n);
+  const weakPool = available.filter((p) => weakLower.has(getWord(p).toLowerCase()));
+  const otherPool = available.filter((p) => !weakLower.has(getWord(p).toLowerCase()));
   const targetWeak = Math.min(weakPool.length, Math.ceil(n * 0.7));
   const fromWeak = pickRandom(weakPool, targetWeak);
   const fromOther = pickRandom(otherPool, n - fromWeak.length);
@@ -100,8 +106,8 @@ function withMeta<T extends { word: string }>(q: T): T & {
 }
 
 // ── Generate vocab (English → Chinese) from hand-crafted bank ──
-function generateVocabQuestions(count: number, weakLower: Set<string>): Question[] {
-  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length));
+function generateVocabQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
+  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length), excludeLower);
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
     return withMeta({
@@ -117,8 +123,8 @@ function generateVocabQuestions(count: number, weakLower: Set<string>): Question
 }
 
 // ── Generate audio (hear word → pick Chinese meaning) from vocab bank ──
-function generateAudioQuestions(count: number, weakLower: Set<string>): Question[] {
-  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length));
+function generateAudioQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
+  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length), excludeLower);
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
     return withMeta({
@@ -134,9 +140,9 @@ function generateAudioQuestions(count: number, weakLower: Set<string>): Question
 }
 
 // ── Generate definition match: show definition → pick correct word ──
-function generateDefinitionQuestions(count: number, weakLower: Set<string>): Question[] {
+function generateDefinitionQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
   const words = loadTSL().filter((w) => w.definition_en.length >= 5);
-  const selected = pickWeighted(words, (w) => w.word, weakLower, Math.min(count, words.length));
+  const selected = pickWeighted(words, (w) => w.word, weakLower, Math.min(count, words.length), excludeLower);
   return selected.map((w, idx) => {
     const wrongWords = pickRandom(
       words.filter((o) => o.word !== w.word),
@@ -158,6 +164,10 @@ function generateDefinitionQuestions(count: number, weakLower: Set<string>): Que
 /**
  * Generate N questions with balanced type distribution. When `weakWords`
  * is non-empty, ~70% of questions are biased toward those words.
+ *
+ * Headwords are de-duped across types within a single match — so the
+ * same word can't appear once as a vocab question and again as audio
+ * (which used to feel like the round was repeating words).
  */
 export function generateTSLQuestions(count: number, weakWords: string[] = []): Question[] {
   const weakLower = new Set(weakWords.map((w) => w.toLowerCase()));
@@ -165,9 +175,15 @@ export function generateTSLQuestions(count: number, weakWords: string[] = []): Q
   const audioCount = Math.ceil(count / 3);
   const fillCount = count - vocabCount - audioCount;
 
-  const vocabQs = generateVocabQuestions(vocabCount, weakLower);
-  const audioQs = generateAudioQuestions(audioCount, weakLower);
-  const fillQs = generateDefinitionQuestions(fillCount, weakLower);
+  const used = new Set<string>();
+
+  const vocabQs = generateVocabQuestions(vocabCount, weakLower, used);
+  for (const q of vocabQs) used.add(q.word.toLowerCase());
+
+  const audioQs = generateAudioQuestions(audioCount, weakLower, used);
+  for (const q of audioQs) used.add(q.word.toLowerCase());
+
+  const fillQs = generateDefinitionQuestions(fillCount, weakLower, used);
 
   return shuffle([...vocabQs, ...audioQs, ...fillQs]);
 }
