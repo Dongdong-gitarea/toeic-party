@@ -197,6 +197,11 @@ interface GameState {
   myCombo: number;
   myUsedSkills: SkillType[];
 
+  // How many of the room have answered the current question. Reset on
+  // each NEW_QUESTION; bumped by ANSWER_PROGRESS after each answer.
+  answeredCount: number;
+  totalCount: number;
+
   finalRankings: FinalRankEntry[];
   labels: GameLabels | null;
   reviewWords: ReviewWord[];
@@ -208,7 +213,7 @@ interface GameState {
 
   // Skill effects received
   activeEffect: SkillEffect | null;
-  overtakeMsg: string | null;
+  overtakeMsg: { kind: 'up' | 'down'; text: string } | null;
   effectTimer: NodeJS.Timeout | null;
 
   // Session XP
@@ -263,6 +268,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   myScore: 0,
   myCombo: 0,
   myUsedSkills: [],
+  answeredCount: 0,
+  totalCount: 4,
   finalRankings: [],
   labels: null,
   reviewWords: [],
@@ -371,7 +378,12 @@ export const useGameStore = create<GameState>((set, get) => ({
         lastResult: null,
         activeEffect: null,
         effectTimer: null,
+        answeredCount: 0,
       });
+    });
+
+    socket.on('ANSWER_PROGRESS', ({ answered, total }: { answered: number; total: number }) => {
+      set({ answeredCount: answered, totalCount: total });
     });
 
     socket.on('ANSWER_RESULT', (result: AnswerResult) => {
@@ -391,19 +403,35 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
 
     socket.on('RANK_UPDATE', ({ rankings }) => {
-      // Detect overtake
+      // Detect overtake (in either direction)
       const prev = get().rankings;
       const myId = get().playerId;
-      if (myId && prev.length > 0) {
+      if (myId && prev.length > 0 && rankings.length > 0) {
         const oldRank = prev.findIndex((r) => r.playerId === myId);
         const newRank = rankings.findIndex((r: RankEntry) => r.playerId === myId);
-        if (newRank >= 0 && oldRank > newRank) {
-          // Moved up! Get the name of who we passed
+
+        if (newRank >= 0 && oldRank >= 0 && oldRank > newRank) {
+          // Moved up — the person now sitting one slot below me was the
+          // one I passed. (Reading from `prev[newRank]` gives the player
+          // who used to occupy the slot I'm now in.)
           const passed = prev[newRank];
           if (passed && passed.playerId !== myId) {
-            set({ overtakeMsg: `You passed ${passed.name}!` });
+            set({
+              overtakeMsg: { kind: 'up', text: `You passed ${passed.name}!` },
+            });
             setTimeout(() => set({ overtakeMsg: null }), 2000);
             sounds.rankUp();
+          }
+        } else if (newRank >= 0 && oldRank >= 0 && newRank > oldRank) {
+          // Got passed — the player who used to be at oldRank+1 (or
+          // anywhere below) and is now sitting at oldRank is the passer.
+          const passer = rankings[oldRank];
+          if (passer && passer.playerId !== myId) {
+            set({
+              overtakeMsg: { kind: 'down', text: `${passer.name} passed you!` },
+            });
+            setTimeout(() => set({ overtakeMsg: null }), 2000);
+            haptic('error');
           }
         }
       }

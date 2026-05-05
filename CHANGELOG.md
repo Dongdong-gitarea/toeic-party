@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-05-05 (Mobile) — Round 4 (In-game Feedback Pt. 2)
+Five more in-game UX wins:
+- **Reverse overtake banner**: when another player passes you, a rose-coloured "X passed you!" banner with a ChevronDown icon now mirrors the existing green ascending banner. Light haptic buzz instead of a celebratory rank-up tone.
+- **"Waiting for N more…" indicator**: backend now broadcasts ANSWER_PROGRESS after each answer. When you've locked in but the round hasn't resolved yet, a small pulsing dot + "Waiting for {n} more…" appears at the bottom.
+- **Audio question telegraph**: the question card flashes a fuchsia ring on each new audio question so you don't miss "this one's a listening question" before the auto-play kicks in.
+- **Self skill cast pose**: hitting a skill button briefly swaps your header avatar to the cheer1 sprite for 600ms (with a tilt-pop) so the caster gets visible feedback (until now only the receivers saw an effect).
+- **Compact answer buttons during review**: AnswerButton drops to min-h-12 / smaller padding once an answer is revealed, leaving more room for the question card's definition reveal.
+
 ## 2026-05-05 (Mobile) — Round 3 (In-game Feedback)
 High-leverage in-game feedback / clarity work:
 - **Review pause** lengthened from 4s → 5s when any human got it wrong (reading meaning + definition + example needs the extra second)

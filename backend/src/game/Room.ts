@@ -215,6 +215,7 @@ export class Room {
     if (!player) return null;
 
     this.answeredThisRound.add(playerId);
+    this.broadcastAnswerProgress();
 
     const q = this.questions[this.currentQuestionIndex]!;
     const responseTime = Date.now() - this.questionStartTime;
@@ -299,6 +300,13 @@ export class Room {
         ...meta,
       };
     }
+  }
+
+  private broadcastAnswerProgress() {
+    this.io.to(this.id).emit('ANSWER_PROGRESS', {
+      answered: this.answeredThisRound.size,
+      total: this.playerCount,
+    });
   }
 
   private resolveQuestion() {

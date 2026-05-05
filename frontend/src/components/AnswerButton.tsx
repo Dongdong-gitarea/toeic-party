@@ -32,8 +32,16 @@ export default function AnswerButton({
   fogged,
   onClick,
 }: Props) {
+  // During the review phase (someone has been marked right or the
+  // correct answer is highlighted), shrink each button so the
+  // question card's definition reveal can pull the eye instead.
+  const isReview = correct !== null || isCorrectAnswer;
+  const sizeClasses = isReview
+    ? 'min-h-[48px] px-3 py-2 sm:py-2.5 text-sm sm:text-base'
+    : 'min-h-[60px] px-3 py-3 sm:p-4 text-base sm:text-lg';
+
   let cardClasses =
-    'relative w-full min-h-[60px] px-3 py-3 sm:p-4 rounded-2xl border-4 text-left font-semibold text-base sm:text-lg leading-snug transition-all duration-150 cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] flex items-center gap-3 ';
+    `relative w-full ${sizeClasses} rounded-2xl border-4 text-left font-semibold leading-snug transition-all duration-150 cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] flex items-center gap-3 `;
 
   let textColor = 'text-white';
   let labelClass = LABEL_COLORS[index] ?? LABEL_COLORS[0]!;

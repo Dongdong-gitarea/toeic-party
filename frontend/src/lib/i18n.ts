@@ -48,6 +48,7 @@ const dict: Record<Lang, Record<string, string>> = {
     'game.whichMeans': '哪個字意思是',
     'game.score': '分數',
     'game.wrong': '錯！',
+    'game.waitingOthers': '等待 {n} 位玩家…',
 
     // Result
     'result.gameOver': '遊戲結束',
@@ -190,6 +191,7 @@ const dict: Record<Lang, Record<string, string>> = {
     'game.whichMeans': 'Which word means',
     'game.score': 'SCORE',
     'game.wrong': 'WRONG!',
+    'game.waitingOthers': 'Waiting for {n} more…',
 
     'result.gameOver': 'GAME OVER',
     'result.youWon': 'YOU WON!',

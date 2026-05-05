@@ -13,9 +13,11 @@ import {
   TimerOff,
   Check,
   X as XIcon,
+  ChevronUp,
+  ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
-import { useGameStore } from '@/store/gameStore';
+import { useGameStore, type SkillType } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
@@ -52,7 +54,7 @@ export default function GamePage() {
     questionNumber, totalQuestions, selectedAnswer, lastResult,
     rankings, myScore, myCombo, myUsedSkills,
     countdownValue, submitAnswer, useSkill, overtakeMsg,
-    players, activeEffect,
+    players, activeEffect, answeredCount, totalCount,
   } = useGameStore();
 
   const [flashType, setFlashType] = useState<'correct' | 'wrong' | null>(null);
@@ -114,6 +116,19 @@ export default function GamePage() {
   const handleAnswer = useCallback(
     (index: number) => { if (selectedAnswer === null) submitAnswer(index); },
     [selectedAnswer, submitAnswer],
+  );
+
+  // Briefly switch the header avatar to a "cast" pose when the local
+  // player fires off a skill, so it feels like *they* did something
+  // (the skill effect is shown to the receivers, not the caster).
+  const [castPose, setCastPose] = useState(false);
+  const castSkill = useCallback(
+    (type: SkillType) => {
+      useSkill(type);
+      setCastPose(true);
+      setTimeout(() => setCastPose(false), 600);
+    },
+    [useSkill],
   );
 
   const handleTimeUpdate = useCallback((t: number) => setTimeLeft(t), []);
@@ -276,8 +291,19 @@ export default function GamePage() {
       )}
       {overtakeMsg && (
         <div className="fixed top-12 left-1/2 -translate-x-1/2 z-[55] animate-slide-up">
-          <div className="bg-emerald-300 text-emerald-950 px-4 py-2 rounded-full text-xs font-bold tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)]">
-            {overtakeMsg}
+          <div
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wider shadow-[0_4px_0_rgba(0,0,0,0.4)] ${
+              overtakeMsg.kind === 'up'
+                ? 'bg-emerald-300 text-emerald-950'
+                : 'bg-rose-300 text-rose-950'
+            }`}
+          >
+            {overtakeMsg.kind === 'up' ? (
+              <ChevronUp className="w-3.5 h-3.5" strokeWidth={3} />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5" strokeWidth={3} />
+            )}
+            {overtakeMsg.text}
           </div>
         </div>
       )}
@@ -289,7 +315,11 @@ export default function GamePage() {
             className="w-9 h-9 rounded-xl flex items-center justify-center p-1 border-2"
             style={{ backgroundColor: myChar.color + '40', borderColor: myChar.color }}
           >
-            <img src={`${myChar.folder}/idle.png`} alt="" className="w-full h-full object-contain" />
+            <img
+              src={`${myChar.folder}/${castPose ? 'cheer1' : 'idle'}.png`}
+              alt=""
+              className={`w-full h-full object-contain ${castPose ? 'animate-tilt-pop' : ''}`}
+            />
           </div>
           <span className="text-sm font-bold text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
           {currentQuestion.type === 'vocab' && (
@@ -365,15 +395,25 @@ export default function GamePage() {
             )}
           </div>
         ) : (
-          <div className={`rounded-3xl p-4 sm:p-5 border-4 text-center mb-2 backdrop-blur-sm ${
-            wrongReveal
-              ? 'bg-rose-400/25 border-rose-200'
-              : isRevealed
-                ? 'bg-emerald-400/25 border-emerald-200'
-                : isFinal
-                  ? 'bg-rose-300/30 border-rose-200'
-                  : 'bg-white/15 border-white/30'
-          }`}>
+          <div
+            // Re-key on each new audio question so the telegraph
+            // pulse re-runs when the question changes.
+            key={currentQuestion.type === 'audio' ? `audio-${currentQuestion.id}` : 'q-card'}
+            className={`rounded-3xl p-4 sm:p-5 border-4 text-center mb-2 backdrop-blur-sm ${
+              wrongReveal
+                ? 'bg-rose-400/25 border-rose-200'
+                : isRevealed
+                  ? 'bg-emerald-400/25 border-emerald-200'
+                  : isFinal
+                    ? 'bg-rose-300/30 border-rose-200'
+                    : 'bg-white/15 border-white/30'
+            }`}
+            style={
+              currentQuestion.type === 'audio' && !isRevealed
+                ? { animation: 'audio-telegraph 0.7s ease-out 1' }
+                : undefined
+            }
+          >
             {currentQuestion.type === 'vocab' && (
               <p className="text-3xl sm:text-4xl font-black text-white drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">{currentQuestion.prompt}</p>
             )}
@@ -479,9 +519,21 @@ export default function GamePage() {
               </span>
             )}
           </div>
-          <SkillBar usedSkills={myUsedSkills} disabled={isAnswered} isFinal={isFinal} onUse={useSkill} />
+          <SkillBar usedSkills={myUsedSkills} disabled={isAnswered} isFinal={isFinal} onUse={castSkill} />
         </div>
       </div>
+
+      {/* Waiting-on-others hint — only between "I answered" and "everyone
+          answered / round resolved". Once isRevealed flips on, the
+          review bar takes over. */}
+      {isAnswered && !isRevealed && totalCount > 1 && answeredCount < totalCount && (
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[40] pointer-events-none animate-slide-up">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white/80 text-[10px] font-bold tracking-widest border border-white/15 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+            {t('game.waitingOthers', { n: totalCount - answeredCount })}
+          </span>
+        </div>
+      )}
 
       {/* Review-phase ETA bar — fills over the same window the server pauses
           (keyed off question id so it resets cleanly each round). The
