@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/store/gameStore';
 import { CHARACTERS } from '@/lib/characters';
+import { useT } from '@/lib/i18n';
+import SettingsModal from '@/components/SettingsModal';
 
 const FUN_NAMES = [
   'QuizNinja', 'WordHunter', 'SpeedReader', 'VocabKing',
@@ -22,6 +24,8 @@ export default function LobbyPage() {
     lobby, savedWords, selectedCharIdx, setSelectedChar, myReady,
   } = useGameStore();
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const t = useT();
 
   useEffect(() => { initSocket(); }, [initSocket]);
   // Generate a random name only on first mount when nothing is saved.
@@ -57,11 +61,24 @@ export default function LobbyPage() {
         <div className="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/30 blur-3xl animate-blob-drift" style={{ animationDelay: '8s' }} />
       </div>
 
+      {/* Settings gear button (top-right) */}
+      <button
+        onClick={() => setSettingsOpen(true)}
+        aria-label={t('settings.title')}
+        className="absolute top-3 right-3 z-20 w-11 h-11 rounded-full
+          bg-white/15 backdrop-blur-sm border-2 border-white/30 text-white
+          hover:bg-white/25 active:scale-95 transition-all cursor-pointer
+          flex items-center justify-center text-xl shadow-[0_3px_0_rgba(0,0,0,0.25)]"
+      >
+        ⚙️
+      </button>
+      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+
       {isMatchmaking && lobby ? (
         // ── Lobby takeover ──
         <div className="relative z-10 w-full max-w-md flex flex-col items-center gap-5 animate-tilt-pop">
           <div className="inline-block bg-amber-300 text-fuchsia-900 px-6 py-2 rounded-full font-black text-base tracking-widest shadow-[0_6px_0_#92400e] -rotate-2">
-            WAITING ROOM
+            {t('lobby.waitingRoom')}
           </div>
 
           <div className="w-full bg-white/15 backdrop-blur-md rounded-3xl border-4 border-white/30 p-5 shadow-2xl">
@@ -91,7 +108,7 @@ export default function LobbyPage() {
                       <>
                         {slot.you && (
                           <span className="absolute top-1.5 left-1.5 text-[8px] font-black tracking-widest bg-amber-300 text-fuchsia-900 px-1.5 py-0.5 rounded-full shadow-[0_2px_0_rgba(120,53,15,0.5)]">
-                            YOU
+                            {t('common.you')}
                           </span>
                         )}
                         <img
@@ -104,7 +121,7 @@ export default function LobbyPage() {
                         <p className={`text-sm font-black truncate mt-1 ${slot.you ? 'text-amber-200' : 'text-white'}`}>{slot.name}</p>
                         {slot.ready && (
                           <span className="inline-block mt-1 text-[9px] font-black tracking-widest bg-emerald-300 text-emerald-950 px-2 py-0.5 rounded-full">
-                            ✓ READY
+                            {t('lobby.readyDone')}
                           </span>
                         )}
                       </>
@@ -113,7 +130,7 @@ export default function LobbyPage() {
                         <div className="w-16 h-16 mx-auto rounded-full bg-white/10 flex items-center justify-center text-3xl font-black text-white/40">
                           ?
                         </div>
-                        <p className="text-xs font-bold text-white/50 mt-1">Waiting…</p>
+                        <p className="text-xs font-bold text-white/50 mt-1">{t('lobby.waiting')}</p>
                       </>
                     )}
                   </div>
@@ -123,13 +140,13 @@ export default function LobbyPage() {
 
             <div className="flex flex-col items-center gap-1 pt-2 border-t-2 border-dashed border-white/20">
               <p className="text-[11px] font-black text-white/70 tracking-widest mt-2">
-                {lobby.count} / {lobby.capacity} PLAYERS
+                {lobby.count} / {lobby.capacity} {t('lobby.players')}
               </p>
               <div className="text-5xl font-black text-amber-300 tabular-nums leading-none drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">
                 0:{String(tickSeconds ?? lobby.secondsLeft).padStart(2, '0')}
               </div>
               <p className="text-[10px] font-bold text-white/60 tracking-wide">
-                {lobby.count === 1 ? 'tap READY to start solo with AI' : 'all ready = instant start'}
+                {lobby.count === 1 ? t('lobby.soloHint') : t('lobby.allReadyHint')}
               </p>
             </div>
           </div>
@@ -143,7 +160,7 @@ export default function LobbyPage() {
                 : 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_8px_0_rgba(120,53,15,0.7)] active:translate-y-[5px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)] hover:bg-amber-200'
             }`}
           >
-            {myReady ? '✓ READY!' : "I'M READY"}
+            {myReady ? t('lobby.readyDone') : t('lobby.imReady')}
           </button>
 
           <button
@@ -152,7 +169,7 @@ export default function LobbyPage() {
               bg-white/15 text-white border-4 border-white/30
               hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
           >
-            ← LEAVE LOBBY
+            {t('lobby.leave')}
           </button>
         </div>
       ) : (
@@ -172,7 +189,7 @@ export default function LobbyPage() {
               </span>
             </h1>
             <p className="mt-2 text-xs font-black text-white/80 uppercase tracking-[0.3em]">
-              Fast Quiz Battle
+              {t('home.subtitle')}
             </p>
           </div>
 
@@ -182,7 +199,7 @@ export default function LobbyPage() {
             style={{ animationDelay: '0.05s' }}
           >
             <p className="text-center text-[10px] font-black text-white/70 tracking-widest mb-2">
-              PICK YOUR CHARACTER
+              {t('home.pickChar')}
             </p>
             <div className="grid grid-cols-4 gap-2">
               {CHARACTERS.map((char, i) => {
@@ -229,7 +246,7 @@ export default function LobbyPage() {
                 border-4 border-white/40
                 shadow-[0_6px_0_rgba(0,0,0,0.25)]
                 focus:outline-none focus:border-amber-300 transition"
-              placeholder="YOUR NAME"
+              placeholder={t('home.namePlaceholder')}
             />
             <button
               type="button"
@@ -254,7 +271,7 @@ export default function LobbyPage() {
                   : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
               }`}
             >
-              CLASSIC
+              {t('home.classic')}
             </button>
             <button
               onClick={() => setGameMode('jump')}
@@ -264,7 +281,7 @@ export default function LobbyPage() {
                   : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
               }`}
             >
-              JUMP
+              {t('home.jump')}
             </button>
           </div>
 
@@ -278,7 +295,7 @@ export default function LobbyPage() {
               transition-all
               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
           >
-            START AS {myChar.name.toUpperCase()}!
+            {t('home.startAs', { char: myChar.name.toUpperCase() })}
           </button>
 
           <div className="grid grid-cols-2 gap-3 w-full">
@@ -288,7 +305,7 @@ export default function LobbyPage() {
                 bg-white/15 text-white border-4 border-white/30
                 hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
             >
-              📚 MY WORDS ({savedWords.length})
+              {t('home.myWords', { n: savedWords.length })}
             </button>
             <button
               onClick={() => router.push('/practice')}
@@ -298,16 +315,16 @@ export default function LobbyPage() {
                 disabled:opacity-40 disabled:cursor-not-allowed"
               disabled={savedWords.length < 4}
             >
-              🎯 PRACTICE
+              {t('home.practice')}
             </button>
           </div>
 
           {!socketReady && (
-            <p className="text-center text-xs font-bold text-amber-300 -mt-2">Connecting to server...</p>
+            <p className="text-center text-xs font-bold text-amber-300 -mt-2">{t('common.connecting')}</p>
           )}
 
           <p className="text-center text-[11px] font-black text-white/60 tracking-widest">
-            4 PLAYERS · 10 QUESTIONS · 10s EACH
+            {t('home.rules')}
           </p>
         </div>
       )}
