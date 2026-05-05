@@ -1,10 +1,19 @@
 # Changelog
 
-## 2026-05-05 (Desktop)
+## 2026-05-05 (Desktop) — Round 2
+- Expanded vocab from 526 → 1043 Traditional Chinese words (83% TSL coverage)
+- Added CET6 (5651 words) + TOEFL (13477 words) as additional sources
+- Top 200 TOEIC coverage: 82% → 94%
+- Fixed 9 bad translations (overtime→加班, transaction→交易, amateur→業餘者, etc.)
+- Added 25 manual high-freq words (cellphone, laptop, café, résumé, etc.)
+- Distractors grouped by POS + character length for better difficulty
+
+## 2026-05-05 (Desktop) — Round 1
 - Expanded vocab from 40 → 526 Traditional Chinese words
 - Fixed `lookupChinese()` function (was deleted during merge)
 - Improved distractors: grouped by POS + Chinese character length
 - Source: TSL 1250 × CET4 7508 cross-reference, OpenCC s2t conversion
+- Added CLAUDE.md (sync protocol) + CHANGELOG.md
 
 ## 2026-05-04 ~ 05-05 (Mobile)
 - Added i18n (中文/English)
