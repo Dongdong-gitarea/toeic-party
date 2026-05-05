@@ -7,6 +7,8 @@ import {
   Brain,
   Headphones,
   FileText,
+  AlertTriangle,
+  Puzzle,
   Flame,
   Waves,
   CloudFog,
@@ -340,6 +342,18 @@ export default function GamePage() {
               {t('game.qType.fillblank')}
             </span>
           )}
+          {currentQuestion.type === 'confusable' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-300 text-rose-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <AlertTriangle className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.confusable')}
+            </span>
+          )}
+          {currentQuestion.type === 'collocation' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-emerald-300 text-emerald-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Puzzle className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.collocation')}
+            </span>
+          )}
           {isFinal && (
             <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
               <Flame className="w-3 h-3" strokeWidth={2.75} />
@@ -431,6 +445,41 @@ export default function GamePage() {
               <div>
                 <p className="text-[10px] font-bold text-amber-200 uppercase tracking-[0.25em] mb-1">{t('game.whichMeans')}</p>
                 <p className="text-lg sm:text-xl font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+              </div>
+            )}
+            {currentQuestion.type === 'confusable' && (
+              <div>
+                <p className="text-[10px] font-bold text-rose-200 uppercase tracking-[0.25em] mb-1">{t('game.qType.confusableHint')}</p>
+                <p className="text-lg sm:text-xl font-bold text-white">
+                  {currentQuestion.prompt.split('___').map((part, i, arr) => (
+                    <span key={i}>
+                      {part}
+                      {i < arr.length - 1 && (
+                        <span className="inline-block w-20 mx-1 border-b-3 border-rose-300" />
+                      )}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            )}
+            {currentQuestion.type === 'collocation' && (
+              <div>
+                <p className="text-[10px] font-bold text-emerald-200 uppercase tracking-[0.25em] mb-1">{t('game.qType.collocationHint')}</p>
+                {currentQuestion.prompt.split('\n').map((line, i) => (
+                  <p key={i} className={i === 0
+                    ? 'text-xl sm:text-2xl font-black text-white'
+                    : 'text-sm text-emerald-200 mt-1'
+                  }>
+                    {i === 0 ? line.split('___').map((part, j, arr) => (
+                      <span key={j}>
+                        {part}
+                        {j < arr.length - 1 && (
+                          <span className="inline-block w-20 mx-1 border-b-3 border-emerald-300" />
+                        )}
+                      </span>
+                    )) : line}
+                  </p>
+                ))}
               </div>
             )}
 

@@ -4,6 +4,29 @@ import { dirname, join } from 'path';
 import type { Question, QuestionType } from '../types.js';
 import { VOCAB_ZH } from './vocabChinese.js';
 
+interface ConfusablePair {
+  0: string; 1: string; 2: string; 3: string; 4: string;
+}
+interface CollocationEntry {
+  0: string; 1: string; 2: string;
+}
+interface LearningExtras {
+  confusables: ConfusablePair[];
+  collocations: CollocationEntry[];
+}
+
+let learningExtras: LearningExtras | null = null;
+function loadExtras(): LearningExtras {
+  if (learningExtras) return learningExtras;
+  try {
+    const raw = readFileSync(join(__dirname, 'learningExtras.json'), 'utf-8');
+    learningExtras = JSON.parse(raw) as LearningExtras;
+  } catch {
+    learningExtras = { confusables: [], collocations: [] };
+  }
+  return learningExtras;
+}
+
 interface TSLWord {
   rank: number;
   word: string;
@@ -161,21 +184,140 @@ function generateDefinitionQuestions(count: number, weakLower: Set<string>, excl
   });
 }
 
+// ── Generate confusable pair question: "Which word fits?" ──
+function generateConfusableQuestions(count: number, used: Set<string>): Question[] {
+  const extras = loadExtras();
+  const pairs = shuffle(extras.confusables).slice(0, count);
+
+  // Sentence templates for confusable pairs
+  const CONF_SENTENCES: Record<string, [string, number]> = {
+    'affect|effect': ['The new policy will have a major ___ on productivity.', 1],
+    'effect|affect': ['Budget cuts will ___ all departments.', 0],
+    'personal|personnel': ['Please contact the ___ department for benefits.', 1],
+    'personnel|personal': ['This is a ___ matter, not a work issue.', 0],
+    'complement|compliment': ['The wine will ___ the meal perfectly.', 0],
+    'compliment|complement': ['The manager paid her a ___ on the presentation.', 0],
+    'accept|except': ['We ___ all major credit cards.', 0],
+    'except|accept': ['Everyone attended ___ the director.', 0],
+    'advise|advice': ['I would ___ you to review the contract carefully.', 0],
+    'advice|advise': ['She gave me excellent ___ on the project.', 0],
+    'assure|ensure': ['I ___ you that the delivery will arrive on time.', 0],
+    'ensure|assure': ['Please ___ all doors are locked before leaving.', 0],
+    'stationary|stationery': ['The company ordered new ___ with the updated logo.', 1],
+    'precede|proceed': ['After the introduction, we will ___ to the main topic.', 1],
+    'eligible|illegible': ['All full-time employees are ___ for the bonus.', 0],
+    'economic|economical': ['The ___ forecast for next year looks promising.', 0],
+    'economical|economic': ['This car is very ___ on fuel.', 0],
+    'rise|raise': ['The company decided to ___ employee salaries by 5%.', 1],
+    'raise|rise': ['Prices tend to ___ during the holiday season.', 0],
+    'aboard|abroad': ['She has been working ___ for the past three years.', 1],
+    'abroad|aboard': ['All passengers are now ___ the aircraft.', 0],
+    'access|assess': ['The auditor will ___ the company\'s financial records.', 1],
+    'assess|access': ['Employees need a keycard to ___ the building.', 0],
+    'adapt|adopt': ['The company decided to ___ a new marketing strategy.', 1],
+    'adopt|adapt': ['New employees need time to ___ to the work environment.', 0],
+  };
+
+  return pairs.map((pair, idx) => {
+    const [w1, zh1, w2, zh2, explanation] = pair as unknown as [string, string, string, string, string];
+    const key1 = `${w1}|${w2}`;
+    const key2 = `${w2}|${w1}`;
+    const template = CONF_SENTENCES[key1] ?? CONF_SENTENCES[key2];
+
+    let prompt: string;
+    let correctWord: string;
+    let wrongWord: string;
+
+    if (template) {
+      prompt = template[0];
+      correctWord = template[1] === 0 ? w1 : w2;
+      wrongWord = template[1] === 0 ? w2 : w1;
+    } else {
+      // Fallback: show both meanings, pick which word matches
+      prompt = `Which word means "${zh1}"?`;
+      correctWord = w1;
+      wrongWord = w2;
+    }
+
+    // Build 4 options: correct, confusable partner, + 2 random
+    const tslWords = loadTSL();
+    const randoms = pickRandom(
+      tslWords.filter(w => w.word !== correctWord && w.word !== wrongWord),
+      2
+    ).map(w => w.word);
+    const options = shuffle([correctWord, wrongWord, ...randoms]);
+
+    used.add(correctWord.toLowerCase());
+    used.add(wrongWord.toLowerCase());
+
+    return withMeta({
+      id: `conf-${idx}-${w1}`,
+      type: 'confusable' as const,
+      word: correctWord,
+      prompt,
+      options,
+      correctIndex: options.indexOf(correctWord),
+      definition: explanation,
+    });
+  });
+}
+
+// ── Generate collocation question: "___ a deadline" → meet ──
+function generateCollocationQuestions(count: number, used: Set<string>): Question[] {
+  const extras = loadExtras();
+  const colls = shuffle(extras.collocations).slice(0, count);
+
+  return colls.map((coll, idx) => {
+    const [phrase, zh, example] = coll as unknown as [string, string, string];
+    // Split phrase into parts — find the key verb/noun
+    const parts = phrase.split(' ');
+    const keyWord = parts[0]!; // usually the verb (make, submit, meet, etc.)
+    const rest = parts.slice(1).join(' ');
+
+    const prompt = `___ ${rest}`;
+
+    // Distractors: other collocation verbs
+    const allVerbs = extras.collocations.map(
+      (c: unknown) => ((c as [string, string, string])[0]).split(' ')[0]!
+    );
+    const wrongVerbs = shuffle(
+      [...new Set(allVerbs)].filter(v => v !== keyWord)
+    ).slice(0, 3);
+
+    const options = shuffle([keyWord, ...wrongVerbs]);
+
+    return withMeta({
+      id: `coll-${idx}-${keyWord}`,
+      type: 'collocation' as const,
+      word: keyWord,
+      prompt: `${prompt}\n${zh}`,
+      options,
+      correctIndex: options.indexOf(keyWord),
+      definition: `${phrase} = ${zh}`,
+      example,
+    });
+  });
+}
+
 /**
- * Generate N questions with balanced type distribution. When `weakWords`
- * is non-empty, ~70% of questions are biased toward those words.
- *
- * Headwords are de-duped across types within a single match — so the
- * same word can't appear once as a vocab question and again as audio
- * (which used to feel like the round was repeating words).
+ * Generate N questions with balanced type distribution.
+ * 5 types: vocab, audio, definition, confusable, collocation
+ * Ratio: ~3 vocab/audio/def + 1 confusable + 1 collocation per 10 questions
  */
 export function generateTSLQuestions(count: number, weakWords: string[] = []): Question[] {
   const weakLower = new Set(weakWords.map((w) => w.toLowerCase()));
-  const vocabCount = Math.ceil(count / 3);
-  const audioCount = Math.ceil(count / 3);
-  const fillCount = count - vocabCount - audioCount;
-
   const used = new Set<string>();
+
+  // Allocate: 1 confusable + 1 collocation + rest split among vocab/audio/def
+  const confCount = Math.min(1, count);
+  const collCount = Math.min(1, Math.max(0, count - 1));
+  const remaining = count - confCount - collCount;
+  const vocabCount = Math.ceil(remaining / 3);
+  const audioCount = Math.ceil(remaining / 3);
+  const fillCount = remaining - vocabCount - audioCount;
+
+  const confQs = generateConfusableQuestions(confCount, used);
+  const collQs = generateCollocationQuestions(collCount, used);
 
   const vocabQs = generateVocabQuestions(vocabCount, weakLower, used);
   for (const q of vocabQs) used.add(q.word.toLowerCase());
@@ -185,5 +327,5 @@ export function generateTSLQuestions(count: number, weakWords: string[] = []): Q
 
   const fillQs = generateDefinitionQuestions(fillCount, weakLower, used);
 
-  return shuffle([...vocabQs, ...audioQs, ...fillQs]);
+  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...confQs, ...collQs]);
 }

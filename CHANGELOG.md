@@ -52,6 +52,20 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
+## 2026-05-05 (Desktop) — Round 7
+- NEW question types integrated into gameplay:
+  - **Confusable** (易混淆): "The new policy will have a major ___ on productivity." → affect vs effect
+    - Rose-colored badge, fill-in-blank UI with rose underline
+    - 20 confusable pairs with TOEIC-context sentences
+    - After answering, definition reveals the difference (e.g. "affect 是動詞，effect 是名詞")
+  - **Collocation** (搭配): "___ a deadline" → meet/submit/file/place
+    - Emerald-colored badge, shows Chinese translation below
+    - 25 TOEIC collocations (make a reservation, file a complaint, etc.)
+- Question mix per 10-question game: ~3 vocab + ~3 audio + ~2 definition + 1 confusable + 1 collocation
+- Headword de-duplication extended to cover all 5 types
+- i18n keys added (zh + en) for both new types
+- Frontend: AlertTriangle + Puzzle icons from lucide-react
+
 ## 2026-05-05 (Desktop) — Round 6
 - Vocab: 1243 → 1283 words (added 40 ETS TOEIC Part 5/6/7 favorites)
   - Transition words: despite, although, nevertheless, furthermore, consequently, whereas
