@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEIC PARTY — Analytics Dashboard</title>
+<style>
+  :root { --bg: #0f172a; --card: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #818cf8; --green: #34d399; --amber: #fbbf24; --rose: #fb7185; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+  .card .value { font-size: 32px; font-weight: 900; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .card .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .green { color: var(--green); }
+  .amber { color: var(--amber); }
+  .rose { color: var(--rose); }
+  .accent { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(99,102,241,0.05); }
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+  .badge-amber { background: rgba(251,191,36,0.15); color: var(--amber); }
+  .badge-rose { background: rgba(251,113,133,0.15); color: var(--rose); }
+  .loading { color: var(--muted); text-align: center; padding: 40px; }
+  .bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; margin-top: 4px; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  .chart { display: flex; align-items: flex-end; gap: 4px; height: 80px; margin-top: 8px; }
+  .chart-bar { flex: 1; background: var(--accent); border-radius: 3px 3px 0 0; min-width: 20px; position: relative; transition: height 0.3s; }
+  .chart-bar:hover { opacity: 0.8; }
+  .chart-label { font-size: 9px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .refresh { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
+  .refresh:hover { background: var(--border); }
+  .tier { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  .tier-bronze { background: #cd7f32; }
+  .tier-silver { background: #c0c0c0; }
+  .tier-gold { background: #ffd700; }
+  .tier-diamond { background: #b9f2ff; }
+</style>
+</head>
+<body>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+  <h1><span>TOEIC PARTY</span> Analytics</h1>
+  <button class="refresh" onclick="loadAll()">Refresh</button>
+</div>
+<p class="subtitle">Real-time dashboard · Data from Supabase</p>
+
+<div class="grid" id="kpis">
+  <div class="card"><div class="label">Total Players</div><div class="value" id="kpi-players">-</div></div>
+  <div class="card"><div class="label">Total Matches</div><div class="value" id="kpi-matches">-</div></div>
+  <div class="card"><div class="label">Today's Matches</div><div class="value green" id="kpi-today">-</div></div>
+  <div class="card"><div class="label">Avg Score</div><div class="value amber" id="kpi-avg-score">-</div></div>
+  <div class="card"><div class="label">Avg Accuracy</div><div class="value accent" id="kpi-accuracy">-</div><div class="sub">correct / 10 questions</div></div>
+  <div class="card"><div class="label">Top Combo</div><div class="value rose" id="kpi-combo">-</div></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Matches per Day (Last 7 days)</div>
+  <div class="card">
+    <div class="chart" id="daily-chart"></div>
+    <div style="display:flex;gap:4px;" id="daily-labels"></div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div class="section">
+    <div class="section-title">Leaderboard (All-time)</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>XP</th><th>Games</th><th>Wins</th><th>Tier</th></tr></thead>
+        <tbody id="leaderboard"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Recent Matches</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Time</th><th>Winner</th><th>Score</th><th>Players</th></tr></thead>
+        <tbody id="recent-matches"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Player Tier Distribution</div>
+  <div class="card">
+    <div id="tier-dist" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;"></div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://meoqkdilrcltapiukbml.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1lb3FrZGlscmNsdGFwaXVrYm1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNTkzNTUsImV4cCI6MjA5MzYzNTM1NX0.0SAtY5Fi1M6ipqbseD2_iTKRHPjXGz3LmBsOxyJPUj0';
+
+async function query(table, params = '') {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {
+    headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` },
+  });
+  return res.json();
+}
+
+function $(id) { return document.getElementById(id); }
+
+async function loadAll() {
+  // Players
+  const players = await query('players', 'select=*&order=total_xp.desc');
+  $('kpi-players').textContent = players.length;
+
+  // Matches
+  const matches = await query('matches', 'select=*&order=started_at.desc');
+  $('kpi-matches').textContent = matches.length;
+
+  // Today
+  const today = new Date().toISOString().split('T')[0];
+  const todayMatches = matches.filter(m => m.started_at?.startsWith(today));
+  $('kpi-today').textContent = todayMatches.length;
+
+  // Match players
+  const mp = await query('match_players', 'select=*&order=score.desc');
+
+  // Avg score (human only)
+  const humanResults = mp.filter(r => !r.is_ai);
+  const avgScore = humanResults.length
+    ? Math.round(humanResults.reduce((s, r) => s + r.score, 0) / humanResults.length)
+    : 0;
+  $('kpi-avg-score').textContent = avgScore;
+
+  // Avg accuracy
+  const avgCorrect = humanResults.length
+    ? (humanResults.reduce((s, r) => s + r.correct_count, 0) / humanResults.length).toFixed(1)
+    : '0';
+  $('kpi-accuracy').textContent = `${avgCorrect}/10`;
+
+  // Top combo
+  const topCombo = mp.reduce((max, r) => Math.max(max, r.max_combo || 0), 0);
+  $('kpi-combo').textContent = `x${topCombo}`;
+
+  // Daily chart (last 7 days)
+  const chart = $('daily-chart');
+  const labels = $('daily-labels');
+  chart.innerHTML = '';
+  labels.innerHTML = '';
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().split('T')[0];
+    const count = matches.filter(m => m.started_at?.startsWith(key)).length;
+    days.push({ key, count, label: `${d.getMonth()+1}/${d.getDate()}` });
+  }
+  const maxDay = Math.max(...days.map(d => d.count), 1);
+  for (const d of days) {
+    const h = Math.max(4, (d.count / maxDay) * 80);
+    chart.innerHTML += `<div class="chart-bar" style="height:${h}px" title="${d.key}: ${d.count} games"></div>`;
+    labels.innerHTML += `<div class="chart-label" style="flex:1;min-width:20px">${d.label}<br><b>${d.count}</b></div>`;
+  }
+
+  // Leaderboard
+  const lb = $('leaderboard');
+  lb.innerHTML = '';
+  const sorted = [...players].sort((a, b) => b.total_xp - a.total_xp).slice(0, 15);
+  sorted.forEach((p, i) => {
+    lb.innerHTML += `<tr>
+      <td>${i + 1}</td>
+      <td>${p.display_name}</td>
+      <td><b>${p.total_xp}</b></td>
+      <td>${p.games_played}</td>
+      <td>${p.games_won}</td>
+      <td><span class="tier tier-${p.rank_tier}"></span>${p.rank_tier}</td>
+    </tr>`;
+  });
+  if (!sorted.length) lb.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">No players yet</td></tr>';
+
+  // Recent matches
+  const rm = $('recent-matches');
+  rm.innerHTML = '';
+  const recent = matches.slice(0, 10);
+  for (const m of recent) {
+    const mps = mp.filter(r => r.match_id === m.id).sort((a, b) => a.rank_position - b.rank_position);
+    const winner = mps[0];
+    const humanCount = mps.filter(r => !r.is_ai).length;
+    const time = m.started_at ? new Date(m.started_at).toLocaleString('zh-TW', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '?';
+    rm.innerHTML += `<tr>
+      <td>${time}</td>
+      <td>${winner?.player_name ?? '?'} ${winner?.is_ai ? '<span class="badge badge-rose">BOT</span>' : ''}</td>
+      <td><b>${winner?.score ?? 0}</b></td>
+      <td>${humanCount} human + ${4 - humanCount} bot</td>
+    </tr>`;
+  }
+  if (!recent.length) rm.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No matches yet</td></tr>';
+
+  // Tier distribution
+  const tiers = { bronze: 0, silver: 0, gold: 0, diamond: 0 };
+  players.forEach(p => { if (tiers[p.rank_tier] !== undefined) tiers[p.rank_tier]++; });
+  const td = $('tier-dist');
+  td.innerHTML = '';
+  for (const [tier, count] of Object.entries(tiers)) {
+    const pct = players.length ? Math.round(count / players.length * 100) : 0;
+    td.innerHTML += `<div style="flex:1;min-width:120px;">
+      <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+        <span class="tier tier-${tier}"></span>
+        <span style="font-size:12px;font-weight:600;text-transform:capitalize;">${tier}</span>
+        <span style="font-size:11px;color:var(--muted);margin-left:auto;">${count} (${pct}%)</span>
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%;background:${
+        tier === 'bronze' ? '#cd7f32' : tier === 'silver' ? '#c0c0c0' : tier === 'gold' ? '#ffd700' : '#b9f2ff'
+      }"></div></div>
+    </div>`;
+  }
+}
+
+loadAll();
+// Auto-refresh every 60s
+setInterval(loadAll, 60000);
+</script>
+
+</body>
+</html>
