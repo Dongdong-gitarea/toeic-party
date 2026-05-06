@@ -52,6 +52,29 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
+## 2026-05-06 (Desktop) — Round 3: Security Hardening
+**Phase 1 pre-launch security — 4 fixes:**
+1. **CORS locked down**: `origin: '*'` → whitelist (frontend domain + localhost + LAN IPs)
+   - Custom domain support via `FRONTEND_URL` env var
+2. **Rate limiting**: 
+   - HTTP: 60 req/min via express-rate-limit
+   - WebSocket: 50 events/10s per socket (custom tracker with auto-cleanup)
+3. **Input validation**: all socket events validated
+   - `answerIndex`: must be integer 0-3 (was unchecked)
+   - `skillType`: must be shake/fog/timeCut (was unchecked)
+   - `charIdx`: must be integer 0-3
+   - `playerName`: max 16 chars + sanitized
+   - `weakWords`: max 80 items, strings only
+   - `code`: max 10 chars
+   - Invalid input silently dropped (no crash)
+4. **Sentry error tracking**: 
+   - All socket handlers wrapped in try-catch → Sentry
+   - `uncaughtException` + `unhandledRejection` caught
+   - Socket error events logged
+   - Set `SENTRY_DSN` env var to activate
+- Global error handlers for uncaught exceptions
+- Rate limit entries auto-cleaned every 30s
+
 ## 2026-05-06 (Desktop) — Round 2
 - MASSIVE vocab expansion: 1283 → **5492 words** (4x growth!)
   - Integrated Taiwan CEE 7000 (學測+指考) vocabulary with Traditional Chinese
