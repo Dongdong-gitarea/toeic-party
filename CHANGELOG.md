@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-06 (Mobile) — Remove BGM, shrink home CTA
+- **Background music removed** — the looped Kenney jingles competed too noisily with the TTS in audio (listening) questions, making the listening prompts hard to hear. Pulled all of:
+  - `frontend/public/audio/music/{lobby,game,result}.ogg` + README
+  - `frontend/src/lib/music.ts`
+  - `frontend/src/components/MusicSync.tsx` and its mount in `layout.tsx`
+  - The "Music" toggle in `SettingsModal`
+  - i18n keys `settings.music` / `settings.on` / `settings.off`
+- The Web Audio SFX in `lib/sounds.ts` (correct / wrong / tick / combo / gameStart / gameEnd / skillReceived / rankUp) are left in place — those are short, don't overlap TTS, and add useful feedback.
+- **Home CTA shrunk further**: `text-lg` + `tracking-[0.2em]` + `py-4` → `text-base` + `tracking-[0.15em]` + `py-3` so 「開戰！」 stays a single line and doesn't tower over the rest of the home column.
+
 ## 2026-05-06 (Mobile) — Background music
 - Wired up looping BGM that auto-switches between **lobby / game / result** based on the game phase
   - `lib/music.ts`: small audio manager — single track at a time, ~600ms crossfade, fades to 0 on disable / tab hide

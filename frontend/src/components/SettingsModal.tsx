@@ -1,15 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import {
-  Settings as SettingsIcon,
-  Globe,
-  Music,
-  X as XIcon,
-} from 'lucide-react';
+import { Settings as SettingsIcon, Globe, X as XIcon } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { useT, LANGUAGES } from '@/lib/i18n';
-import { music } from '@/lib/music';
 
 interface Props {
   open: boolean;
@@ -20,18 +13,6 @@ export default function SettingsModal({ open, onClose }: Props) {
   const t = useT();
   const locale = useGameStore((s) => s.locale);
   const setLocale = useGameStore((s) => s.setLocale);
-
-  // Mirror the music module's state into React. Read on mount so the
-  // toggle reflects whatever the user previously chose.
-  const [musicOn, setMusicOn] = useState(false);
-  useEffect(() => {
-    if (open) setMusicOn(music.isEnabled());
-  }, [open]);
-
-  const toggleMusic = (next: boolean) => {
-    setMusicOn(next);
-    music.setEnabled(next);
-  };
 
   if (!open) return null;
 
@@ -51,62 +32,28 @@ export default function SettingsModal({ open, onClose }: Props) {
           </div>
         </div>
 
-        <div className="space-y-4">
-          {/* Language */}
-          <div className="space-y-2">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-white/70 tracking-widest pl-1">
-              <Globe className="w-3.5 h-3.5" strokeWidth={2.5} />
-              {t('settings.language')}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {LANGUAGES.map((l) => {
-                const active = locale === l.id;
-                return (
-                  <button
-                    key={l.id}
-                    onClick={() => setLocale(l.id)}
-                    className={`py-3 rounded-2xl font-black text-sm tracking-wider transition-all border-4 cursor-pointer ${
-                      active
-                        ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_4px_0_rgba(120,53,15,0.5)]'
-                        : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
-                    }`}
-                  >
-                    {l.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Music */}
-          <div className="space-y-2">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-white/70 tracking-widest pl-1">
-              <Music className="w-3.5 h-3.5" strokeWidth={2.5} />
-              {t('settings.music')}
-            </p>
-            <button
-              onClick={() => toggleMusic(!musicOn)}
-              role="switch"
-              aria-checked={musicOn}
-              className={`w-full flex items-center justify-between py-3 px-4 rounded-2xl font-black text-sm tracking-wider transition-all border-4 cursor-pointer ${
-                musicOn
-                  ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_4px_0_rgba(120,53,15,0.5)]'
-                  : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
-              }`}
-            >
-              <span>{musicOn ? t('settings.on') : t('settings.off')}</span>
-              <span
-                className={`relative inline-block w-10 h-5 rounded-full transition-colors ${
-                  musicOn ? 'bg-fuchsia-900/40' : 'bg-white/20'
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 w-4 h-4 rounded-full transition-transform ${
-                    musicOn ? 'left-5 bg-fuchsia-900' : 'left-0.5 bg-white/70'
+        <div className="space-y-2">
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-white/70 tracking-widest pl-1">
+            <Globe className="w-3.5 h-3.5" strokeWidth={2.5} />
+            {t('settings.language')}
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {LANGUAGES.map((l) => {
+              const active = locale === l.id;
+              return (
+                <button
+                  key={l.id}
+                  onClick={() => setLocale(l.id)}
+                  className={`py-3 rounded-2xl font-black text-sm tracking-wider transition-all border-4 cursor-pointer ${
+                    active
+                      ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_4px_0_rgba(120,53,15,0.5)]'
+                      : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
                   }`}
-                />
-              </span>
-            </button>
+                >
+                  {l.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
