@@ -6,6 +6,7 @@ export interface Player {
   name: string;
   isAI: boolean;
   charIdx: number;
+  deviceId?: string; // for DB persistence
   score: number;
   combo: number;
   maxCombo: number;

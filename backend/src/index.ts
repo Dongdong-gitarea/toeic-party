@@ -142,6 +142,7 @@ io.on('connection', (socket) => {
         sanitizePlayerName(validString(d?.playerName, 16)),
         validWeakWords(d?.weakWords),
         validCharIdx(d?.charIdx),
+        validString(d?.deviceId, 64) || undefined,
       );
     } catch (err) {
       Sentry.captureException(err);
@@ -170,6 +171,7 @@ io.on('connection', (socket) => {
         sanitizePlayerName(validString(d?.playerName, 16)),
         validWeakWords(d?.weakWords),
         validCharIdx(d?.charIdx),
+        validString(d?.deviceId, 64) || undefined,
       );
     } catch (err) {
       Sentry.captureException(err);
@@ -185,6 +187,7 @@ io.on('connection', (socket) => {
         sanitizePlayerName(validString(d?.playerName, 16)),
         validWeakWords(d?.weakWords),
         validCharIdx(d?.charIdx),
+        validString(d?.deviceId, 64) || undefined,
       );
     } catch (err) {
       Sentry.captureException(err);

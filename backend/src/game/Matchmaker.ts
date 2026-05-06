@@ -8,6 +8,7 @@ interface QueueEntry {
   ready: boolean;
   weakWords: string[];
   charIdx: number;
+  deviceId?: string;
 }
 
 interface PrivateRoomState {
@@ -51,8 +52,9 @@ export class Matchmaker {
     playerName: string,
     weakWords: string[] = [],
     charIdx = 0,
+    deviceId?: string,
   ) {
-    this.queue.push({ socket, playerName, ready: false, weakWords, charIdx });
+    this.queue.push({ socket, playerName, ready: false, weakWords, charIdx, deviceId });
     socket.emit('MATCHMAKING', { position: this.queue.length });
 
     if (this.queue.length >= MAX_PLAYERS) {
@@ -160,6 +162,7 @@ export class Matchmaker {
     playerName: string,
     weakWords: string[] = [],
     charIdx = 0,
+    deviceId?: string,
   ) {
     if (this.privateBySocket.has(socket.id)) return;
     const code = this.uniqueCode();
@@ -169,6 +172,7 @@ export class Matchmaker {
       ready: false,
       weakWords,
       charIdx,
+      deviceId,
     };
     const room: PrivateRoomState = {
       code,
@@ -189,6 +193,7 @@ export class Matchmaker {
     playerName: string,
     weakWords: string[] = [],
     charIdx = 0,
+    deviceId?: string,
   ) {
     const code = (rawCode || '').toUpperCase().trim();
     const room = this.privateRooms.get(code);
@@ -207,6 +212,7 @@ export class Matchmaker {
       ready: false,
       weakWords,
       charIdx,
+      deviceId,
     };
     room.members.push(entry);
     this.privateBySocket.set(socket.id, room.code);
@@ -318,7 +324,7 @@ export class Matchmaker {
     const room = new Room(roomId, this.io, (id) => this.destroyRoom(id), [...weakWords]);
 
     for (const entry of entries) {
-      room.addPlayer(entry.socket.id, entry.playerName, false, entry.charIdx);
+      room.addPlayer(entry.socket.id, entry.playerName, false, entry.charIdx, entry.deviceId);
       entry.socket.join(roomId);
       entry.socket.data.roomId = roomId;
     }

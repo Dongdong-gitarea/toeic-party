@@ -5,7 +5,18 @@ import { haptic } from '@/lib/haptics';
 
 export type Locale = 'zh' | 'en';
 
+const DEVICE_ID_KEY = 'tp_device_id';
 const SAVED_WORDS_KEY = 'tp_words';
+
+function getDeviceId(): string {
+  if (typeof window === 'undefined') return '';
+  let id = localStorage.getItem(DEVICE_ID_KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(DEVICE_ID_KEY, id);
+  }
+  return id;
+}
 
 function loadSavedWords(): SavedWord[] {
   if (typeof window === 'undefined') return [];
@@ -507,6 +518,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       playerName: playerName || 'Player',
       weakWords,
       charIdx: selectedCharIdx,
+      deviceId: getDeviceId(),
     });
     set({ phase: 'matchmaking', lobby: null, myReady: false });
   },
@@ -532,6 +544,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       playerName: playerName || 'Player',
       weakWords,
       charIdx: selectedCharIdx,
+      deviceId: getDeviceId(),
     });
   },
 
@@ -547,6 +560,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       playerName: playerName || 'Player',
       weakWords,
       charIdx: selectedCharIdx,
+      deviceId: getDeviceId(),
     });
   },
 

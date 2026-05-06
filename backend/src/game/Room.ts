@@ -12,6 +12,8 @@ import type {
 import { calculateCorrect, calculateWrong } from './ScoreEngine.js';
 import { pickQuestions } from '../data/questions.js';
 import { lookupChinese } from '../data/vocabChinese.js';
+import { saveMatch } from '../db/matchService.js';
+import { updatePlayerStats } from '../db/playerService.js';
 
 const QUESTIONS_PER_GAME = 10;
 const QUESTION_TIME_MS = 10000;
@@ -32,6 +34,7 @@ export class Room {
   state: RoomState = 'waiting';
   questionStartTime = 0;
   answeredThisRound = new Set<string>();
+  gameStartedAt: Date | null = null;
   private io: Server;
   private timers: NodeJS.Timeout[] = [];
   private onDestroy: (roomId: string) => void;
@@ -57,12 +60,13 @@ export class Room {
     return this.currentQuestionIndex === this.questions.length - 1;
   }
 
-  addPlayer(id: string, name: string, isAI: boolean, charIdx = 0) {
+  addPlayer(id: string, name: string, isAI: boolean, charIdx = 0, deviceId?: string) {
     this.players.set(id, {
       id,
       name,
       isAI,
       charIdx,
+      deviceId,
       score: 0,
       combo: 0,
       maxCombo: 0,
@@ -105,6 +109,7 @@ export class Room {
 
   start() {
     this.state = 'countdown';
+    this.gameStartedAt = new Date();
     this.io.to(this.id).emit('GAME_START', { countdown: 3 });
     this.schedule(() => {
       this.state = 'playing';
@@ -446,6 +451,16 @@ export class Room {
         this.io.to(player.id).emit('POST_GAME_STATS', {
           reviewWords: player.reviewWords.map((rw) => ({ ...rw })),
         });
+      }
+    }
+
+    // ── Persist to database (async, non-blocking) ──
+    void saveMatch(this.id, finalRankings, this.gameStartedAt ?? new Date()).catch(() => {});
+    for (const player of players) {
+      if (!player.isAI && player.deviceId) {
+        const won = finalRankings[0]?.playerId === player.id;
+        const xp = Math.round(player.score / 2);
+        void updatePlayerStats(player.deviceId, xp, won).catch(() => {});
       }
     }
 
