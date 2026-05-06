@@ -105,6 +105,38 @@ function truncDef(s: string, max = 35): string {
 }
 
 // Look up TSL definition for a word
+// Words to deprioritize in question generation (not TOEIC-relevant)
+const NON_TOEIC = new Set([
+  'sparrow','turkey','parrot','pigeon','eagle','whale','dolphin','penguin',
+  'butterfly','mosquito','squirrel','deer','wolf','lion','tiger','elephant',
+  'monkey','rabbit','fox','bear','snake','turtle','frog','ant','bee',
+  'rooster','hen','goat','sheep','donkey','camel','giraffe',
+  'curry','pizza','hamburger','popcorn','cookie','candy','chocolate',
+  'spaghetti','noodle','dumpling','pancake','sandwich','toast','cereal',
+  'knee','elbow','ankle','wrist','thumb','forehead','chin',
+  'cheek','eyebrow','tongue','throat','lung','liver','kidney','bone','muscle',
+  'rainbow','thunder','lightning','snowflake','earthquake','volcano',
+  'waterfall','cliff','cave','valley','jungle','marsh','swamp',
+  'geometry','algebra','biology','chemistry','physics','geography','calculus',
+  'basketball','baseball','soccer','tennis','volleyball','badminton',
+  'swimming','skiing','skating','surfing','bowling','chess','poker',
+  'sweater','jacket','scarf','glove','sock','boot','sandal','slipper',
+  'pillow','blanket','curtain','carpet','towel','broom','bucket',
+  'candle','vase','mirror',
+  'jealous','greedy','selfish','stubborn','shy','lonely','homesick',
+  'church','temple','mosque','cathedral','churchyard','prayer','monk',
+  'murder','robbery','theft','kidnap','arson','assault','bullet','sword',
+  'surgery','tumor','diabetes','allergy','asthma','measles','pneumonia',
+  'casino','circus','fairy','ghost','dragon','wizard','pirate',
+  'firework','lantern','kite','puppet','cradle','coffin',
+  'birthday','wedding','funeral','divorce','pregnancy',
+  'sparrow','robin','crow','hawk','swan','dove',
+]);
+
+function isToeicWord(word: string): boolean {
+  return !NON_TOEIC.has(word.toLowerCase());
+}
+
 function lookupDef(word: string): string {
   const w = loadTSL().find((t) => t.word.toLowerCase() === word.toLowerCase());
   return w?.definition_en ?? '';
@@ -130,7 +162,10 @@ function withMeta<T extends { word: string }>(q: T): T & {
 
 // ── Generate vocab (English → Chinese) from hand-crafted bank ──
 function generateVocabQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length), excludeLower);
+  // Prefer TOEIC-relevant words (filter out non-TOEIC unless weak)
+  const toeicPool = VOCAB_ZH.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
+  const pool = toeicPool.length >= count ? toeicPool : VOCAB_ZH;
+  const selected = pickWeighted(pool, (e) => e[0], weakLower, Math.min(count, pool.length), excludeLower);
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
     return withMeta({
@@ -147,7 +182,9 @@ function generateVocabQuestions(count: number, weakLower: Set<string>, excludeLo
 
 // ── Generate audio (hear word → pick Chinese meaning) from vocab bank ──
 function generateAudioQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  const selected = pickWeighted(VOCAB_ZH, (e) => e[0], weakLower, Math.min(count, VOCAB_ZH.length), excludeLower);
+  const toeicPool = VOCAB_ZH.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
+  const pool = toeicPool.length >= count ? toeicPool : VOCAB_ZH;
+  const selected = pickWeighted(pool, (e) => e[0], weakLower, Math.min(count, pool.length), excludeLower);
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
     return withMeta({
