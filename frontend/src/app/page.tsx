@@ -32,7 +32,7 @@ function randomName() {
 export default function LobbyPage() {
   const router = useRouter();
   const {
-    phase, gameMode, playerName, setPlayerName, setGameMode,
+    phase, playerName, setPlayerName,
     joinMatch, leaveMatch, setReady, initSocket, socketReady,
     lobby, savedWords, selectedCharIdx, setSelectedChar, myReady,
   } = useGameStore();
@@ -326,43 +326,10 @@ export default function LobbyPage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 w-full">
-            <button
-              onClick={() => setGameMode('classic')}
-              className={`py-2.5 rounded-2xl font-black text-sm tracking-widest transition-all border-4 cursor-pointer flex flex-col items-center gap-0.5 ${
-                gameMode === 'classic'
-                  ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_5px_0_rgba(0,0,0,0.25)]'
-                  : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
-              }`}
-            >
-              <span className="leading-none">{t('home.classic')}</span>
-              <span className={`text-[10px] font-bold tracking-normal leading-none ${
-                gameMode === 'classic' ? 'text-fuchsia-900/70' : 'text-white/50'
-              }`}>
-                {t('home.classicDesc')}
-              </span>
-            </button>
-            <button
-              onClick={() => setGameMode('jump')}
-              className={`py-2.5 rounded-2xl font-black text-sm tracking-widest transition-all border-4 cursor-pointer flex flex-col items-center gap-0.5 ${
-                gameMode === 'jump'
-                  ? 'bg-amber-300 text-fuchsia-900 border-amber-400 shadow-[0_5px_0_rgba(0,0,0,0.25)]'
-                  : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
-              }`}
-            >
-              <span className="leading-none">{t('home.jump')}</span>
-              <span className={`text-[10px] font-bold tracking-normal leading-none ${
-                gameMode === 'jump' ? 'text-fuchsia-900/70' : 'text-white/50'
-              }`}>
-                {t('home.jumpDesc')}
-              </span>
-            </button>
-          </div>
-
           <button
             onClick={joinMatch}
             disabled={!socketReady || !playerName.trim()}
-            className="w-full py-5 rounded-2xl font-black text-2xl tracking-widest cursor-pointer
+            className="w-full py-4 rounded-2xl font-black text-lg tracking-[0.2em] cursor-pointer
               bg-amber-300 text-fuchsia-900 border-4 border-amber-400
               shadow-[0_8px_0_rgba(120,53,15,0.7)]
               hover:bg-amber-200 active:translate-y-[5px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)]

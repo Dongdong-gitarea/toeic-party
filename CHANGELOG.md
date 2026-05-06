@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-05-06 (Mobile) — UX simplification round
+- **Hide game-mode selector on home**: Jump mode is being deferred until I get back to it; with only Classic available, showing a single-option toggle was UI noise. The state still defaults to `'classic'` so `/game`'s Jump branch stays as inert dead code for when Jump comes back.
+- **Shrink main CTA**: 「開戰！」 was rendering on two lines on narrow phones (`text-2xl` + `tracking-widest` was overflowing); dropped to `text-lg` with tighter tracking and slimmer padding (py-4).
+- **Result page declutter**: removed the persistent "MY WORDS ({n})" button. The expandable per-match review block already covers post-game word recall; the full notebook still lives at /words from the home page.
+- Cleaned up dead destructuring (`gameMode` / `setGameMode`) and unused `BookMarked` import.
+
 ## 2026-05-05 (Mobile) — Hotfix: per-match word dedup
 - Bug: with vocab + audio + fillblank each pulling questions independently from the same pool, the **same headword could appear twice in a single 10-question match** (once as vocab, once as audio). Players reported "單字好像都重複".
 - Fix: `generateTSLQuestions` now passes a shared `excludeLower` set through each generator step; `pickWeighted` filters that set out of the pool before sampling. 200-game smoke test: 0 duplicates.

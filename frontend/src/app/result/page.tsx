@@ -11,7 +11,6 @@ import {
   Volume2,
   Star,
   RotateCw,
-  BookMarked,
   ChevronDown,
   ChevronUp,
   type LucideIcon,
@@ -236,18 +235,6 @@ export default function ResultPage() {
             hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm"
         >
           {t('result.playAgain')}
-        </button>
-
-        {/* My Words shortcut */}
-        <button
-          onClick={() => router.push('/words')}
-          className="w-full py-3 mb-3 rounded-2xl font-bold text-sm tracking-widest cursor-pointer
-            bg-white/15 text-white border-4 border-white/30
-            hover:bg-white/25 active:translate-y-[2px] transition-all backdrop-blur-sm
-            inline-flex items-center justify-center gap-2"
-        >
-          <BookMarked className="w-4 h-4" strokeWidth={2.5} />
-          {t('home.myWords', { n: savedWords.length })}
         </button>
 
         {/* Word Review */}
