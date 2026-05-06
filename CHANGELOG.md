@@ -52,6 +52,17 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
+## 2026-05-06 (Desktop) — Round 4: Supabase Persistence (Phase 2)
+- **Database tables created**: players, matches, match_players, saved_words, leaderboard
+- **Player accounts**: anonymous via device UUID (auto-created on first game)
+- **Match history**: every game saved with all 4 players' scores
+- **Leaderboard**: weekly + all-time, auto-updated after each game
+- **Rank tiers**: auto-calculated (bronze→silver→gold→diamond based on XP)
+- **Railway env vars**: SUPABASE_URL + SUPABASE_ANON_KEY + SUPABASE_SERVICE_KEY
+- Backend: Room.ts saves async on GAME_END (non-blocking)
+- Frontend: deviceId via crypto.randomUUID() sent with all match events
+- E2E verified: Player created → Match saved → Leaderboard updated
+
 ## 2026-05-06 (Desktop) — Round 3: Security Hardening
 **Phase 1 pre-launch security — 4 fixes:**
 1. **CORS locked down**: `origin: '*'` → whitelist (frontend domain + localhost + LAN IPs)
