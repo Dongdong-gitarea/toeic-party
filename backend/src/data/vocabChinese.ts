@@ -1291,6 +1291,8 @@ export const VOCAB_ZH: [string, string, string, string, string][] = [
   ['throughout', '在…期間', '不熟悉的', '講話的人', '內科醫生'],
   ['versatile', '多才多藝的', '色彩繽紛的', '負擔得起的', '實習生身份'],
   ['whereas', '然而', '尾隨', '入學', '澄清'],
+  // ── Final TSL gap fill ──
+  ['o\'clock', '整點', '引起', '利益', '合併'],
 ];
 
 const zhMap = new Map(VOCAB_ZH.map(([w, zh]) => [w.toLowerCase(), zh]));

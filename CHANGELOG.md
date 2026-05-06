@@ -52,6 +52,26 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
+## 2026-05-06 (Desktop)
+- **Anti-repetition expansion**:
+  - Confusable pairs: 20 → **60** (40 new: spelling traps, business pairs, grammar traps, advanced TOEIC)
+  - Collocations: 25 → **79** (54 new across: meetings, HR, finance, marketing, manufacturing, legal, customer service, tech, travel)
+  - Before: confusable/collocation repeated every 20-25 games
+  - After: **60-79 games** before full cycle
+- Example sentences: improved 95 more template → real (from Dictionary API)
+- New confusable categories:
+  - Spelling: loose/lose, quiet/quite, desert/dessert, weather/whether
+  - Business: ensure/insure, expense/experience, moral/morale
+  - Grammar: its/it's, their/there, whose/who's, than/then
+  - Advanced: discrete/discreet, eminent/imminent, sensible/sensitive
+- New collocation categories:
+  - Meetings: chair a meeting, take minutes, adjourn a meeting
+  - HR: fill a position, conduct an interview, evaluate performance
+  - Finance: settle an account, raise capital, write off a debt
+  - Marketing: boost sales, close a deal, generate leads
+  - Legal: breach a contract, file a patent, obtain a permit
+  - Tech: troubleshoot an issue, back up data, restore a backup
+
 ## 2026-05-05 (Desktop) — Round 7
 - NEW question types integrated into gameplay:
   - **Confusable** (易混淆): "The new policy will have a major ___ on productivity." → affect vs effect

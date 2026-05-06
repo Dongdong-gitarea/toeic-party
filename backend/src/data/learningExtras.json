@@ -139,6 +139,286 @@
       "adopt",
       "採用/收養",
       "adapt 調整適應，adopt 正式採納"
+    ],
+    [
+      "loose",
+      "鬆的",
+      "lose",
+      "失去",
+      "loose 形容詞「鬆的」，lose 動詞「失去」"
+    ],
+    [
+      "quiet",
+      "安靜的",
+      "quite",
+      "相當",
+      "quiet 安靜，quite 程度副詞「蠻」"
+    ],
+    [
+      "desert",
+      "沙漠",
+      "dessert",
+      "甜點",
+      "desert 一個 s 是沙漠，dessert 兩個 s 是甜點"
+    ],
+    [
+      "weather",
+      "天氣",
+      "whether",
+      "是否",
+      "weather 名詞天氣，whether 連接詞「是否」"
+    ],
+    [
+      "conscience",
+      "良心",
+      "conscious",
+      "有意識的",
+      "conscience 名詞良心，conscious 形容詞清醒"
+    ],
+    [
+      "emigrate",
+      "移出",
+      "immigrate",
+      "移入",
+      "emigrate 離開祖國，immigrate 進入新國家"
+    ],
+    [
+      "farther",
+      "更遠(距離)",
+      "further",
+      "更進一步",
+      "farther 物理距離，further 抽象程度"
+    ],
+    [
+      "historic",
+      "歷史性的",
+      "historical",
+      "有關歷史的",
+      "historic 重要事件，historical 與歷史相關"
+    ],
+    [
+      "imply",
+      "暗示",
+      "infer",
+      "推斷",
+      "imply 說話者暗示，infer 聽者推斷"
+    ],
+    [
+      "continual",
+      "頻繁的",
+      "continuous",
+      "不間斷的",
+      "continual 反覆發生，continuous 完全不停"
+    ],
+    [
+      "ensure",
+      "確保",
+      "insure",
+      "投保",
+      "ensure 確保事情發生，insure 購買保險"
+    ],
+    [
+      "expense",
+      "費用",
+      "experience",
+      "經驗",
+      "expense 花費，experience 經歷"
+    ],
+    [
+      "moral",
+      "道德的",
+      "morale",
+      "士氣",
+      "moral 形容詞道德，morale 名詞士氣"
+    ],
+    [
+      "precaution",
+      "預防",
+      "prescription",
+      "處方",
+      "precaution 預防措施，prescription 醫生處方"
+    ],
+    [
+      "perspective",
+      "觀點",
+      "prospective",
+      "潛在的",
+      "perspective 看法，prospective 未來可能的"
+    ],
+    [
+      "proceed",
+      "繼續",
+      "process",
+      "處理/流程",
+      "proceed 動詞往前走，process 名詞流程"
+    ],
+    [
+      "receipt",
+      "收據",
+      "recipe",
+      "食譜",
+      "receipt 購買憑證，recipe 烹飪步驟"
+    ],
+    [
+      "resume",
+      "繼續",
+      "résumé",
+      "履歷",
+      "resume 動詞重新開始，résumé 名詞個人履歷"
+    ],
+    [
+      "thorough",
+      "徹底的",
+      "through",
+      "穿過",
+      "thorough 形容詞完整的，through 介詞穿越"
+    ],
+    [
+      "cite",
+      "引用",
+      "site",
+      "場所",
+      "cite 引述來源，site 地點/網站"
+    ],
+    [
+      "its",
+      "它的",
+      "it's",
+      "它是",
+      "its 所有格「它的」，it's = it is 縮寫"
+    ],
+    [
+      "their",
+      "他們的",
+      "there",
+      "那裡",
+      "their 所有格，there 地方副詞"
+    ],
+    [
+      "whose",
+      "誰的",
+      "who's",
+      "誰是",
+      "whose 所有格疑問詞，who's = who is"
+    ],
+    [
+      "than",
+      "比",
+      "then",
+      "然後",
+      "than 比較，then 時間順序"
+    ],
+    [
+      "passed",
+      "經過了",
+      "past",
+      "過去",
+      "passed 動詞過去式，past 名詞/形容詞過去"
+    ],
+    [
+      "device",
+      "裝置(n)",
+      "devise",
+      "設計(v)",
+      "device 名詞設備，devise 動詞發明"
+    ],
+    [
+      "stature",
+      "身材",
+      "statute",
+      "法令",
+      "stature 身高/地位，statute 法規條文"
+    ],
+    [
+      "wander",
+      "漫步",
+      "wonder",
+      "好奇",
+      "wander 閒逛，wonder 想知道"
+    ],
+    [
+      "dairy",
+      "乳製品",
+      "diary",
+      "日記",
+      "dairy 牛奶相關，diary 每日記錄"
+    ],
+    [
+      "peak",
+      "頂峰",
+      "peek",
+      "偷看",
+      "peak 最高點，peek 快速看一眼"
+    ],
+    [
+      "discrete",
+      "分離的",
+      "discreet",
+      "謹慎的",
+      "discrete 獨立分開的，discreet 小心低調的"
+    ],
+    [
+      "elicit",
+      "引出",
+      "illicit",
+      "非法的",
+      "elicit 動詞引發，illicit 形容詞違法的"
+    ],
+    [
+      "eminent",
+      "傑出的",
+      "imminent",
+      "迫在眉睫的",
+      "eminent 著名的，imminent 即將發生的"
+    ],
+    [
+      "credible",
+      "可信的",
+      "creditable",
+      "值得讚揚的",
+      "credible 令人相信，creditable 表現不錯"
+    ],
+    [
+      "depreciate",
+      "貶值",
+      "deprecate",
+      "反對",
+      "depreciate 資產降價，deprecate 不贊同"
+    ],
+    [
+      "industrial",
+      "工業的",
+      "industrious",
+      "勤勉的",
+      "industrial 產業相關，industrious 勤奮工作"
+    ],
+    [
+      "luxurious",
+      "奢華的",
+      "luxuriant",
+      "茂盛的",
+      "luxurious 豪華享受，luxuriant 植物繁茂"
+    ],
+    [
+      "sensible",
+      "明智的",
+      "sensitive",
+      "敏感的",
+      "sensible 合理實際，sensitive 容易受影響"
+    ],
+    [
+      "comparable",
+      "可比較的",
+      "comparative",
+      "比較的",
+      "comparable 程度相似，comparative 用於比較"
+    ],
+    [
+      "deficient",
+      "不足的",
+      "efficient",
+      "高效的",
+      "deficient 缺乏的，efficient 效率高的"
     ]
   ],
   "collocations": [
@@ -266,6 +546,276 @@
       "postpone a meeting",
       "延後會議",
       "The meeting was postponed due to the storm."
+    ],
+    [
+      "chair a meeting",
+      "主持會議",
+      "The director will chair a meeting at 2 PM."
+    ],
+    [
+      "take minutes",
+      "做會議記錄",
+      "Could you take minutes during the meeting?"
+    ],
+    [
+      "draw up a contract",
+      "擬定合約",
+      "Our lawyers will draw up a contract by Friday."
+    ],
+    [
+      "set a deadline",
+      "設定截止日期",
+      "We need to set a deadline for the project."
+    ],
+    [
+      "brief the team",
+      "向團隊簡報",
+      "The manager will brief the team on the new changes."
+    ],
+    [
+      "draft a memo",
+      "起草備忘錄",
+      "Please draft a memo about the policy change."
+    ],
+    [
+      "circulate a report",
+      "傳閱報告",
+      "I will circulate the report to all departments."
+    ],
+    [
+      "adjourn a meeting",
+      "休會",
+      "The committee voted to adjourn the meeting."
+    ],
+    [
+      "fill a position",
+      "填補職缺",
+      "We urgently need to fill a position in marketing."
+    ],
+    [
+      "hand in a resignation",
+      "遞交辭呈",
+      "She handed in her resignation last week."
+    ],
+    [
+      "conduct an interview",
+      "進行面試",
+      "HR will conduct interviews next Monday."
+    ],
+    [
+      "offer a promotion",
+      "提供升遷",
+      "The company offered her a well-deserved promotion."
+    ],
+    [
+      "serve a probation",
+      "度過試用期",
+      "All new hires must serve a three-month probation."
+    ],
+    [
+      "evaluate performance",
+      "評估績效",
+      "Managers evaluate performance on a quarterly basis."
+    ],
+    [
+      "award a bonus",
+      "發放獎金",
+      "The company awarded a bonus to top performers."
+    ],
+    [
+      "settle an account",
+      "結清帳款",
+      "Please settle your account by end of month."
+    ],
+    [
+      "balance the books",
+      "平衡帳目",
+      "The accountant balanced the books before the audit."
+    ],
+    [
+      "cut costs",
+      "削減成本",
+      "The CEO announced plans to cut costs by 15%."
+    ],
+    [
+      "raise capital",
+      "籌集資金",
+      "The startup is trying to raise capital for expansion."
+    ],
+    [
+      "write off a debt",
+      "銷帳",
+      "The bank decided to write off the bad debt."
+    ],
+    [
+      "declare bankruptcy",
+      "宣告破產",
+      "The retailer was forced to declare bankruptcy."
+    ],
+    [
+      "yield a profit",
+      "產生利潤",
+      "The investment yielded a healthy profit."
+    ],
+    [
+      "boost sales",
+      "提升銷售",
+      "The new campaign helped boost sales by 30%."
+    ],
+    [
+      "expand market share",
+      "擴大市占率",
+      "The company aims to expand its market share in Asia."
+    ],
+    [
+      "build brand awareness",
+      "建立品牌知名度",
+      "Social media helps build brand awareness quickly."
+    ],
+    [
+      "attract customers",
+      "吸引顧客",
+      "The promotion was designed to attract new customers."
+    ],
+    [
+      "offer a discount",
+      "提供折扣",
+      "We offer a 20% discount for early registration."
+    ],
+    [
+      "close a deal",
+      "成交",
+      "The sales team closed a major deal with the client."
+    ],
+    [
+      "generate leads",
+      "產生潛在客戶",
+      "The webinar helped generate over 500 leads."
+    ],
+    [
+      "meet specifications",
+      "符合規格",
+      "All products must meet safety specifications."
+    ],
+    [
+      "track a shipment",
+      "追蹤貨物",
+      "You can track your shipment using this number."
+    ],
+    [
+      "inspect the premises",
+      "檢查場所",
+      "The inspector will inspect the premises tomorrow."
+    ],
+    [
+      "assemble components",
+      "組裝零件",
+      "Workers assemble electronic components on the line."
+    ],
+    [
+      "recall a product",
+      "召回產品",
+      "The manufacturer recalled the defective product."
+    ],
+    [
+      "breach a contract",
+      "違反合約",
+      "The supplier breached the contract terms."
+    ],
+    [
+      "settle a dispute",
+      "解決爭議",
+      "Both parties agreed to settle the dispute privately."
+    ],
+    [
+      "file a patent",
+      "申請專利",
+      "The inventor filed a patent for the new technology."
+    ],
+    [
+      "obtain a permit",
+      "取得許可",
+      "You must obtain a permit before construction begins."
+    ],
+    [
+      "enforce a policy",
+      "執行政策",
+      "Management will strictly enforce the dress code policy."
+    ],
+    [
+      "handle a complaint",
+      "處理投訴",
+      "Our team is trained to handle complaints efficiently."
+    ],
+    [
+      "process a return",
+      "處理退貨",
+      "It takes 3-5 business days to process a return."
+    ],
+    [
+      "honor a warranty",
+      "履行保固",
+      "The manufacturer agreed to honor the warranty."
+    ],
+    [
+      "follow up with",
+      "跟進聯繫",
+      "I will follow up with the client next week."
+    ],
+    [
+      "troubleshoot an issue",
+      "排除問題",
+      "IT will troubleshoot the connectivity issue today."
+    ],
+    [
+      "back up data",
+      "備份資料",
+      "Always back up your data before updating the system."
+    ],
+    [
+      "upgrade software",
+      "升級軟體",
+      "We plan to upgrade the software over the weekend."
+    ],
+    [
+      "restore a backup",
+      "復原備份",
+      "The technician was able to restore the backup quickly."
+    ],
+    [
+      "book a flight",
+      "訂機票",
+      "Please book a flight to Singapore for next Tuesday."
+    ],
+    [
+      "check in at",
+      "在…報到",
+      "Guests should check in at the front desk upon arrival."
+    ],
+    [
+      "confirm a reservation",
+      "確認預訂",
+      "I called to confirm our dinner reservation."
+    ],
+    [
+      "extend a stay",
+      "延長住宿",
+      "The guest requested to extend her stay by two nights."
+    ],
+    [
+      "arrange transportation",
+      "安排交通",
+      "The hotel can arrange airport transportation for guests."
+    ],
+    [
+      "cancel an appointment",
+      "取消預約",
+      "She had to cancel her appointment due to a conflict."
+    ],
+    [
+      "reschedule a meeting",
+      "重新安排會議",
+      "Can we reschedule the meeting to Thursday afternoon?"
     ]
   ]
 }
