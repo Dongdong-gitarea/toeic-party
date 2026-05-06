@@ -324,6 +324,18 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   initSocket: () => {
     if (get().socketReady) return;
+
+    // Pull saved words from cloud on first load (async, non-blocking)
+    void import('@/lib/db').then(({ pullWordsFromCloud, mergeCloudIntoLocal }) => {
+      pullWordsFromCloud().then((cloudWords) => {
+        if (cloudWords.length > 0) {
+          const merged = mergeCloudIntoLocal(get().savedWords, cloudWords);
+          persistSavedWords(merged);
+          set({ savedWords: merged });
+        }
+      }).catch(() => {});
+    });
+
     const socket = getSocket();
     socket.connect();
 
@@ -499,6 +511,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       const merged = mergeReviewIntoSaved(get().savedWords, reviewWords);
       persistSavedWords(merged);
       set({ reviewWords, savedWords: merged });
+      // Sync to cloud (async, non-blocking)
+      void import('@/lib/db').then(({ pushWordsToCloud }) => {
+        pushWordsToCloud(merged).catch(() => {});
+      });
     });
 
     socket.on('disconnect', () => {
@@ -610,6 +626,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     persistSavedWords(next);
     set({ savedWords: next });
+    void import('@/lib/db').then(({ pushWordsToCloud }) => pushWordsToCloud(next).catch(() => {}));
   },
 
   removeSavedWord: (word: string) => {
@@ -617,6 +634,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const next = get().savedWords.filter((w) => w.word.toLowerCase() !== key);
     persistSavedWords(next);
     set({ savedWords: next });
+    void import('@/lib/db').then(({ pushWordsToCloud }) => pushWordsToCloud(next).catch(() => {}));
   },
 
   addManualWord: (word: string, meaning: string) => {
@@ -650,6 +668,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     persistSavedWords(next);
     set({ savedWords: next });
+    void import('@/lib/db').then(({ pushWordsToCloud }) => pushWordsToCloud(next).catch(() => {}));
   },
 
   reset: () => {
