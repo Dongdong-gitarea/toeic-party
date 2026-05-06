@@ -22,6 +22,7 @@ const PORT = Number(process.env.PORT) || 3001;
 
 // ── Allowed origins (CORS lock-down) ──
 const ALLOWED_ORIGINS = [
+  'https://toeic-party.up.railway.app',
   'https://frontend-production-655f.up.railway.app',
   'http://localhost:3000',
   // LAN dev (any 192.168.x.x)
