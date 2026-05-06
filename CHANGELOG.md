@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-05-06 (Mobile) — Background music
+- Wired up looping BGM that auto-switches between **lobby / game / result** based on the game phase
+  - `lib/music.ts`: small audio manager — single track at a time, ~600ms crossfade, fades to 0 on disable / tab hide
+  - `components/MusicSync.tsx`: mounted once in root layout; subscribes to `phase` and unlocks autoplay on the first `pointerdown` / `keydown` (browsers block `<audio>.play()` until a user gesture)
+  - SettingsModal: new "背景音樂" toggle (zh) / "Music" (en); preference persisted in localStorage (`tp_music_enabled`)
+- **Tracks**: Kenney "Music Jingles" pack (CC0). Pulled from the GitHub mirror `Boyquotes/kenney-music-jingles-for-godot` since `kenney.nl` blocked direct curl from this sandbox.
+  - `public/audio/music/lobby.ogg`  — Pizzicato (chamber-cute)
+  - `public/audio/music/game.ogg`   — 8-bit NES (energetic)
+  - `public/audio/music/result.ogg` — Steel (triumphant sting)
+  - These are 3–5 second jingles looped — there's an audible seam. README in that folder explains how to swap in longer CC0 tracks later.
+
 ## 2026-05-06 (Mobile) — UX simplification round
 - **Hide game-mode selector on home**: Jump mode is being deferred until I get back to it; with only Classic available, showing a single-option toggle was UI noise. The state still defaults to `'classic'` so `/game`'s Jump branch stays as inert dead code for when Jump comes back.
 - **Shrink main CTA**: 「開戰！」 was rendering on two lines on narrow phones (`text-2xl` + `tracking-widest` was overflowing); dropped to `text-lg` with tighter tracking and slimmer padding (py-4).
