@@ -86,6 +86,20 @@ High-leverage in-game feedback / clarity work:
 - Global error handlers for uncaught exceptions
 - Rate limit entries auto-cleaned every 30s
 
+## 2026-05-06 (Desktop) — Round 5: Cloud Sync + OG + Domain + Analytics
+- **Cloud sync saved words**: auto push/pull to Supabase (no login needed)
+  - App init: pull from cloud → merge localStorage
+  - Game end / star / add / remove: push to cloud (async)
+  - Frontend: lib/db.ts, @supabase/supabase-js
+  - Railway env: NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY
+- **OG image**: 多益派對 game art + OpenGraph + Twitter card meta
+- **Domain**: toeic-party.up.railway.app (CORS updated)
+- **Analytics dashboard**: GitHub Pages (dongdong-gitarea.github.io/toeic-party/)
+  - Real-time: players, matches, daily chart, leaderboard, tier distribution
+  - Auto-refresh 60s, no server needed
+- **Weak-word fix**: bias 70% → 30%, minimum 10 weak words to activate
+  - Root cause: 3-5 wrong words → 70% of questions from same words → massive repetition
+
 ## 2026-05-06 (Desktop) — Round 2
 - MASSIVE vocab expansion: 1283 → **5492 words** (4x growth!)
   - Integrated Taiwan CEE 7000 (學測+指考) vocabulary with Traditional Chinese
