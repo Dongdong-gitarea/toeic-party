@@ -77,7 +77,8 @@ function pickRandom<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// Bias selection toward `weakLower`: take ~70% from weak pool, pad with random.
+// Bias selection toward `weakLower`: take ~30% from weak pool, pad with random.
+// Only activates when weak pool has ≥10 words (otherwise too repetitive).
 // `excludeLower` words are skipped entirely so the same headword doesn't
 // appear twice in one match (e.g. once as vocab, once as audio).
 function pickWeighted<T>(
@@ -94,7 +95,10 @@ function pickWeighted<T>(
   if (weakLower.size === 0) return pickRandom(available, n);
   const weakPool = available.filter((p) => weakLower.has(getWord(p).toLowerCase()));
   const otherPool = available.filter((p) => !weakLower.has(getWord(p).toLowerCase()));
-  const targetWeak = Math.min(weakPool.length, Math.ceil(n * 0.7));
+  // Only bias when weak pool is large enough to avoid repetition
+  if (weakPool.length < 10) return pickRandom(available, n);
+  // Cap at 30% weak (was 70% — too aggressive, caused same words every game)
+  const targetWeak = Math.min(weakPool.length, Math.ceil(n * 0.3));
   const fromWeak = pickRandom(weakPool, targetWeak);
   const fromOther = pickRandom(otherPool, n - fromWeak.length);
   return shuffle([...fromWeak, ...fromOther]).slice(0, n);
