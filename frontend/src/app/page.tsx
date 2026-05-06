@@ -12,6 +12,7 @@ import {
   UserPlus,
   ListChecks,
   Clock,
+  GraduationCap,
 } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { CHARACTERS } from '@/lib/characters';
@@ -19,6 +20,7 @@ import { useT } from '@/lib/i18n';
 import SettingsModal from '@/components/SettingsModal';
 import BrandIntro from '@/components/BrandIntro';
 import PlayWithFriendsSheet from '@/components/PlayWithFriendsSheet';
+import TutorialSheet, { hasSeenTutorial } from '@/components/TutorialSheet';
 
 const FUN_NAMES = [
   'QuizNinja', 'WordHunter', 'SpeedReader', 'VocabKing',
@@ -39,8 +41,17 @@ export default function LobbyPage() {
   const [tickSeconds, setTickSeconds] = useState<number | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [friendsOpen, setFriendsOpen] = useState(false);
+  const [tutorialOpen, setTutorialOpen] = useState(false);
   const [copyDone, setCopyDone] = useState(false);
   const t = useT();
+
+  // First-time visitors get the tutorial automatically (once).
+  useEffect(() => {
+    if (!hasSeenTutorial()) {
+      const t = setTimeout(() => setTutorialOpen(true), 600);
+      return () => clearTimeout(t);
+    }
+  }, []);
 
   useEffect(() => { initSocket(); }, [initSocket]);
   // Generate a random name only on first mount when nothing is saved.
@@ -76,19 +87,32 @@ export default function LobbyPage() {
         <div className="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/30 blur-3xl animate-blob-drift" style={{ animationDelay: '8s' }} />
       </div>
 
-      {/* Settings gear button (top-right) */}
-      <button
-        onClick={() => setSettingsOpen(true)}
-        aria-label={t('settings.title')}
-        className="absolute top-3 right-3 z-20 w-11 h-11 rounded-full
-          bg-white/15 backdrop-blur-sm border-2 border-white/30 text-white
-          hover:bg-white/25 active:scale-95 transition-all cursor-pointer
-          flex items-center justify-center shadow-[0_3px_0_rgba(0,0,0,0.25)]"
-      >
-        <SettingsIcon className="w-5 h-5" strokeWidth={2.25} />
-      </button>
+      {/* Top-right utility row: Tutorial + Settings */}
+      <div className="absolute top-3 right-3 z-20 flex items-center gap-2">
+        <button
+          onClick={() => setTutorialOpen(true)}
+          aria-label={t('tutorial.title')}
+          className="w-11 h-11 rounded-full
+            bg-white/15 backdrop-blur-sm border-2 border-white/30 text-white
+            hover:bg-white/25 active:scale-95 transition-all cursor-pointer
+            flex items-center justify-center shadow-[0_3px_0_rgba(0,0,0,0.25)]"
+        >
+          <GraduationCap className="w-5 h-5" strokeWidth={2.25} />
+        </button>
+        <button
+          onClick={() => setSettingsOpen(true)}
+          aria-label={t('settings.title')}
+          className="w-11 h-11 rounded-full
+            bg-white/15 backdrop-blur-sm border-2 border-white/30 text-white
+            hover:bg-white/25 active:scale-95 transition-all cursor-pointer
+            flex items-center justify-center shadow-[0_3px_0_rgba(0,0,0,0.25)]"
+        >
+          <SettingsIcon className="w-5 h-5" strokeWidth={2.25} />
+        </button>
+      </div>
       <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
       <PlayWithFriendsSheet open={friendsOpen} onClose={() => setFriendsOpen(false)} />
+      <TutorialSheet open={tutorialOpen} onClose={() => setTutorialOpen(false)} />
 
       {isMatchmaking && lobby ? (
         // ── Lobby takeover ──
