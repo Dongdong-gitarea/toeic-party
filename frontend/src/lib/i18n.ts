@@ -110,9 +110,6 @@ const dict: Record<Lang, Record<string, string>> = {
     // Settings
     'settings.title': '設定',
     'settings.language': '介面語言',
-    'settings.music': '背景音樂',
-    'settings.on': '開',
-    'settings.off': '關',
     'settings.close': '關閉',
 
     // Vocab metadata
@@ -256,9 +253,6 @@ const dict: Record<Lang, Record<string, string>> = {
 
     'settings.title': 'Settings',
     'settings.language': 'Language',
-    'settings.music': 'Music',
-    'settings.on': 'ON',
-    'settings.off': 'OFF',
     'settings.close': 'Close',
 
     'vocab.example': 'EXAMPLE',

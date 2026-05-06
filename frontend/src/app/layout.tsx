@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import MusicSync from '@/components/MusicSync';
 
 export const metadata: Metadata = {
   title: '多益派對 TOEIC PARTY — 4人單字對戰',
@@ -50,7 +49,6 @@ export default function RootLayout({
   return (
     <html lang="zh-Hant">
       <body className="min-h-[100dvh] bg-slate-950 text-white antialiased overscroll-none select-none">
-        <MusicSync />
         {children}
       </body>
     </html>
