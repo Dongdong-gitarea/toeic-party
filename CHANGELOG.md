@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-05-06 (Mobile) — In-app tutorial
+- New "**玩法教學**" entry on the home top-right (graduation-cap icon) next to the settings gear, plus a one-time auto-open for first-time visitors (`localStorage` flag `tp_tutorial_seen`)
+- 5-step sheet (matches `PlayWithFriendsSheet` chrome — bottom sheet on mobile, centered card on desktop)
+  1. Welcome / 4-player overview
+  2. Lobby — pick character + ready
+  3. Answering — A/B/C/D + timer urgency
+  4. Combo + Skills row
+  5. Result — crown / MVP / saved-words handoff
+- "Screenshots" are real Tailwind/SVG mock-ups built with the same components / colours as the live UI, so they stay in sync without us shipping any PNGs (zero asset weight added)
+- Step indicator dots, prev/next, skip-button (X) all i18n-keyed (`tutorial.*`, zh + en)
+
 ## 2026-05-06 (Mobile) — Remove BGM, shrink home CTA
 - **Background music removed** — the looped Kenney jingles competed too noisily with the TTS in audio (listening) questions, making the listening prompts hard to hear. Pulled all of:
   - `frontend/public/audio/music/{lobby,game,result}.ogg` + README
