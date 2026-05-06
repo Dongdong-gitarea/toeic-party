@@ -52,7 +52,15 @@ High-leverage in-game feedback / clarity work:
   - ExampleBlock highlights the headword in the example sentence
   - Server-side `sanitizePlayerName` filters control / zero-width / wide-space chars, slurs (EN+ZH leetspeak tolerant), and caps grapheme length
 
-## 2026-05-06 (Desktop)
+## 2026-05-06 (Desktop) — Round 2
+- MASSIVE vocab expansion: 1283 → **5492 words** (4x growth!)
+  - Integrated Taiwan CEE 7000 (學測+指考) vocabulary with Traditional Chinese
+  - 4212 new words filtered from 5825 entries (removed too-basic words)
+  - All words have POS-grouped distractor options
+- Vocab/Audio can now play **1830 games** without repeating
+- Sources: TSL + CET4 + CET6 + TOEFL + Taiwan CEE 7000 + ETS Core + manual
+
+## 2026-05-06 (Desktop) — Round 1
 - **Anti-repetition expansion**:
   - Confusable pairs: 20 → **60** (40 new: spelling traps, business pairs, grammar traps, advanced TOEIC)
   - Collocations: 25 → **79** (54 new across: meetings, HR, finance, marketing, manufacturing, legal, customer service, tech, travel)
