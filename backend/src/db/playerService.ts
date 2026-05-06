@@ -56,18 +56,24 @@ export async function updatePlayerStats(
   deviceId: string,
   xpGain: number,
   won: boolean,
+  displayName = 'Player',
 ): Promise<void> {
   const db = getSupabase();
   if (!db) return;
 
   try {
-    const { data: player } = await db
+    let { data: player } = await db
       .from('players')
       .select('id, total_xp, games_played, games_won')
       .eq('device_id', deviceId)
       .single();
 
-    if (!player) return;
+    // Auto-create if first time
+    if (!player) {
+      const created = await getOrCreatePlayer(deviceId, displayName);
+      if (!created) return;
+      player = { id: created.id, total_xp: 0, games_played: 0, games_won: 0 };
+    }
 
     const newXP = player.total_xp + xpGain;
     const newGames = player.games_played + 1;

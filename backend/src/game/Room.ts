@@ -460,7 +460,7 @@ export class Room {
       if (!player.isAI && player.deviceId) {
         const won = finalRankings[0]?.playerId === player.id;
         const xp = Math.round(player.score / 2);
-        void updatePlayerStats(player.deviceId, xp, won).catch(() => {});
+        void updatePlayerStats(player.deviceId, xp, won, player.name).catch(() => {});
       }
     }
 
