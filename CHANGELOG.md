@@ -1,42 +1,11 @@
 # Changelog
 
-## 2026-05-07 (Mobile) — Round-summary wrap-up + skill rework (v0.2.0)
-
-**Big mechanic change.** Skills used to live as a row at the bottom of the in-game screen — players found them hard to press while answering. Replacing that with a deliberate strategy moment between every two questions.
-
-### New flow
-
-After each question's reveal, a 4-second wrap-up overlay appears:
-
-- 4 player rows revealed in score order (0.4s stagger), each with ✓/✗ + score
-- Circular countdown ring (top right of overlay)
-- 3 skill buttons + 1 Skip button. Pick once, locks in. Effect fires on the next question.
-- Q1's wrap-up: skill buttons greyed with a Lock icon ("下回合解鎖") — first round is a warm-up
-- Wrap-up before Q10: also locked (final round has no skills anyway)
-- Q10's wrap-up is skipped — straight to Result page after answer reveal
-- All humans tap Skip → wrap-up ends early
-
-### Backend (`Room.ts`, `index.ts`, `types.ts`)
-
-- New `RoomState`: `'between'` phase between `'reviewing'` and `'playing'`
-- New event `ROUND_SUMMARY` { questionNumber, durationMs, skillsAllowed, results[] }
-- New socket event `SKIP_BETWEEN` (no payload); all-humans-skipped cuts wrap-up short
-- `Player.pendingCast: SkillType | null` — queued skill, applied when next question starts
-- `handleSkill` now only accepted during `'between'` and Q2..Q9 wrap-ups; effect broadcast deferred until `exitBetweenPhase()` so SHAKE/FOG/TIME-CUT lands during the next question, not on the summary screen
-- AI skill picks moved out of `scheduleAIAnswers` into `scheduleAISkillPicks` (40% chance per AI per round, randomized timing within window)
-- Removed `BETWEEN_QUESTIONS_FAST_MS` / `BETWEEN_QUESTIONS_REVIEW_MS`; replaced by single `BETWEEN_ROUND_MS = 4000`
-- New `RoundSummary` type in `types.ts`
-
-### Frontend
-
-- New `components/RoundSummaryOverlay.tsx` — staggered reveal + countdown ring + skill picker + skip button
-- `store/gameStore.ts`: added `roundSummary` and `skipVoted` state, `voteSkipBetween` action; `useSkill` now early-bails if no active wrap-up
-- `app/game/page.tsx`: removed in-game `SkillBar` and the now-redundant header avatar cast pose (skill picking moved entirely to the overlay)
-- New i18n keys: `between.pickSkill` / `between.skillsLocked` / `between.skip` / `between.skipped` (zh + en)
-
-### Versioning
-
-- `baseline-v0.1.1` branch tags the prev state (rematch fix included). Roll back via `git checkout baseline-v0.1.1` if the new mechanic doesn't feel right.
+## 2026-05-07 (Mobile) — Rollback to v0.1.1 (revert v0.2.0 round-summary mechanic)
+- **Reverted commit `8c4fc7f`** ("feat: round-summary wrap-up + skill rework").
+  - Production now runs the v0.1.1 mechanic again: bottom SkillBar, in-game skill firing, 1.8s / 5s between-question pause.
+  - Reason: new wrap-up flow didn't feel right in user testing.
+- The reverted code is preserved in git history (commit `8c4fc7f`); to re-apply later, revert this revert commit (`75846b8`).
+- `baseline-v0.1.1` branch unchanged — main is functionally back to that state.
 
 ## 2026-05-07 (Desktop) — Difficulty selector + OG image update
 - **Difficulty system for private rooms**: host picks easy/medium/hard before creating

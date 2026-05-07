@@ -171,16 +171,6 @@ interface SkillEffect {
   skillType: SkillType;
 }
 
-export interface RoundSummary {
-  questionNumber: number;
-  durationMs: number;
-  skillsAllowed: boolean;
-  results: { playerId: string; correct: boolean; score: number }[];
-  // When the wrap-up arrived, used to compute remaining time on the
-  // client without trusting the wall clock. ms epoch.
-  receivedAt: number;
-}
-
 interface LobbyPlayer {
   name: string;
   ready: boolean;
@@ -226,14 +216,6 @@ interface GameState {
   answeredCount: number;
   totalCount: number;
 
-  // The wrap-up overlay shown between two questions. null while in
-  // active play; populated when the server emits ROUND_SUMMARY and
-  // cleared when NEW_QUESTION fires.
-  roundSummary: RoundSummary | null;
-  // True after the local player has voted to skip the wrap-up. Reset
-  // each time a new ROUND_SUMMARY arrives.
-  skipVoted: boolean;
-
   finalRankings: FinalRankEntry[];
   labels: GameLabels | null;
   reviewWords: ReviewWord[];
@@ -277,7 +259,6 @@ interface GameState {
   joinError: string | null;
   submitAnswer: (answerIndex: number) => void;
   useSkill: (skillType: SkillType) => void;
-  voteSkipBetween: () => void;
   initSocket: () => void;
   reset: () => void;
   toggleStarWord: (word: string) => void;
@@ -303,8 +284,6 @@ export const useGameStore = create<GameState>((set, get) => ({
   myUsedSkills: [],
   answeredCount: 0,
   totalCount: 4,
-  roundSummary: null,
-  skipVoted: false,
   finalRankings: [],
   labels: null,
   reviewWords: [],
@@ -397,8 +376,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         finalRankings: [],
         labels: null,
         reviewWords: [],
-        roundSummary: null,
-        skipVoted: false,
       });
     });
 
@@ -428,22 +405,11 @@ export const useGameStore = create<GameState>((set, get) => ({
         activeEffect: null,
         effectTimer: null,
         answeredCount: 0,
-        // Tear down any wrap-up overlay; the skill chosen there has
-        // already been applied server-side.
-        roundSummary: null,
-        skipVoted: false,
       });
     });
 
     socket.on('ANSWER_PROGRESS', ({ answered, total }: { answered: number; total: number }) => {
       set({ answeredCount: answered, totalCount: total });
-    });
-
-    socket.on('ROUND_SUMMARY', (summary: Omit<RoundSummary, 'receivedAt'>) => {
-      set({
-        roundSummary: { ...summary, receivedAt: Date.now() },
-        skipVoted: false,
-      });
     });
 
     socket.on('ANSWER_RESULT', (result: AnswerResult) => {
@@ -627,19 +593,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   useSkill: (skillType) => {
     if (get().myUsedSkills.includes(skillType)) return;
-    // Server only accepts USE_SKILL during the between-round wrap-up
-    // window. Mirror that on the client to avoid sending no-ops.
-    const summary = get().roundSummary;
-    if (!summary || !summary.skillsAllowed) return;
     haptic('heavy');
     getSocket().emit('USE_SKILL', { skillType });
-  },
-
-  voteSkipBetween: () => {
-    if (!get().roundSummary) return;
-    if (get().skipVoted) return;
-    set({ skipVoted: true });
-    getSocket().emit('SKIP_BETWEEN');
   },
 
   toggleStarWord: (word: string) => {
@@ -739,8 +694,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       finalRankings: [],
       labels: null,
       reviewWords: [],
-      roundSummary: null,
-      skipVoted: false,
       countdownValue: 3,
       activeEffect: null,
       effectTimer: null,

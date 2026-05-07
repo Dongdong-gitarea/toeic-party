@@ -144,12 +144,6 @@ const dict: Record<Lang, Record<string, string>> = {
     'pos.adj': '形容詞',
     'pos.adv': '副詞',
 
-    // Between-round wrap-up
-    'between.pickSkill': '為下一回合選擇技能',
-    'between.skillsLocked': '下回合解鎖',
-    'between.skip': '跳過 →',
-    'between.skipped': '已跳過',
-
     // Skills
     'skill.used': '已使用',
     'skill.shake.name': '震波',
@@ -314,11 +308,6 @@ const dict: Record<Lang, Record<string, string>> = {
     'pos.verb': 'verb',
     'pos.adj': 'adj.',
     'pos.adv': 'adv.',
-
-    'between.pickSkill': 'Pick a skill for next round',
-    'between.skillsLocked': 'Unlocks next round',
-    'between.skip': 'Skip →',
-    'between.skipped': 'Skipped',
 
     'skill.used': 'USED',
     'skill.shake.name': 'SHAKE',

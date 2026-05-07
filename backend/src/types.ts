@@ -14,9 +14,6 @@ export interface Player {
   totalResponseTime: number;
   answeredCount: number;
   usedSkills: SkillType[];
-  // What skill (if any) the player picked during the most recent
-  // between-round window. Cleared when the next question fires.
-  pendingCast: SkillType | null;
   reviewWords: ReviewWord[];
 }
 
@@ -93,13 +90,6 @@ export interface AnswerResult {
 export interface SkillEffect {
   fromName: string;
   skillType: SkillType;
-}
-
-export interface RoundSummary {
-  questionNumber: number; // 1-based, the question that just finished
-  durationMs: number;     // how long the wrap-up window lasts
-  skillsAllowed: boolean; // false on first wrap-up (warm-up) and on the last wrap-up before the final question
-  results: { playerId: string; correct: boolean; score: number }[];
 }
 
 export interface PostGameStats {
