@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-05-07 (Desktop) — Difficulty selector + OG image update
+- **Difficulty system for private rooms**: host picks easy/medium/hard before creating
+  - Easy (初級): TSL rank 1-400, no confusable/collocation, TOEIC 400-600
+  - Medium (中級): TSL rank 1-800, all 5 question types, TOEIC 600-800
+  - Hard (高級): full 5370 pool + all confusable/collocation, TOEIC 800+
+  - Public matchmaking stays medium (no change)
+  - Backend: `tslLoader.ts` adds `filterVocabByDifficulty()` + `DIFFICULTY_CONFIG`
+  - Backend: `Matchmaker.ts` PrivateRoomState stores `difficulty` from host
+  - Backend: `Room.ts` passes difficulty to `pickQuestions()`
+  - Backend: `questions.ts` exports `Difficulty` type
+  - Backend: `index.ts` validates difficulty in CREATE_PRIVATE handler
+  - Backend: `LOBBY_UPDATE` broadcasts difficulty to all members
+  - Frontend: `PlayWithFriendsSheet.tsx` — 3-button selector (green/amber/rose) with TOEIC score ranges
+  - Frontend: `gameStore.ts` — `createPrivateRoom(difficulty)` param + `Difficulty` type export
+  - Frontend: `LobbyState` interface now includes `difficulty?` field
+  - i18n: `difficulty.title/easy/medium/hard/easyDesc/mediumDesc/hardDesc` (zh + en)
+- **OG image replaced**: new yellow hand-drawn 多益派對 art with 4 characters
+- **Read mobile changes**: tutorial sheet (5-step), BGM removed, Jump mode hidden, CTA shrunk
+
 ## 2026-05-06 (Mobile) — In-app tutorial
 - New "**玩法教學**" entry on the home top-right (graduation-cap icon) next to the settings gear, plus a one-time auto-open for first-time visitors (`localStorage` flag `tp_tutorial_seen`)
 - 5-step sheet (matches `PlayWithFriendsSheet` chrome — bottom sheet on mobile, centered card on desktop)
