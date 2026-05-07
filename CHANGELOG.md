@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-05-07 (Mobile) — Live per-player answer colouring on RankingBar
+- Each player's row in the in-game RankingBar now flips colour as they lock in an answer:
+  - **Pending** (haven't answered yet): default
+  - **Correct**: emerald-tinted background + border
+  - **Wrong**: rose-tinted background + border
+- Status flips back to pending on every NEW_QUESTION
+- Implementation: `ANSWER_PROGRESS` payload now also carries a `statuses: Record<playerId, 'pending'|'correct'|'wrong'>`. Old clients that don't read it are unaffected.
+- Backend (`Room.ts`):
+  - `processAnswer` now broadcasts AFTER reviewWords push (was before, so the status read was stale)
+  - Timeout players get marked `answeredThisRound` so their row flips to wrong when the round resolves
+  - Final progress broadcast at the end of `resolveQuestion` covers timeouts
+- Frontend: new `roundStatuses` field in store; reset on NEW_QUESTION / MATCH_FOUND / reset(). RankingBar accepts a `statuses` prop and picks per-row chrome.
+
 ## 2026-05-07 (Mobile) — Rollback to v0.1.1 (revert v0.2.0 round-summary mechanic)
 - **Reverted commit `8c4fc7f`** ("feat: round-summary wrap-up + skill rework").
   - Production now runs the v0.1.1 mechanic again: bottom SkillBar, in-game skill firing, 1.8s / 5s between-question pause.
