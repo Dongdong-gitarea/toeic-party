@@ -38,7 +38,9 @@ interface TSLWord {
 }
 
 // Difficulty → TSL rank cutoff + whether to include confusable/collocation
-const DIFFICULTY_CONFIG: Record<Difficulty, { maxRank: number; confusable: boolean; collocation: boolean }> = {
+// 'curve' isn't in here — it has its own dedicated generator below that
+// stitches together easy + medium + hard tiers within a single match.
+const DIFFICULTY_CONFIG: Record<Exclude<Difficulty, 'curve'>, { maxRank: number; confusable: boolean; collocation: boolean }> = {
   easy:   { maxRank: 400, confusable: false, collocation: false },
   medium: { maxRank: 800, confusable: true,  collocation: true },
   hard:   { maxRank: 9999, confusable: true, collocation: true },
@@ -371,7 +373,11 @@ function generateCollocationQuestions(count: number, used: Set<string>): Questio
  * 5 types: vocab, audio, definition, confusable, collocation
  * Ratio: ~3 vocab/audio/def + 1 confusable + 1 collocation per 10 questions
  */
-export function generateTSLQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'medium'): Question[] {
+export function generateTSLQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'curve'): Question[] {
+  if (difficulty === 'curve') {
+    return generateCurvedQuestions(count, weakWords);
+  }
+
   const weakLower = new Set(weakWords.map((w) => w.toLowerCase()));
   const used = new Set<string>();
   const cfg = DIFFICULTY_CONFIG[difficulty];
@@ -399,4 +405,95 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const fillQs = generateDefinitionQuestions(fillCount, weakLower, used, cfg.maxRank);
 
   return shuffle([...vocabQs, ...audioQs, ...fillQs, ...confQs, ...collQs]);
+}
+
+/**
+ * 'curve' generator — every match self-paces from easy → medium → hard.
+ *
+ *   For a 10-question match the layout is:
+ *     Q1-3 (easy):    vocab + audio + definition, all from TSL rank 1-400
+ *     Q4-7 (medium):  vocab + audio + 1 confusable + 1 collocation, rank 1-800
+ *     Q8-10 (hard):   vocab + audio + definition, full pool incl. extra TOEIC
+ *
+ *   Question types are shuffled WITHIN each tier so the order isn't always
+ *   vocab → audio → def, but tiers themselves stay in order so the player
+ *   feels the ramp. Headwords are de-duped across all tiers via the shared
+ *   `used` set.
+ *
+ *   Counts scale roughly with `count` if it isn't 10 — mostly there's no
+ *   reason to call with a different count, but it stays robust.
+ */
+function generateCurvedQuestions(count: number, weakWords: string[]): Question[] {
+  const weakLower = new Set(weakWords.map((w) => w.toLowerCase()));
+  const used = new Set<string>();
+
+  // Tier sizes — keep proportions if `count` !== 10.
+  const easySize = Math.max(1, Math.round(count * 0.3));
+  const hardSize = Math.max(1, Math.round(count * 0.3));
+  const medSize = Math.max(0, count - easySize - hardSize);
+
+  const easyVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.easy.maxRank);
+  const medVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.medium.maxRank);
+  const hardVocab = VOCAB_ZH; // full pool
+
+  // Per-tier type allocation. Easy is pure vocab/audio/def (no confusable
+  // or collocation — they're conceptually harder). Medium gets one of
+  // each meta type. Hard goes back to vocab/audio/def with the full pool.
+  const easyMix = splitVocabAudioDef(easySize);
+  const hardMix = splitVocabAudioDef(hardSize);
+
+  // Medium: 1 confusable + 1 collocation max, rest split vocab/audio/def
+  const medConf = medSize >= 4 ? 1 : 0;
+  const medColl = medSize >= 4 ? 1 : 0;
+  const medRest = Math.max(0, medSize - medConf - medColl);
+  const medMix = splitVocabAudioDef(medRest);
+
+  const tier = (name: 'easy' | 'medium' | 'hard'): Question[] => {
+    const isEasy = name === 'easy';
+    const isMed = name === 'medium';
+    const pool = isEasy ? easyVocab : isMed ? medVocab : hardVocab;
+    const maxRank = isEasy
+      ? DIFFICULTY_CONFIG.easy.maxRank
+      : isMed
+        ? DIFFICULTY_CONFIG.medium.maxRank
+        : 9999;
+    const mix = isEasy ? easyMix : isMed ? medMix : hardMix;
+
+    const out: Question[] = [];
+    if (mix.vocab > 0) {
+      const vqs = generateVocabQuestionsFromPool(pool, mix.vocab, weakLower, used);
+      for (const q of vqs) used.add(q.word.toLowerCase());
+      out.push(...vqs);
+    }
+    if (mix.audio > 0) {
+      const aqs = generateAudioQuestionsFromPool(pool, mix.audio, weakLower, used);
+      for (const q of aqs) used.add(q.word.toLowerCase());
+      out.push(...aqs);
+    }
+    if (mix.def > 0) {
+      const dqs = generateDefinitionQuestions(mix.def, weakLower, used, maxRank);
+      for (const q of dqs) used.add(q.word.toLowerCase());
+      out.push(...dqs);
+    }
+    return shuffle(out);
+  };
+
+  const easyQs = tier('easy');
+  const medCore = tier('medium');
+  const medExtras: Question[] = [];
+  if (medConf > 0) medExtras.push(...generateConfusableQuestions(medConf, used));
+  if (medColl > 0) medExtras.push(...generateCollocationQuestions(medColl, used));
+  const medQs = shuffle([...medCore, ...medExtras]);
+  const hardQs = tier('hard');
+
+  return [...easyQs, ...medQs, ...hardQs];
+}
+
+/** Distribute n questions across vocab / audio / def in a 1:1:1-ish ratio. */
+function splitVocabAudioDef(n: number): { vocab: number; audio: number; def: number } {
+  if (n <= 0) return { vocab: 0, audio: 0, def: 0 };
+  const vocab = Math.ceil(n / 3);
+  const audio = Math.ceil((n - vocab) / 2);
+  const def = n - vocab - audio;
+  return { vocab, audio, def };
 }

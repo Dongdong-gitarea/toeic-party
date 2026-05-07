@@ -114,6 +114,8 @@ const dict: Record<Lang, Record<string, string>> = {
 
     // Difficulty
     'difficulty.title': '難度',
+    'difficulty.curve': '混合',
+    'difficulty.curveDesc': '由淺入深',
     'difficulty.easy': '初級',
     'difficulty.easyDesc': 'TOEIC 400-600',
     'difficulty.medium': '中級',
@@ -281,6 +283,8 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.close': 'Close',
 
     'difficulty.title': 'Difficulty',
+    'difficulty.curve': 'Mix',
+    'difficulty.curveDesc': 'easy → hard',
     'difficulty.easy': 'Easy',
     'difficulty.easyDesc': 'TOEIC 400-600',
     'difficulty.medium': 'Medium',

@@ -178,7 +178,7 @@ interface LobbyPlayer {
   you?: boolean;
 }
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'curve';
 
 interface LobbyState {
   players: LobbyPlayer[];

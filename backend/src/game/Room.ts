@@ -40,14 +40,14 @@ export class Room {
   private onDestroy: (roomId: string) => void;
   private questionTimer: NodeJS.Timeout | null = null;
 
-  difficulty: 'easy' | 'medium' | 'hard' = 'medium';
+  difficulty: 'easy' | 'medium' | 'hard' | 'curve' = 'medium';
 
   constructor(
     id: string,
     io: Server,
     onDestroy: (roomId: string) => void,
     weakWords: string[] = [],
-    difficulty: 'easy' | 'medium' | 'hard' = 'medium',
+    difficulty: 'easy' | 'medium' | 'hard' | 'curve' = 'medium',
   ) {
     this.id = id;
     this.io = io;

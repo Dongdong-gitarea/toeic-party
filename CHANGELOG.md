@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-07 (Mobile) — 'Mix' difficulty (built-in easy → hard curve per match)
+Public matchmaking used to be locked at flat medium, which felt repetitive (and either too easy or too hard depending on the player). New behaviour:
+
+- Each 10-question match now ramps **3 easy → 4 medium → 3 hard** by default. Easy uses TSL rank 1-400; medium 1-800; hard the full 5,492-word pool plus confusable / collocation. Final round (Q10) lands in the hard tier so the ×2.5 bonus actually means something.
+- Question type still distributed inside each tier (vocab / audio / definition; medium also gets one confusable + one collocation). De-dup across tiers preserved.
+- Backend: new `'curve'` Difficulty value; new `generateCurvedQuestions(count, weakWords)` that stitches the tiers in order with shuffled types within each tier; `generateTSLQuestions` branches early when difficulty === 'curve'. `pickQuestions` default + Matchmaker public default + index validator all switched from `'medium'` → `'curve'`.
+- Frontend: `Difficulty` union gains `'curve'`. `PlayWithFriendsSheet` adds a 4th button "混合 / Mix" (fuchsia) as the recommended default; layout switches from 3-col to 2×2 grid. New i18n keys `difficulty.curve` / `difficulty.curveDesc` (zh: "混合 · 由淺入深", en: "Mix · easy → hard").
+
+Private rooms keep their explicit easy / medium / hard / mix choice; this change only affects the public queue's default and gives the curve to private hosts as an option.
+
 ## 2026-05-07 (Mobile) — Game-feel polish round (5 small wins)
 - **Winner confetti**: result page now showers ~36 CSS-only confetti pieces (random colour / size / drift / spin) when the local player finishes 1st. Pure CSS keyframes, zero deps. New `Confetti.tsx` + `confetti-fall` keyframe in globals.
 - **Wrong-option dim & shrink**: AnswerButton was only fading non-selected wrong options; now they also `scale-90 grayscale opacity-35` with a longer 500ms transition during the review phase, so the eye is pulled to the correct answer.
