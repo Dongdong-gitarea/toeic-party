@@ -1,5 +1,105 @@
 # Changelog
 
+## 2026-05-07 (Mobile) — Vocab translation audit
+
+**Trigger**: user reported `tag → 尾隨` (should be 標籤). Did a comprehensive sweep of `vocabChinese.ts` (5,492 entries) looking for similar quality issues and applying fixes / removals.
+
+### Changes
+
+- **5,492 → 5,457 entries** (35 exact-duplicate keys removed; e.g. `hotel`/`hostess`/`humid`/`hymn` had two identical rows each)
+- **~120+ sense / phrasing fixes** including:
+
+#### Critical sense errors (the translation was the wrong meaning of the word)
+| Word | Before | After | Note |
+|---|---|---|---|
+| tag | 尾隨 | **標籤** | The reported issue. 尾隨 is "to follow / stalk". |
+| weekday | 週日 | **平日** | 週日 = Sunday (one day), opposite of weekday. |
+| occupation | 佔領 | **職業** | TOEIC sense is profession, not military takeover. |
+| sandwich | 夾入 | **三明治** | Was the verb "to sandwich between"; users want the food. |
+| submission | 屈服 | **提交** | TOEIC = submitting a document, not surrender. |
+| venue | 審判地 | **場地** | 審判地 = courtroom, but venue is general location. |
+| contractor | 訂約人 | **承包商** | 訂約人 is signer of a contract; contractor is the builder. |
+| audit | 旁聽 | **稽核** | TOEIC business sense, not class-auditing. |
+| cabinet | 櫥 | **櫥櫃** | Single-char was incomplete. |
+| toll | 敲 | **過路費** | 敲 is "to knock"; toll = highway fee. |
+
+#### Verbose / awkward phrasings (collapsed to natural Chinese)
+- 41 different `XX…YY` placeholder forms globally replaced (e.g. `'在…下面畫線'` → `'畫底線'`, `'給…錯誤印象'` → `'誤導'`, `'把…分類'` → `'分類'`).
+- Bracket / notation noise removed: `(西點)餡餅` → `派`, `[律]使有效` → `使有效`, `〔數〕二項式` → `二項式`, `[pl.]腳` → `雙腳`, `(花)瓶` → `花瓶`, `(淺)盤` → `淺盤`, `(曲線)圖` → `曲線圖`, `卸(貨)` → `卸貨`, `裝飾(品)` → `裝飾品`, `(水果等)汁` → `果汁`.
+- Verbose noun phrases: `會計人員` → `會計師`, `牙科醫生` → `牙醫`, `自助食堂` → `自助餐廳`, `推斷結果` → `推論`, `公衆的注意` → `知名度`, `用吸塵器清掃` → `吸塵器`, `運貨馬車` → `推車`, `乘噴氣式飛機` → `噴射機`, `裝載的貨物` → `貨運`, `富有挑戰性的` → `有挑戰性的`, `值得花時間的` → `值得的`, `朝聖者的旅程` → `朝聖`, `多數人的意見` → `多數意見`, `君主統治時期` → `統治期`, `全世界範圍地` → `全球地`, `未加工製造的` → `未加工的`, `有節奏地敲擊` → `敲擊`, `變得越來越大` → `擴大`, `鬼鬼祟祟地走` → `潛行`, `伸開四肢躺` → `伸展`.
+
+#### Mainland Chinese → Taiwanese
+- `車間` → `工作坊` (workshop)
+- `地道` → `地鐵` (subway — Taiwan-friendlier; semantically the def is metro)
+- `質量` → `品質` (quality)
+- `程序設計員` → `程式設計員`
+- `國際互聯網` → `網際網路`
+- `調制解調器` → `數據機`
+- `新聞媒介` → `媒體`
+- `網絡` → kept (already valid)
+
+#### POS / sense fixes for high-frequency words
+- `advisory` (adj): 報告 → 諮詢的
+- `wireless` (noun): 無線的 → 無線
+- `patent` (noun): 專利的 → 專利
+- `staple` (noun): 主要的 → 主食
+- `serial` (noun): 連續的 → 連續劇
+- `lightweight` (adj): 輕量級選手 → 輕量的
+- `freelance` (noun): 自由接案的 → 自由接案
+- `eager` (adj): 渴望 → 渴望的
+- `mislead`: 給…錯誤印象 → 誤導
+- `casual`: 偶然的 → 隨意的
+- `manual`: 用手的 → 手動的
+- `lobby`: 向進行遊說 → 大廳
+- `feedback`: 回授 → 回饋
+- `fountain`: 泉水 → 噴泉
+- `media`: 新聞媒介 → 媒體
+- `admission`: 允許進入 → 錄取
+- `landlord`: 地主 → 房東
+- `physician`: 內科醫生 → 醫師
+- `brake`: 制動 → 煞車
+- `dine`: 喫飯 → 用餐
+- `appreciation`: 評價 → 感謝
+- `assembly`: 立法機構 → 集會
+- `recreational`: 休養的 → 休閒的
+- `cabin`: 小屋 → 機艙
+- `sweater`: 厚運動衫 → 毛衣
+- `headquarter`: 設立總部 → 總部
+- `removal`: 除去 → 移除
+- `inquire`: 打聽 → 詢問
+- `vacuum`: 用吸塵器清掃 → 吸塵器
+- `cart`: 運貨馬車 → 推車
+- `subway`: 地道 → 地鐵
+- `workshop`: 車間 → 工作坊
+- `underline`: 在…下面畫線 → 畫底線
+- `shortly`: 立刻 → 不久
+- `jet`: 乘噴氣式飛機 → 噴射機
+- `minimize`: 將…減少 → 使最小化
+
+#### Garbage / typo fixes
+- `Jv.魅力` → `魅力`
+- `∕v.法令` → `法令`
+- `erj.乾杯` → `乾杯`
+- `舌」鬍刀` → `刮鬍刀`
+- `擦v` → `擦拭`
+- `快速的/地` → `快速地`
+- `對～有癮的人` → `上癮者`
+
+### Audit scope
+
+I did **not** translate-verify every one of the 5,457 remaining entries by hand (impossible in a single session). My pass:
+1. Pattern-spotted every entry whose Chinese contained `…`, brackets, half-Latin prefixes, mainland-only terms, or "verbose dictionary-style" descriptions and globally rewrote them. ✅ Done.
+2. Cross-referenced TSL rank 1-200 entries against TSL's English definitions and fixed sense mismatches. ✅ Done.
+3. Spot-checked TSL rank 200-400 — fewer issues found at this depth. ✅ Done.
+4. POS heuristic against TSL — fixed the worst adj/noun mismatches in high-rank words.
+
+**Not audited** (acceptable accuracy expected, but please flag if you spot anything wrong in play): TSL rank 400+ words and CET-only / TOEFL-only entries. Any further reports can be added to this CHANGELOG.
+
+### Test
+- `tsc --noEmit` passes for backend + frontend
+- `next build` clean
+- Smoke test: 20 questions generated cleanly with the new translations
+
 ## 2026-05-07 (Mobile) — 'Mix' difficulty (built-in easy → hard curve per match)
 Public matchmaking used to be locked at flat medium, which felt repetitive (and either too easy or too hard depending on the player). New behaviour:
 
