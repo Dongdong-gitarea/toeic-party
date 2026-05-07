@@ -205,7 +205,14 @@ export default function GamePage() {
             </p>
             <div
               key={countdownValue}
-              className="text-[10rem] sm:text-[12rem] font-black text-amber-300 leading-none animate-countdown-pop drop-shadow-[0_6px_0_rgba(0,0,0,0.4)]"
+              // Big numerals (3/2/1) are narrow so a 10rem digit fits;
+              // 「開始！」 is three CJK chars and would wrap, so cap it
+              // at a smaller size.
+              className={`font-black text-amber-300 leading-none animate-countdown-pop drop-shadow-[0_6px_0_rgba(0,0,0,0.4)] ${
+                countdownValue > 0
+                  ? 'text-[10rem] sm:text-[12rem]'
+                  : 'text-6xl sm:text-7xl tracking-widest'
+              }`}
             >
               {countdownValue > 0 ? countdownValue : t('game.go')}
             </div>

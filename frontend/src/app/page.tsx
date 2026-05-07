@@ -353,10 +353,10 @@ export default function LobbyPage() {
           <button
             onClick={joinMatch}
             disabled={!socketReady || !playerName.trim()}
-            className="w-full py-3 rounded-2xl font-black text-sm tracking-wider whitespace-nowrap cursor-pointer
+            className="w-full py-4 rounded-2xl font-black text-xl tracking-widest whitespace-nowrap cursor-pointer
               bg-amber-300 text-fuchsia-900 border-4 border-amber-400
-              shadow-[0_6px_0_rgba(120,53,15,0.7)]
-              hover:bg-amber-200 active:translate-y-[4px] active:shadow-[0_2px_0_rgba(120,53,15,0.7)]
+              shadow-[0_7px_0_rgba(120,53,15,0.7)]
+              hover:bg-amber-200 active:translate-y-[4px] active:shadow-[0_3px_0_rgba(120,53,15,0.7)]
               transition-all
               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-amber-300"
           >
