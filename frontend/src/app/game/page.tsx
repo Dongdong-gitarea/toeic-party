@@ -19,7 +19,7 @@ import {
   ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
-import { useGameStore } from '@/store/gameStore';
+import { useGameStore, type SkillType } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
 import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
@@ -28,7 +28,7 @@ import AnswerButton from '@/components/AnswerButton';
 import GameArena from '@/components/GameArena';
 import RankingBar from '@/components/RankingBar';
 import ScorePopup from '@/components/ScorePopup';
-import RoundSummaryOverlay from '@/components/RoundSummaryOverlay';
+import SkillBar from '@/components/SkillBar';
 
 function useCountUp(target: number, duration = 500) {
   const [display, setDisplay] = useState(target);
@@ -54,9 +54,9 @@ export default function GamePage() {
   const {
     phase, gameMode, playerId, currentQuestion,
     questionNumber, totalQuestions, selectedAnswer, lastResult,
-    rankings, myScore, myCombo,
-    countdownValue, submitAnswer, overtakeMsg,
-    players, activeEffect, answeredCount, totalCount, roundSummary,
+    rankings, myScore, myCombo, myUsedSkills,
+    countdownValue, submitAnswer, useSkill, overtakeMsg,
+    players, activeEffect, answeredCount, totalCount,
   } = useGameStore();
 
   const [flashType, setFlashType] = useState<'correct' | 'wrong' | null>(null);
@@ -120,6 +120,18 @@ export default function GamePage() {
     [selectedAnswer, submitAnswer],
   );
 
+  // Briefly switch the header avatar to a "cast" pose when the local
+  // player fires off a skill, so it feels like *they* did something
+  // (the skill effect is shown to the receivers, not the caster).
+  const [castPose, setCastPose] = useState(false);
+  const castSkill = useCallback(
+    (type: SkillType) => {
+      useSkill(type);
+      setCastPose(true);
+      setTimeout(() => setCastPose(false), 600);
+    },
+    [useSkill],
+  );
 
   const handleTimeUpdate = useCallback((t: number) => setTimeLeft(t), []);
 
@@ -306,9 +318,9 @@ export default function GamePage() {
             style={{ backgroundColor: myChar.color + '40', borderColor: myChar.color }}
           >
             <img
-              src={`${myChar.folder}/idle.png`}
+              src={`${myChar.folder}/${castPose ? 'cheer1' : 'idle'}.png`}
               alt=""
-              className="w-full h-full object-contain"
+              className={`w-full h-full object-contain ${castPose ? 'animate-tilt-pop' : ''}`}
             />
           </div>
           <span className="text-sm font-bold text-white tracking-wider">Q{questionNumber}/{totalQuestions}</span>
@@ -556,10 +568,9 @@ export default function GamePage() {
               </span>
             )}
           </div>
+          <SkillBar usedSkills={myUsedSkills} disabled={isAnswered} isFinal={isFinal} onUse={castSkill} />
         </div>
       </div>
-
-      {roundSummary && <RoundSummaryOverlay summary={roundSummary} />}
 
       {/* Waiting-on-others hint — only between "I answered" and "everyone
           answered / round resolved". Once isRevealed flips on, the

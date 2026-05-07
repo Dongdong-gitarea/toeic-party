@@ -222,18 +222,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Player voted "Skip" on the between-rounds wrap-up. When every
-  // human in the room has voted, the wrap-up ends early and the next
-  // question kicks off. No payload required.
-  socket.on('SKIP_BETWEEN', () => {
-    try {
-      const room = matchmaker.getRoomBySocket(socket.id);
-      room?.handleSkipVote(socket.id);
-    } catch (err) {
-      Sentry.captureException(err);
-    }
-  });
-
   socket.on('error', (err) => {
     console.error(`[!] Socket error ${socket.id}:`, err.message);
     Sentry.captureException(err);

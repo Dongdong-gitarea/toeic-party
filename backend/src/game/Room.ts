@@ -8,7 +8,6 @@ import type {
   GameLabels,
   AnswerResult,
   SkillType,
-  RoundSummary,
 } from '../types.js';
 import { calculateCorrect, calculateWrong } from './ScoreEngine.js';
 import { pickQuestions } from '../data/questions.js';
@@ -18,17 +17,14 @@ import { updatePlayerStats } from '../db/playerService.js';
 
 const QUESTIONS_PER_GAME = 10;
 const QUESTION_TIME_MS = 10000;
-// Between two questions there's a wrap-up screen for everyone:
-// shows who got the last question right + (when allowed) lets each
-// player pick a skill to cast on the next round. Auto-advances after
-// BETWEEN_ROUND_MS or sooner if every human votes Skip.
-const BETWEEN_ROUND_MS = 4000;
+const BETWEEN_QUESTIONS_FAST_MS = 1800;  // when nobody got it wrong
+const BETWEEN_QUESTIONS_REVIEW_MS = 5000;  // when at least one human got it wrong — give time to read meaning + definition + example
 const PRE_GAME_COUNTDOWN_MS = 4500;
 const ALL_SKILLS: SkillType[] = ['shake', 'fog', 'timeCut'];
 
 const AI_NAMES = ['AI-Alpha', 'AI-Beta', 'AI-Gamma', 'AI-Delta'];
 
-type RoomState = 'waiting' | 'countdown' | 'playing' | 'reviewing' | 'between' | 'ended';
+type RoomState = 'waiting' | 'countdown' | 'playing' | 'reviewing' | 'ended';
 
 export class Room {
   id: string;
@@ -43,10 +39,6 @@ export class Room {
   private timers: NodeJS.Timeout[] = [];
   private onDestroy: (roomId: string) => void;
   private questionTimer: NodeJS.Timeout | null = null;
-  private betweenTimer: NodeJS.Timeout | null = null;
-  // Players that voted "skip" during the current between-round window.
-  // Once every human has skipped we cut the wrap-up short.
-  private skipVotes = new Set<string>();
 
   difficulty: 'easy' | 'medium' | 'hard' = 'medium';
 
@@ -86,7 +78,6 @@ export class Room {
       totalResponseTime: 0,
       answeredCount: 0,
       usedSkills: [],
-      pendingCast: null,
       reviewWords: [],
     });
   }
@@ -179,6 +170,19 @@ export class Room {
       this.schedule(() => {
         if (this.state === 'playing' && !this.answeredThisRound.has(player.id)) {
           this.processAnswer(player.id, answerIndex);
+
+          // AI might use a skill it hasn't used yet
+          if (!this.isFinalQuestion && Math.random() < 0.35) {
+            const available = ALL_SKILLS.filter(
+              (s) => !player.usedSkills.includes(s),
+            );
+            if (available.length > 0) {
+              this.handleSkill(
+                player.id,
+                available[Math.floor(Math.random() * available.length)]!,
+              );
+            }
+          }
         }
       }, delay);
     }
@@ -359,111 +363,22 @@ export class Room {
 
     this.io.to(this.id).emit('RANK_UPDATE', { rankings: this.getRankings() });
 
-    // After each question (Q1..Q9) we drop into a wrap-up window — the
-    // RoundSummary screen on the client. Q10's wrap-up is skipped:
-    // we go straight to endGame() below.
-    if (this.isFinalQuestion) {
-      this.schedule(() => {
-        this.state = 'playing'; // brief flag so endGame's checks pass
-        this.endGame();
-      }, 600); // tiny pause so the final ANSWER_RESULT can land
-      return;
-    }
-    this.schedule(() => this.enterBetweenPhase(), 600);
-  }
-
-  // ── Between-rounds window ──
-
-  /**
-   * The wrap-up screen the user sees after each question (except the
-   * final one). Shows everyone's correct/wrong + lets each player
-   * optionally pick a skill that fires when the next question begins.
-   *
-   * Q1's wrap-up is a "warm-up" — no skills allowed yet. The wrap-up
-   * before the final question (Q10) also disables skills since the
-   * final round has its own no-skills rule.
-   */
-  private enterBetweenPhase() {
-    if (this.state === 'ended') return;
-    this.state = 'between';
-    this.skipVotes.clear();
-    for (const p of this.players.values()) p.pendingCast = null;
-
-    const skillsAllowed =
-      this.currentQuestionIndex >= 1 &&
-      this.currentQuestionIndex < this.questions.length - 1;
-
-    const summary: RoundSummary = {
-      questionNumber: this.currentQuestionIndex + 1,
-      durationMs: BETWEEN_ROUND_MS,
-      skillsAllowed,
-      results: [...this.players.values()].map((p) => {
-        const last = p.reviewWords[p.reviewWords.length - 1];
-        return {
-          playerId: p.id,
-          correct: !!last?.correct,
-          score: p.score,
-        };
-      }),
-    };
-    this.io.to(this.id).emit('ROUND_SUMMARY', summary);
-
-    if (skillsAllowed) this.scheduleAISkillPicks();
-
-    this.betweenTimer = this.schedule(() => this.exitBetweenPhase(), BETWEEN_ROUND_MS);
-  }
-
-  private exitBetweenPhase() {
-    if (this.state !== 'between') return;
-    if (this.betweenTimer) {
-      clearTimeout(this.betweenTimer);
-      this.betweenTimer = null;
-    }
-    this.state = 'playing';
-    // 1) Send NEW_QUESTION first — clients clear any stale activeEffect
-    this.nextQuestion();
-    // 2) Then fire each pending skill so the effect lands ON the new
-    //    question rather than on the wrap-up screen.
-    for (const [id, p] of this.players) {
-      if (!p.pendingCast) continue;
-      const skill = p.pendingCast;
-      p.pendingCast = null;
-      for (const [otherId, other] of this.players) {
-        if (otherId === id || other.isAI) continue;
-        this.io.to(otherId).emit('SKILL_EFFECT', {
-          fromName: p.name,
-          skillType: skill,
-        });
+    // Give players longer to read the definition when any human got it wrong.
+    let anyHumanWrong = false;
+    for (const player of this.players.values()) {
+      if (player.isAI) continue;
+      const last = player.reviewWords[player.reviewWords.length - 1];
+      if (last && last.word === q.word && !last.correct) {
+        anyHumanWrong = true;
+        break;
       }
     }
-  }
+    const pause = anyHumanWrong ? BETWEEN_QUESTIONS_REVIEW_MS : BETWEEN_QUESTIONS_FAST_MS;
 
-  private scheduleAISkillPicks() {
-    for (const player of this.players.values()) {
-      if (!player.isAI) continue;
-      if (Math.random() >= 0.4) continue; // 40% chance per AI per round
-      const available = ALL_SKILLS.filter((s) => !player.usedSkills.includes(s));
-      if (available.length === 0) continue;
-      const skill = available[Math.floor(Math.random() * available.length)]!;
-      const delay = 600 + Math.random() * (BETWEEN_ROUND_MS - 1200);
-      this.schedule(() => {
-        if (this.state !== 'between') return;
-        if (player.pendingCast) return; // already picked
-        this.handleSkill(player.id, skill);
-      }, delay);
-    }
-  }
-
-  handleSkipVote(playerId: string) {
-    if (this.state !== 'between') return;
-    const player = this.players.get(playerId);
-    if (!player || player.isAI) return;
-    this.skipVotes.add(playerId);
-
-    const humans = [...this.players.values()].filter((p) => !p.isAI);
-    if (humans.every((h) => this.skipVotes.has(h.id))) {
-      this.exitBetweenPhase();
-    }
+    this.schedule(() => {
+      this.state = 'playing';
+      this.nextQuestion();
+    }, pause);
   }
 
   // ── Skills ──
@@ -472,18 +387,21 @@ export class Room {
     const player = this.players.get(playerId);
     if (!player) return;
     if (player.usedSkills.includes(skillType)) return;
-    if (this.state !== 'between') return;
-    // Q1 wrap-up = warm-up; wrap-up before Q10 also disabled
-    if (this.currentQuestionIndex < 1) return;
-    if (this.currentQuestionIndex >= this.questions.length - 1) return;
-    if (player.pendingCast) return; // one cast per wrap-up
+    if (this.state !== 'playing') return;
+    if (this.isFinalQuestion) return; // no skills on final question
 
     player.usedSkills.push(skillType);
-    player.pendingCast = skillType;
 
-    // No SKILL_EFFECT broadcast yet — the effect fires at exitBetweenPhase
-    // so it lands during the next question, not on the wrap-up screen.
+    // Broadcast effect to all OTHER human players
+    for (const [id, p] of this.players) {
+      if (id === playerId || p.isAI) continue;
+      this.io.to(id).emit('SKILL_EFFECT', {
+        fromName: player.name,
+        skillType,
+      });
+    }
 
+    // Confirm to caster
     if (!player.isAI) {
       this.io.to(playerId).emit('SKILL_USED', {
         skillType,
@@ -585,7 +503,6 @@ export class Room {
     this.timers.forEach(clearTimeout);
     this.timers = [];
     this.questionTimer = null;
-    this.betweenTimer = null;
   }
 
   cleanup() {
