@@ -101,9 +101,10 @@ const WORD_BANK: WordEntry[] = [
   },
 ];
 
-export function pickQuestions(count: number, weakWords: string[] = []): Question[] {
-  // Use TSL 1250-word dataset, optionally biased toward weak words
-  return generateTSLQuestions(count, weakWords);
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
+export function pickQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'medium'): Question[] {
+  return generateTSLQuestions(count, weakWords, difficulty);
 }
 
 export function pickQuestionsLegacy(count: number): Question[] {

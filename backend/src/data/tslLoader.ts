@@ -27,12 +27,31 @@ function loadExtras(): LearningExtras {
   return learningExtras;
 }
 
+import type { Difficulty } from './questions.js';
+
 interface TSLWord {
   rank: number;
   word: string;
   ipa: string;
   pos: string;
   definition_en: string;
+}
+
+// Difficulty → TSL rank cutoff + whether to include confusable/collocation
+const DIFFICULTY_CONFIG: Record<Difficulty, { maxRank: number; confusable: boolean; collocation: boolean }> = {
+  easy:   { maxRank: 400, confusable: false, collocation: false },
+  medium: { maxRank: 800, confusable: true,  collocation: true },
+  hard:   { maxRank: 9999, confusable: true, collocation: true },
+};
+
+// Filter VOCAB_ZH by TSL rank (words not in TSL are treated as rank 9999)
+function filterVocabByDifficulty(maxRank: number): typeof VOCAB_ZH {
+  if (maxRank >= 9999) return VOCAB_ZH;
+  const tslMap = new Map(loadTSL().map((w) => [w.word.toLowerCase(), w.rank]));
+  return VOCAB_ZH.filter((entry) => {
+    const rank = tslMap.get(entry[0].toLowerCase());
+    return rank !== undefined && rank <= maxRank;
+  });
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -164,11 +183,14 @@ function withMeta<T extends { word: string }>(q: T): T & {
   };
 }
 
-// ── Generate vocab (English → Chinese) from hand-crafted bank ──
+// ── Generate vocab (English → Chinese) ──
 function generateVocabQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  // Prefer TOEIC-relevant words (filter out non-TOEIC unless weak)
-  const toeicPool = VOCAB_ZH.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
-  const pool = toeicPool.length >= count ? toeicPool : VOCAB_ZH;
+  return generateVocabQuestionsFromPool(VOCAB_ZH, count, weakLower, excludeLower);
+}
+
+function generateVocabQuestionsFromPool(vocabPool: typeof VOCAB_ZH, count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
+  const toeicPool = vocabPool.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
+  const pool = toeicPool.length >= count ? toeicPool : vocabPool;
   const selected = pickWeighted(pool, (e) => e[0], weakLower, Math.min(count, pool.length), excludeLower);
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
@@ -186,8 +208,12 @@ function generateVocabQuestions(count: number, weakLower: Set<string>, excludeLo
 
 // ── Generate audio (hear word → pick Chinese meaning) from vocab bank ──
 function generateAudioQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  const toeicPool = VOCAB_ZH.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
-  const pool = toeicPool.length >= count ? toeicPool : VOCAB_ZH;
+  return generateAudioQuestionsFromPool(VOCAB_ZH, count, weakLower, excludeLower);
+}
+
+function generateAudioQuestionsFromPool(vocabPool: typeof VOCAB_ZH, count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
+  const toeicPool = vocabPool.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
+  const pool = toeicPool.length >= count ? toeicPool : vocabPool;
   const selected = pickWeighted(pool, (e) => e[0], weakLower, Math.min(count, pool.length), excludeLower);
   return selected.map(([word, correct, w1, w2, w3], idx) => {
     const options = shuffle([correct, w1, w2, w3]);
@@ -204,8 +230,8 @@ function generateAudioQuestions(count: number, weakLower: Set<string>, excludeLo
 }
 
 // ── Generate definition match: show definition → pick correct word ──
-function generateDefinitionQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  const words = loadTSL().filter((w) => w.definition_en.length >= 5);
+function generateDefinitionQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+  const words = loadTSL().filter((w) => w.definition_en.length >= 5 && w.rank <= maxRank);
   const selected = pickWeighted(words, (w) => w.word, weakLower, Math.min(count, words.length), excludeLower);
   return selected.map((w, idx) => {
     const wrongWords = pickRandom(
@@ -345,28 +371,32 @@ function generateCollocationQuestions(count: number, used: Set<string>): Questio
  * 5 types: vocab, audio, definition, confusable, collocation
  * Ratio: ~3 vocab/audio/def + 1 confusable + 1 collocation per 10 questions
  */
-export function generateTSLQuestions(count: number, weakWords: string[] = []): Question[] {
+export function generateTSLQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'medium'): Question[] {
   const weakLower = new Set(weakWords.map((w) => w.toLowerCase()));
   const used = new Set<string>();
+  const cfg = DIFFICULTY_CONFIG[difficulty];
 
-  // Allocate: 1 confusable + 1 collocation + rest split among vocab/audio/def
-  const confCount = Math.min(1, count);
-  const collCount = Math.min(1, Math.max(0, count - 1));
+  // Confusable + collocation only for medium/hard
+  const confCount = cfg.confusable ? Math.min(1, count) : 0;
+  const collCount = cfg.collocation ? Math.min(1, Math.max(0, count - confCount)) : 0;
   const remaining = count - confCount - collCount;
   const vocabCount = Math.ceil(remaining / 3);
   const audioCount = Math.ceil(remaining / 3);
   const fillCount = remaining - vocabCount - audioCount;
 
-  const confQs = generateConfusableQuestions(confCount, used);
-  const collQs = generateCollocationQuestions(collCount, used);
+  const confQs = confCount > 0 ? generateConfusableQuestions(confCount, used) : [];
+  const collQs = collCount > 0 ? generateCollocationQuestions(collCount, used) : [];
 
-  const vocabQs = generateVocabQuestions(vocabCount, weakLower, used);
+  // Override VOCAB_ZH pool based on difficulty
+  const filteredVocab = filterVocabByDifficulty(cfg.maxRank);
+  const vocabQs = generateVocabQuestionsFromPool(filteredVocab, vocabCount, weakLower, used);
   for (const q of vocabQs) used.add(q.word.toLowerCase());
 
-  const audioQs = generateAudioQuestions(audioCount, weakLower, used);
+  const audioQs = generateAudioQuestionsFromPool(filteredVocab, audioCount, weakLower, used);
   for (const q of audioQs) used.add(q.word.toLowerCase());
 
-  const fillQs = generateDefinitionQuestions(fillCount, weakLower, used);
+  // Definition questions also filtered by rank
+  const fillQs = generateDefinitionQuestions(fillCount, weakLower, used, cfg.maxRank);
 
   return shuffle([...vocabQs, ...audioQs, ...fillQs, ...confQs, ...collQs]);
 }

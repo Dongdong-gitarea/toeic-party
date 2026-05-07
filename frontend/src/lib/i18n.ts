@@ -112,6 +112,15 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.language': '介面語言',
     'settings.close': '關閉',
 
+    // Difficulty
+    'difficulty.title': '難度',
+    'difficulty.easy': '初級',
+    'difficulty.easyDesc': 'TOEIC 400-600',
+    'difficulty.medium': '中級',
+    'difficulty.mediumDesc': 'TOEIC 600-800',
+    'difficulty.hard': '高級',
+    'difficulty.hardDesc': 'TOEIC 800+',
+
     // Tutorial
     'tutorial.title': '玩法教學',
     'tutorial.next': '下一步',
@@ -270,6 +279,14 @@ const dict: Record<Lang, Record<string, string>> = {
     'settings.title': 'Settings',
     'settings.language': 'Language',
     'settings.close': 'Close',
+
+    'difficulty.title': 'Difficulty',
+    'difficulty.easy': 'Easy',
+    'difficulty.easyDesc': 'TOEIC 400-600',
+    'difficulty.medium': 'Medium',
+    'difficulty.mediumDesc': 'TOEIC 600-800',
+    'difficulty.hard': 'Hard',
+    'difficulty.hardDesc': 'TOEIC 800+',
 
     'tutorial.title': 'How to play',
     'tutorial.next': 'Next',
