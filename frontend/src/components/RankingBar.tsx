@@ -16,14 +16,32 @@ interface PlayerInfo {
   isAI: boolean;
 }
 
+type RoundStatus = 'pending' | 'correct' | 'wrong';
+
+// Per-status row chrome. `pending` keeps the existing default + my-row
+// highlight; correct / wrong override with a coloured tint + border.
+function statusClasses(status: RoundStatus, isMe: boolean): string {
+  if (status === 'correct') {
+    return 'bg-emerald-500/25 border border-emerald-400/60';
+  }
+  if (status === 'wrong') {
+    return 'bg-rose-500/25 border border-rose-400/60';
+  }
+  return isMe
+    ? 'bg-indigo-500/25 border border-indigo-500/30'
+    : 'bg-slate-800/50 border border-transparent';
+}
+
 export default function RankingBar({
   rankings,
   myPlayerId,
   players = [],
+  statuses = {},
 }: {
   rankings: RankEntry[];
   myPlayerId: string | null;
   players?: PlayerInfo[];
+  statuses?: Record<string, RoundStatus>;
 }) {
   if (rankings.length === 0) return null;
 
@@ -34,15 +52,12 @@ export default function RankingBar({
         const charIdx = getCharacterIndex(entry.playerId, players);
         const char = getCharacter(charIdx);
         const medals = ['#FFD700', '#C0C0C0', '#CD7F32', '#6B7280'];
+        const status: RoundStatus = statuses[entry.playerId] ?? 'pending';
 
         return (
           <div
             key={entry.playerId}
-            className={`flex-1 flex items-center gap-1 px-1.5 py-1.5 rounded-lg transition-all duration-500 min-w-0 ${
-              isMe
-                ? 'bg-indigo-500/25 border border-indigo-500/30'
-                : 'bg-slate-800/50'
-            }`}
+            className={`flex-1 flex items-center gap-1 px-1.5 py-1.5 rounded-lg transition-colors duration-300 min-w-0 ${statusClasses(status, isMe)}`}
           >
             <span
               className="shrink-0 w-3 text-center inline-flex items-center justify-center"

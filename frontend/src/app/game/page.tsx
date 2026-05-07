@@ -56,7 +56,7 @@ export default function GamePage() {
     questionNumber, totalQuestions, selectedAnswer, lastResult,
     rankings, myScore, myCombo, myUsedSkills,
     countdownValue, submitAnswer, useSkill, overtakeMsg,
-    players, activeEffect, answeredCount, totalCount,
+    players, activeEffect, answeredCount, totalCount, roundStatuses,
   } = useGameStore();
 
   const [flashType, setFlashType] = useState<'correct' | 'wrong' | null>(null);
@@ -374,7 +374,7 @@ export default function GamePage() {
 
       {/* ── Ranking bar ── */}
       <div className="relative z-10 px-2 py-1.5">
-        <RankingBar rankings={rankings} myPlayerId={playerId} players={players} />
+        <RankingBar rankings={rankings} myPlayerId={playerId} players={players} statuses={roundStatuses} />
       </div>
 
       {/* ── Main game content ── */}

@@ -215,6 +215,10 @@ interface GameState {
   // each NEW_QUESTION; bumped by ANSWER_PROGRESS after each answer.
   answeredCount: number;
   totalCount: number;
+  // Per-player live answer status for the current round. Drives the
+  // RankingBar's green / red / default coloring. Cleared on
+  // NEW_QUESTION; updated whenever ANSWER_PROGRESS arrives.
+  roundStatuses: Record<string, 'pending' | 'correct' | 'wrong'>;
 
   finalRankings: FinalRankEntry[];
   labels: GameLabels | null;
@@ -284,6 +288,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   myUsedSkills: [],
   answeredCount: 0,
   totalCount: 4,
+  roundStatuses: {},
   finalRankings: [],
   labels: null,
   reviewWords: [],
@@ -376,6 +381,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         finalRankings: [],
         labels: null,
         reviewWords: [],
+        roundStatuses: {},
       });
     });
 
@@ -405,11 +411,25 @@ export const useGameStore = create<GameState>((set, get) => ({
         activeEffect: null,
         effectTimer: null,
         answeredCount: 0,
+        roundStatuses: {},
       });
     });
 
-    socket.on('ANSWER_PROGRESS', ({ answered, total }: { answered: number; total: number }) => {
-      set({ answeredCount: answered, totalCount: total });
+    socket.on('ANSWER_PROGRESS', ({
+      answered,
+      total,
+      statuses,
+    }: {
+      answered: number;
+      total: number;
+      statuses?: Record<string, 'pending' | 'correct' | 'wrong'>;
+    }) => {
+      set({
+        answeredCount: answered,
+        totalCount: total,
+        // Old servers may not include statuses; treat as no-op then.
+        ...(statuses ? { roundStatuses: statuses } : {}),
+      });
     });
 
     socket.on('ANSWER_RESULT', (result: AnswerResult) => {
@@ -694,6 +714,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       finalRankings: [],
       labels: null,
       reviewWords: [],
+      roundStatuses: {},
       countdownValue: 3,
       activeEffect: null,
       effectTimer: null,

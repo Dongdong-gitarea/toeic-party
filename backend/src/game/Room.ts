@@ -224,7 +224,9 @@ export class Room {
     if (!player) return null;
 
     this.answeredThisRound.add(playerId);
-    this.broadcastAnswerProgress();
+    // (broadcastAnswerProgress is called AFTER reviewWords.push below
+    // so the per-player status it reports is for *this* round, not
+    // a stale entry from the previous one.)
 
     const q = this.questions[this.currentQuestionIndex]!;
     const responseTime = Date.now() - this.questionStartTime;
@@ -257,6 +259,7 @@ export class Room {
         questionType: q.type,
         ...meta,
       });
+      this.broadcastAnswerProgress();
 
       return {
         correct: true,
@@ -291,6 +294,7 @@ export class Room {
         questionType: q.type,
         ...meta,
       });
+      this.broadcastAnswerProgress();
 
       return {
         correct: false,
@@ -312,9 +316,24 @@ export class Room {
   }
 
   private broadcastAnswerProgress() {
+    // Per-player live status so every client can colour the ranking
+    // bar as people lock answers in. Pending = haven't answered yet;
+    // correct/wrong reads off the most recent reviewWords entry, which
+    // is guaranteed to be for the current round because callers push
+    // before invoking this.
+    const statuses: Record<string, 'pending' | 'correct' | 'wrong'> = {};
+    for (const [id, p] of this.players) {
+      if (!this.answeredThisRound.has(id)) {
+        statuses[id] = 'pending';
+      } else {
+        const last = p.reviewWords[p.reviewWords.length - 1];
+        statuses[id] = last?.correct ? 'correct' : 'wrong';
+      }
+    }
     this.io.to(this.id).emit('ANSWER_PROGRESS', {
       answered: this.answeredThisRound.size,
       total: this.playerCount,
+      statuses,
     });
   }
 
@@ -327,8 +346,10 @@ export class Room {
       pos: q.pos ?? '',
       example: q.example ?? '',
     };
+    let anyTimeout = false;
     for (const player of this.players.values()) {
       if (!this.answeredThisRound.has(player.id)) {
+        anyTimeout = true;
         player.combo = 0;
         player.reviewWords.push({
           word: q.word,
@@ -340,6 +361,9 @@ export class Room {
           questionType: q.type,
           ...meta,
         });
+        // Mark as "answered (wrong)" so the per-player progress
+        // statuses flip from pending → wrong on every client.
+        this.answeredThisRound.add(player.id);
         if (!player.isAI) {
           this.io.to(player.id).emit('ANSWER_RESULT', {
             correct: false,
@@ -360,6 +384,7 @@ export class Room {
         }
       }
     }
+    if (anyTimeout) this.broadcastAnswerProgress();
 
     this.io.to(this.id).emit('RANK_UPDATE', { rankings: this.getRankings() });
 
