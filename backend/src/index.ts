@@ -168,7 +168,10 @@ io.on('connection', (socket) => {
     try {
       const d = data as Record<string, unknown>;
       const diff = d?.difficulty;
-      const difficulty = (diff === 'easy' || diff === 'medium' || diff === 'hard') ? diff : 'medium';
+      const difficulty =
+        diff === 'easy' || diff === 'medium' || diff === 'hard' || diff === 'curve'
+          ? diff
+          : 'curve';
       matchmaker.createPrivateRoom(
         socket,
         sanitizePlayerName(validString(d?.playerName, 16)),

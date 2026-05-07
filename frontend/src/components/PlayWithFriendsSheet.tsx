@@ -5,7 +5,10 @@ import { Sparkles, KeyRound, ArrowLeft, GraduationCap } from 'lucide-react';
 import { useGameStore, type Difficulty } from '@/store/gameStore';
 import { useT } from '@/lib/i18n';
 
+// Order: Mix is the recommended default (built-in easy → medium → hard
+// curve), then the three flat-difficulty options.
 const DIFFICULTIES: { id: Difficulty; labelKey: string; descKey: string; color: string }[] = [
+  { id: 'curve',  labelKey: 'difficulty.curve',  descKey: 'difficulty.curveDesc',  color: 'bg-fuchsia-400 text-fuchsia-950' },
   { id: 'easy',   labelKey: 'difficulty.easy',   descKey: 'difficulty.easyDesc',   color: 'bg-emerald-400 text-emerald-950' },
   { id: 'medium', labelKey: 'difficulty.medium', descKey: 'difficulty.mediumDesc', color: 'bg-amber-300 text-amber-950' },
   { id: 'hard',   labelKey: 'difficulty.hard',   descKey: 'difficulty.hardDesc',   color: 'bg-rose-400 text-rose-950' },
@@ -30,7 +33,7 @@ export default function PlayWithFriendsSheet({ open, onClose }: Props) {
   const playerName = useGameStore((s) => s.playerName);
   const [view, setView] = useState<View>('menu');
   const [code, setCode] = useState('');
-  const [difficulty, setDifficulty] = useState<Difficulty>('medium');
+  const [difficulty, setDifficulty] = useState<Difficulty>('curve');
 
   useEffect(() => {
     if (!open) {
@@ -74,7 +77,8 @@ export default function PlayWithFriendsSheet({ open, onClose }: Props) {
                 <GraduationCap className="w-4 h-4 text-white/70" strokeWidth={2.5} />
                 <span className="text-[11px] font-bold text-white/70 uppercase tracking-widest">{t('difficulty.title')}</span>
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              {/* 4 options now: curve + 3 fixed levels. Two rows of two. */}
+              <div className="grid grid-cols-2 gap-2">
                 {DIFFICULTIES.map((d) => (
                   <button
                     key={d.id}

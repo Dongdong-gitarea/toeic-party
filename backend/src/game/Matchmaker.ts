@@ -11,7 +11,7 @@ interface QueueEntry {
   deviceId?: string;
 }
 
-type Difficulty = 'easy' | 'medium' | 'hard';
+type Difficulty = 'easy' | 'medium' | 'hard' | 'curve';
 
 interface PrivateRoomState {
   code: string;
@@ -316,7 +316,10 @@ export class Matchmaker {
     this.createRoom(entries);
   }
 
-  private createRoom(entries: QueueEntry[], difficulty: Difficulty = 'medium') {
+  // Public matchmaking defaults to 'curve' so an unsorted queue still
+  // gets a satisfying easy → medium → hard ramp instead of flat medium.
+  // Private rooms pass an explicit difficulty from the host's pick.
+  private createRoom(entries: QueueEntry[], difficulty: Difficulty = 'curve') {
     if (this.fillTimer) {
       clearTimeout(this.fillTimer);
       this.fillTimer = null;
