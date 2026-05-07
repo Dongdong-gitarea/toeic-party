@@ -202,6 +202,19 @@ body {
   animation: combo-fire 0.6s ease-in-out infinite;
 }
 
+@keyframes confetti-fall {
+  0%   { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translate3d(var(--drift, 0px), 110vh, 0) rotate(720deg); opacity: 0; }
+}
+
+@utility animate-confetti-fall {
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.5, 0.5, 1);
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+
 @utility animate-skill-flash {
   animation: skill-flash 1.5s ease-out forwards;
 }

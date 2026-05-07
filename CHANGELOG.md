@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-05-07 (Mobile) — Game-feel polish round (5 small wins)
+- **Winner confetti**: result page now showers ~36 CSS-only confetti pieces (random colour / size / drift / spin) when the local player finishes 1st. Pure CSS keyframes, zero deps. New `Confetti.tsx` + `confetti-fall` keyframe in globals.
+- **Wrong-option dim & shrink**: AnswerButton was only fading non-selected wrong options; now they also `scale-90 grayscale opacity-35` with a longer 500ms transition during the review phase, so the eye is pulled to the correct answer.
+- **Lobby empty-slot walk cycle**: empty slots used to show a static `UserPlus` icon. Now they show the slot's designated character sprite at 40% opacity, alternating between `walk1.png` ↔ `walk2.png` every 500ms — feels like that character is "running over" to fill the spot.
+- **Countdown screen filled out**: under the `3 / 2 / 1 / 開始！` digit, all four contestants now line up with their character sprites (idle during digits, `cheer1` on GO!), each with a staggered float-bob. Removes the empty purple slab in the middle.
+- **Reveal scrolls definition into view**: long fillblank prompts could push the definition reveal below the fold. New `revealRef` + `scrollIntoView({ block: 'nearest' })` on each `lastResult` change keeps it on screen.
+
+(Result-page review words already had a Volume2 replay button per row; verified, no change needed for that one.)
+
 ## 2026-05-07 (Mobile) — Live per-player answer colouring on RankingBar
 - Each player's row in the in-game RankingBar now flips colour as they lock in an answer:
   - **Pending** (haven't answered yet): default
