@@ -358,10 +358,23 @@ export class Matchmaker {
   }
 
   getRoomBySocket(socketId: string): Room | undefined {
+    // A finished match's room lingers for ~60s (so post-game stats and
+    // late events can still resolve). During that window the same
+    // socket id can already be a member of a NEW match's room. Prefer
+    // the active one — looking up the ended room would make the
+    // player's answer be silently dropped because Room.handleAnswer
+    // bails out unless state === 'playing'.
+    let active: Room | undefined;
+    let fallback: Room | undefined;
     for (const room of this.rooms.values()) {
-      if (room.players.has(socketId)) return room;
+      if (!room.players.has(socketId)) continue;
+      if (room.state === 'playing' || room.state === 'reviewing' || room.state === 'countdown') {
+        active = room;
+        break;
+      }
+      fallback = room;
     }
-    return undefined;
+    return active ?? fallback;
   }
 
   private destroyRoom(roomId: string) {
