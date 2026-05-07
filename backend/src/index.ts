@@ -167,12 +167,15 @@ io.on('connection', (socket) => {
   socket.on('CREATE_PRIVATE', (data: unknown) => {
     try {
       const d = data as Record<string, unknown>;
+      const diff = d?.difficulty;
+      const difficulty = (diff === 'easy' || diff === 'medium' || diff === 'hard') ? diff : 'medium';
       matchmaker.createPrivateRoom(
         socket,
         sanitizePlayerName(validString(d?.playerName, 16)),
         validWeakWords(d?.weakWords),
         validCharIdx(d?.charIdx),
         validString(d?.deviceId, 64) || undefined,
+        difficulty,
       );
     } catch (err) {
       Sentry.captureException(err);

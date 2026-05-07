@@ -11,11 +11,14 @@ interface QueueEntry {
   deviceId?: string;
 }
 
+type Difficulty = 'easy' | 'medium' | 'hard';
+
 interface PrivateRoomState {
   code: string;
   hostId: string;
   members: QueueEntry[];
   expiryTimer: NodeJS.Timeout | null;
+  difficulty: Difficulty;
 }
 
 const FILL_TIMEOUT_MS = 15000;
@@ -163,6 +166,7 @@ export class Matchmaker {
     weakWords: string[] = [],
     charIdx = 0,
     deviceId?: string,
+    difficulty: Difficulty = 'medium',
   ) {
     if (this.privateBySocket.has(socket.id)) return;
     const code = this.uniqueCode();
@@ -176,6 +180,7 @@ export class Matchmaker {
     };
     const room: PrivateRoomState = {
       code,
+      difficulty,
       hostId: socket.id,
       members: [entry],
       expiryTimer: null,
@@ -263,6 +268,7 @@ export class Matchmaker {
         secondsLeft: 0,
         code,
         isPrivate: true,
+        difficulty: room.difficulty,
       });
     }
   }
@@ -273,7 +279,7 @@ export class Matchmaker {
     const entries = room.members;
     for (const m of entries) this.privateBySocket.delete(m.socket.id);
     this.privateRooms.delete(code);
-    this.createRoom(entries);
+    this.createRoom(entries, room.difficulty);
   }
 
   // ── Public broadcast ──
@@ -310,7 +316,7 @@ export class Matchmaker {
     this.createRoom(entries);
   }
 
-  private createRoom(entries: QueueEntry[]) {
+  private createRoom(entries: QueueEntry[], difficulty: Difficulty = 'medium') {
     if (this.fillTimer) {
       clearTimeout(this.fillTimer);
       this.fillTimer = null;
@@ -321,7 +327,7 @@ export class Matchmaker {
     const weakWords = new Set<string>();
     for (const e of entries) for (const w of e.weakWords) weakWords.add(w.toLowerCase());
 
-    const room = new Room(roomId, this.io, (id) => this.destroyRoom(id), [...weakWords]);
+    const room = new Room(roomId, this.io, (id) => this.destroyRoom(id), [...weakWords], difficulty);
 
     for (const entry of entries) {
       room.addPlayer(entry.socket.id, entry.playerName, false, entry.charIdx, entry.deviceId);

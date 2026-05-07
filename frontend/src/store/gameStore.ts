@@ -178,6 +178,8 @@ interface LobbyPlayer {
   you?: boolean;
 }
 
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
 interface LobbyState {
   players: LobbyPlayer[];
   count: number;
@@ -185,6 +187,7 @@ interface LobbyState {
   secondsLeft: number;
   code?: string;
   isPrivate?: boolean;
+  difficulty?: Difficulty;
 }
 
 interface GameState {
@@ -251,7 +254,7 @@ interface GameState {
   joinMatch: () => void;
   leaveMatch: () => void;
   setReady: (ready: boolean) => void;
-  createPrivateRoom: () => void;
+  createPrivateRoom: (difficulty?: Difficulty) => void;
   joinPrivateRoom: (code: string) => void;
   joinError: string | null;
   submitAnswer: (answerIndex: number) => void;
@@ -549,7 +552,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ myReady: ready });
   },
 
-  createPrivateRoom: () => {
+  createPrivateRoom: (difficulty: Difficulty = 'medium') => {
     const { playerName, savedWords, selectedCharIdx } = get();
     const weakWords = savedWords
       .filter((w) => w.wrongCount >= w.correctCount && (w.wrongCount > 0 || w.correctCount === 0))
@@ -561,6 +564,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       weakWords,
       charIdx: selectedCharIdx,
       deviceId: getDeviceId(),
+      difficulty,
     });
   },
 

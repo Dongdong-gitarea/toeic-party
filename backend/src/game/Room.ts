@@ -40,16 +40,20 @@ export class Room {
   private onDestroy: (roomId: string) => void;
   private questionTimer: NodeJS.Timeout | null = null;
 
+  difficulty: 'easy' | 'medium' | 'hard' = 'medium';
+
   constructor(
     id: string,
     io: Server,
     onDestroy: (roomId: string) => void,
     weakWords: string[] = [],
+    difficulty: 'easy' | 'medium' | 'hard' = 'medium',
   ) {
     this.id = id;
     this.io = io;
     this.onDestroy = onDestroy;
-    this.questions = pickQuestions(QUESTIONS_PER_GAME, weakWords);
+    this.difficulty = difficulty;
+    this.questions = pickQuestions(QUESTIONS_PER_GAME, weakWords, difficulty);
   }
 
   get playerCount() {

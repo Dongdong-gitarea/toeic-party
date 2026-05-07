@@ -1,9 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Sparkles, KeyRound, ArrowLeft } from 'lucide-react';
-import { useGameStore } from '@/store/gameStore';
+import { Sparkles, KeyRound, ArrowLeft, GraduationCap } from 'lucide-react';
+import { useGameStore, type Difficulty } from '@/store/gameStore';
 import { useT } from '@/lib/i18n';
+
+const DIFFICULTIES: { id: Difficulty; labelKey: string; descKey: string; color: string }[] = [
+  { id: 'easy',   labelKey: 'difficulty.easy',   descKey: 'difficulty.easyDesc',   color: 'bg-emerald-400 text-emerald-950' },
+  { id: 'medium', labelKey: 'difficulty.medium', descKey: 'difficulty.mediumDesc', color: 'bg-amber-300 text-amber-950' },
+  { id: 'hard',   labelKey: 'difficulty.hard',   descKey: 'difficulty.hardDesc',   color: 'bg-rose-400 text-rose-950' },
+];
 
 interface Props {
   open: boolean;
@@ -24,6 +30,7 @@ export default function PlayWithFriendsSheet({ open, onClose }: Props) {
   const playerName = useGameStore((s) => s.playerName);
   const [view, setView] = useState<View>('menu');
   const [code, setCode] = useState('');
+  const [difficulty, setDifficulty] = useState<Difficulty>('medium');
 
   useEffect(() => {
     if (!open) {
@@ -61,8 +68,32 @@ export default function PlayWithFriendsSheet({ open, onClose }: Props) {
 
         {view === 'menu' ? (
           <div className="space-y-3">
+            {/* Difficulty selector */}
+            <div className="mb-1">
+              <div className="flex items-center gap-1.5 mb-2 px-1">
+                <GraduationCap className="w-4 h-4 text-white/70" strokeWidth={2.5} />
+                <span className="text-[11px] font-bold text-white/70 uppercase tracking-widest">{t('difficulty.title')}</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {DIFFICULTIES.map((d) => (
+                  <button
+                    key={d.id}
+                    onClick={() => setDifficulty(d.id)}
+                    className={`py-2 px-2 rounded-xl text-center cursor-pointer transition-all border-3 ${
+                      difficulty === d.id
+                        ? `${d.color} border-white/60 shadow-[0_3px_0_rgba(0,0,0,0.3)] scale-105`
+                        : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/15'
+                    }`}
+                  >
+                    <div className="text-xs font-black tracking-wider">{t(d.labelKey)}</div>
+                    <div className={`text-[9px] font-bold mt-0.5 ${difficulty === d.id ? 'opacity-80' : 'opacity-50'}`}>{t(d.descKey)}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button
-              onClick={() => createPrivateRoom()}
+              onClick={() => createPrivateRoom(difficulty)}
               disabled={!canStart}
               className="w-full px-4 py-4 rounded-2xl text-left flex items-center gap-3 cursor-pointer
                 bg-amber-300 text-fuchsia-900 border-4 border-amber-400
