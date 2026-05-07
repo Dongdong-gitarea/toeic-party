@@ -105,6 +105,18 @@ export default function GamePage() {
     }
   }, [lastResult]);
 
+  // When the answer reveal kicks in, make sure the definition block is
+  // actually visible — fillblank prompts can be long and on small
+  // viewports the reveal would otherwise sit below the fold.
+  const revealRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!lastResult) return;
+    const id = setTimeout(() => {
+      revealRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 80); // small delay so the DOM has time to render the new block
+    return () => clearTimeout(id);
+  }, [lastResult]);
+
   // Auto-play audio prompts once per question
   const spokenRef = useRef('');
   useEffect(() => {
@@ -199,8 +211,8 @@ export default function GamePage() {
         )}
 
         {phase === 'countdown' && (
-          <div className="relative z-10 text-center">
-            <p className="text-white/90 text-base font-bold uppercase tracking-[0.3em] mb-3 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
+          <div className="relative z-10 text-center flex flex-col items-center gap-4">
+            <p className="text-white/90 text-base font-bold uppercase tracking-[0.3em] drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
               {t('game.getReady')}
             </p>
             <div
@@ -210,11 +222,43 @@ export default function GamePage() {
               // at a smaller size.
               className={`font-black text-amber-300 leading-none animate-countdown-pop drop-shadow-[0_6px_0_rgba(0,0,0,0.4)] ${
                 countdownValue > 0
-                  ? 'text-[10rem] sm:text-[12rem]'
+                  ? 'text-[8rem] sm:text-[10rem]'
                   : 'text-6xl sm:text-7xl tracking-widest'
               }`}
             >
               {countdownValue > 0 ? countdownValue : t('game.go')}
+            </div>
+
+            {/* All four contestants warming up below the digit, so the
+                middle of the screen isn't a slab of empty purple. Each
+                avatar gets a staggered float-bob so the line feels alive. */}
+            <div className="flex items-end justify-center gap-3 mt-1">
+              {players.slice(0, 4).map((p, i) => {
+                const charIdx = getCharacterIndex(p.playerId, players);
+                const c = getCharacter(charIdx);
+                return (
+                  <div
+                    key={p.playerId}
+                    className="flex flex-col items-center gap-1 animate-float-bob"
+                    style={{ animationDelay: `${i * 0.18}s`, animationDuration: '1.4s' }}
+                  >
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center p-1 border-2 backdrop-blur-sm"
+                      style={{ backgroundColor: c.color + '40', borderColor: c.color }}
+                    >
+                      <img
+                        src={`${c.folder}/${countdownValue === 0 ? 'cheer1' : 'idle'}.png`}
+                        alt=""
+                        className="w-full h-full object-contain"
+                        draggable={false}
+                      />
+                    </div>
+                    <span className="text-[10px] font-bold text-white/85 tracking-wide truncate max-w-[64px]">
+                      {p.name}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -492,7 +536,10 @@ export default function GamePage() {
 
             {/* Definition reveal during review phase */}
             {isRevealed && lastResult && (lastResult.definition || lastResult.meaning) && (
-              <div className="mt-3 pt-3 border-t-2 border-dashed border-white/30">
+              <div
+                ref={revealRef}
+                className="mt-3 pt-3 border-t-2 border-dashed border-white/30 scroll-mt-24"
+              >
                 <div className="flex items-center gap-2 mb-1 justify-center">
                   <span className="text-sm font-bold uppercase tracking-widest text-amber-200">
                     {lastResult.word}

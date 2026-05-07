@@ -43,6 +43,15 @@ export default function LobbyPage() {
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [tutorialOpen, setTutorialOpen] = useState(false);
   const [copyDone, setCopyDone] = useState(false);
+  // 0 / 1 frame index that flips ~every 500ms — drives the
+  // walk-cycle animation on the empty lobby slots so the wait feels
+  // less dead.
+  const [walkFrame, setWalkFrame] = useState(0);
+  useEffect(() => {
+    if (phase !== 'matchmaking') return;
+    const id = setInterval(() => setWalkFrame((f) => (f + 1) % 2), 500);
+    return () => clearInterval(id);
+  }, [phase]);
   const t = useT();
 
   // First-time visitors get the tutorial automatically (once).
@@ -250,8 +259,22 @@ export default function LobbyPage() {
                       </>
                     ) : (
                       <>
-                        <div className="w-14 h-14 mx-auto rounded-full bg-white/10 flex items-center justify-center text-white/40">
-                          <UserPlus className="w-7 h-7" strokeWidth={1.75} />
+                        {/* Empty slot — show the slot's designated character
+                            walking in faded sprite (walk1 ↔ walk2 toggles
+                            every 500ms via walkFrame). Falls back to the
+                            UserPlus icon if for some reason the character
+                            data isn't there. */}
+                        <div className="w-14 h-14 mx-auto rounded-full bg-white/5 flex items-center justify-center text-white/30 relative">
+                          {char ? (
+                            <img
+                              src={`${char.folder}/${walkFrame === 0 ? 'walk1' : 'walk2'}.png`}
+                              alt=""
+                              className="w-12 h-12 object-contain opacity-40"
+                              draggable={false}
+                            />
+                          ) : (
+                            <UserPlus className="w-7 h-7" strokeWidth={1.75} />
+                          )}
                         </div>
                         <p className="text-xs font-bold text-white/50 mt-1">{t('lobby.waiting')}</p>
                       </>

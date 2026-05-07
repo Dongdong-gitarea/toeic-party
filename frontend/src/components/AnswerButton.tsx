@@ -40,8 +40,11 @@ export default function AnswerButton({
     ? 'min-h-[48px] px-3 py-2 sm:py-2.5 text-sm sm:text-base'
     : 'min-h-[60px] px-3 py-3 sm:p-4 text-base sm:text-lg';
 
+  // Slower transition once we hit the review phase so the
+  // shrink + fade on the wrong options is actually noticeable.
+  const transitionDur = isReview ? 'duration-500' : 'duration-150';
   let cardClasses =
-    `relative w-full ${sizeClasses} rounded-2xl border-4 text-left font-semibold leading-snug transition-all duration-150 cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] flex items-center gap-3 `;
+    `relative w-full ${sizeClasses} rounded-2xl border-4 text-left font-semibold leading-snug transition-all ${transitionDur} cursor-pointer select-none active:translate-y-[3px] active:shadow-[0_2px_0_rgba(0,0,0,0.4)] flex items-center gap-3 `;
 
   let textColor = 'text-white';
   let labelClass = LABEL_COLORS[index] ?? LABEL_COLORS[0]!;
@@ -65,7 +68,9 @@ export default function AnswerButton({
     textColor = 'text-emerald-950';
     labelClass = 'bg-white text-emerald-700';
   } else {
-    cardClasses += 'bg-slate-900/35 border-white/15 opacity-50';
+    // Non-selected wrong option after reveal — shrink, dim, desaturate
+    // so the eye is pulled to the correct answer instead.
+    cardClasses += 'bg-slate-900/35 border-white/10 opacity-35 scale-90 grayscale';
   }
 
   return (

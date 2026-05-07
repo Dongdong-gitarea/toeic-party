@@ -21,6 +21,7 @@ import { speakWord } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
 import PosBadge from '@/components/PosBadge';
 import ExampleBlock from '@/components/ExampleBlock';
+import Confetti from '@/components/Confetti';
 
 const RANK_BG = [
   { bg: 'bg-amber-300', text: 'text-fuchsia-900', glow: 'shadow-[0_0_30px_rgba(252,211,77,0.6)]' },
@@ -105,6 +106,10 @@ export default function ResultPage() {
         <div className="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-300/20 blur-3xl animate-blob-drift" style={{ animationDelay: '4s' }} />
         <div className="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/30 blur-3xl animate-blob-drift" style={{ animationDelay: '8s' }} />
       </div>
+
+      {/* Winner-only confetti shower — animation runs once, then sits idle.
+          The component re-mounts each time the result page does. */}
+      {isWinner && <Confetti />}
 
       <div className="relative z-10 w-full max-w-md flex flex-col items-center">
         {/* Title */}
