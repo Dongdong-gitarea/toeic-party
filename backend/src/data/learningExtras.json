@@ -419,6 +419,118 @@
       "efficient",
       "高效的",
       "deficient 缺乏的，efficient 效率高的"
+    ],
+    [
+      "comprehensive",
+      "全面的",
+      "comprehensible",
+      "可理解的",
+      "comprehensive 涵蓋全面，comprehensible 容易懂"
+    ],
+    [
+      "considerate",
+      "體貼的",
+      "considerable",
+      "相當大的",
+      "considerate 替別人著想，considerable 數量可觀"
+    ],
+    [
+      "dependent",
+      "依賴的",
+      "dependable",
+      "可靠的",
+      "dependent 需要倚靠，dependable 值得信賴"
+    ],
+    [
+      "effective",
+      "有效的",
+      "efficient",
+      "效率高的",
+      "effective 達到目的，efficient 用最少的資源"
+    ],
+    [
+      "successful",
+      "成功的",
+      "successive",
+      "連續的",
+      "successful 達成目標，successive 一個接一個"
+    ],
+    [
+      "valuable",
+      "有價值的",
+      "invaluable",
+      "無價的",
+      "valuable 有價值，invaluable 是「珍貴到無法估價」(更強)"
+    ],
+    [
+      "responsible",
+      "負責的",
+      "responsive",
+      "反應快的",
+      "responsible 承擔責任，responsive 回應迅速"
+    ],
+    [
+      "formally",
+      "正式地",
+      "formerly",
+      "以前",
+      "formally 程序上正式，formerly = 從前"
+    ],
+    [
+      "hard",
+      "努力地",
+      "hardly",
+      "幾乎不",
+      "hard 努力 (work hard)，hardly 否定 (hardly any)"
+    ],
+    [
+      "late",
+      "晚的",
+      "lately",
+      "最近",
+      "late 時間遲，lately = recently"
+    ],
+    [
+      "near",
+      "近的",
+      "nearly",
+      "幾乎",
+      "near 距離近，nearly 程度副詞「將近」"
+    ],
+    [
+      "most",
+      "大多數",
+      "almost",
+      "幾乎",
+      "most 比例最多，almost 程度副詞「快要」"
+    ],
+    [
+      "specially",
+      "特地",
+      "especially",
+      "尤其",
+      "specially 為特定目的而做，especially 強調特別程度"
+    ],
+    [
+      "compose",
+      "組成",
+      "comprise",
+      "包含",
+      "A is composed of B; A comprises B (注意主動被動)"
+    ],
+    [
+      "adverse",
+      "不利的",
+      "averse",
+      "反感的",
+      "adverse 負面影響，averse 不情願 (be averse to)"
+    ],
+    [
+      "practicable",
+      "可行的",
+      "practical",
+      "實際的",
+      "practicable 能做得到，practical 實用、務實"
     ]
   ],
   "collocations": [
@@ -816,6 +928,181 @@
       "reschedule a meeting",
       "重新安排會議",
       "Can we reschedule the meeting to Thursday afternoon?"
+    ],
+    [
+      "hold a meeting",
+      "開會",
+      "We will hold a meeting at three to discuss the budget."
+    ],
+    [
+      "raise an issue",
+      "提出問題",
+      "A team member raised an important issue during the discussion."
+    ],
+    [
+      "take action",
+      "採取行動",
+      "Management plans to take action on the audit findings."
+    ],
+    [
+      "make a decision",
+      "做決定",
+      "The board will make a decision by the end of the week."
+    ],
+    [
+      "address a concern",
+      "回應疑慮",
+      "The CEO addressed the concerns of the shareholders."
+    ],
+    [
+      "submit a report",
+      "提交報告",
+      "Please submit a quarterly report by the fifteenth of next month."
+    ],
+    [
+      "make a profit",
+      "賺取利潤",
+      "The store needs to make a profit by the end of the year."
+    ],
+    [
+      "hit a target",
+      "達成目標",
+      "The sales team hit its target for three consecutive quarters."
+    ],
+    [
+      "reach an agreement",
+      "達成協議",
+      "After long talks, the two companies reached an agreement."
+    ],
+    [
+      "take advantage of",
+      "把握機會",
+      "Take advantage of our early-bird discount before Friday."
+    ],
+    [
+      "take into account",
+      "納入考量",
+      "Please take into account the shipping costs in your estimate."
+    ],
+    [
+      "keep in mind",
+      "記住",
+      "Keep in mind that the deadline has been moved up by two days."
+    ],
+    [
+      "pay attention to",
+      "注意",
+      "Please pay attention to the safety briefing before boarding."
+    ],
+    [
+      "make progress",
+      "取得進展",
+      "The team has made significant progress on the new prototype."
+    ],
+    [
+      "take responsibility",
+      "承擔責任",
+      "The manager took responsibility for the missed deadline."
+    ],
+    [
+      "give a presentation",
+      "做簡報",
+      "Sarah will give a presentation on the new product line."
+    ],
+    [
+      "hold a position",
+      "擔任職位",
+      "She has held the position of director for over five years."
+    ],
+    [
+      "make a contribution",
+      "做出貢獻",
+      "Each team member made a valuable contribution to the project."
+    ],
+    [
+      "set up an account",
+      "開設帳戶",
+      "You can set up an account online in just a few minutes."
+    ],
+    [
+      "build a reputation",
+      "建立名聲",
+      "The firm has built a strong reputation for quality service."
+    ],
+    [
+      "carry out a plan",
+      "執行計畫",
+      "The team will carry out the plan in three phases."
+    ],
+    [
+      "conduct research",
+      "進行研究",
+      "The marketing team conducted research on consumer preferences."
+    ],
+    [
+      "fill out a form",
+      "填寫表格",
+      "Please fill out this form before your appointment."
+    ],
+    [
+      "follow instructions",
+      "遵循指示",
+      "All staff must follow the safety instructions carefully."
+    ],
+    [
+      "look forward to",
+      "期待",
+      "I look forward to hearing from you soon."
+    ],
+    [
+      "get back to",
+      "回覆",
+      "I will get back to you with the figures by tomorrow."
+    ],
+    [
+      "put off",
+      "延後",
+      "We had to put off the launch until next quarter."
+    ],
+    [
+      "put up with",
+      "忍受",
+      "Customers will not put up with poor service for long."
+    ],
+    [
+      "run out of",
+      "用完",
+      "We are running out of printer paper; please order more."
+    ],
+    [
+      "account for",
+      "說明",
+      "How do you account for the difference in this report?"
+    ],
+    [
+      "rely on",
+      "依賴",
+      "Our clients rely on us for accurate financial advice."
+    ],
+    [
+      "refer to",
+      "參考",
+      "Please refer to page 12 of the manual for details."
+    ],
+    [
+      "apply for a position",
+      "應徵職位",
+      "She applied for the senior analyst position last week."
+    ],
+    [
+      "receive a complaint",
+      "收到投訴",
+      "The customer service team received a complaint about delivery delays."
+    ],
+    [
+      "issue a statement",
+      "發表聲明",
+      "The CEO issued a statement about the merger this morning."
     ]
   ]
 }

@@ -1,5 +1,135 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Pedagogical sweep round 3 (deep ranks + Part 5 expansion)
+
+Round 1 covered top 400 vocab + examples. Round 2 hit 100% TSL coverage and zeroed out templated examples. This round goes deep into rank 800-1250 vocab and meaningfully expands `learningExtras.json` with high-yield TOEIC Part 5 patterns.
+
+### `vocabChinese.ts` — 103 further pedagogical glosses fixed (rank 800-1250)
+
+The auto-generated glosses in this rank band had similar issues to the top tiers — wrong sense, mainland-only terms, dated phrasings — but they'd been masked by lower play frequency. Pedagogically critical fixes:
+
+**Rank 800-1000**:
+| Word | Before | After | Why |
+|---|---|---|---|
+| junior | 年少的 | **資淺的** | TOEIC business (junior employee), not "young in age" |
+| outlook | 觀點 | **展望** | "Economic outlook" = 展望; 觀點 = personal viewpoint |
+| amenity | 宜人 | **設施** | TSL example "swimming pool that makes life comfortable" |
+| escalator | 電動扶梯 | **手扶梯** | Taiwan term |
+| exotic | 異域的 | **異國的** | Standard Taiwan |
+| activate | 激活 | **啟用** | Mainland → Taiwan term |
+| cord | 細繩 | **電源線** | TOEIC = power cord, not generic string |
+| delicate | 纖細的 | **易碎的** | TOEIC shipping ("Mark as delicate"), not "slender" |
+| occupant | 佔有者 | **住戶** | Standard Taiwan; 佔有者 sounds aggressive |
+| publicize | 宣佈 | **宣傳** | 宣佈 = announce; correct = advertise/promote |
+| refresh | 振作 | **重新整理** | 振作 = "cheer up"; TOEIC = refresh page/memory |
+| sewer | 排水溝 | **下水道** | More TOEIC-standard |
+| skate | 冰鞋 | **溜冰** | POS verb per TSL def |
+| evenly | 一致地 | **均勻地** | 一致地 = consistently (different word) |
+| fleet | 艦隊 | **車隊** | 艦隊 = navy fleet; TOEIC = airline/taxi fleet |
+| microwave | 微波 | **微波爐** | Was the wave physics term, not the appliance |
+| officially | 職務上 | **官方地** | 職務上 = "in one's official capacity" — wrong sense |
+| spray | 浪花 | **噴霧** | 浪花 = "wave spray"; TOEIC = spray bottle |
+| staple | 主食 | **釘書針** | TSL def is the office wire pin, not food |
+| disrupt | 使中斷 | **中斷** | Cleaner |
+| reimbursement | 返還費用 | **報銷** | Standard business term |
+| inflate | 膨脹 | **充氣** | TOEIC concrete (inflate tire/balloon) |
+| lecturer | 講演者 | **講師** | Standard Taiwan academic title |
+
+**Rank 1000-1250**:
+| Word | Before | After | Why |
+|---|---|---|---|
+| **wheelchair** | `:輪椅` | **輪椅** | **Stray colon typo** in original auto-generated gloss |
+| sharply | 嚴厲地 | **急遽地** | TOEIC "sales rose sharply" = 急遽; 嚴厲 = "harshly criticize" |
+| spectator | 參觀者 | **觀眾** | 參觀者 = museum visitor; 觀眾 = audience for an event |
+| compliment | 致意 | **讚美** | 致意 = formal greeting; TSL def = "saying something nice" |
+| audition | 旁聽 | **試鏡** | 旁聽 = audit a class; TOEIC = performer audition |
+| jeans | 工裝褲 | **牛仔褲** | 工裝褲 = workwear/overalls (totally different) |
+| salon | 營業廳 | **美髮店** | 營業廳 = "business hall" (made-up phrase) |
+| stereo | 立體聲 | **音響** | TSL def = "device that plays sound" (the appliance) |
+| centimeter | 釐米 | **公分** | Mainland → Taiwan |
+| liter | 升 | **公升** | Mainland → Taiwan |
+| diamond | 金鋼石 | **鑽石** | Standard term |
+| broom | 掃帚 | **掃把** | More common Taiwan |
+| circus | 馬戲 | **馬戲團** | Complete word (the troupe/show) |
+| disable | 使無能 | **停用** | 使無能 = "incapacitate (a person)"; TOEIC = disable feature |
+| desperate | 拼死的 | **急切的** | 拼死的 = "life-or-death"; TOEIC = "desperate need" |
+| hardworking | 苦幹的 | **勤奮的** | 苦幹 = drudgery; standard = 勤奮 |
+| query | 質問 | **詢問** | 質問 = aggressive interrogation |
+| relaxation | 鬆弛 | **放鬆** | Cleaner Taiwan |
+| retreat | 退卻 | **撤退** | Standard term |
+| sketch | 繪略圖 | **草圖** | Cleaner |
+| soar | 猛增 | **飆升** | TOEIC "prices soared" = 飆升 |
+| bulk | 擴大 | **大量** | 擴大 = "expand"; TSL def = "in big amount" |
+| circulate | 循環 | **傳閱** | TOEIC = circulate a document |
+| compliance | 合規 | **遵循** | 合規 is mainland-trendy; standard = 遵循 |
+| drum | 敲擊 | **鼓** | Was the verb action; should be the noun (instrument) |
+| integral | 完整的 | **不可或缺的** | TSL def "necessary as part of whole" |
+| interactive | 互相作用的 | **互動的** | Standard term |
+| prescribe | 命令 | **開立處方** | 命令 = order/command (totally wrong) |
+| prominent | 突出的 | **著名的** | TOEIC "prominent business leader" |
+| considerate | 考慮周到的 | **體貼的** | Cleaner |
+| explorer | 探險者 | **探險家** | Standard Taiwan |
+| hospitality | 友好 | **款待** | TOEIC hotel context |
+| incoming | 引入的 | **即將到來的** | 引入的 = "introduced/imported" — wrong sense |
+| acclaim | 喝采 | **讚揚** | 喝采 = applause; TOEIC = praise |
+| chronic | 長期的 | **慢性的** | TOEIC health context (chronic illness) |
+| stockbroker | 股票經理人 | **股票經紀人** | Consistency (we changed broker → 經紀人 in round 2) |
+
+…plus 30+ more in the same vein.
+
+### `learningExtras.json` — 16 new confusables + 35 new collocations
+
+Confusables and collocations were already pedagogically clean, but the dataset was thin (60 + 79). Added high-yield Part 5 / Part 6 / Part 7 patterns:
+
+**New confusables (60 → 76)** — all classic Part 5 sentence-completion traps:
+- comprehensive / comprehensible
+- considerate / considerable
+- dependent / dependable
+- effective / efficient
+- successful / successive
+- valuable / **invaluable** (Part 5 trap: invaluable means "priceless", not "worthless")
+- responsible / responsive
+- formally / formerly
+- hard / hardly (adverb pair)
+- late / lately
+- near / nearly
+- most / almost
+- specially / especially
+- compose / comprise (active/passive trap)
+- adverse / averse
+- practicable / practical
+
+**New collocations (79 → 114)** — verbatim TOEIC Part 5/6/7 stock phrases:
+- hold a meeting, raise an issue, take action, make a decision, address a concern
+- submit a report, make a profit, hit a target, reach an agreement
+- take advantage of, take into account, keep in mind, pay attention to
+- make progress, take responsibility, give a presentation, hold a position
+- make a contribution, set up an account, build a reputation
+- carry out a plan, conduct research, fill out a form, follow instructions
+- look forward to, get back to, put off, put up with, run out of
+- account for, rely on, refer to
+- apply for a position, receive a complaint, issue a statement
+
+Every entry comes with a Chinese gloss + a TOEIC-register example sentence (8-15 words, business setting).
+
+### Smoke test
+Generated 40 questions across `easy` / `medium` / `hard` / `curve` tiers. Every question rendered cleanly with sensible Chinese options drawing from the new glosses (e.g., `escort` → 陪同, `verify` → 證實, `valid` → 有效的, `kettle` → 水壺, `dishwasher` → 洗碗機).
+
+### Final content stats
+| Metric | Before round 1 | After round 3 |
+|---|---|---|
+| VOCAB_ZH entries | 5,492 | **5,566** |
+| TSL coverage | 94.5% | **100%** |
+| Templated examples | 309 | **0** |
+| Confusables | 60 | **76** |
+| Collocations | 79 | **114** |
+| Pedagogically reviewed (rank 1-1250) | 0 | **267 fixes (rounds 1-3)** |
+
+### Test
+- `tsc --noEmit` clean for both backend + frontend
+- 40-question smoke test across all difficulty tiers passes
+- 0 stray characters / typos / templated forms remain
+
 ## 2026-05-08 (Mobile) — Pedagogical sweep round 2 (full TSL coverage + zero templated)
 
 Continuing the TOEIC-instructor lens, this pass extends the audit to **the entire TSL 1250 vocabulary** rather than just top-400. Two big wins:
