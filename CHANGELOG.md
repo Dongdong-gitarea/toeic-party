@@ -1,5 +1,57 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 6: 189 garbage template-fragment examples + 11 truncating defs
+
+### Major content discovery
+While auditing deeper TSL ranks (rank 800-1250) I discovered **189 example sentences that were auto-generated nonsense**, surviving all earlier audits. They followed four templates:
+
+1. `"X was reviewed during the meeting"` × 68 — applied to nouns where reviewing makes no sense (balloon, lawn, statue, mask, vase, sock, motorcycle, helmet, …)
+2. `"X has been updated for this quarter"` × 87 — applied to concrete objects (baseball, salad, textbook, voucher, retailer, bench, thunderstorm, fog, …)
+3. `"They plan to X before the deadline"` × 21 — applied to verbs without proper object (sightsee, interrupt, congratulate, jam, …)
+4. `"She completed the task X"` × 13 — applied to adverbs that don't fit semantically (overnight, commonly, annually, alternatively, …)
+
+Examples of the broken sentences:
+
+| Word | Garbage example (before) |
+|---|---|
+| balloon | "The balloon was reviewed during the meeting." |
+| salad | "The salad has been updated for this quarter." |
+| sightsee | "They plan to sightsee before the deadline." |
+| permanently | "She completed the task permanently." |
+| thunderstorm | "The thunderstorm has been updated for this quarter." |
+| fleet | "The fleet was reviewed during the meeting." |
+| firefighter | _(was)_ "The firefighter completed the task safely." |
+
+These would teach learners completely wrong usage — a balloon isn't "reviewed", and `permanently` doesn't mean "completely".
+
+### Fix
+Hand-wrote 189 natural TOEIC-style sentences that actually use each word's real meaning:
+
+| Word | Natural example (after) |
+|---|---|
+| balloon | "A red balloon floated up into the sky." |
+| salad | "I ordered a Caesar salad for lunch." |
+| sightsee | "We have one free day to sightsee in Paris." |
+| permanently | "The downtown branch has closed permanently." |
+| thunderstorm | "A sudden thunderstorm cancelled the outdoor event." |
+| fleet | "The company expanded its delivery fleet by ten trucks." |
+| firefighter | "The firefighter rescued the cat from the burning building." |
+| takeover | "The hostile takeover was announced last Tuesday." |
+| compliance | "All staff must complete compliance training annually." |
+| recession | "Many small businesses struggled during the recession." |
+
+After-fix scan: 0 remaining template fragments. Each sentence is now unique.
+
+### Also fixed in this round
+- **11 TSL definitions still >90 chars** (and so still truncate) tightened: passport, terminal, pants, balcony, firework, skateboard, ward, layoff, volleyball, letterhead, workbook.
+- **Workbook had a typo** in the original definition: `"...relatated problems..."` → corrected to `"a study book with exercises and problems for students to complete"`.
+- After fix: 0 defs >90 chars.
+
+### Verification
+- 0 fillblank prompts truncate
+- 0 example sentences match auto-template patterns
+- TS clean
+
 ## 2026-05-08 (Mobile) — Fillblank ("English definition → pick the word") quality fix
 
 **Trigger**: user feedback — "有一個題目是英文意思對照回去單字的，有的也怪怪的" (the question type that maps an English definition back to a word feels off for some entries).
