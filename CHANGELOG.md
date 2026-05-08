@@ -1,5 +1,97 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Pedagogical sweep round 5 (CET/TOEFL non-TSL business words)
+
+The earlier four rounds focused on the 1,250 TSL words. This round audits the **~4,316 non-TSL entries** (CET4 / CET6 / TOEFL business words) that surface as questions in `medium`/`hard` tier and as distractors throughout. Same TOEIC-instructor lens.
+
+### Structural fixes — 4 truly broken entries + 1 typo
+
+These survived the original auto-generation:
+
+| Word | Before | After |
+|---|---|---|
+| barbershop | `#9l$` (mojibake!) | **理髮店** |
+| deal | `./v.交易` (POS-prefix junk) | **交易** |
+| less | `較少的/地` (slash showing both forms) | **較少的** |
+| murmur | `V.私語` (POS-prefix junk) | **私語** |
+| **confirm** | **詮實** (typo for 證實/確認) | **確認** |
+
+`confirm → 詮實` was particularly bad — 詮 means "interpret", 證 means "verify". Real typo that would have learners memorize a non-word.
+
+### Sense-error fixes — 73 critical glosses corrected
+
+These are the same kind of "technically a translation but wrong sense for TOEIC" errors I caught in TSL rank 600-800 in earlier rounds. Highlights:
+
+| Word | Before | After | Why |
+|---|---|---|---|
+| atmosphere | 氣壓 | **氣氛** | 氣壓 = "air pressure"! TOEIC = atmosphere of meeting |
+| approach | 接近 | **方法** | TOEIC business = a new approach |
+| approve | 同意 | **批准** | 同意 = "agree"; TOEIC = approve a budget |
+| channel | 海峽 | **頻道** | 海峽 = strait (English Channel); TOEIC = TV channel / communication channel |
+| contact | 接觸 | **聯絡** | 接觸 = physical touch; TOEIC = contact info |
+| contribute | 捐獻 | **貢獻** | 捐獻 = donate (charity); TOEIC = contribute to project |
+| cover | 封面 | **涵蓋** | TOEIC = cover topics |
+| cultivate | 耕作 | **培養** | 耕作 = till soil; TOEIC = cultivate relationships |
+| define | 解釋 | **定義** | 解釋 = explain (different word) |
+| demand | 請求 | **要求** | 請求 = polite request; demand is stronger |
+| deny | 否定 | **否認** | 否定 = "negate" (logical); deny accusation = 否認 |
+| economy | 節約 | **經濟** | 節約 = "thrift"! Totally wrong sense |
+| enhance | 增加 | **提升** | 增加 = increase; enhance = elevate quality |
+| evolve | 使逐漸發展 | **演變** | Verbose phrase → standard word |
+| expand | 展開 | **擴大** | 展開 = unfold/spread out |
+| extend | 延伸 | **延長** | TOEIC = extend a deadline/contract |
+| finance | 財政 | **財務** | 財政 = public finance (gov); TOEIC = corporate finance |
+| foundation | 建立 | **基礎** | 建立 = the verb "establish"; noun foundation = 基礎 |
+| identify | 鑑定 | **辨認** | 鑑定 = forensic identification |
+| illustrate | 圖解 | **說明** | 圖解 = "diagram" (noun) |
+| industry | 工業 | **產業** | 工業 too narrow (manufacturing only) |
+| leadership | 指揮 | **領導力** | 指揮 = "command/conduct (orchestra)" |
+| license | 許可 | **執照** | TOEIC = driver's license / business license |
+| monitor | 級長 | **螢幕** | 級長 = "class monitor (school)"! Wrong domain |
+| objective | 客觀的 | **目標** | TOEIC noun sense = objective of meeting |
+| performance | 成就 | **表現** | 成就 = "achievement" (different shade) |
+| platform | 月臺 | **平台** | 月臺 too narrow (only train); TOEIC = online platform |
+| priority | 居先 | **優先事項** | 居先 = "be first" (verb) |
+| progress | 前進 | **進展** | 前進 = move forward (literal) |
+| prospect | 期望 | **前景** | 期望 = expectation; TOEIC = business prospects |
+| range | 區域 | **範圍** | 區域 = "area/zone" |
+| recognize | 承認 | **認可** | 承認 has "admit guilt" connotation |
+| reflect | 反射 | **反映** | 反射 = physical light reflection; TOEIC = reflects opinion |
+| register | 記錄 | **註冊** | 記錄 = record; TOEIC = register for event |
+| regulate | 限制 | **規範** | 限制 = limit; regulate = standardize |
+| release | 解放 | **發布** | 解放 = liberate (political)! TOEIC = release product |
+| remain | 殘留 | **保持** | 殘留 = leftover residue (negative shade) |
+| remarkable | 該注意的 | **顯著的** | 該注意的 = "should be noticed" (clunky) |
+| represent | 描寫 | **代表** | 描寫 = describe (different word) |
+| resource | 財產 | **資源** | 財產 = property/wealth |
+| review | 再檢查 | **審查** | TOEIC = review a document/contract |
+| section | 地域 | **部分** | 地域 = geographic area |
+| situation | 形勢 | **情況** | 形勢 mainland-leaning |
+| status | 社會地位 | **狀態** | Too narrow; TOEIC = order/system status |
+| technique | 技術 | **技巧** | Distinct from technology=技術 |
+| technology | 工業技術 | **科技** | Cleaner Taiwan |
+| transfer | 調動 | **轉移** | 調動 too narrow (employees only) |
+| venture | 冒險事業 | **創業** | TOEIC = venture capital / new venture |
+
+…plus ~25 more in the same vein (assume 假定→**假設**, benefit 利益→**好處**, consider 認為→**考慮**, debate 爭論→**辯論**, distinguish 識別→**區別**, demonstrate 證明→**示範**, ignore 不顧→**忽略**, immediate 立刻的→**立即的**, partnership 合夥→**合夥關係**, rough 不平的→**粗糙的**, satisfy 滿意→**使滿意**, tend 有傾向→**傾向**, etc.)
+
+### Post-fix verification
+- 0 intra-row duplicate Chinese
+- TS clean
+- 15-question smoke test: every distractor list reads naturally; no mainland artifacts; sense-aligned glosses
+
+### Cumulative pedagogical fix count (rounds 1-5)
+- Round 1 (TSL 1-400 vocab): 74
+- Round 1 (top-200 examples): 91
+- Round 2 (deeper TSL vocab + 69 missing): 90
+- Round 2 (rank 400-1250 examples): 148
+- Round 3 (TSL rank 800-1250 vocab): 103
+- Round 3 (learningExtras additions): 51
+- Round 4 (distractor pollution swap): 209
+- Round 4 (fragment examples): 99
+- **Round 5 (non-TSL business words): 78**
+- **Total: 943 hand-curated content fixes** across 5,566 vocab + 1,368 examples + 190 confusable/collocation entries
+
 ## 2026-05-08 (Mobile) — Pedagogical sweep round 4 (distractor cleanup + fragment examples)
 
 Round 1-3 cleaned correct answers. This round cleans the **wrong-but-shown chrome** — distractors and fragment examples that learners see every game but were never reviewed.
