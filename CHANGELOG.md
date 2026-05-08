@@ -1,5 +1,56 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 13: programmatic POS-in-example detection + visual sample audit
+
+User directive (continuing): **「不會有懷疑」**.
+
+### 1. Programmatic POS-in-example check — 20 fixes
+
+Built a heuristic that infers the POS of how the target word is **actually used** in its example sentence (look at preceding article / "to" / inflection / surrounding context). Compared to TSL's `pos` field. Found 20 examples where the example uses the word as a different POS than TSL says — same trap class as `intern` from round 12.
+
+| Word | TSL pos | Example used as | Fix |
+|---|---|---|---|
+| clerk | noun | verb past ("clerked for the supreme court judge") | "The clerk at the front desk helped me fill out the form." |
+| courier | noun | verb past ("had the contract couriered") | "The courier delivered the package this morning." |
+| ladder | noun | verb past ("I've laddered my tights") *British slang* | "He climbed the ladder to reach the top shelf." |
+| towel | noun | verb past ("toweled himself dry") | "Please bring a clean towel from the cupboard." |
+| scarf | noun | informal verb ("you sure scarfed that pizza") | "She wore a warm wool scarf around her neck." |
+| petition | noun | verb past ("villagers petitioned the council") | "The petition gathered over a thousand signatures last week." |
+| skateboard | noun | gerund ("Skateboarding is not allowed") | "He bought a new skateboard for his birthday." |
+| fountain | noun | rare verb ("Lava fountained from the volcano") | "A beautiful fountain stands in the middle of the plaza." |
+| apprentice | noun | verb past ("was apprenticed to a local employer") | "She started as an apprentice in the bakery five years ago." |
+| vendor | noun | software jargon ("vendored copies of CPAN modules") | "Each vendor must register before the trade fair begins." |
+| fixture | noun | adj participle ("fixtured models") | "Each bathroom fixture in the hotel is energy efficient." |
+| graphic | adj | "the graphics are amazing" (used as plural noun) | "The poster has a bold graphic design." |
+| residential | adj | "annual residentials" (used as plural noun) | "The new residential complex includes a swimming pool." |
+| prospective | adj | "meeting the prospectives" (plural noun) | "Several prospective clients visited our showroom this week." |
+| desirable | adj | "plenty of desirables" (plural noun) | "A spacious office in the city centre is highly desirable." |
+| exotic | adj | physics jargon ("Glueballs are exotics") | "The restaurant serves exotic dishes from across Asia." |
+| incomplete | adj | academic plural noun ("got four incompletes") | "The form was returned because it was incomplete." |
+| casual | adj | gaming slang ("the casuals could enjoy it") | "The office dress code is casual every Friday." |
+| absent | adj | rare verb ("temporarily absented themselves") | "The manager was absent from the morning meeting." |
+| dull | adj | verb ("Years of misuse have dulled the tools") | "The lecture was dull and uninspiring." |
+
+After-fix scan: **0 remaining POS-in-example mismatches**.
+
+### 2. Visual sample of 50 questions — 4 hidden defects caught
+
+Generated 50 random questions and visually inspected each. Found 4 problems my programmatic checks missed:
+
+| Word | Problem | Fix |
+|---|---|---|
+| **frustrate** | Def: "to become upset because of not being able to do something" — describes the **wrong subject**! `frustrate` is transitive ("to frustrate someone"), not intransitive ("to feel frustrated"). | "to prevent someone from achieving a goal, causing them to feel upset" |
+| **nominate** | Def has grammar error: "to suggest someone **for to do** or be something" | "to formally suggest someone for a position or award" |
+| **administer** | Def: "to manage an office" — too narrow. Example used the medicine sense. | "to manage operations, or to give medicine or treatment" |
+| **mileage** | Example used figurative sense ("a lot of mileage in language… in research") but def was literal "distance in miles". | New example: "Our delivery van has high mileage after years of service." |
+
+`frustrate` was particularly bad — for years learners would have answered "我感到沮喪" but the def teaches the wrong subject relationship.
+
+### Verification
+- TS clean
+- 500-question smoke: distribution healthy across 7 types
+- POS-in-example scan: 0 remaining mismatches
+
 ## 2026-05-08 (Mobile) — Round 12: POS-coherence pass — every word's pos / def / Chinese / example are now mutually consistent
 
 User directive this round: **「內容為最高準則，不會有懷疑」** — every piece of content shown to the player must be self-consistent so they never doubt the question. Round 12 is a coherence audit across the four data fields per word: TSL pos, English definition, Chinese gloss (`lookupChinese`), and example sentence.
