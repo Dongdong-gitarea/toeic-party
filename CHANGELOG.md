@@ -1,5 +1,35 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 15: 6 pos errors + 27 def normalizations
+
+### POS errors fixed (6)
+Words TSL labels as verb but the def + Chinese describe the noun:
+
+| Word | Before | After |
+|---|---|---|
+| pants | pos:verb (def correctly noun-form already) | pos:noun |
+| toll | pos:verb, def: "a small cost or fee you pay to use a service" (noun-form) | pos:noun |
+| institute | pos:verb, def: "like a school or college" | pos:noun, def: "an organisation set up for educational or research purposes" |
+| grill | pos:verb, def: "like a barbeque, something you cook on" | pos:noun, def: "a metal frame used for cooking food over heat" |
+| rumor | pos:verb, def: "something said by people but not necessarily true" | pos:noun, def: "a story passed between people that may or may not be true" |
+| attire | pos:verb, def: "clothing, especially for a special occasion" | pos:noun |
+
+### Def normalizations (27)
+
+Three classes:
+1. **Capital-T inconsistency** (lowercase rest of corpus, but a few had `"To make..."`): automate, vend, sue.
+2. **Verb defs missing leading `to`** (most defs start with "to ..." for consistency): notify, renovate, inspect, verify, equip, remodel, fasten, rehearse, tow, browse, downsize, personalize, steer.
+3. **Wrong-subject / awkward defs**:
+   - puzzle (verb): "something you do not understand" → "to confuse someone or cause them to think hard"
+   - clap (verb): "hitting your hands together..." → "to hit your hands together to make a noise, often in praise"
+   - signify (verb): "shows a sign that..." → "to indicate or be a sign of something"
+   - dive (verb): "jump in or swim under water" → "to jump head-first into water, or to descend sharply"
+   - renovation (noun): "the process of being restored..." (passive voice) → "the act of restoring something to a better condition"
+
+### Verification
+- TS clean
+- 500-question smoke distribution healthy
+
 ## 2026-05-08 (Mobile) — Round 14: distractor semantic check + 50-question deep audit
 
 ### 1. Synonym distractor semantic-overlap check — clean

@@ -788,7 +788,7 @@
     "word": "notify",
     "ipa": "/ˈnoʊ.təˌfaɪ/",
     "pos": "verb",
-    "definition_en": "officially tell someone some information",
+    "definition_en": "to officially tell someone some information",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/notify?q=notify",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/notify",
@@ -1252,7 +1252,7 @@
     "word": "renovation",
     "ipa": "/ˌrɛn.əˈveɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "the process of being restored to a previous or better condition",
+    "definition_en": "the act of restoring something to a better condition",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/renovation?q=renovation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/renovation",
@@ -1972,7 +1972,7 @@
     "word": "renovate",
     "ipa": "/ˈrɛn.əˌveɪt/",
     "pos": "verb",
-    "definition_en": "restore to a previous or better condition",
+    "definition_en": "to restore something to a better condition",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/renovate?q=renovate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/renovate",
@@ -2212,7 +2212,7 @@
     "word": "inspect",
     "ipa": "/ɪnˈspɛkt/",
     "pos": "verb",
-    "definition_en": "look over carefully",
+    "definition_en": "to look something over carefully",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inspect?q=inspect",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inspect",
@@ -3828,7 +3828,7 @@
     "word": "verify",
     "ipa": "/ˈvɛr.əˌfaɪ/",
     "pos": "verb",
-    "definition_en": "confirm the truth of",
+    "definition_en": "to confirm that something is true or accurate",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/verify?q=verify",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/verify",
@@ -5939,7 +5939,7 @@
     "rank": 372,
     "word": "pants",
     "ipa": "/pænt/",
-    "pos": "verb",
+    "pos": "noun",
     "definition_en": "a piece of clothing covering the body from waist to ankles, with separate legs",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/pants?q=pants",
@@ -6196,7 +6196,7 @@
     "word": "automate",
     "ipa": "/ˈɔ.təˌmeɪt/",
     "pos": "verb",
-    "definition_en": "To make a process that does a task over and over again by a machine",
+    "definition_en": "to make a process happen with a machine instead of by hand",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/automate?q=automate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/automate",
@@ -7380,7 +7380,7 @@
     "word": "equip",
     "ipa": "/ɪkwɪp/",
     "pos": "verb",
-    "definition_en": "provide with abilities or tools",
+    "definition_en": "to provide someone with the tools or skills needed",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/equip?q=equip",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/equip",
@@ -8132,7 +8132,7 @@
     "word": "remodel",
     "ipa": "/rimɑdəl/",
     "pos": "verb",
-    "definition_en": "change or alter nearly everything to make it look different",
+    "definition_en": "to change the structure or appearance of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/remodel?q=remodel",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/remodel",
@@ -9604,7 +9604,7 @@
     "word": "fasten",
     "ipa": "/fæsən/",
     "pos": "verb",
-    "definition_en": "fix together firmly",
+    "definition_en": "to fix or join two things together firmly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fasten?q=fasten",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fasten",
@@ -9651,8 +9651,8 @@
     "rank": 604,
     "word": "institute",
     "ipa": "/ɪnstɪtˌut/",
-    "pos": "verb",
-    "definition_en": "like a school or college",
+    "pos": "noun",
+    "definition_en": "an organisation set up for educational or research purposes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/institute?q=institute",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/institute",
@@ -9828,7 +9828,7 @@
     "word": "rehearse",
     "ipa": "/rihɜs/",
     "pos": "verb",
-    "definition_en": "practise so that you get better at doing it",
+    "definition_en": "to practise something in order to perform it later",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/rehearse?q=rehearse",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/rehearse",
@@ -11060,7 +11060,7 @@
     "word": "tow",
     "ipa": "/toʊ/",
     "pos": "verb",
-    "definition_en": "pull something along",
+    "definition_en": "to pull a vehicle along behind another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tow?q=tow",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tow",
@@ -11795,8 +11795,8 @@
     "rank": 738,
     "word": "rumor",
     "ipa": "/rumɜ/",
-    "pos": "verb",
-    "definition_en": "something said by people but not necessarily true",
+    "pos": "noun",
+    "definition_en": "a story passed between people that may or may not be true",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/rumor?q=rumor",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/rumor",
@@ -11956,7 +11956,7 @@
     "word": "vend",
     "ipa": "//",
     "pos": "verb",
-    "definition_en": "To offer something for sale or to sell something",
+    "definition_en": "to offer something for sale, especially in a small or automated way",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/vend?q=vend",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/vend",
@@ -12739,8 +12739,8 @@
     "rank": 797,
     "word": "toll",
     "ipa": "/toʊl/",
-    "pos": "verb",
-    "definition_en": "a small cost or fee you pay to use a service",
+    "pos": "noun",
+    "definition_en": "a small fee paid to use a road, bridge, or service",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/toll?q=toll",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/toll",
@@ -12884,7 +12884,7 @@
     "word": "browse",
     "ipa": "/braʊz/",
     "pos": "verb",
-    "definition_en": "look or leaf through casually, like looking through a book without really reading it",
+    "definition_en": "to look casually through items without a specific goal",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/browse?q=browse",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/browse",
@@ -13044,7 +13044,7 @@
     "word": "dive",
     "ipa": "/daɪv/",
     "pos": "verb",
-    "definition_en": "jump in or swim under water",
+    "definition_en": "to jump head-first into water, or to descend sharply",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dive?q=dive",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dive",
@@ -13380,7 +13380,7 @@
     "word": "puzzle",
     "ipa": "/pʌzəl/",
     "pos": "verb",
-    "definition_en": "something you do not understand",
+    "definition_en": "to confuse someone or cause them to think hard",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/puzzle?q=puzzle",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/puzzle",
@@ -13827,8 +13827,8 @@
     "rank": 865,
     "word": "grill",
     "ipa": "/grɪl/",
-    "pos": "verb",
-    "definition_en": "like a barbeque, something you cook on",
+    "pos": "noun",
+    "definition_en": "a metal frame used for cooking food over heat",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/grill?q=grill",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/grill",
@@ -14324,7 +14324,7 @@
     "word": "clap",
     "ipa": "/klæp/",
     "pos": "verb",
-    "definition_en": "hitting your hands together to make a noise to show you enjoyed something",
+    "definition_en": "to hit your hands together to make a noise, often in praise",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/clap?q=clap",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/clap",
@@ -14468,7 +14468,7 @@
     "word": "downsize",
     "ipa": "/daʊnsˌaɪz/",
     "pos": "verb",
-    "definition_en": "reduce in size or number",
+    "definition_en": "to reduce the size of a company by laying off staff",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/downsize?q=downsize",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/downsize",
@@ -16020,7 +16020,7 @@
     "word": "personalize",
     "ipa": "/pɜsənəlˌaɪz/",
     "pos": "verb",
-    "definition_en": "change something so that it is tailored to a particular person's needs",
+    "definition_en": "to change something so it suits a particular person",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/personalize?q=personalize",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/personalize",
@@ -16164,7 +16164,7 @@
     "word": "signify",
     "ipa": "/sɪgnəfˌaɪ/",
     "pos": "verb",
-    "definition_en": "shows a sign that it has an important meaning",
+    "definition_en": "to indicate or be a sign of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/signify?q=signify",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/signify",
@@ -16196,7 +16196,7 @@
     "word": "steer",
     "ipa": "/stɪr/",
     "pos": "verb",
-    "definition_en": "guide the direction of",
+    "definition_en": "to guide or control the direction of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/steer?q=steer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/steer",
@@ -16212,7 +16212,7 @@
     "word": "sue",
     "ipa": "/su/",
     "pos": "verb",
-    "definition_en": "To take legal action against someone",
+    "definition_en": "to take legal action against someone in court",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sue?q=sue",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sue",
@@ -16451,7 +16451,7 @@
     "rank": 1029,
     "word": "attire",
     "ipa": "/ətaɪɜ/",
-    "pos": "verb",
+    "pos": "noun",
     "definition_en": "clothing, especially for a special occasion",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/attire?q=attire",
