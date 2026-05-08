@@ -1,5 +1,84 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 11: silent give-away bug + 33 weak defs + NON_TOEIC prune + accessory wrong-sense
+
+### 1. Silent cloze give-away bug — 14 examples mentioned the target word twice
+
+The cloze generator's `replace(re, '___')` only replaces the **first** occurrence of the target word. So when an example has 2+ mentions, the answer remains visible in the displayed prompt.
+
+Found and rewrote 14 affected examples:
+
+| Word | Before (gives answer away) | After |
+|---|---|---|
+| subscribe | "Would you like to **subscribe** or **subscribe** a friend to our new magazine?" | "Would you like to subscribe to our weekly newsletter?" |
+| renew | "I'd like to **renew** these three books. Did you know you can **renew** online?" | "I'd like to renew my library card before it expires." |
+| internet | "Do you have **internet** at your place? My **internet** is down…" | "The internet connection in the office is very fast." |
+| convey | "Air **conveys** sound. Water is **conveyed** through the pipe." | "The pipeline conveys oil across three states." |
+| elephant | "One **elephant**, two **elephant**, three **elephant**…" | "An elephant uses its trunk to drink water." |
+| pastry | "That **pastry** shop sells not just **pastries**…" | "The bakery sells fresh pastry every morning." |
+| cheer | "I'm going to wear my new **cheer** shoes at **cheer** today." | "Loud cheers filled the stadium after the winning goal." |
+
+…plus calendar, authority, nap, hourly, pie, faculty, fork (8 more). All now show only `___` in the cloze prompt with no answer leakage.
+
+### 2. accessory had a WRONG-SENSE definition
+
+Round 11 audit caught a real pedagogical error:
+
+```
+accessory → "partner in crime"
+```
+
+That's the **legal sense** ("an accessory to murder"). For TOEIC, accessory means a fashion/equipment add-on. The wrong def would teach learners a totally inappropriate sense for business contexts.
+
+Fixed → `"an additional item, especially clothing, that goes with the main outfit"`
+
+### 3. Sharpened 33 more weak defs in rank 200-1000
+
+The fillblank def-rewrite work continues. Highlights:
+
+| Word | Before | After |
+|---|---|---|
+| consumption | "the act of eating" (too narrow!) | "the using or eating of something, especially resources or food" |
+| plug | "to fill in a hole" | "to block or fill an opening with a stopper" |
+| unexpected | "to be a surprise" (clunky) | "happening without being predicted or anticipated" |
+| headache | "pain in the head" | "a continuous pain in the head, or a difficult problem" |
+| opt | "to make a choice" | "to formally choose one of several options" |
+| dislike | "to not like, hate" | "to find something unpleasant or disagreeable" |
+| reinforce | "to make stronger" (= 'stronger' itself!) | "to make something stronger or more secure" |
+| adjacent | "next to, beside" | "lying next to or directly beside something" |
+| terminate | "bring to an end" | "to bring an agreement or activity to an end" |
+| attain | "to get or achieve" | "to succeed in achieving something through effort" |
+| fiscal | "to do with money" | "relating to government or business finances" |
+
+…plus 22 others (proofread, alert, remainder, harmful, beforehand, elegant, ongoing, enjoyable, hazardous, conform, individually, likewise, disconnect, fortunately, additionally, hike, incomplete, lounge, flyer, durable, resignation, considerably).
+
+### 4. NON_TOEIC filter pruned
+
+The auto-generated NON_TOEIC list over-filtered words that DO appear in TOEIC contexts. Removed:
+
+- **Hotel/event amenities**: pillow, towel, curtain, candle, mirror, vase, blanket, carpet, broom, bucket
+- **Workplace clothing**: jacket, sweater, scarf, sock
+- **Purchase items**: cookie, chocolate, sandwich
+- **Team-building**: basketball, baseball, volleyball, tennis, soccer, swimming
+- **Industry topics**: chemistry, physics
+- **Event types**: birthday, wedding, firework
+- **Crime (business security)**: theft
+
+Kept blocked: wild animals, body parts, religious terms, fantasy, weather wonders, niche school subjects (calculus, algebra, geometry, geography), niche sports (skiing, badminton, chess), medical conditions, etc.
+
+Added inline comment documenting the rationale.
+
+### 5. Confusable Chinese gloss audit — 91 pairs verified
+
+All 91 zh1/zh2 fields in `learningExtras.json` confusables hand-verified for accuracy. **No fixes needed.** A few notes I made during audit:
+- `valuable / invaluable: 有價值的 / 無價的` — kept the (somewhat ambiguous) 無價的 since the explanation field clarifies "珍貴到無法估價"
+- `compose / comprise: 組成 / 包含` — comprise's gloss could be sharper (由…組成) but 包含 is acceptable
+
+### Verification
+- TS clean (backend + frontend)
+- 30-batch (300 questions) smoke: every type fires, distribution healthy
+- Cloze double-mention check: **0 give-aways** in 8-sample post-fix test
+
 ## 2026-05-08 (Mobile) — Round 10: cloze coverage gap closed (1094 → 1250) + 14 example rewrites
 
 ### Discovery

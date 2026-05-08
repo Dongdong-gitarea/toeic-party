@@ -132,33 +132,53 @@ function truncDef(s: string, max = 35): string {
   return s.length > max ? s.slice(0, max - 1) + '…' : s;
 }
 
-// Look up TSL definition for a word
-// Words to deprioritize in question generation (not TOEIC-relevant)
+// Words to deprioritize in question generation (not TOEIC-relevant).
+// Categories: wild animals, body parts, religious terms, crime/violence,
+// medical conditions, fantasy, geographic/weather wonders, school subjects
+// not in business contexts, and outdoor sports rarely appearing in
+// business reading. Removed from this list compared to the original
+// auto-generated version: hotel/event amenities (pillow, towel, curtain,
+// candle, mirror, vase, blanket), workplace clothing (jacket, sweater,
+// scarf), purchase items (cookie, chocolate, sandwich), team-building
+// activities (basketball, volleyball, swimming), TOEIC industry topics
+// (chemistry, physics — chemical/pharma industries), and event types
+// (birthday, wedding, firework) which all appear in TOEIC contexts.
 const NON_TOEIC = new Set([
+  // Wild animals
   'sparrow','turkey','parrot','pigeon','eagle','whale','dolphin','penguin',
   'butterfly','mosquito','squirrel','deer','wolf','lion','tiger','elephant',
   'monkey','rabbit','fox','bear','snake','turtle','frog','ant','bee',
   'rooster','hen','goat','sheep','donkey','camel','giraffe',
-  'curry','pizza','hamburger','popcorn','cookie','candy','chocolate',
-  'spaghetti','noodle','dumpling','pancake','sandwich','toast','cereal',
+  'robin','crow','hawk','swan','dove',
+  // Body parts (rarely tested in business English)
   'knee','elbow','ankle','wrist','thumb','forehead','chin',
   'cheek','eyebrow','tongue','throat','lung','liver','kidney','bone','muscle',
-  'rainbow','thunder','lightning','snowflake','earthquake','volcano',
+  // Weather/geographic wonders
+  'rainbow','thunder','lightning','snowflake','volcano',
   'waterfall','cliff','cave','valley','jungle','marsh','swamp',
-  'geometry','algebra','biology','chemistry','physics','geography','calculus',
-  'basketball','baseball','soccer','tennis','volleyball','badminton',
-  'swimming','skiing','skating','surfing','bowling','chess','poker',
-  'sweater','jacket','scarf','glove','sock','boot','sandal','slipper',
-  'pillow','blanket','curtain','carpet','towel','broom','bucket',
-  'candle','vase','mirror',
-  'jealous','greedy','selfish','stubborn','shy','lonely','homesick',
+  // School subjects unlikely in business contexts
+  'geometry','algebra','geography','calculus',
+  // Niche sports
+  'badminton','skiing','skating','surfing','bowling','chess','poker',
+  // Religious terms
   'church','temple','mosque','cathedral','churchyard','prayer','monk',
-  'murder','robbery','theft','kidnap','arson','assault','bullet','sword',
-  'surgery','tumor','diabetes','allergy','asthma','measles','pneumonia',
+  // Crime/violence (theft removed — appears in business security)
+  'murder','robbery','kidnap','arson','assault','bullet','sword',
+  // Medical conditions
+  'surgery','tumor','diabetes','asthma','measles','pneumonia',
+  // Fantasy
   'casino','circus','fairy','ghost','dragon','wizard','pirate',
-  'firework','lantern','kite','puppet','cradle','coffin',
-  'birthday','wedding','funeral','divorce','pregnancy',
-  'sparrow','robin','crow','hawk','swan','dove',
+  // Lifecycle events (wedding/birthday kept — common venue/event terms)
+  'funeral','divorce','pregnancy','coffin','cradle',
+  // Outdoor / non-business specific noodles
+  'curry','pizza','hamburger','popcorn','candy',
+  'spaghetti','noodle','dumpling','pancake','toast','cereal',
+  // Specific clothing rarely tested
+  'sandal','slipper','glove','boot',
+  // Personal-emotion adjectives rarely appearing in business
+  'jealous','greedy','selfish','stubborn','shy','lonely','homesick',
+  // Misc
+  'puppet','lantern','kite',
 ]);
 
 function isToeicWord(word: string): boolean {
