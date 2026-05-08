@@ -4,7 +4,7 @@
     "word": "mister",
     "ipa": "/ˈmɪs.tɚ/",
     "pos": "noun",
-    "definition_en": "a form of address for a man",
+    "definition_en": "a polite title used before a man's surname",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/mister?q=mister",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/mister",
@@ -100,7 +100,7 @@
     "word": "reservation",
     "ipa": "/ˌrɛz.ərˈveɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "to put something on hold for use later, e.g., car, hotel room",
+    "definition_en": "the act of putting something on hold for later use, e.g., a car or hotel room",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/reservation?q=reservation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/reservation",
@@ -116,7 +116,7 @@
     "word": "logical",
     "ipa": "/ˈlɒdʒ.ɪ.kəl/",
     "pos": "adj",
-    "definition_en": "to do with reason",
+    "definition_en": "sensible and based on clear reasoning",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/logical?q=logical",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/logical",
@@ -164,7 +164,7 @@
     "word": "sincerely",
     "ipa": "/sɪnˈsɪər.li/",
     "pos": "adv",
-    "definition_en": "with honesty",
+    "definition_en": "in a way that shows true honesty and feeling",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sincerely?q=sincerely",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sincerely",
@@ -180,7 +180,7 @@
     "word": "sometime",
     "ipa": "/ˈsʌmˌtaɪm/",
     "pos": "adv",
-    "definition_en": "at some unknown point in time",
+    "definition_en": "at some point in the future, but not specified",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sometime?q=sometime",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sometime",
@@ -228,7 +228,7 @@
     "word": "goods",
     "ipa": "/gʊdz/",
     "pos": "noun",
-    "definition_en": "resources or things bought or sold",
+    "definition_en": "things that are made to be sold",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/goods?q=goods",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/goods",
@@ -244,7 +244,7 @@
     "word": "workshop",
     "ipa": "/ˈwɜrk.ʃɒp/",
     "pos": "noun",
-    "definition_en": "a building or room where things are made or repaired",
+    "definition_en": "a meeting where a small group learns or practises a skill together",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/workshop?q=workshop",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/workshop",
@@ -308,7 +308,7 @@
     "word": "brochure",
     "ipa": "/broʊˈʃʊɚ/",
     "pos": "noun",
-    "definition_en": "a small paper book that gives information about a product or service",
+    "definition_en": "a small book or magazine giving information about a product or service",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/brochure?q=brochure",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/brochure",
@@ -340,7 +340,7 @@
     "word": "accountant",
     "ipa": "/əˈkaʊn.tnt/",
     "pos": "noun",
-    "definition_en": "a person responsible for the money in a business",
+    "definition_en": "a professional who manages financial records and accounts",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accountant?q=accountant",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accountant",
@@ -356,7 +356,7 @@
     "word": "clerk",
     "ipa": "/klɜrk/",
     "pos": "noun",
-    "definition_en": "someone who works at a counter",
+    "definition_en": "an office worker who keeps records or handles routine tasks",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/clerk?q=clerk",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/clerk",
@@ -420,7 +420,7 @@
     "word": "enclose",
     "ipa": "/ənˈkloʊz/",
     "pos": "verb",
-    "definition_en": "to surround fully",
+    "definition_en": "to include something with a letter, email, or package",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/enclose?q=enclose",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/enclose",
@@ -436,7 +436,7 @@
     "word": "applicant",
     "ipa": "/ˈæp.lɪ.kənt/",
     "pos": "noun",
-    "definition_en": "a person who submits papers in order to do something, e.g., job applicant",
+    "definition_en": "a person who formally applies for a job, course, or service",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/applicant?q=applicant",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/applicant",
@@ -532,7 +532,7 @@
     "word": "traveler",
     "ipa": "/ˈtræv.ə.lɚ/",
     "pos": "noun",
-    "definition_en": "a tourist or adventurer who visits many countries",
+    "definition_en": "a person making a journey, especially over a long distance",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/traveler?q=traveler",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/traveler",
@@ -564,7 +564,7 @@
     "word": "subway",
     "ipa": "/ˈsʌbˌweɪ/",
     "pos": "noun",
-    "definition_en": "a tunnel under the road for people to walk through",
+    "definition_en": "an underground railway system in a city",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/subway?q=subway",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/subway",
@@ -580,7 +580,7 @@
     "word": "luggage",
     "ipa": "/ˈlʌg.ɪdʒ/",
     "pos": "noun",
-    "definition_en": "Bags and cases that you carry your clothes in when you go on a journey",
+    "definition_en": "bags and cases used to carry personal belongings while travelling",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/luggage?q=luggage",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/luggage",
@@ -612,7 +612,7 @@
     "word": "infer",
     "ipa": "/ɪnˈfɝ/",
     "pos": "verb",
-    "definition_en": "to guess something with given information",
+    "definition_en": "to draw a conclusion from evidence rather than direct statement",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/infer?q=infer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/infer",
@@ -628,7 +628,7 @@
     "word": "waiter",
     "ipa": "/ˈweɪ.tɚ/",
     "pos": "noun",
-    "definition_en": "a man whose job it is to bring meals to your table in a restaurant or cafe",
+    "definition_en": "a person whose job is to bring food and drinks to customers",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/waiter?q=waiter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/waiter",
@@ -692,7 +692,7 @@
     "word": "chef",
     "ipa": "/ʃɛf/",
     "pos": "noun",
-    "definition_en": "a person who cooks for a living",
+    "definition_en": "a professional cook, especially the head cook of a restaurant",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/chef?q=chef",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/chef",
@@ -724,7 +724,7 @@
     "word": "reception",
     "ipa": "/rɪˈsɛp.ʃən/",
     "pos": "noun",
-    "definition_en": "the act of greeting people",
+    "definition_en": "the front desk or area where guests are welcomed",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/reception?q=reception",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/reception",
@@ -740,7 +740,7 @@
     "word": "correctly",
     "ipa": "/kəˈrɛkt/",
     "pos": "adv",
-    "definition_en": "to do something the right way",
+    "definition_en": "in an accurate manner; without errors",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/correctly?q=correctly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/correctly",
@@ -756,7 +756,7 @@
     "word": "lease",
     "ipa": "/lis/",
     "pos": "noun",
-    "definition_en": "to rent",
+    "definition_en": "a long-term rental contract for property",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/lease?q=lease",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/lease",
@@ -788,7 +788,7 @@
     "word": "notify",
     "ipa": "/ˈnoʊ.təˌfaɪ/",
     "pos": "verb",
-    "definition_en": "officially tell someone some information",
+    "definition_en": "to officially tell someone some information",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/notify?q=notify",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/notify",
@@ -852,7 +852,7 @@
     "word": "convenient",
     "ipa": "/kənˈviːn.iənt/",
     "pos": "adj",
-    "definition_en": "to be easy to do",
+    "definition_en": "easy to use or do; saving time or effort",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/convenient?q=convenient",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/convenient",
@@ -867,8 +867,8 @@
     "rank": 55,
     "word": "manual",
     "ipa": "/ˈmæn.ju.əl/",
-    "pos": "adj",
-    "definition_en": "a book that explains how to do something",
+    "pos": "noun",
+    "definition_en": "a book of instructions for using a product or doing a task",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/manual?q=manual",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/manual",
@@ -884,7 +884,7 @@
     "word": "clue",
     "ipa": "/klu/",
     "pos": "noun",
-    "definition_en": "a hint, a tip",
+    "definition_en": "a piece of information that helps solve a problem",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/clue?q=clue",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/clue",
@@ -916,7 +916,7 @@
     "word": "obtain",
     "ipa": "/əbˈteɪn/",
     "pos": "verb",
-    "definition_en": "to get",
+    "definition_en": "to get something formally or with effort",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/obtain?q=obtain",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/obtain",
@@ -932,7 +932,7 @@
     "word": "oval",
     "ipa": "/ˈoʊ.vəl/",
     "pos": "adj",
-    "definition_en": "A shape that looks like an egg",
+    "definition_en": "having a shape like an elongated circle, like an egg",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/oval?q=oval",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/oval",
@@ -948,7 +948,7 @@
     "word": "inventory",
     "ipa": "/ˈɪn.vənˌtɔr.i/",
     "pos": "noun",
-    "definition_en": "detailed list of everything included",
+    "definition_en": "the complete list of stock or items a business has",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inventory?q=inventory",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inventory",
@@ -1060,7 +1060,7 @@
     "word": "umbrella",
     "ipa": "/ʌmˈbrɛl.ə/",
     "pos": "noun",
-    "definition_en": "something, like an organization, that covers a similar range of things",
+    "definition_en": "a folding object held above your head to keep off rain",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/umbrella?q=umbrella",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/umbrella",
@@ -1076,7 +1076,7 @@
     "word": "inference",
     "ipa": "/ˈɪn.fər.əns/",
     "pos": "noun",
-    "definition_en": "the act of guessing something with given information",
+    "definition_en": "a conclusion drawn from evidence or reasoning",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inference?q=inference",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inference",
@@ -1124,7 +1124,7 @@
     "word": "merchandise",
     "ipa": "/ˈmɜr.tʃənˌdaɪz/",
     "pos": "noun",
-    "definition_en": "goods for sale",
+    "definition_en": "goods that are sold in a shop",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/merchandise?q=merchandise",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/merchandise",
@@ -1204,7 +1204,7 @@
     "word": "depart",
     "ipa": "/dɪˈpɑrt/",
     "pos": "verb",
-    "definition_en": "to leave",
+    "definition_en": "to leave on a journey or flight",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/depart?q=depart",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/depart",
@@ -1236,7 +1236,7 @@
     "word": "tactic",
     "ipa": "/ˈtæk.tɪk/",
     "pos": "noun",
-    "definition_en": "like a plan or scheme",
+    "definition_en": "a planned action used to achieve a specific goal",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tactic?q=tactic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tactic",
@@ -1252,7 +1252,7 @@
     "word": "renovation",
     "ipa": "/ˌrɛn.əˈveɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "the process of being restored to a previous or better condition",
+    "definition_en": "the act of restoring something to a better condition",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/renovation?q=renovation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/renovation",
@@ -1300,7 +1300,7 @@
     "word": "replacement",
     "ipa": "/rɪˈpleɪs.mənt/",
     "pos": "noun",
-    "definition_en": "to put something/someone in place of something/someone else",
+    "definition_en": "the act of putting something or someone in place of another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/replacement?q=replacement",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/replacement",
@@ -1316,7 +1316,7 @@
     "word": "dine",
     "ipa": "/daɪn/",
     "pos": "verb",
-    "definition_en": "have supper; eat dinner",
+    "definition_en": "to eat a meal, especially in a formal setting",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dine?q=dine",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dine",
@@ -1332,7 +1332,7 @@
     "word": "passport",
     "ipa": "/ˈpæs.pɔrt/",
     "pos": "noun",
-    "definition_en": "official document containing information about you, that allows you to enter other countries",
+    "definition_en": "an official document with personal info that lets you enter other countries",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/passport?q=passport",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/passport",
@@ -1364,7 +1364,7 @@
     "word": "upcoming",
     "ipa": "/ˈʌpˌkʌm.ɪŋ/",
     "pos": "adj",
-    "definition_en": "happening soon",
+    "definition_en": "about to happen in the near future",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/upcoming?q=upcoming",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/upcoming",
@@ -1412,7 +1412,7 @@
     "word": "explanatory",
     "ipa": "/ɪkˈsplæn.əˌtɔr.i/",
     "pos": "adj",
-    "definition_en": "to explain or make clear",
+    "definition_en": "intended to make something clearer",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/explanatory?q=explanatory",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/explanatory",
@@ -1492,7 +1492,7 @@
     "word": "valid",
     "ipa": "/ˈvæl.ɪd/",
     "pos": "adj",
-    "definition_en": "just, fair, right",
+    "definition_en": "officially recognised or legally acceptable",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/valid?q=valid",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/valid",
@@ -1540,7 +1540,7 @@
     "word": "underline",
     "ipa": "/ˈʌn.dərˌlaɪn/",
     "pos": "verb",
-    "definition_en": "to call attention to",
+    "definition_en": "to draw a line under written words to emphasise them",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/underline?q=underline",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/underline",
@@ -1635,8 +1635,8 @@
     "rank": 103,
     "word": "cruise",
     "ipa": "/kruz/",
-    "pos": "verb",
-    "definition_en": "a long, relaxing holiday on a ship",
+    "pos": "noun",
+    "definition_en": "a sea voyage on a large ship for pleasure",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cruise?q=cruise",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cruise",
@@ -1892,7 +1892,7 @@
     "word": "unreal",
     "ipa": "/ʌnˈril/",
     "pos": "adj",
-    "definition_en": "not true to life",
+    "definition_en": "not seeming to be real; imaginary",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/unreal?q=unreal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/unreal",
@@ -1924,7 +1924,7 @@
     "word": "expire",
     "ipa": "/ɪkˈspaɪ.ɚ/",
     "pos": "verb",
-    "definition_en": "come to an end",
+    "definition_en": "to reach the end of a valid period",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/expire?q=expire",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/expire",
@@ -1972,7 +1972,7 @@
     "word": "renovate",
     "ipa": "/ˈrɛn.əˌveɪt/",
     "pos": "verb",
-    "definition_en": "restore to a previous or better condition",
+    "definition_en": "to restore something to a better condition",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/renovate?q=renovate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/renovate",
@@ -1988,7 +1988,7 @@
     "word": "sunny",
     "ipa": "/ˈsʌn.i/",
     "pos": "adj",
-    "definition_en": "a day with no clouds or rain just sunshine",
+    "definition_en": "bright with sunlight; cheerful",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sunny?q=sunny",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sunny",
@@ -2052,7 +2052,7 @@
     "word": "shortly",
     "ipa": "/ˈʃɔrt.li/",
     "pos": "adv",
-    "definition_en": "very soon",
+    "definition_en": "in a short time from now; soon",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/shortly?q=shortly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/shortly",
@@ -2116,7 +2116,7 @@
     "word": "provider",
     "ipa": "/prəˈvaɪ.dɚ/",
     "pos": "noun",
-    "definition_en": "someone who takes care of others with money, food, home",
+    "definition_en": "a person or company that provides a service or product",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/provider?q=provider",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/provider",
@@ -2212,7 +2212,7 @@
     "word": "inspect",
     "ipa": "/ɪnˈspɛkt/",
     "pos": "verb",
-    "definition_en": "look over carefully",
+    "definition_en": "to look something over carefully",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inspect?q=inspect",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inspect",
@@ -2388,7 +2388,7 @@
     "word": "eligible",
     "ipa": "/ˈɛl.ɪ.dʒə.bəl/",
     "pos": "adj",
-    "definition_en": "able to be chosen",
+    "definition_en": "meeting the requirements to be chosen or to qualify",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/eligible?q=eligible",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/eligible",
@@ -2420,7 +2420,7 @@
     "word": "baggage",
     "ipa": "/ˈbæg.ɪdʒ/",
     "pos": "noun",
-    "definition_en": "travel bags",
+    "definition_en": "the bags and cases carried while travelling",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/baggage?q=baggage",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/baggage",
@@ -2435,8 +2435,8 @@
     "rank": 153,
     "word": "dial",
     "ipa": "/ˈdaɪ.əl,.daɪl/",
-    "pos": "noun",
-    "definition_en": "to make a phone call by pressing the buttons",
+    "pos": "verb",
+    "definition_en": "to make a phone call by entering a number",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dial?q=dial",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dial",
@@ -2532,7 +2532,7 @@
     "word": "certificate",
     "ipa": "/sərˈtɪf.ɪ.kɪt/",
     "pos": "noun",
-    "definition_en": "a piece of paper stating you did something",
+    "definition_en": "an official document confirming completion or qualification",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/certificate?q=certificate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/certificate",
@@ -2580,7 +2580,7 @@
     "word": "respondent",
     "ipa": "/rɪˈspɒn.dənt/",
     "pos": "noun",
-    "definition_en": "someone who replies to something",
+    "definition_en": "a person who answers questions, especially in a survey",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/respondent?q=respondent",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/respondent",
@@ -2660,7 +2660,7 @@
     "word": "outstanding",
     "ipa": "/ˌaʊtˈstæn.dɪŋ/",
     "pos": "adj",
-    "definition_en": "1) extremely good; 2) not yet paid or completed",
+    "definition_en": "exceptionally good, or remaining to be paid or done",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/outstanding?q=outstanding",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/outstanding",
@@ -2740,7 +2740,7 @@
     "word": "innovative",
     "ipa": "/ˈɪn.əˌveɪ.tɪv/",
     "pos": "adj",
-    "definition_en": "to be creative and come up with new ideas",
+    "definition_en": "introducing new ideas or methods",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/innovative?q=innovative",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/innovative",
@@ -2756,7 +2756,7 @@
     "word": "inquire",
     "ipa": "/ɪnˈkwaɪ.ɚ/",
     "pos": "verb",
-    "definition_en": "to ask about",
+    "definition_en": "to formally ask for information",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inquire?q=inquire",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inquire",
@@ -2836,7 +2836,7 @@
     "word": "newsletter",
     "ipa": "/ˈnuzˌlɛt.ɚ/",
     "pos": "noun",
-    "definition_en": "report or open letter giving information of interest to a special group",
+    "definition_en": "a regular bulletin sent to subscribers with news or information",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/newsletter?q=newsletter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/newsletter",
@@ -2868,7 +2868,7 @@
     "word": "cartridge",
     "ipa": "/ˈkɑr.trɪdʒ/",
     "pos": "noun",
-    "definition_en": "a piece of equipment that is a sealed unit and that can be taken out and replaced",
+    "definition_en": "a small replaceable container holding ink, toner, or batteries",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cartridge?q=cartridge",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cartridge",
@@ -2932,7 +2932,7 @@
     "word": "tag",
     "ipa": "/tæg/",
     "pos": "noun",
-    "definition_en": "a label",
+    "definition_en": "a small label attached to an item",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tag?q=tag",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tag",
@@ -2980,7 +2980,7 @@
     "word": "audit",
     "ipa": "/ˈɔ.dɪt/",
     "pos": "noun",
-    "definition_en": "to check something is correct, usually related to accounts in business",
+    "definition_en": "an official examination of business accounts and finances",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/audit?q=audit",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/audit",
@@ -2996,7 +2996,7 @@
     "word": "contractor",
     "ipa": "/ˈkɒn.træk.tɚ/",
     "pos": "noun",
-    "definition_en": "a builder",
+    "definition_en": "a person or company hired to do construction",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/contractor?q=contractor",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/contractor",
@@ -3011,8 +3011,8 @@
     "rank": 189,
     "word": "download",
     "ipa": "/ˈdaʊnˌloʊd/",
-    "pos": "noun",
-    "definition_en": "transfer a file or program onto your computer",
+    "pos": "verb",
+    "definition_en": "to transfer a file or program onto your computer",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/download?q=download",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/download",
@@ -3044,7 +3044,7 @@
     "word": "prohibit",
     "ipa": "/proʊˈhɪb.ɪt/",
     "pos": "verb",
-    "definition_en": "not allowed",
+    "definition_en": "to officially forbid by rule or law",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/prohibit?q=prohibit",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/prohibit",
@@ -3076,7 +3076,7 @@
     "word": "terminal",
     "ipa": "/ˈtɜr.mə.nl/",
     "pos": "adj",
-    "definition_en": "something at an end in a system, e.g., the final stop or station for public transport or computer used to input data into a database",
+    "definition_en": "the final stop on a public transport route, or a computer used to enter data",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/terminal?q=terminal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/terminal",
@@ -3092,7 +3092,7 @@
     "word": "weekday",
     "ipa": "/ˈwikˌdeɪ/",
     "pos": "noun",
-    "definition_en": "All the working days in a week, usually Monday to Friday",
+    "definition_en": "any day of the week from Monday to Friday",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/weekday?q=weekday",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/weekday",
@@ -3124,7 +3124,7 @@
     "word": "cart",
     "ipa": "/kɑrt/",
     "pos": "noun",
-    "definition_en": "a wagon or truck used to for transport",
+    "definition_en": "a small wheeled vehicle used to carry goods or shopping",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cart?q=cart",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cart",
@@ -3140,7 +3140,7 @@
     "word": "delicious",
     "ipa": "/dɪˈlɪʃ.əs/",
     "pos": "adj",
-    "definition_en": "to taste good",
+    "definition_en": "having a very pleasant taste",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/delicious?q=delicious",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/delicious",
@@ -3220,7 +3220,7 @@
     "word": "developer",
     "ipa": "/dɪˈvɛl.ə.pɚ/",
     "pos": "noun",
-    "definition_en": "a person or company that buys properties, builds new buildings, and sells them for profit",
+    "definition_en": "a person or company that creates new buildings, software, or products",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/developer?q=developer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/developer",
@@ -3235,8 +3235,8 @@
     "rank": 203,
     "word": "headquarter",
     "ipa": "/ˈhɛdˌkwɔr.tɚ/",
-    "pos": "verb",
-    "definition_en": "the main office of an organization",
+    "pos": "noun",
+    "definition_en": "the main office where an organisation is based",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/headquarter?q=headquarter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/headquarter",
@@ -3380,7 +3380,7 @@
     "word": "administrative",
     "ipa": "/ædˈmɪn.əˌstreɪ.tɪv/",
     "pos": "adj",
-    "definition_en": "to do with the management of an office",
+    "definition_en": "relating to the management or running of an organization",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/administrative?q=administrative",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/administrative",
@@ -3460,7 +3460,7 @@
     "word": "accommodate",
     "ipa": "/əˈkɒm.əˌdeɪt/",
     "pos": "verb",
-    "definition_en": "to give something that is needed",
+    "definition_en": "to provide enough space or facilities for",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accommodate?q=accommodate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accommodate",
@@ -3636,7 +3636,7 @@
     "word": "trainer",
     "ipa": "/ˈtreɪ.nɚ/",
     "pos": "noun",
-    "definition_en": "one who teaches a person or animal to do something",
+    "definition_en": "a person who trains employees, athletes, or others in a skill",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/trainer?q=trainer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/trainer",
@@ -3684,7 +3684,7 @@
     "word": "complimentary",
     "ipa": "/ˌkɒm.pləˈmɛn.tə.ri/",
     "pos": "adj",
-    "definition_en": "given for free",
+    "definition_en": "given free as a gesture of goodwill",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/complimentary?q=complimentary",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/complimentary",
@@ -3700,7 +3700,7 @@
     "word": "hike",
     "ipa": "/haɪk/",
     "pos": "verb",
-    "definition_en": "walk a long way",
+    "definition_en": "to take a long walk in the countryside or hills",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/hike?q=hike",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/hike",
@@ -3748,7 +3748,7 @@
     "word": "rainy",
     "ipa": "/ˈreɪ.ni/",
     "pos": "adj",
-    "definition_en": "water from the clouds, wet or showery",
+    "definition_en": "having or characterised by frequent rain",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/rainy?q=rainy",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/rainy",
@@ -3812,7 +3812,7 @@
     "word": "unhappy",
     "ipa": "/ʌnˈhæp.i/",
     "pos": "adj",
-    "definition_en": "feeling little or no joy",
+    "definition_en": "feeling sad or dissatisfied",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/unhappy?q=unhappy",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/unhappy",
@@ -3828,7 +3828,7 @@
     "word": "verify",
     "ipa": "/ˈvɛr.əˌfaɪ/",
     "pos": "verb",
-    "definition_en": "confirm the truth of",
+    "definition_en": "to confirm that something is true or accurate",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/verify?q=verify",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/verify",
@@ -3876,7 +3876,7 @@
     "word": "incomplete",
     "ipa": "/ˌɪn.kəmˈplit/",
     "pos": "adj",
-    "definition_en": "not yet finished",
+    "definition_en": "missing one or more parts; not yet finished",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/incomplete?q=incomplete",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/incomplete",
@@ -3956,7 +3956,7 @@
     "word": "lately",
     "ipa": "/ˈleɪt.li/",
     "pos": "adv",
-    "definition_en": "recently",
+    "definition_en": "in the recent past; recently",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/lately?q=lately",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/lately",
@@ -3972,7 +3972,7 @@
     "word": "machinery",
     "ipa": "/məˈʃi.nə.ri/",
     "pos": "noun",
-    "definition_en": "tools, equipment",
+    "definition_en": "industrial machines used in factories or large operations",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/machinery?q=machinery",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/machinery",
@@ -4004,7 +4004,7 @@
     "word": "seldom",
     "ipa": "/ˈsɛl.dəm/",
     "pos": "adv",
-    "definition_en": "not very often",
+    "definition_en": "not often; rarely",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/seldom?q=seldom",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/seldom",
@@ -4052,7 +4052,7 @@
     "word": "carrier",
     "ipa": "/ˈkær.i.ɚ/",
     "pos": "noun",
-    "definition_en": "a person or thing that carries something",
+    "definition_en": "a company that transports goods, passengers, or signals",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/carrier?q=carrier",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/carrier",
@@ -4180,7 +4180,7 @@
     "word": "thorough",
     "ipa": "/ˈθɜr.oʊ,/",
     "pos": "adj",
-    "definition_en": "to be carefully and completely done",
+    "definition_en": "complete in every detail; very careful",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/thorough?q=thorough",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/thorough",
@@ -4259,8 +4259,8 @@
     "rank": 267,
     "word": "lounge",
     "ipa": "/laʊndʒ/",
-    "pos": "verb",
-    "definition_en": "a place to relax",
+    "pos": "noun",
+    "definition_en": "a comfortable public sitting room in a hotel or airport",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/lounge?q=lounge",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/lounge",
@@ -4276,7 +4276,7 @@
     "word": "painter",
     "ipa": "/ˈpeɪn.tɚ/",
     "pos": "noun",
-    "definition_en": "an artist who paints",
+    "definition_en": "a person whose job is to paint houses, rooms, or other structures",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/painter?q=painter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/painter",
@@ -4292,7 +4292,7 @@
     "word": "patron",
     "ipa": "/ˈpeɪ.trən/",
     "pos": "noun",
-    "definition_en": "someone who gives support with time, money or effort",
+    "definition_en": "a regular customer of a business, or a person who supports a cause",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/patron?q=patron",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/patron",
@@ -4372,7 +4372,7 @@
     "word": "delegate",
     "ipa": "/ˈdɛl.ɪ.gɪt/",
     "pos": "noun",
-    "definition_en": "to give others tasks to do",
+    "definition_en": "a representative chosen to act on behalf of others",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/delegate?q=delegate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/delegate",
@@ -4420,7 +4420,7 @@
     "word": "completion",
     "ipa": "/kəmˈpli.ʃən/",
     "pos": "noun",
-    "definition_en": "the end; being finished",
+    "definition_en": "the act or process of finishing something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/completion?q=completion",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/completion",
@@ -4516,7 +4516,7 @@
     "word": "cab",
     "ipa": "/kæb/",
     "pos": "noun",
-    "definition_en": "taxi",
+    "definition_en": "a vehicle hired for short trips; a taxi",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cab?q=cab",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cab",
@@ -4628,7 +4628,7 @@
     "word": "defective",
     "ipa": "/dɪˈfɛk.tɪv/",
     "pos": "adj",
-    "definition_en": "when something is not working",
+    "definition_en": "having a fault or failing to work properly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/defective?q=defective",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/defective",
@@ -4660,7 +4660,7 @@
     "word": "leak",
     "ipa": "/lik/",
     "pos": "noun",
-    "definition_en": "to drip water or other liquid",
+    "definition_en": "a small hole or crack through which liquid or gas escapes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/leak?q=leak",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/leak",
@@ -4676,7 +4676,7 @@
     "word": "occupancy",
     "ipa": "/ˈɒk.jə.pən.si/",
     "pos": "noun",
-    "definition_en": "the state of living in a place",
+    "definition_en": "the use of a building or room by people, especially in a hotel",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/occupancy?q=occupancy",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/occupancy",
@@ -4692,7 +4692,7 @@
     "word": "proficiency",
     "ipa": "/prəˈfɪʃ.ən.si/",
     "pos": "noun",
-    "definition_en": "skill and experience",
+    "definition_en": "a high level of skill in a subject or activity",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/proficiency?q=proficiency",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/proficiency",
@@ -4772,7 +4772,7 @@
     "word": "delete",
     "ipa": "/dɪˈlit/",
     "pos": "verb",
-    "definition_en": "remove",
+    "definition_en": "to permanently remove digital data",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/delete?q=delete",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/delete",
@@ -4836,7 +4836,7 @@
     "word": "accurately",
     "ipa": "/ˈæk.jər.ɪt.li/",
     "pos": "adv",
-    "definition_en": "when something is done correctly",
+    "definition_en": "in a way that is correct and precise",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accurately?q=accurately",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accurately",
@@ -4852,7 +4852,7 @@
     "word": "cabin",
     "ipa": "/ˈkæb.ɪn/",
     "pos": "noun",
-    "definition_en": "a small house in the forest",
+    "definition_en": "the passenger area of an airplane or ship",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cabin?q=cabin",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cabin",
@@ -4868,7 +4868,7 @@
     "word": "conductor",
     "ipa": "/kənˈdʌk.tɚ/",
     "pos": "noun",
-    "definition_en": "a person who leads",
+    "definition_en": "a person in charge of a train, or one who leads an orchestra",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/conductor?q=conductor",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/conductor",
@@ -4884,7 +4884,7 @@
     "word": "inspector",
     "ipa": "/ɪnˈspɛk.tɚ/",
     "pos": "noun",
-    "definition_en": "a high ranking police officer",
+    "definition_en": "an official who examines something to ensure standards or rules are met",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inspector?q=inspector",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inspector",
@@ -4899,8 +4899,8 @@
     "rank": 307,
     "word": "intern",
     "ipa": "/ˈɪn.tɜrn/",
-    "pos": "verb",
-    "definition_en": "a student or trainee who is doing a job, often without pay, to get work experience",
+    "pos": "noun",
+    "definition_en": "a student or trainee working briefly to gain experience",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/intern?q=intern",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/intern",
@@ -4932,7 +4932,7 @@
     "word": "confirmation",
     "ipa": "/ˌkɒn.fərˈmeɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "something that verifies something is true",
+    "definition_en": "an official statement that something is true or has been arranged",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/confirmation?q=confirmation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/confirmation",
@@ -4948,7 +4948,7 @@
     "word": "congratulation",
     "ipa": "/kənˌgrætʃ.əˈleɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "the act of congratulating",
+    "definition_en": "an expression of good wishes for someone's achievement",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/congratulation?q=congratulation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/congratulation",
@@ -4996,7 +4996,7 @@
     "word": "taker",
     "ipa": "/ˈteɪ.kər/",
     "pos": "noun",
-    "definition_en": "someone who does not give but only takes",
+    "definition_en": "a person who accepts something offered, especially a risk-taker",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/taker?q=taker",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/taker",
@@ -5012,7 +5012,7 @@
     "word": "utility",
     "ipa": "/juˈtɪl.ɪ.ti/",
     "pos": "noun",
-    "definition_en": "usefulness",
+    "definition_en": "the quality of being useful or practical",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/utility?q=utility",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/utility",
@@ -5044,7 +5044,7 @@
     "word": "banker",
     "ipa": "/ˈbæŋ.kər/",
     "pos": "noun",
-    "definition_en": "someone who works for the bank",
+    "definition_en": "a person who works in banking, especially in management",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/banker?q=banker",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/banker",
@@ -5060,7 +5060,7 @@
     "word": "behalf",
     "ipa": "/bɪˈhæf/",
     "pos": "noun",
-    "definition_en": "to speak or do something for someone else, e.g., on behalf of…",
+    "definition_en": "the interest or representation of someone, e.g., \"on behalf of\"",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/behalf?q=behalf",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/behalf",
@@ -5092,7 +5092,7 @@
     "word": "optional",
     "ipa": "/ˈɒp.ʃə.nl/",
     "pos": "adj",
-    "definition_en": "a choice, something you do not have to do",
+    "definition_en": "available as a choice; not required",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/optional?q=optional",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/optional",
@@ -5140,7 +5140,7 @@
     "word": "protective",
     "ipa": "/prəˈtɛk.tɪv/",
     "pos": "adj",
-    "definition_en": "to want to keep safe",
+    "definition_en": "wanting or designed to keep something safe from harm",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/protective?q=protective",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/protective",
@@ -5172,7 +5172,7 @@
     "word": "sidewalk",
     "ipa": "/ˈsaɪdˌwɔk/",
     "pos": "noun",
-    "definition_en": "the area that runs alonside a road for people to walk on",
+    "definition_en": "the area that runs alongside a road for people to walk on",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sidewalk?q=sidewalk",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sidewalk",
@@ -5220,7 +5220,7 @@
     "word": "transit",
     "ipa": "/ˈtræn.zɪt/",
     "pos": "noun",
-    "definition_en": "on the move from one place to another",
+    "definition_en": "the act of being moved from one place to another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/transit?q=transit",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/transit",
@@ -5236,7 +5236,7 @@
     "word": "wallet",
     "ipa": "/ˈwɔ.lɪt/",
     "pos": "noun",
-    "definition_en": "a small case that can fit in a pocket, used by men to hold money and credit cards",
+    "definition_en": "a small flat case used to hold money and cards",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/wallet?q=wallet",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/wallet",
@@ -5268,7 +5268,7 @@
     "word": "casual",
     "ipa": "/ˈkæʒ.u.əl/",
     "pos": "adj",
-    "definition_en": "uncertain, unplanned",
+    "definition_en": "informal or relaxed in style or attitude",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/casual?q=casual",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/casual",
@@ -5284,7 +5284,7 @@
     "word": "drill",
     "ipa": "/drɪl/",
     "pos": "noun",
-    "definition_en": "to bore a hole into something",
+    "definition_en": "a tool with a rotating tip used to bore holes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/drill?q=drill",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/drill",
@@ -5524,7 +5524,7 @@
     "word": "knowledgeable",
     "ipa": "/ˈnɒl.ɪ.dʒə.bəl/",
     "pos": "adj",
-    "definition_en": "to know much about a topic",
+    "definition_en": "having or showing a lot of knowledge about a topic",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/knowledgeable?q=knowledgeable",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/knowledgeable",
@@ -5540,7 +5540,7 @@
     "word": "organizer",
     "ipa": "/ˈɔr.gəˌnaɪ.zɚ/",
     "pos": "noun",
-    "definition_en": "someone who plans things for a living",
+    "definition_en": "a person who plans an event or activity",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/organizer?q=organizer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/organizer",
@@ -5572,7 +5572,7 @@
     "word": "prediction",
     "ipa": "/prɪˈdɪk.ʃən/",
     "pos": "noun",
-    "definition_en": "a guess about the future",
+    "definition_en": "a statement about what will happen in the future",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/prediction?q=prediction",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/prediction",
@@ -5620,7 +5620,7 @@
     "word": "conditioner",
     "ipa": "/kənˈdɪʃ.ə.nɚ/",
     "pos": "noun",
-    "definition_en": "a substance or machined used to improve something",
+    "definition_en": "a substance that improves something, especially hair or skin",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/conditioner?q=conditioner",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/conditioner",
@@ -5652,7 +5652,7 @@
     "word": "frustrate",
     "ipa": "/ˈfrʌs.treɪt/",
     "pos": "verb",
-    "definition_en": "to become upset because of not being able to do something",
+    "definition_en": "to prevent someone from achieving a goal, causing them to feel upset",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/frustrate?q=frustrate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/frustrate",
@@ -5668,7 +5668,7 @@
     "word": "garment",
     "ipa": "/ˈgɑr.mənt/",
     "pos": "noun",
-    "definition_en": "something made of material that you can wear, like pants or a dress",
+    "definition_en": "an article of clothing, especially in retail or manufacturing",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/garment?q=garment",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/garment",
@@ -5684,7 +5684,7 @@
     "word": "orientation",
     "ipa": "/ˌɔr.i.ənˈteɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "something that makes you familiar with a place",
+    "definition_en": "introductory training for new employees, students, or visitors",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/orientation?q=orientation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/orientation",
@@ -5732,7 +5732,7 @@
     "word": "plumber",
     "ipa": "/ˈplʌm.ɚ/",
     "pos": "noun",
-    "definition_en": "someone connects and mends water pipes for a living",
+    "definition_en": "someone who installs and repairs water pipes for a living",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/plumber?q=plumber",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/plumber",
@@ -5764,7 +5764,7 @@
     "word": "auto",
     "ipa": "/ˈɔ.toʊ/",
     "pos": "noun",
-    "definition_en": "a car",
+    "definition_en": "a road vehicle; an automobile",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/auto?q=auto",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/auto",
@@ -5828,7 +5828,7 @@
     "word": "economical",
     "ipa": "/ˌɛk.əˈnɒm.ɪ.kəl/",
     "pos": "adj",
-    "definition_en": "of good value",
+    "definition_en": "using money or resources without waste",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/economical?q=economical",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/economical",
@@ -5860,7 +5860,7 @@
     "word": "flyer",
     "ipa": "/ˈflaɪ.ər/",
     "pos": "noun",
-    "definition_en": "brochure, leaflet",
+    "definition_en": "a small printed sheet used for advertising or information",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/flyer?q=flyer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/flyer",
@@ -5892,7 +5892,7 @@
     "word": "generous",
     "ipa": "/ˈdʒɛn.ər.əs/",
     "pos": "adj",
-    "definition_en": "to give willingly and freely",
+    "definition_en": "willing to give freely and not stingy",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/generous?q=generous",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/generous",
@@ -5939,8 +5939,8 @@
     "rank": 372,
     "word": "pants",
     "ipa": "/pænt/",
-    "pos": "verb",
-    "definition_en": "a piece of clothing that covers the body from the waist to the ankles and covers each leg separately",
+    "pos": "noun",
+    "definition_en": "a piece of clothing covering the body from waist to ankles, with separate legs",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/pants?q=pants",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/pants",
@@ -6052,7 +6052,7 @@
     "word": "broker",
     "ipa": "/ˈbroʊ.kər/",
     "pos": "noun",
-    "definition_en": "someone who buys and sells thing for a percentage of sales",
+    "definition_en": "a person who buys and sells things, such as stocks or property, for others",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/broker?q=broker",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/broker",
@@ -6100,7 +6100,7 @@
     "word": "jet",
     "ipa": "/dʒɛt/",
     "pos": "noun",
-    "definition_en": "an airplane",
+    "definition_en": "a fast airplane powered by jet engines",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/jet?q=jet",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/jet",
@@ -6116,7 +6116,7 @@
     "word": "realistic",
     "ipa": "/ˌri.əˈlɪs.tɪk/",
     "pos": "adj",
-    "definition_en": "to be reasonable or be close to real life",
+    "definition_en": "practical and reasonable; close to what is actually achievable",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/realistic?q=realistic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/realistic",
@@ -6196,7 +6196,7 @@
     "word": "automate",
     "ipa": "/ˈɔ.təˌmeɪt/",
     "pos": "verb",
-    "definition_en": "To make a process that does a task over and over again by a machine",
+    "definition_en": "to make a process happen with a machine instead of by hand",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/automate?q=automate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/automate",
@@ -6244,7 +6244,7 @@
     "word": "incur",
     "ipa": "/ɪnˈkɜr/",
     "pos": "verb",
-    "definition_en": "lay yourself open to something as a result of your actions",
+    "definition_en": "to bring upon yourself, especially a cost, fee, or consequence",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/incur?q=incur",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/incur",
@@ -6260,7 +6260,7 @@
     "word": "instruct",
     "ipa": "/ɪnˈstrʌkt/",
     "pos": "verb",
-    "definition_en": "to teach",
+    "definition_en": "to formally teach a skill or task",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/instruct?q=instruct",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/instruct",
@@ -6276,7 +6276,7 @@
     "word": "loyal",
     "ipa": "/ˈlɔɪ.əl/",
     "pos": "adj",
-    "definition_en": "to stay true or faithful",
+    "definition_en": "firm in supporting a person, brand, or cause",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/loyal?q=loyal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/loyal",
@@ -6404,7 +6404,7 @@
     "word": "accustom",
     "ipa": "/əkʌstəm/",
     "pos": "verb",
-    "definition_en": "to get used to",
+    "definition_en": "to get familiar with something gradually",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accustom?q=accustom",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accustom",
@@ -6452,7 +6452,7 @@
     "word": "jog",
     "ipa": "/dʒɑg/",
     "pos": "verb",
-    "definition_en": "a gentle run",
+    "definition_en": "to run at a slow steady pace for exercise",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/jog?q=jog",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/jog",
@@ -6483,7 +6483,7 @@
     "rank": 406,
     "word": "nap",
     "ipa": "/næp/",
-    "pos": "verb",
+    "pos": "noun",
     "definition_en": "a short sleep, often taken during the daytime",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/nap?q=nap",
@@ -6500,7 +6500,7 @@
     "word": "reinforce",
     "ipa": "/rˌiɪnfɔrs/",
     "pos": "verb",
-    "definition_en": "to make stronger",
+    "definition_en": "to make something stronger or more secure",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/reinforce?q=reinforce",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/reinforce",
@@ -6532,7 +6532,7 @@
     "word": "vacuum",
     "ipa": "/vækyum/",
     "pos": "noun",
-    "definition_en": "a completely empty space",
+    "definition_en": "a machine that sucks up dust and dirt to clean",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/vacuum?q=vacuum",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/vacuum",
@@ -6580,7 +6580,7 @@
     "word": "appreciation",
     "ipa": "/əprˌiʃieɪʃən/",
     "pos": "noun",
-    "definition_en": "to show thanks for something or someone",
+    "definition_en": "the recognition and enjoyment of something's good qualities",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/appreciation?q=appreciation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/appreciation",
@@ -6676,7 +6676,7 @@
     "word": "furnish",
     "ipa": "/fɜnɪʃ/",
     "pos": "verb",
-    "definition_en": "to put furniture in",
+    "definition_en": "to provide a place with furniture, or to supply something needed",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/furnish?q=furnish",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/furnish",
@@ -6740,7 +6740,7 @@
     "word": "mechanical",
     "ipa": "/məkænɪkəl/",
     "pos": "adj",
-    "definition_en": "to do with machines",
+    "definition_en": "relating to or operated by machines",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/mechanical?q=mechanical",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/mechanical",
@@ -6772,7 +6772,7 @@
     "word": "promotional",
     "ipa": "/prəmoʊʃənəl/",
     "pos": "adj",
-    "definition_en": "to do with encouraging sales",
+    "definition_en": "relating to advertising or encouraging sales",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/promotional?q=promotional",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/promotional",
@@ -6788,7 +6788,7 @@
     "word": "quarterly",
     "ipa": "/kwɔrtɜli/",
     "pos": "adj",
-    "definition_en": "every 4 months",
+    "definition_en": "happening once every three months",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/quarterly?q=quarterly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/quarterly",
@@ -6804,7 +6804,7 @@
     "word": "residential",
     "ipa": "/rˌɛzɪdɛnʃəl/",
     "pos": "adj",
-    "definition_en": "an area where people live",
+    "definition_en": "relating to areas where people live, not businesses",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/residential?q=residential",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/residential",
@@ -6948,7 +6948,7 @@
     "word": "assemble",
     "ipa": "/əsɛmbəl/",
     "pos": "verb",
-    "definition_en": "to gather people together",
+    "definition_en": "to gather people together, or to put parts together to make something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/assemble?q=assemble",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/assemble",
@@ -6964,7 +6964,7 @@
     "word": "automatic",
     "ipa": "/ˌɔtəmætɪk/",
     "pos": "adj",
-    "definition_en": "done without thinking",
+    "definition_en": "operating by itself without human control",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/automatic?q=automatic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/automatic",
@@ -6996,7 +6996,7 @@
     "word": "carpenter",
     "ipa": "/kɑrpəntɜ/",
     "pos": "noun",
-    "definition_en": "a person makes and mends things made of wood for a liviing",
+    "definition_en": "a person who makes and repairs wooden objects for a living",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/carpenter?q=carpenter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/carpenter",
@@ -7044,7 +7044,7 @@
     "word": "consultation",
     "ipa": "/kˌɑnsəlteɪʃən/",
     "pos": "noun",
-    "definition_en": "a meeting between two people",
+    "definition_en": "a formal meeting with an expert to seek advice",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/consultation?q=consultation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/consultation",
@@ -7092,7 +7092,7 @@
     "word": "hardware",
     "ipa": "/hɑrdwˌɛr/",
     "pos": "noun",
-    "definition_en": "tools or equipment",
+    "definition_en": "tools, equipment, or the physical parts of a computer",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/hardware?q=hardware",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/hardware",
@@ -7108,7 +7108,7 @@
     "word": "malfunction",
     "ipa": "/mælfʌŋkʃən/",
     "pos": "verb",
-    "definition_en": "a breakdown or failure in the system",
+    "definition_en": "to fail to operate correctly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/malfunction?q=malfunction",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/malfunction",
@@ -7140,7 +7140,7 @@
     "word": "patience",
     "ipa": "/peɪʃəns/",
     "pos": "noun",
-    "definition_en": "to accept suffering without getting angry",
+    "definition_en": "the ability to accept delay or difficulty without getting upset",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/patience?q=patience",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/patience",
@@ -7188,7 +7188,7 @@
     "word": "revision",
     "ipa": "/rivɪʒən/",
     "pos": "noun",
-    "definition_en": "to change or rewrite something",
+    "definition_en": "a change or improvement made to a piece of work",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/revision?q=revision",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/revision",
@@ -7236,7 +7236,7 @@
     "word": "tray",
     "ipa": "/treɪ/",
     "pos": "noun",
-    "definition_en": "a flat plate used to carry things, usually coffee or tea",
+    "definition_en": "a flat container for carrying or holding small items",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tray?q=tray",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tray",
@@ -7252,7 +7252,7 @@
     "word": "vendor",
     "ipa": "/vɛndɜ/",
     "pos": "noun",
-    "definition_en": "the person who is selling something",
+    "definition_en": "a person or company that sells goods or services",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/vendor?q=vendor",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/vendor",
@@ -7300,7 +7300,7 @@
     "word": "badge",
     "ipa": "/bædʒ/",
     "pos": "noun",
-    "definition_en": "a small piece of material with your name and details on that you wear to show who you are",
+    "definition_en": "a small piece of material worn to show your name, role, or membership",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/badge?q=badge",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/badge",
@@ -7316,7 +7316,7 @@
     "word": "brake",
     "ipa": "/breɪk/",
     "pos": "noun",
-    "definition_en": "to stop a vehicle by pressing a pedal",
+    "definition_en": "a device for slowing or stopping a vehicle",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/brake?q=brake",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/brake",
@@ -7332,7 +7332,7 @@
     "word": "calculation",
     "ipa": "/kˌælkyəleɪʃən/",
     "pos": "noun",
-    "definition_en": "to add, subtract, multiply, divide etc.",
+    "definition_en": "a mathematical computation or careful estimate",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/calculation?q=calculation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/calculation",
@@ -7364,7 +7364,7 @@
     "word": "costly",
     "ipa": "/kɑstli/",
     "pos": "adj",
-    "definition_en": "to be expensive, to be of a high price",
+    "definition_en": "expensive; involving a high price or cost",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/costly?q=costly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/costly",
@@ -7380,7 +7380,7 @@
     "word": "equip",
     "ipa": "/ɪkwɪp/",
     "pos": "verb",
-    "definition_en": "provide with abilities or tools",
+    "definition_en": "to provide someone with the tools or skills needed",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/equip?q=equip",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/equip",
@@ -7412,7 +7412,7 @@
     "word": "graphic",
     "ipa": "/græfɪk/",
     "pos": "adj",
-    "definition_en": "to do with a picture or image",
+    "definition_en": "using or relating to pictures, images, or design",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/graphic?q=graphic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/graphic",
@@ -7428,7 +7428,7 @@
     "word": "inexperience",
     "ipa": "/ˌɪnɪkspɪriəns/",
     "pos": "noun",
-    "definition_en": "to not have much practice with something",
+    "definition_en": "a lack of practice or skill in something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inexperience?q=inexperience",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inexperience",
@@ -7556,7 +7556,7 @@
     "word": "resignation",
     "ipa": "/rˌɛzəgneɪʃən/",
     "pos": "noun",
-    "definition_en": "to quit one's job",
+    "definition_en": "a formal notice of leaving a job",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/resignation?q=resignation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/resignation",
@@ -7588,7 +7588,7 @@
     "word": "terminate",
     "ipa": "/tɜmənˌeɪt/",
     "pos": "verb",
-    "definition_en": "bring to an end",
+    "definition_en": "to bring an agreement or activity to an end",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/terminate?q=terminate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/terminate",
@@ -7620,7 +7620,7 @@
     "word": "unfamiliar",
     "ipa": "/ˌʌnfəmɪlyɜ/",
     "pos": "adj",
-    "definition_en": "not well known",
+    "definition_en": "not previously known or experienced",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/unfamiliar?q=unfamiliar",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/unfamiliar",
@@ -7636,7 +7636,7 @@
     "word": "actress",
     "ipa": "/æktrəs/",
     "pos": "noun",
-    "definition_en": "a female actor",
+    "definition_en": "a woman who performs in plays, films, or shows",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/actress?q=actress",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/actress",
@@ -7652,7 +7652,7 @@
     "word": "adjacent",
     "ipa": "/ədʒeɪsənt/",
     "pos": "adj",
-    "definition_en": "next to, beside",
+    "definition_en": "lying next to or directly beside something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/adjacent?q=adjacent",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/adjacent",
@@ -7667,8 +7667,8 @@
     "rank": 480,
     "word": "alternate",
     "ipa": "/ɔltɜnət/",
-    "pos": "verb",
-    "definition_en": "another option",
+    "pos": "adj",
+    "definition_en": "one of two or more available options",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/alternate?q=alternate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/alternate",
@@ -7700,7 +7700,7 @@
     "word": "escort",
     "ipa": "/ɛskɔrt/",
     "pos": "noun",
-    "definition_en": "to go with someone",
+    "definition_en": "a person or group accompanying another for protection or company",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/escort?q=escort",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/escort",
@@ -7764,7 +7764,7 @@
     "word": "purse",
     "ipa": "/pɜs/",
     "pos": "noun",
-    "definition_en": "a small bag women use to carry personal items",
+    "definition_en": "a small bag for carrying money and personal items",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/purse?q=purse",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/purse",
@@ -7812,7 +7812,7 @@
     "word": "reopen",
     "ipa": "/rioʊpən/",
     "pos": "verb",
-    "definition_en": "to open again",
+    "definition_en": "to start operating again after being closed",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/reopen?q=reopen",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/reopen",
@@ -7860,7 +7860,7 @@
     "word": "superior",
     "ipa": "/supɪriɜ/",
     "pos": "adj",
-    "definition_en": "the leader, someone higher than you in rank",
+    "definition_en": "higher in rank, quality, or importance",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/superior?q=superior",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/superior",
@@ -7924,7 +7924,7 @@
     "word": "considerably",
     "ipa": "/kənsɪdɜəbli/",
     "pos": "adv",
-    "definition_en": "to a large degree",
+    "definition_en": "by a large or significant amount",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/considerably?q=considerably",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/considerably",
@@ -8052,7 +8052,7 @@
     "word": "misplace",
     "ipa": "/mɪspleɪs/",
     "pos": "verb",
-    "definition_en": "forget where you have put it",
+    "definition_en": "to lose something temporarily by forgetting where you put it",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/misplace?q=misplace",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/misplace",
@@ -8084,7 +8084,7 @@
     "word": "overhead",
     "ipa": "/oʊvɜhɛd/",
     "pos": "adj",
-    "definition_en": "the fixed cost of a business, e.g., rent",
+    "definition_en": "situated above one's head, or relating to fixed business costs",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/overhead?q=overhead",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/overhead",
@@ -8100,7 +8100,7 @@
     "word": "portfolio",
     "ipa": "/pɔrtfoʊliˌoʊ/",
     "pos": "noun",
-    "definition_en": "a collection of investments that someone owns",
+    "definition_en": "a collection of work, products, or investments",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/portfolio?q=portfolio",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/portfolio",
@@ -8132,7 +8132,7 @@
     "word": "remodel",
     "ipa": "/rimɑdəl/",
     "pos": "verb",
-    "definition_en": "change or alter nearly everything to make it look different",
+    "definition_en": "to change the structure or appearance of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/remodel?q=remodel",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/remodel",
@@ -8148,7 +8148,7 @@
     "word": "statistics",
     "ipa": "/stətɪstɪks/",
     "pos": "noun",
-    "definition_en": "math related to data collection",
+    "definition_en": "numerical data, or the science of collecting and analysing it",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/statistics?q=statistics",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/statistics",
@@ -8164,7 +8164,7 @@
     "word": "tunnel",
     "ipa": "/tʌnəl/",
     "pos": "noun",
-    "definition_en": "a hole one can travel through",
+    "definition_en": "a passage through or under something, especially a hill or road",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tunnel?q=tunnel",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tunnel",
@@ -8180,7 +8180,7 @@
     "word": "unlimited",
     "ipa": "/ənlɪmətəd/",
     "pos": "adj",
-    "definition_en": "without end",
+    "definition_en": "with no maximum or upper limit",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/unlimited?q=unlimited",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/unlimited",
@@ -8228,7 +8228,7 @@
     "word": "alert",
     "ipa": "/əlɜt/",
     "pos": "adj",
-    "definition_en": "wide awake, aware",
+    "definition_en": "fully awake and quick to notice things",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/alert?q=alert",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/alert",
@@ -8260,7 +8260,7 @@
     "word": "celebrity",
     "ipa": "/səlɛbrɪti/",
     "pos": "noun",
-    "definition_en": "someone famous",
+    "definition_en": "a famous person, often in entertainment",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/celebrity?q=celebrity",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/celebrity",
@@ -8308,7 +8308,7 @@
     "word": "electrician",
     "ipa": "/ɪlɛktrɪʃən/",
     "pos": "noun",
-    "definition_en": "a person who installs or repairs electrical or telephone lines",
+    "definition_en": "a person who installs or repairs electrical wiring and equipment",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/electrician?q=electrician",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/electrician",
@@ -8324,7 +8324,7 @@
     "word": "enthusiastic",
     "ipa": "/ɪnθˌuziæstɪk/",
     "pos": "adj",
-    "definition_en": "to show excitement for something",
+    "definition_en": "showing strong excitement and interest",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/enthusiastic?q=enthusiastic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/enthusiastic",
@@ -8356,7 +8356,7 @@
     "word": "icy",
     "ipa": "/aɪsi/",
     "pos": "adj",
-    "definition_en": "made of ice",
+    "definition_en": "covered with ice or extremely cold",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/icy?q=icy",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/icy",
@@ -8388,7 +8388,7 @@
     "word": "login",
     "ipa": "/ˈlɒɡ.ɪn/",
     "pos": "verb",
-    "definition_en": "to enter a computer website account",
+    "definition_en": "the process of gaining access to a computer system using credentials",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/login?q=login",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/login",
@@ -8404,7 +8404,7 @@
     "word": "managerial",
     "ipa": "/mˌænɪdʒɪriəl/",
     "pos": "adj",
-    "definition_en": "to do with management or supervision",
+    "definition_en": "relating to management or supervision",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/managerial?q=managerial",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/managerial",
@@ -8500,7 +8500,7 @@
     "word": "proofread",
     "ipa": "/prufrˌid/",
     "pos": "verb",
-    "definition_en": "read for errors",
+    "definition_en": "to check written text carefully for errors",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/proofread?q=proofread",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/proofread",
@@ -8532,7 +8532,7 @@
     "word": "remainder",
     "ipa": "/rɪmeɪndɜ/",
     "pos": "noun",
-    "definition_en": "what is left over",
+    "definition_en": "the part of something that is left after the rest is taken",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/remainder?q=remainder",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/remainder",
@@ -8596,7 +8596,7 @@
     "word": "vacant",
     "ipa": "/veɪkənt/",
     "pos": "adj",
-    "definition_en": "empty",
+    "definition_en": "not currently occupied or in use",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/vacant?q=vacant",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/vacant",
@@ -8612,7 +8612,7 @@
     "word": "accessory",
     "ipa": "/æksɛsɜi/",
     "pos": "noun",
-    "definition_en": "partner in crime",
+    "definition_en": "an additional item, especially clothing, that goes with the main outfit",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accessory?q=accessory",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accessory",
@@ -8644,7 +8644,7 @@
     "word": "basket",
     "ipa": "/bæskət/",
     "pos": "noun",
-    "definition_en": "a container made of pieces of wood",
+    "definition_en": "a container, often woven, used to hold or carry things",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/basket?q=basket",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/basket",
@@ -8692,7 +8692,7 @@
     "word": "dislike",
     "ipa": "/dɪslaɪk/",
     "pos": "verb",
-    "definition_en": "to not like, hate",
+    "definition_en": "to find something unpleasant or disagreeable",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dislike?q=dislike",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dislike",
@@ -8740,7 +8740,7 @@
     "word": "headache",
     "ipa": "/hɛdˌeɪk/",
     "pos": "noun",
-    "definition_en": "pain in the head",
+    "definition_en": "a continuous pain in the head, or a difficult problem",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/headache?q=headache",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/headache",
@@ -8756,7 +8756,7 @@
     "word": "jam",
     "ipa": "/dʒæm/",
     "pos": "verb",
-    "definition_en": "push down hard",
+    "definition_en": "to press something firmly into a tight space",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/jam?q=jam",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/jam",
@@ -8820,7 +8820,7 @@
     "word": "projection",
     "ipa": "/prɑdʒɛkʃən/",
     "pos": "noun",
-    "definition_en": "a guess about future events, e.g., sales or income",
+    "definition_en": "a forecast of future figures based on present data",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/projection?q=projection",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/projection",
@@ -8916,7 +8916,7 @@
     "word": "verbal",
     "ipa": "/vɜbəl/",
     "pos": "adj",
-    "definition_en": "spoken",
+    "definition_en": "expressed in spoken rather than written form",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/verbal?q=verbal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/verbal",
@@ -9012,7 +9012,7 @@
     "word": "appraisal",
     "ipa": "/əpreɪzəl/",
     "pos": "noun",
-    "definition_en": "an evaluation",
+    "definition_en": "a formal evaluation of value or performance",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/appraisal?q=appraisal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/appraisal",
@@ -9060,7 +9060,7 @@
     "word": "ceiling",
     "ipa": "/silɪŋ/",
     "pos": "noun",
-    "definition_en": "the thing that covers the room up high",
+    "definition_en": "the upper interior surface of a room",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/ceiling?q=ceiling",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/ceiling",
@@ -9092,7 +9092,7 @@
     "word": "compensate",
     "ipa": "/kɑmpənsˌeɪt/",
     "pos": "verb",
-    "definition_en": "to give money for a service",
+    "definition_en": "to repay or make up for a loss, damage, or service",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/compensate?q=compensate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/compensate",
@@ -9108,7 +9108,7 @@
     "word": "costume",
     "ipa": "/kɑstum/",
     "pos": "noun",
-    "definition_en": "something unusual you dress up in, e.g., for Hallowe'en",
+    "definition_en": "a set of clothes worn for a particular role or occasion",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/costume?q=costume",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/costume",
@@ -9124,7 +9124,7 @@
     "word": "editorial",
     "ipa": "/ˌɛdətɔriəl/",
     "pos": "adj",
-    "definition_en": "a newspaper article written by the editor",
+    "definition_en": "relating to the writing or editing of a publication",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/editorial?q=editorial",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/editorial",
@@ -9412,7 +9412,7 @@
     "word": "unexpected",
     "ipa": "/ˌʌnɪkspɛktɪd/",
     "pos": "adj",
-    "definition_en": "to be a surprise",
+    "definition_en": "happening without being predicted or anticipated",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/unexpected?q=unexpected",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/unexpected",
@@ -9444,7 +9444,7 @@
     "word": "adhere",
     "ipa": "/ədhɪr/",
     "pos": "verb",
-    "definition_en": "to stay with or follow , e.g., adhere to rules",
+    "definition_en": "to follow or stick to a rule, plan, or surface",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/adhere?q=adhere",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/adhere",
@@ -9460,7 +9460,7 @@
     "word": "bankrupt",
     "ipa": "/bæŋkrəpt/",
     "pos": "noun",
-    "definition_en": "to have no more money",
+    "definition_en": "a person legally unable to pay their debts",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/bankrupt?q=bankrupt",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/bankrupt",
@@ -9508,7 +9508,7 @@
     "word": "comply",
     "ipa": "/kəmplaɪ/",
     "pos": "verb",
-    "definition_en": "to obey a rule",
+    "definition_en": "to follow a rule, order, or request",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/comply?q=comply",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/comply",
@@ -9555,8 +9555,8 @@
     "rank": 598,
     "word": "eager",
     "ipa": "/igɜ/",
-    "pos": "noun",
-    "definition_en": "to be excited to help or do something",
+    "pos": "adj",
+    "definition_en": "showing strong interest or desire to do something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/eager?q=eager",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/eager",
@@ -9604,7 +9604,7 @@
     "word": "fasten",
     "ipa": "/fæsən/",
     "pos": "verb",
-    "definition_en": "fix together firmly",
+    "definition_en": "to fix or join two things together firmly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fasten?q=fasten",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fasten",
@@ -9620,7 +9620,7 @@
     "word": "harmful",
     "ipa": "/hɑrmfəl/",
     "pos": "adj",
-    "definition_en": "damaging, hurtful",
+    "definition_en": "likely to cause damage or hurt",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/harmful?q=harmful",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/harmful",
@@ -9636,7 +9636,7 @@
     "word": "informative",
     "ipa": "/ˌɪnfɔrmətɪv/",
     "pos": "adj",
-    "definition_en": "tells you a lot of useful facts about somethiing",
+    "definition_en": "giving useful information about something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/informative?q=informative",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/informative",
@@ -9651,8 +9651,8 @@
     "rank": 604,
     "word": "institute",
     "ipa": "/ɪnstɪtˌut/",
-    "pos": "verb",
-    "definition_en": "like a school or college",
+    "pos": "noun",
+    "definition_en": "an organisation set up for educational or research purposes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/institute?q=institute",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/institute",
@@ -9716,7 +9716,7 @@
     "word": "nominate",
     "ipa": "/nɑmənət/",
     "pos": "verb",
-    "definition_en": "to suggest someone for to do or be something",
+    "definition_en": "to formally suggest someone for a position or award",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/nominate?q=nominate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/nominate",
@@ -9732,7 +9732,7 @@
     "word": "opt",
     "ipa": "/ɑpt/",
     "pos": "verb",
-    "definition_en": "to make a choice",
+    "definition_en": "to formally choose one of several options",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/opt?q=opt",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/opt",
@@ -9748,7 +9748,7 @@
     "word": "parade",
     "ipa": "/pɜeɪd/",
     "pos": "noun",
-    "definition_en": "walk or march",
+    "definition_en": "an organised public procession or march",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/parade?q=parade",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/parade",
@@ -9764,7 +9764,7 @@
     "word": "physician",
     "ipa": "/fəzɪʃən/",
     "pos": "noun",
-    "definition_en": "A doctor of medicine",
+    "definition_en": "a doctor of medicine, especially one who treats illness",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/physician?q=physician",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/physician",
@@ -9828,7 +9828,7 @@
     "word": "rehearse",
     "ipa": "/rihɜs/",
     "pos": "verb",
-    "definition_en": "practise so that you get better at doing it",
+    "definition_en": "to practise something in order to perform it later",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/rehearse?q=rehearse",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/rehearse",
@@ -9844,7 +9844,7 @@
     "word": "removal",
     "ipa": "/rɪmuvəl/",
     "pos": "noun",
-    "definition_en": "to take away and put in another place",
+    "definition_en": "the act of taking something away from where it was",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/removal?q=removal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/removal",
@@ -9860,7 +9860,7 @@
     "word": "satisfactory",
     "ipa": "/sˌætəsfæktri/",
     "pos": "adj",
-    "definition_en": "acceptable",
+    "definition_en": "good enough to meet a requirement",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/satisfactory?q=satisfactory",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/satisfactory",
@@ -9924,7 +9924,7 @@
     "word": "unnecessary",
     "ipa": "/ənnɛsəsˌɛri/",
     "pos": "adj",
-    "definition_en": "not needed",
+    "definition_en": "not needed or required",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/unnecessary?q=unnecessary",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/unnecessary",
@@ -9940,7 +9940,7 @@
     "word": "accordingly",
     "ipa": "/əkɔrdɪŋli/",
     "pos": "adv",
-    "definition_en": "therefore, so",
+    "definition_en": "in a way that suits the situation; therefore",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accordingly?q=accordingly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accordingly",
@@ -9972,7 +9972,7 @@
     "word": "applicable",
     "ipa": "/æpləkəbəl/",
     "pos": "adj",
-    "definition_en": "relating to",
+    "definition_en": "relevant or appropriate to a situation",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/applicable?q=applicable",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/applicable",
@@ -9988,7 +9988,7 @@
     "word": "auction",
     "ipa": "/ɑkʃən/",
     "pos": "noun",
-    "definition_en": "where things are sold to highest payer",
+    "definition_en": "a public sale where items are sold to the highest bidder",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/auction?q=auction",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/auction",
@@ -10004,7 +10004,7 @@
     "word": "balcony",
     "ipa": "/bælkəni/",
     "pos": "noun",
-    "definition_en": "a small floor area with a wall or fence round it that is joined to the outside of a building",
+    "definition_en": "a small fenced platform attached to the outside of a building",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/balcony?q=balcony",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/balcony",
@@ -10036,7 +10036,7 @@
     "word": "beforehand",
     "ipa": "/bɪfɔrhˌænd/",
     "pos": "adv",
-    "definition_en": "earlier in time",
+    "definition_en": "in advance; before something else happens",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/beforehand?q=beforehand",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/beforehand",
@@ -10067,7 +10067,7 @@
     "rank": 630,
     "word": "documentary",
     "ipa": "/dˌɑkyəmɛntɜi/",
-    "pos": "adj",
+    "pos": "noun",
     "definition_en": "a film about a real life or event",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/documentary?q=documentary",
@@ -10116,7 +10116,7 @@
     "word": "elegant",
     "ipa": "/ɛləgənt/",
     "pos": "adj",
-    "definition_en": "fine or beautiful",
+    "definition_en": "graceful and stylish in appearance or manner",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/elegant?q=elegant",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/elegant",
@@ -10148,7 +10148,7 @@
     "word": "generic",
     "ipa": "/dʒənɛrɪk/",
     "pos": "adj",
-    "definition_en": "general",
+    "definition_en": "general; not specific to a brand or person",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/generic?q=generic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/generic",
@@ -10196,7 +10196,7 @@
     "word": "massage",
     "ipa": "/məsɑʒ/",
     "pos": "noun",
-    "definition_en": "rub the body in a special way that makes it feel better",
+    "definition_en": "the act of rubbing or pressing parts of the body to relieve tension",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/massage?q=massage",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/massage",
@@ -10244,7 +10244,7 @@
     "word": "ongoing",
     "ipa": "/ɑngˌoʊɪŋ/",
     "pos": "adj",
-    "definition_en": "still happening",
+    "definition_en": "continuing without a clear end point",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/ongoing?q=ongoing",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/ongoing",
@@ -10276,7 +10276,7 @@
     "word": "pie",
     "ipa": "/paɪ/",
     "pos": "noun",
-    "definition_en": "round, covered pastrywith a filling like cherry or apple",
+    "definition_en": "a baked dish with a pastry crust covering a sweet or savoury filling",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/pie?q=pie",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/pie",
@@ -10292,7 +10292,7 @@
     "word": "plug",
     "ipa": "/plʌg/",
     "pos": "noun",
-    "definition_en": "to fill in a hole",
+    "definition_en": "a small object inserted into a hole to fill or seal it; or an electrical connector",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/plug?q=plug",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/plug",
@@ -10419,8 +10419,8 @@
     "rank": 652,
     "word": "surf",
     "ipa": "/sɜf/",
-    "pos": "noun",
-    "definition_en": "move from one website to another on the internet",
+    "pos": "verb",
+    "definition_en": "to ride waves on a board, or to browse the internet",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/surf?q=surf",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/surf",
@@ -10516,7 +10516,7 @@
     "word": "alternatively",
     "ipa": "/ɔltɜnətɪvli/",
     "pos": "adv",
-    "definition_en": "another option",
+    "definition_en": "as another option or choice",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/alternatively?q=alternatively",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/alternatively",
@@ -10532,7 +10532,7 @@
     "word": "amuse",
     "ipa": "/əmyuz/",
     "pos": "verb",
-    "definition_en": "to entertain",
+    "definition_en": "to keep someone entertained or interested",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/amuse?q=amuse",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/amuse",
@@ -10548,7 +10548,7 @@
     "word": "attorney",
     "ipa": "/ətɜni/",
     "pos": "noun",
-    "definition_en": "lawyer",
+    "definition_en": "a lawyer who represents clients in legal matters",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/attorney?q=attorney",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/attorney",
@@ -10628,7 +10628,7 @@
     "word": "checkout",
     "ipa": "/tʃɛkˌaʊt/",
     "pos": "noun",
-    "definition_en": "the latest time that you must vacate a hotel room",
+    "definition_en": "the act of paying for goods, or the time to leave a hotel",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/checkout?q=checkout",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/checkout",
@@ -10644,7 +10644,7 @@
     "word": "chemistry",
     "ipa": "/kɛmɪstri/",
     "pos": "noun",
-    "definition_en": "the study of chemicals",
+    "definition_en": "the science of substances, their structures, and reactions",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/chemistry?q=chemistry",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/chemistry",
@@ -10660,7 +10660,7 @@
     "word": "circulation",
     "ipa": "/sɜkyəlˌeɪʃən/",
     "pos": "noun",
-    "definition_en": "to distribute in a wide area, e.g., newspaper",
+    "definition_en": "the distribution of newspapers or money in a wide area",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/circulation?q=circulation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/circulation",
@@ -10756,7 +10756,7 @@
     "word": "descriptive",
     "ipa": "/dɪskrɪptɪv/",
     "pos": "adj",
-    "definition_en": "something that tells you more about it",
+    "definition_en": "giving details that describe something clearly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/descriptive?q=descriptive",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/descriptive",
@@ -10900,7 +10900,7 @@
     "word": "irritate",
     "ipa": "/ɪrɪtˌeɪt/",
     "pos": "verb",
-    "definition_en": "to bother",
+    "definition_en": "to annoy or cause mild discomfort",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/irritate?q=irritate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/irritate",
@@ -10932,7 +10932,7 @@
     "word": "overlook",
     "ipa": "/oʊvɜlˌʊk/",
     "pos": "verb",
-    "definition_en": "to ignore, to not notice",
+    "definition_en": "to fail to notice something, or to have a view of from above",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/overlook?q=overlook",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/overlook",
@@ -11060,7 +11060,7 @@
     "word": "tow",
     "ipa": "/toʊ/",
     "pos": "verb",
-    "definition_en": "pull something along",
+    "definition_en": "to pull a vehicle along behind another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tow?q=tow",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tow",
@@ -11316,7 +11316,7 @@
     "word": "dedication",
     "ipa": "/dˌɛdəkeɪʃən/",
     "pos": "noun",
-    "definition_en": "the act of being faithful to someone or something",
+    "definition_en": "commitment and hard work given to a task or person",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dedication?q=dedication",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dedication",
@@ -11348,7 +11348,7 @@
     "word": "discontinue",
     "ipa": "/dɪskəntɪnyu/",
     "pos": "verb",
-    "definition_en": "stop doing it",
+    "definition_en": "to stop offering a product or service",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/discontinue?q=discontinue",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/discontinue",
@@ -11428,7 +11428,7 @@
     "word": "firework",
     "ipa": "/faɪrwˌɜk/",
     "pos": "noun",
-    "definition_en": "a small stick-like object that, when lit with a flame, goes off with a bang and flashes of colored light",
+    "definition_en": "a small device that, when lit, produces a bang and flashes of colored light",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/firework?q=firework",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/firework",
@@ -11540,7 +11540,7 @@
     "word": "insufficient",
     "ipa": "/ˌɪnsəfɪʃənt/",
     "pos": "adj",
-    "definition_en": "not enough",
+    "definition_en": "not as much as required",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/insufficient?q=insufficient",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/insufficient",
@@ -11556,7 +11556,7 @@
     "word": "introductory",
     "ipa": "/ˌɪntrədʌktɜi/",
     "pos": "adj",
-    "definition_en": "something that comes before the main event, e.g., introductory speech",
+    "definition_en": "serving as an introduction to a subject or course",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/introductory?q=introductory",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/introductory",
@@ -11620,7 +11620,7 @@
     "word": "noisy",
     "ipa": "/nɔɪzi/",
     "pos": "adj",
-    "definition_en": "too loud",
+    "definition_en": "making a lot of loud unwanted sound",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/noisy?q=noisy",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/noisy",
@@ -11635,7 +11635,7 @@
     "rank": 728,
     "word": "pan",
     "ipa": "/pæn/",
-    "pos": "adj",
+    "pos": "noun",
     "definition_en": "a flat, round cooking container used for frying",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/pan?q=pan",
@@ -11748,7 +11748,7 @@
     "word": "recreation",
     "ipa": "/rˌɛkrieɪʃən/",
     "pos": "noun",
-    "definition_en": "leisure",
+    "definition_en": "enjoyable activities done in free time",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/recreation?q=recreation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/recreation",
@@ -11764,7 +11764,7 @@
     "word": "relieve",
     "ipa": "/rɪliv/",
     "pos": "verb",
-    "definition_en": "to take something away from someone",
+    "definition_en": "to ease pain, worry, or pressure",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/relieve?q=relieve",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/relieve",
@@ -11795,8 +11795,8 @@
     "rank": 738,
     "word": "rumor",
     "ipa": "/rumɜ/",
-    "pos": "verb",
-    "definition_en": "something said by people but not necessarily true",
+    "pos": "noun",
+    "definition_en": "a story passed between people that may or may not be true",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/rumor?q=rumor",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/rumor",
@@ -11860,7 +11860,7 @@
     "word": "specially",
     "ipa": "/spɛʃəli/",
     "pos": "adv",
-    "definition_en": "in particular",
+    "definition_en": "for a specific reason or purpose",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/specially?q=specially",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/specially",
@@ -11908,7 +11908,7 @@
     "word": "subtract",
     "ipa": "/səbtrækt/",
     "pos": "verb",
-    "definition_en": "take away from",
+    "definition_en": "to take a number away from another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/subtract?q=subtract",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/subtract",
@@ -11924,7 +11924,7 @@
     "word": "tablet",
     "ipa": "/tæblət/",
     "pos": "noun",
-    "definition_en": "a small flat solid cake of some substance",
+    "definition_en": "a flat handheld electronic device, or a small solid pill",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tablet?q=tablet",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tablet",
@@ -11956,7 +11956,7 @@
     "word": "vend",
     "ipa": "//",
     "pos": "verb",
-    "definition_en": "To offer something for sale or to sell something",
+    "definition_en": "to offer something for sale, especially in a small or automated way",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/vend?q=vend",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/vend",
@@ -12019,7 +12019,7 @@
     "rank": 752,
     "word": "asleep",
     "ipa": "/əslip/",
-    "pos": "adv",
+    "pos": "adj",
     "definition_en": "not awake, in sleep",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/asleep?q=asleep",
@@ -12036,7 +12036,7 @@
     "word": "authentic",
     "ipa": "/əθɛntɪk/",
     "pos": "adj",
-    "definition_en": "real, not fake",
+    "definition_en": "genuine and not a copy or fake",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/authentic?q=authentic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/authentic",
@@ -12116,7 +12116,7 @@
     "word": "consumption",
     "ipa": "/kənsʌmpʃən/",
     "pos": "noun",
-    "definition_en": "the act of eating",
+    "definition_en": "the using or eating of something, especially resources or food",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/consumption?q=consumption",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/consumption",
@@ -12148,7 +12148,7 @@
     "word": "cosmetic",
     "ipa": "/kɑzmɛtɪk/",
     "pos": "noun",
-    "definition_en": "makes something look better without changing it too much",
+    "definition_en": "a product applied to the face or body to improve appearance",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cosmetic?q=cosmetic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cosmetic",
@@ -12244,7 +12244,7 @@
     "word": "enjoyable",
     "ipa": "/ˌɛndʒɔɪəbəl/",
     "pos": "adj",
-    "definition_en": "not boring, fun",
+    "definition_en": "giving pleasure or satisfaction",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/enjoyable?q=enjoyable",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/enjoyable",
@@ -12260,7 +12260,7 @@
     "word": "faculty",
     "ipa": "/fækəlti/",
     "pos": "noun",
-    "definition_en": "an instructor or professor at university",
+    "definition_en": "the teaching staff of a university or college",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/faculty?q=faculty",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/faculty",
@@ -12340,7 +12340,7 @@
     "word": "fundraise",
     "ipa": "/0/",
     "pos": "verb",
-    "definition_en": "to get money from people for a partular project",
+    "definition_en": "to raise money for a particular cause or project",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fundraise?q=fundraise",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fundraise",
@@ -12372,7 +12372,7 @@
     "word": "handy",
     "ipa": "/hændi/",
     "pos": "adj",
-    "definition_en": "useful",
+    "definition_en": "easy to use or close at hand when needed",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/handy?q=handy",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/handy",
@@ -12388,7 +12388,7 @@
     "word": "hazardous",
     "ipa": "/hæzɜdəs/",
     "pos": "adj",
-    "definition_en": "to be dangerous",
+    "definition_en": "involving risk of danger or harm",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/hazardous?q=hazardous",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/hazardous",
@@ -12420,7 +12420,7 @@
     "word": "humidity",
     "ipa": "/hyumɪdəti/",
     "pos": "noun",
-    "definition_en": "how much dampness their is in the air",
+    "definition_en": "the amount of moisture in the air",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/humidity?q=humidity",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/humidity",
@@ -12436,7 +12436,7 @@
     "word": "influential",
     "ipa": "/ˌɪnfluɛnʃəl/",
     "pos": "adj",
-    "definition_en": "powerful",
+    "definition_en": "having a strong effect on people or events",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/influential?q=influential",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/influential",
@@ -12580,7 +12580,7 @@
     "word": "repeatedly",
     "ipa": "/rɪpitɪdli/",
     "pos": "adv",
-    "definition_en": "many times",
+    "definition_en": "over and over again; many times",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/repeatedly?q=repeatedly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/repeatedly",
@@ -12739,8 +12739,8 @@
     "rank": 797,
     "word": "toll",
     "ipa": "/toʊl/",
-    "pos": "verb",
-    "definition_en": "a small cost or fee you pay to use a service",
+    "pos": "noun",
+    "definition_en": "a small fee paid to use a road, bridge, or service",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/toll?q=toll",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/toll",
@@ -12820,7 +12820,7 @@
     "word": "administer",
     "ipa": "/ədmɪnɪstɜ/",
     "pos": "verb",
-    "definition_en": "to manage an office",
+    "definition_en": "to manage operations, or to give medicine or treatment",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/administer?q=administer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/administer",
@@ -12868,7 +12868,7 @@
     "word": "bean",
     "ipa": "/bin/",
     "pos": "noun",
-    "definition_en": "a long thin green vegetable",
+    "definition_en": "a small edible seed of various plants, often used in cooking",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/bean?q=bean",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/bean",
@@ -12884,7 +12884,7 @@
     "word": "browse",
     "ipa": "/braʊz/",
     "pos": "verb",
-    "definition_en": "look or leaf through casually, like looking through a book without really reading it",
+    "definition_en": "to look casually through items without a specific goal",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/browse?q=browse",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/browse",
@@ -12948,7 +12948,7 @@
     "word": "conform",
     "ipa": "/kənfɔrm/",
     "pos": "verb",
-    "definition_en": "to be like others",
+    "definition_en": "to behave in accordance with rules or expectations",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/conform?q=conform",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/conform",
@@ -12996,7 +12996,7 @@
     "word": "contrary",
     "ipa": "/kɑntrɛri/",
     "pos": "adj",
-    "definition_en": "opposite to",
+    "definition_en": "completely opposite to something else",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/contrary?q=contrary",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/contrary",
@@ -13044,7 +13044,7 @@
     "word": "dive",
     "ipa": "/daɪv/",
     "pos": "verb",
-    "definition_en": "jump in or swim under water",
+    "definition_en": "to jump head-first into water, or to descend sharply",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dive?q=dive",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dive",
@@ -13172,7 +13172,7 @@
     "word": "gum",
     "ipa": "/gʌm/",
     "pos": "noun",
-    "definition_en": "stubstance that can be used to stick things together",
+    "definition_en": "a soft, sweet substance you chew but do not swallow",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/gum?q=gum",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/gum",
@@ -13220,7 +13220,7 @@
     "word": "individually",
     "ipa": "/ˌɪndɪvɪdʒuəli/",
     "pos": "adv",
-    "definition_en": "apart from others",
+    "definition_en": "separately, one at a time",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/individually?q=individually",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/individually",
@@ -13268,7 +13268,7 @@
     "word": "likewise",
     "ipa": "/laɪkwˌaɪz/",
     "pos": "adv",
-    "definition_en": "in the same way",
+    "definition_en": "in the same way; similarly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/likewise?q=likewise",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/likewise",
@@ -13332,7 +13332,7 @@
     "word": "outlook",
     "ipa": "/aʊtlˌʊk/",
     "pos": "noun",
-    "definition_en": "a view point",
+    "definition_en": "the expected future of a situation",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/outlook?q=outlook",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/outlook",
@@ -13380,7 +13380,7 @@
     "word": "puzzle",
     "ipa": "/pʌzəl/",
     "pos": "verb",
-    "definition_en": "something you do not understand",
+    "definition_en": "to confuse someone or cause them to think hard",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/puzzle?q=puzzle",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/puzzle",
@@ -13492,7 +13492,7 @@
     "word": "uncomfortable",
     "ipa": "/ənkʌmfɜtəbəl/",
     "pos": "adj",
-    "definition_en": "not pleased or happy with a situation or thing",
+    "definition_en": "physically or mentally not at ease",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/uncomfortable?q=uncomfortable",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/uncomfortable",
@@ -13508,7 +13508,7 @@
     "word": "amenity",
     "ipa": "/əmɛnəti/",
     "pos": "noun",
-    "definition_en": "Something, like a swimming pool in a town, that makes life more comfortable and enjoyable.",
+    "definition_en": "something that makes a place comfortable or convenient",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/amenity?q=amenity",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/amenity",
@@ -13524,7 +13524,7 @@
     "word": "approximate",
     "ipa": "/əprɑksəmət/",
     "pos": "adj",
-    "definition_en": "to give a general number as a guess",
+    "definition_en": "near to but not exactly the same as",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/approximate?q=approximate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/approximate",
@@ -13572,7 +13572,7 @@
     "word": "beginner",
     "ipa": "/bɪgɪnɜ/",
     "pos": "noun",
-    "definition_en": "to be new at something",
+    "definition_en": "a person who has just started to learn something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/beginner?q=beginner",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/beginner",
@@ -13588,7 +13588,7 @@
     "word": "biology",
     "ipa": "/baɪɑlədʒi/",
     "pos": "noun",
-    "definition_en": "the study of nature",
+    "definition_en": "the science of living organisms",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/biology?q=biology",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/biology",
@@ -13652,7 +13652,7 @@
     "word": "checkup",
     "ipa": "/tʃɛkˌʌp/",
     "pos": "noun",
-    "definition_en": "a test to see that all is as it should be",
+    "definition_en": "a routine medical or technical examination",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/checkup?q=checkup",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/checkup",
@@ -13732,7 +13732,7 @@
     "word": "disconnect",
     "ipa": "/dɪskənɛkt/",
     "pos": "verb",
-    "definition_en": "cut off or detach",
+    "definition_en": "to break the connection between two things",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/disconnect?q=disconnect",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/disconnect",
@@ -13780,7 +13780,7 @@
     "word": "dynamic",
     "ipa": "/daɪnæmɪk/",
     "pos": "adj",
-    "definition_en": "energetic",
+    "definition_en": "full of energy and constantly changing",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dynamic?q=dynamic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dynamic",
@@ -13827,8 +13827,8 @@
     "rank": 865,
     "word": "grill",
     "ipa": "/grɪl/",
-    "pos": "verb",
-    "definition_en": "like a barbeque, something you cook on",
+    "pos": "noun",
+    "definition_en": "a metal frame used for cooking food over heat",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/grill?q=grill",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/grill",
@@ -13940,7 +13940,7 @@
     "word": "recur",
     "ipa": "/rɪkɜ/",
     "pos": "verb",
-    "definition_en": "happens again",
+    "definition_en": "to happen again, especially several times",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/recur?q=recur",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/recur",
@@ -13972,7 +13972,7 @@
     "word": "spray",
     "ipa": "/spreɪ/",
     "pos": "noun",
-    "definition_en": "to send tiny drops of liquid into the air",
+    "definition_en": "a stream of small drops of liquid forced from a container",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/spray?q=spray",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/spray",
@@ -14068,7 +14068,7 @@
     "word": "timer",
     "ipa": "/taɪmɜ/",
     "pos": "noun",
-    "definition_en": "something that counts seconds and minutes",
+    "definition_en": "a device that measures time intervals or counts down",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/timer?q=timer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/timer",
@@ -14132,7 +14132,7 @@
     "word": "whale",
     "ipa": "/weɪl/",
     "pos": "noun",
-    "definition_en": "a large mamal that lives in the sea",
+    "definition_en": "a large mammal that lives in the sea",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/whale?q=whale",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/whale",
@@ -14180,7 +14180,7 @@
     "word": "ambassador",
     "ipa": "/æmbæsədɜ/",
     "pos": "noun",
-    "definition_en": "somebody who represents somehting, usually a country",
+    "definition_en": "a person who represents a country abroad, or who represents an organisation",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/ambassador?q=ambassador",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/ambassador",
@@ -14228,7 +14228,7 @@
     "word": "attain",
     "ipa": "/əteɪn/",
     "pos": "verb",
-    "definition_en": "to get or achieve",
+    "definition_en": "to succeed in achieving something through effort",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/attain?q=attain",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/attain",
@@ -14276,7 +14276,7 @@
     "word": "bug",
     "ipa": "/bʌg/",
     "pos": "noun",
-    "definition_en": "an insect",
+    "definition_en": "a small insect, or a fault in software",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/bug?q=bug",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/bug",
@@ -14292,7 +14292,7 @@
     "word": "cautious",
     "ipa": "/kɔʃəs/",
     "pos": "adj",
-    "definition_en": "to be careful",
+    "definition_en": "being careful to avoid problems or danger",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cautious?q=cautious",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cautious",
@@ -14308,7 +14308,7 @@
     "word": "circuit",
     "ipa": "/sɜkət/",
     "pos": "noun",
-    "definition_en": "a set path you move along",
+    "definition_en": "a complete electrical path, or a route around a place",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/circuit?q=circuit",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/circuit",
@@ -14324,7 +14324,7 @@
     "word": "clap",
     "ipa": "/klæp/",
     "pos": "verb",
-    "definition_en": "hitting your hands together to make a noise to show you enjoyed something",
+    "definition_en": "to hit your hands together to make a noise, often in praise",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/clap?q=clap",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/clap",
@@ -14356,7 +14356,7 @@
     "word": "convey",
     "ipa": "/kənveɪ/",
     "pos": "verb",
-    "definition_en": "to give a message to someone",
+    "definition_en": "to communicate something, or to transport from one place to another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/convey?q=convey",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/convey",
@@ -14372,7 +14372,7 @@
     "word": "cord",
     "ipa": "/kɔrd/",
     "pos": "noun",
-    "definition_en": "electric cable",
+    "definition_en": "a thick string or an electric cable",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cord?q=cord",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cord",
@@ -14420,7 +14420,7 @@
     "word": "delicate",
     "ipa": "/dɛləkət/",
     "pos": "adj",
-    "definition_en": "need to handle with care",
+    "definition_en": "easily damaged or broken; requiring careful handling",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/delicate?q=delicate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/delicate",
@@ -14468,7 +14468,7 @@
     "word": "downsize",
     "ipa": "/daʊnsˌaɪz/",
     "pos": "verb",
-    "definition_en": "reduce in size or number",
+    "definition_en": "to reduce the size of a company by laying off staff",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/downsize?q=downsize",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/downsize",
@@ -14532,7 +14532,7 @@
     "word": "evident",
     "ipa": "/ɛvədənt/",
     "pos": "adj",
-    "definition_en": "to be clear or obvious",
+    "definition_en": "clearly seen or understood",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/evident?q=evident",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/evident",
@@ -14580,7 +14580,7 @@
     "word": "fortunately",
     "ipa": "/fɔrtʃənətli/",
     "pos": "adv",
-    "definition_en": "happily, luckily",
+    "definition_en": "by good luck; happily",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fortunately?q=fortunately",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fortunately",
@@ -14708,7 +14708,7 @@
     "word": "inflate",
     "ipa": "/ɪnfleɪt/",
     "pos": "verb",
-    "definition_en": "to make bigger",
+    "definition_en": "to fill with air, gas, or to increase",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inflate?q=inflate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inflate",
@@ -14756,7 +14756,7 @@
     "word": "meaningful",
     "ipa": "/minɪŋfəl/",
     "pos": "adj",
-    "definition_en": "to have a meaning or purpose",
+    "definition_en": "having a serious or important meaning",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/meaningful?q=meaningful",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/meaningful",
@@ -14852,7 +14852,7 @@
     "word": "oversee",
     "ipa": "/oʊvɜsˌi/",
     "pos": "verb",
-    "definition_en": "to supervise",
+    "definition_en": "to watch and manage work being done",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/oversee?q=oversee",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/oversee",
@@ -14916,7 +14916,7 @@
     "word": "pottery",
     "ipa": "/pɑtɜi/",
     "pos": "noun",
-    "definition_en": "earthenware, stoneware, ceramics",
+    "definition_en": "objects made from clay that has been heated until hard",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/pottery?q=pottery",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/pottery",
@@ -15108,7 +15108,7 @@
     "word": "skate",
     "ipa": "/skeɪt/",
     "pos": "noun",
-    "definition_en": "glide over the surface as if you are sliding on ice",
+    "definition_en": "the act of moving on ice or wheeled skates",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/skate?q=skate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/skate",
@@ -15124,7 +15124,7 @@
     "word": "skateboard",
     "ipa": "/skeɪtbˌɔrd/",
     "pos": "noun",
-    "definition_en": "a flat board with small wheels on the bottom that you move by pushing on the ground with one foot",
+    "definition_en": "a flat board with small wheels, moved by pushing on the ground with one foot",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/skateboard?q=skateboard",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/skateboard",
@@ -15156,7 +15156,7 @@
     "word": "tailor",
     "ipa": "/teɪlɜ/",
     "pos": "noun",
-    "definition_en": "adjust something to fit a specific need or market",
+    "definition_en": "a person who makes or alters clothes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tailor?q=tailor",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tailor",
@@ -15204,7 +15204,7 @@
     "word": "thunderstorm",
     "ipa": "/θʌndɜstˌɔrm/",
     "pos": "noun",
-    "definition_en": "an extreme weather condition with rain, wind, thunder and lightening",
+    "definition_en": "an extreme weather condition with rain, wind, thunder and lightning",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/thunderstorm?q=thunderstorm",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/thunderstorm",
@@ -15220,7 +15220,7 @@
     "word": "transmission",
     "ipa": "/trænsmɪʃən/",
     "pos": "noun",
-    "definition_en": "the message sent from one to another",
+    "definition_en": "the act of sending or broadcasting a signal or message",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/transmission?q=transmission",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/transmission",
@@ -15300,7 +15300,7 @@
     "word": "activate",
     "ipa": "/æktəvˌeɪt/",
     "pos": "verb",
-    "definition_en": "to start or begin something",
+    "definition_en": "to make something operate or come into effect",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/activate?q=activate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/activate",
@@ -15316,7 +15316,7 @@
     "word": "additionally",
     "ipa": "/ədɪʃənˌʌli/",
     "pos": "adv",
-    "definition_en": "furthermore, also",
+    "definition_en": "as an extra fact or point; furthermore",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/additionally?q=additionally",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/additionally",
@@ -15380,7 +15380,7 @@
     "word": "cage",
     "ipa": "/keɪdʒ/",
     "pos": "noun",
-    "definition_en": "a box-like crate usually made of steel",
+    "definition_en": "a structure with bars used to keep animals or people",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cage?q=cage",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cage",
@@ -15524,7 +15524,7 @@
     "word": "dispatch",
     "ipa": "/dɪspætʃ/",
     "pos": "verb",
-    "definition_en": "to send out",
+    "definition_en": "to send something or someone for a purpose",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/dispatch?q=dispatch",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/dispatch",
@@ -15588,7 +15588,7 @@
     "word": "evenly",
     "ipa": "/ivənli/",
     "pos": "adv",
-    "definition_en": "in equal ways",
+    "definition_en": "in equal amounts or at equal intervals",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/evenly?q=evenly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/evenly",
@@ -15636,7 +15636,7 @@
     "word": "farewell",
     "ipa": "/fˌɛrwɛl/",
     "pos": "noun",
-    "definition_en": "goodbye",
+    "definition_en": "a goodbye, especially a formal one",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/farewell?q=farewell",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/farewell",
@@ -15668,7 +15668,7 @@
     "word": "fiscal",
     "ipa": "/fɪskəl/",
     "pos": "adj",
-    "definition_en": "to do with money",
+    "definition_en": "relating to government or business finances",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fiscal?q=fiscal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fiscal",
@@ -15684,7 +15684,7 @@
     "word": "fleet",
     "ipa": "/flit/",
     "pos": "noun",
-    "definition_en": "a group of ships travelling together",
+    "definition_en": "a group of ships, planes, or vehicles operated by one organisation",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fleet?q=fleet",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fleet",
@@ -15732,7 +15732,7 @@
     "word": "formally",
     "ipa": "/fɔrməli/",
     "pos": "adv",
-    "definition_en": "officially",
+    "definition_en": "in a proper or official manner",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/formally?q=formally",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/formally",
@@ -15764,7 +15764,7 @@
     "word": "handbook",
     "ipa": "/hændbˌʊk/",
     "pos": "noun",
-    "definition_en": "a book that gives intructions on how to do something",
+    "definition_en": "a book that gives instructions on how to do something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/handbook?q=handbook",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/handbook",
@@ -15860,7 +15860,7 @@
     "word": "lighter",
     "ipa": "/laɪtɜ/",
     "pos": "noun",
-    "definition_en": "not as heavy as",
+    "definition_en": "a small device used to light cigarettes, candles, or fires",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/lighter?q=lighter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/lighter",
@@ -15940,7 +15940,7 @@
     "word": "neat",
     "ipa": "/nit/",
     "pos": "adj",
-    "definition_en": "tidy, clean",
+    "definition_en": "kept in good order; clean and tidy",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/neat?q=neat",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/neat",
@@ -16020,7 +16020,7 @@
     "word": "personalize",
     "ipa": "/pɜsənəlˌaɪz/",
     "pos": "verb",
-    "definition_en": "change something so that it is tailored to a particular person's needs",
+    "definition_en": "to change something so it suits a particular person",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/personalize?q=personalize",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/personalize",
@@ -16164,7 +16164,7 @@
     "word": "signify",
     "ipa": "/sɪgnəfˌaɪ/",
     "pos": "verb",
-    "definition_en": "shows a sign that it has an important meaning",
+    "definition_en": "to indicate or be a sign of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/signify?q=signify",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/signify",
@@ -16196,7 +16196,7 @@
     "word": "steer",
     "ipa": "/stɪr/",
     "pos": "verb",
-    "definition_en": "guide the direction of",
+    "definition_en": "to guide or control the direction of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/steer?q=steer",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/steer",
@@ -16212,7 +16212,7 @@
     "word": "sue",
     "ipa": "/su/",
     "pos": "verb",
-    "definition_en": "To take legal action against someone",
+    "definition_en": "to take legal action against someone in court",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sue?q=sue",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sue",
@@ -16228,7 +16228,7 @@
     "word": "superb",
     "ipa": "/sʊpɜb/",
     "pos": "adj",
-    "definition_en": "very good",
+    "definition_en": "excellent or outstanding in quality",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/superb?q=superb",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/superb",
@@ -16324,7 +16324,7 @@
     "word": "ward",
     "ipa": "/wɔrd/",
     "pos": "noun",
-    "definition_en": "an electoral district, a small area within which the people can all vote for the same thing",
+    "definition_en": "an electoral district where residents vote together for local representatives",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/ward?q=ward",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/ward",
@@ -16451,8 +16451,8 @@
     "rank": 1029,
     "word": "attire",
     "ipa": "/ətaɪɜ/",
-    "pos": "verb",
-    "definition_en": "clothing",
+    "pos": "noun",
+    "definition_en": "clothing, especially for a special occasion",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/attire?q=attire",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/attire",
@@ -16500,7 +16500,7 @@
     "word": "bulk",
     "ipa": "/bʌlk/",
     "pos": "noun",
-    "definition_en": "in big amount",
+    "definition_en": "the largest part or main mass of something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/bulk?q=bulk",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/bulk",
@@ -16948,7 +16948,7 @@
     "word": "layoff",
     "ipa": "/leɪˌɔf/",
     "pos": "noun",
-    "definition_en": "the act of ending a worker's job because there is not enough work, or not enough money to pay for it",
+    "definition_en": "the ending of a worker's job because there is not enough work or money",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/layoff?q=layoff",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/layoff",
@@ -16980,7 +16980,7 @@
     "word": "merit",
     "ipa": "/mɛrət/",
     "pos": "noun",
-    "definition_en": "to deserve praise",
+    "definition_en": "to be worthy of recognition or reward",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/merit?q=merit",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/merit",
@@ -17076,7 +17076,7 @@
     "word": "penalize",
     "ipa": "/pɛnəlˌaɪz/",
     "pos": "verb",
-    "definition_en": "to punish someone",
+    "definition_en": "to impose a penalty for breaking a rule",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/penalize?q=penalize",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/penalize",
@@ -17284,7 +17284,7 @@
     "word": "sharply",
     "ipa": "/ʃɑrpli/",
     "pos": "adv",
-    "definition_en": "harshly",
+    "definition_en": "in a sudden and severe way",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sharply?q=sharply",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sharply",
@@ -17412,7 +17412,7 @@
     "word": "tasty",
     "ipa": "/teɪsti/",
     "pos": "adj",
-    "definition_en": "delicious",
+    "definition_en": "having a strong, pleasant flavour",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tasty?q=tasty",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tasty",
@@ -17476,7 +17476,7 @@
     "word": "volleyball",
     "ipa": "/vɑlibˌɔl/",
     "pos": "noun",
-    "definition_en": "a ballgame for two teams who try to hit a large ball backwards and forwards across a central net",
+    "definition_en": "a team sport played by hitting a ball over a central net using only the hands",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/volleyball?q=volleyball",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/volleyball",
@@ -18132,7 +18132,7 @@
     "word": "fork",
     "ipa": "/fɔrk/",
     "pos": "noun",
-    "definition_en": "eating utensil",
+    "definition_en": "a small kitchen tool with prongs for picking up food",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fork?q=fork",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fork",
@@ -18340,7 +18340,7 @@
     "word": "letterhead",
     "ipa": "/lɛtɜhˌɛd/",
     "pos": "noun",
-    "definition_en": "the printing at the top of a letter that tells you the name and details of the company sending it",
+    "definition_en": "printing at the top of a letter showing the company's name and contact details",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/letterhead?q=letterhead",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/letterhead",
@@ -18420,7 +18420,7 @@
     "word": "obligate",
     "ipa": "/ɑbləgˌeɪt/",
     "pos": "verb",
-    "definition_en": "to have to do",
+    "definition_en": "to legally or morally require someone to do something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/obligate?q=obligate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/obligate",
@@ -18596,7 +18596,7 @@
     "word": "query",
     "ipa": "/kwiri/",
     "pos": "noun",
-    "definition_en": "question, inquire",
+    "definition_en": "a question, especially a formal or official one",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/query?q=query",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/query",
@@ -18932,7 +18932,7 @@
     "word": "thrill",
     "ipa": "/θrɪl/",
     "pos": "noun",
-    "definition_en": "excitement",
+    "definition_en": "a sudden feeling of strong excitement",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/thrill?q=thrill",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/thrill",
@@ -19108,7 +19108,7 @@
     "word": "abide",
     "ipa": "/əbaɪd/",
     "pos": "verb",
-    "definition_en": "put up with",
+    "definition_en": "to accept or tolerate something difficult",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/abide?q=abide",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/abide",
@@ -19204,7 +19204,7 @@
     "word": "broaden",
     "ipa": "/brɔdən/",
     "pos": "verb",
-    "definition_en": "to widen",
+    "definition_en": "to make wider or more inclusive",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/broaden?q=broaden",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/broaden",
@@ -19700,7 +19700,7 @@
     "word": "workbook",
     "ipa": "/ˈwɜːk.bʊk/",
     "pos": "noun",
-    "definition_en": "a file containing information about a particular subject, and relatated problems to be solved by the student",
+    "definition_en": "a study book with exercises and problems for students to complete",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/workbook?q=workbook",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/workbook",

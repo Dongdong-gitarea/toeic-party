@@ -1,5 +1,5 @@
 export type SkillType = 'shake' | 'fog' | 'timeCut';
-export type QuestionType = 'vocab' | 'audio' | 'fillblank' | 'confusable' | 'collocation';
+export type QuestionType = 'vocab' | 'audio' | 'fillblank' | 'confusable' | 'collocation' | 'cloze' | 'synonym' | 'listen' | 'audiocloze';
 
 export interface Player {
   id: string;
@@ -39,6 +39,7 @@ export interface Question {
   definition?: string; // English definition for post-game review
   pos?: string; // part of speech, e.g. "noun", "verb"
   example?: string; // English example sentence (from examples.json)
+  audioPayload?: string; // for 'listen' type: the full English sentence to speak
 }
 
 export interface QuestionForClient {
@@ -47,7 +48,7 @@ export interface QuestionForClient {
   prompt: string;
   options: string[];
   isFinal: boolean;
-  audioWord?: string; // word to speak via TTS for audio type
+  audioWord?: string; // word/sentence to speak via TTS for audio/listen types
 }
 
 export interface RankEntry {

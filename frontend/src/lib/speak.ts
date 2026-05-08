@@ -199,3 +199,37 @@ export async function speakWord(word: string, opts?: { rate?: number }): Promise
 export function preloadVoices() {
   primeVoices();
 }
+
+// Speak a sentence in two halves with a noticeable pause between them, used by
+// the 'audiocloze' question type so the player perceives a missing word at the
+// gap. Uses TTS only (the dictionary API is for single words).
+export function speakClozePair(before: string, after: string, opts?: { rate?: number; gapMs?: number }): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) {
+      resolve();
+      return;
+    }
+    const rate = opts?.rate ?? 0.9;
+    const gapMs = opts?.gapMs ?? 700;
+    stopCurrent();
+
+    const v = pickBestVoice();
+    const speakPart = (text: string, onEnd: () => void) => {
+      if (!text) {
+        onEnd();
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = rate;
+      if (v) u.voice = v;
+      u.onend = onEnd;
+      u.onerror = onEnd;
+      window.speechSynthesis.speak(u);
+    };
+
+    speakPart(before, () => {
+      setTimeout(() => speakPart(after, resolve), gapMs);
+    });
+  });
+}

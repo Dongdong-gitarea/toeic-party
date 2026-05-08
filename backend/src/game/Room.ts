@@ -142,6 +142,7 @@ export class Room {
       options: q.options,
       isFinal,
       ...(q.type === 'audio' ? { audioWord: q.word } : {}),
+      ...((q.type === 'listen' || q.type === 'audiocloze') && q.audioPayload ? { audioWord: q.audioPayload } : {}),
     };
 
     this.io.to(this.id).emit('NEW_QUESTION', {

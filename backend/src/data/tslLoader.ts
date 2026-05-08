@@ -10,9 +10,14 @@ interface ConfusablePair {
 interface CollocationEntry {
   0: string; 1: string; 2: string;
 }
+type SynAntPair = [string, string[]]; // [target, [list of syn/ant]]
+type AudioSentence = [string, string, string]; // [target_word, english_sentence, chinese_summary]
 interface LearningExtras {
   confusables: ConfusablePair[];
   collocations: CollocationEntry[];
+  synonyms?: SynAntPair[];
+  antonyms?: SynAntPair[];
+  audioSentences?: AudioSentence[];
 }
 
 let learningExtras: LearningExtras | null = null;
@@ -129,33 +134,53 @@ function truncDef(s: string, max = 35): string {
   return s.length > max ? s.slice(0, max - 1) + '…' : s;
 }
 
-// Look up TSL definition for a word
-// Words to deprioritize in question generation (not TOEIC-relevant)
+// Words to deprioritize in question generation (not TOEIC-relevant).
+// Categories: wild animals, body parts, religious terms, crime/violence,
+// medical conditions, fantasy, geographic/weather wonders, school subjects
+// not in business contexts, and outdoor sports rarely appearing in
+// business reading. Removed from this list compared to the original
+// auto-generated version: hotel/event amenities (pillow, towel, curtain,
+// candle, mirror, vase, blanket), workplace clothing (jacket, sweater,
+// scarf), purchase items (cookie, chocolate, sandwich), team-building
+// activities (basketball, volleyball, swimming), TOEIC industry topics
+// (chemistry, physics — chemical/pharma industries), and event types
+// (birthday, wedding, firework) which all appear in TOEIC contexts.
 const NON_TOEIC = new Set([
+  // Wild animals
   'sparrow','turkey','parrot','pigeon','eagle','whale','dolphin','penguin',
   'butterfly','mosquito','squirrel','deer','wolf','lion','tiger','elephant',
   'monkey','rabbit','fox','bear','snake','turtle','frog','ant','bee',
   'rooster','hen','goat','sheep','donkey','camel','giraffe',
-  'curry','pizza','hamburger','popcorn','cookie','candy','chocolate',
-  'spaghetti','noodle','dumpling','pancake','sandwich','toast','cereal',
+  'robin','crow','hawk','swan','dove',
+  // Body parts (rarely tested in business English)
   'knee','elbow','ankle','wrist','thumb','forehead','chin',
   'cheek','eyebrow','tongue','throat','lung','liver','kidney','bone','muscle',
-  'rainbow','thunder','lightning','snowflake','earthquake','volcano',
+  // Weather/geographic wonders
+  'rainbow','thunder','lightning','snowflake','volcano',
   'waterfall','cliff','cave','valley','jungle','marsh','swamp',
-  'geometry','algebra','biology','chemistry','physics','geography','calculus',
-  'basketball','baseball','soccer','tennis','volleyball','badminton',
-  'swimming','skiing','skating','surfing','bowling','chess','poker',
-  'sweater','jacket','scarf','glove','sock','boot','sandal','slipper',
-  'pillow','blanket','curtain','carpet','towel','broom','bucket',
-  'candle','vase','mirror',
-  'jealous','greedy','selfish','stubborn','shy','lonely','homesick',
+  // School subjects unlikely in business contexts
+  'geometry','algebra','geography','calculus',
+  // Niche sports
+  'badminton','skiing','skating','surfing','bowling','chess','poker',
+  // Religious terms
   'church','temple','mosque','cathedral','churchyard','prayer','monk',
-  'murder','robbery','theft','kidnap','arson','assault','bullet','sword',
-  'surgery','tumor','diabetes','allergy','asthma','measles','pneumonia',
+  // Crime/violence (theft removed — appears in business security)
+  'murder','robbery','kidnap','arson','assault','bullet','sword',
+  // Medical conditions
+  'surgery','tumor','diabetes','asthma','measles','pneumonia',
+  // Fantasy
   'casino','circus','fairy','ghost','dragon','wizard','pirate',
-  'firework','lantern','kite','puppet','cradle','coffin',
-  'birthday','wedding','funeral','divorce','pregnancy',
-  'sparrow','robin','crow','hawk','swan','dove',
+  // Lifecycle events (wedding/birthday kept — common venue/event terms)
+  'funeral','divorce','pregnancy','coffin','cradle',
+  // Outdoor / non-business specific noodles
+  'curry','pizza','hamburger','popcorn','candy',
+  'spaghetti','noodle','dumpling','pancake','toast','cereal',
+  // Specific clothing rarely tested
+  'sandal','slipper','glove','boot',
+  // Personal-emotion adjectives rarely appearing in business
+  'jealous','greedy','selfish','stubborn','shy','lonely','homesick',
+  // Misc
+  'puppet','lantern','kite',
 ]);
 
 function isToeicWord(word: string): boolean {
@@ -245,7 +270,7 @@ function generateDefinitionQuestions(count: number, weakLower: Set<string>, excl
       id: `tsl-d-${idx}-${w.rank}`,
       type: 'fillblank' as const,
       word: w.word,
-      prompt: truncDef(w.definition_en, 50),
+      prompt: truncDef(w.definition_en, 90),
       options,
       correctIndex: options.indexOf(w.word),
       definition: w.definition_en,
@@ -285,6 +310,37 @@ function generateConfusableQuestions(count: number, used: Set<string>): Question
     'assess|access': ['Employees need a keycard to ___ the building.', 0],
     'adapt|adopt': ['The company decided to ___ a new marketing strategy.', 1],
     'adopt|adapt': ['New employees need time to ___ to the work environment.', 0],
+    // Round 7 additions — high-value TOEIC traps
+    'fewer|less': ['___ employees attended this year than last.', 0],
+    'less|fewer': ['Please use ___ paper to save the trees.', 0],
+    'amount|number': ['A large ___ of customers complained about delays.', 1],
+    'number|amount': ['The store ordered a small ___ of imported wine.', 1],
+    'between|among': ['The candidate had to choose ___ five offers.', 1],
+    'among|between': ['The agreement was signed ___ the two parties.', 1],
+    'good|well': ['She speaks Spanish very ___.', 1],
+    'well|good': ['The presentation made a ___ impression on the client.', 1],
+    'bring|take': ['Please ___ your umbrella with you when you leave.', 1],
+    'take|bring': ['Could you ___ me a cup of coffee from the kitchen?', 1],
+    'price|prize': ['The first ___ for the contest is a free vacation.', 1],
+    'prize|price': ['The ___ of gas has gone up again this month.', 1],
+    'breath|breathe': ['Please take a deep ___ before answering.', 0],
+    'breathe|breath': ['It is hard to ___ comfortably at high altitude.', 0],
+    'choose|chose': ['Yesterday the panel ___ the new logo for our brand.', 1],
+    'chose|choose': ['Customers can ___ from three colour options online.', 1],
+    'expand|expend': ['The company plans to ___ into Asian markets next year.', 0],
+    'expend|expand': ['We had to ___ extra resources to fix the bug.', 0],
+    'assistant|assistance': ['My ___ will reply to your email shortly.', 0],
+    'assistance|assistant': ['Please call us if you need any ___.', 0],
+    'emergency|emergent': ['Call this number in case of an ___.', 0],
+    'emergent|emergency': ['___ technologies are reshaping the industry.', 0],
+    'since|for': ['I have worked at this company ___ 2018.', 0],
+    'for|since': ['She has lived in Tokyo ___ ten years.', 0],
+    'boring|bored': ['The lecture was so ___ that everyone fell asleep.', 0],
+    'bored|boring': ['I felt ___ during the long meeting.', 0],
+    'interested|interesting': ['I am very ___ in your new proposal.', 0],
+    'interesting|interested': ['That was the most ___ talk of the day.', 0],
+    'statute|statue': ['A bronze ___ of the founder stands in the lobby.', 1],
+    'statue|statute': ['The new safety ___ requires monthly inspections.', 1],
   };
 
   return pairs.map((pair, idx) => {
@@ -345,13 +401,24 @@ function generateCollocationQuestions(count: number, used: Set<string>): Questio
 
     const prompt = `___ ${rest}`;
 
-    // Distractors: other collocation verbs
+    // Distractors: other collocation verbs, but exclude verbs that ALSO
+    // collocate with the same noun tail. e.g. for "hold a meeting", we
+    // skip {postpone, chair, adjourn, reschedule, …} because each is a
+    // real English collocation with "a meeting" (just a different sense)
+    // and would feel like a valid alternative answer to a learner.
+    const sameNounVerbs = new Set(
+      extras.collocations
+        .filter((c: unknown) => {
+          const ph = (c as [string, string, string])[0];
+          return ph.split(' ').slice(1).join(' ') === rest;
+        })
+        .map((c: unknown) => ((c as [string, string, string])[0]).split(' ')[0]!),
+    );
     const allVerbs = extras.collocations.map(
       (c: unknown) => ((c as [string, string, string])[0]).split(' ')[0]!
     );
-    const wrongVerbs = shuffle(
-      [...new Set(allVerbs)].filter(v => v !== keyWord)
-    ).slice(0, 3);
+    const safeVerbs = [...new Set(allVerbs)].filter((v) => v !== keyWord && !sameNounVerbs.has(v));
+    const wrongVerbs = shuffle(safeVerbs).slice(0, 3);
 
     const options = shuffle([keyWord, ...wrongVerbs]);
 
@@ -368,10 +435,229 @@ function generateCollocationQuestions(count: number, used: Set<string>): Questio
   });
 }
 
+// ── Generate sentence cloze: real example sentence with target word blanked out ──
+// Distractor strategy (Task 2 baked in):
+//   1. Same POS (adj/adv/noun/verb) — grammatically plausible in the slot
+//   2. Length within ±3 chars — visually similar option set
+//   3. Prefer same first letter when available — adds phonetic confusion
+function pickClozeDistractors(target: TSLWord, all: TSLWord[]): string[] {
+  const samePos = all.filter(
+    (w) => w.word !== target.word && w.pos === target.pos && Math.abs(w.word.length - target.word.length) <= 3,
+  );
+  // Try first-letter neighbors first
+  const sameInitial = samePos.filter((w) => w.word[0]?.toLowerCase() === target.word[0]?.toLowerCase());
+  const distractors: string[] = [];
+  for (const w of pickRandom(sameInitial, 2)) distractors.push(w.word);
+  // Fill the rest from broader same-POS pool
+  const remaining = samePos.filter((w) => !distractors.includes(w.word));
+  for (const w of pickRandom(remaining, 3 - distractors.length)) distractors.push(w.word);
+  // Last-resort fallback to any TSL word of same length range
+  if (distractors.length < 3) {
+    const fallback = all
+      .filter((w) => w.word !== target.word && Math.abs(w.word.length - target.word.length) <= 3 && !distractors.includes(w.word));
+    for (const w of pickRandom(fallback, 3 - distractors.length)) distractors.push(w.word);
+  }
+  return distractors;
+}
+
+// Build a regex that matches the lemma OR common inflected forms of `word`.
+// Handles:
+//   plural -s/-es, possessive 's, past -ed/-d, gerund -ing, comparatives -er/-est,
+//   adverb -ly, y→ied (try/tried) and y→ies (try/tries), doubled consonant
+//   forms (jam→jamming, equip→equipped) for short CVC verbs.
+function buildClozeMatcher(word: string): RegExp {
+  const stripDiacritics = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escaped = escapeRe(word);
+  const variants = new Set<string>([escaped]);
+  // Diacritic-stripped variant — matches "resume" in text when lemma is "résumé"
+  const stripped = stripDiacritics(word);
+  if (stripped !== word) variants.add(escapeRe(stripped));
+  variants.add(escaped + 's');
+  variants.add(escaped + 'es');
+  variants.add(escaped + "'s");
+  variants.add(escaped + 'ed');
+  variants.add(escaped + 'd');
+  variants.add(escaped + 'ing');
+  variants.add(escaped + 'er');
+  variants.add(escaped + 'est');
+  variants.add(escaped + 'ly');
+  // y → ies / ied (e.g. try → tried/tries, certify → certifies/certified)
+  if (word.endsWith('y') && word.length > 2 && !/[aeiou]y$/.test(word)) {
+    const stem = escaped.slice(0, -1);
+    variants.add(stem + 'ies');
+    variants.add(stem + 'ied');
+  }
+  // Doubled consonant inflection for short CVC verbs (jam/jammed, equip/equipping)
+  if (/^[a-z]*[^aeiouy][aeiouy][^aeiouwxy]$/i.test(word) && word.length <= 6) {
+    const last = word[word.length - 1]!;
+    variants.add(escaped + last + 'ed');
+    variants.add(escaped + last + 'ing');
+  }
+  // Drop trailing -e for -ing / -ed forms (e.g. dine → dined/dining)
+  if (word.endsWith('e') && word.length > 2) {
+    const stem = escaped.slice(0, -1);
+    variants.add(stem + 'ed');
+    variants.add(stem + 'ing');
+  }
+  // Sort longest-first so the regex prefers the most specific match
+  const sorted = [...variants].sort((a, b) => b.length - a.length);
+  return new RegExp(`\\b(?:${sorted.join('|')})\\b`, 'i');
+}
+
+function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+  const examples = loadExamples();
+  const all = loadTSL();
+  // Eligible: word has an example AND the example contains the lemma OR a
+  // standard inflected form of the word.
+  const eligible = all.filter((w) => {
+    if (w.rank > maxRank) return false;
+    const ex = examples[w.word.toLowerCase()];
+    if (!ex || ex.length < 10) return false;
+    return buildClozeMatcher(w.word).test(ex);
+  });
+  const selected = pickWeighted(eligible, (w) => w.word, weakLower, Math.min(count, eligible.length), excludeLower);
+  return selected.map((w, idx) => {
+    const ex = examples[w.word.toLowerCase()]!;
+    const re = buildClozeMatcher(w.word);
+    // Replace first occurrence with ___
+    const prompt = ex.replace(re, '___');
+    const distractors = pickClozeDistractors(w, all);
+    const options = shuffle([w.word, ...distractors]);
+    return withMeta({
+      id: `cloze-${idx}-${w.rank}`,
+      type: 'cloze' as const,
+      word: w.word,
+      prompt,
+      options,
+      correctIndex: options.indexOf(w.word),
+      definition: w.definition_en,
+      example: ex,
+    });
+  });
+}
+
+// ── Generate audio-cloze: hear sentence with a gap, pick the missing word ──
+// Splits the example sentence at the target word so frontend can speak the two
+// halves with a pause between, simulating a beep/blank.
+function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+  const examples = loadExamples();
+  const all = loadTSL();
+  const eligible = all.filter((w) => {
+    if (w.rank > maxRank) return false;
+    const ex = examples[w.word.toLowerCase()];
+    if (!ex || ex.length < 10) return false;
+    return buildClozeMatcher(w.word).test(ex);
+  });
+  const selected = pickWeighted(eligible, (w) => w.word, weakLower, Math.min(count, eligible.length), excludeLower);
+  return selected.map((w, idx) => {
+    const ex = examples[w.word.toLowerCase()]!;
+    const re = buildClozeMatcher(w.word);
+    const m = ex.match(re);
+    const matchIndex = m?.index ?? 0;
+    const matchLen = m?.[0].length ?? w.word.length;
+    const before = ex.slice(0, matchIndex).trimEnd();
+    const after = ex.slice(matchIndex + matchLen).trimStart();
+    const distractors = pickClozeDistractors(w, all);
+    const options = shuffle([w.word, ...distractors]);
+    return withMeta({
+      id: `audiocloze-${idx}-${w.rank}`,
+      type: 'audiocloze' as const,
+      word: w.word,
+      // Use a delimiter that's unlikely to appear in any sentence so the
+      // frontend can split the audio payload into the two halves.
+      prompt: `${before}|||${after}`,
+      audioPayload: `${before}|||${after}`,
+      options,
+      correctIndex: options.indexOf(w.word),
+      definition: w.definition_en,
+      example: ex,
+    });
+  });
+}
+
+// ── Generate synonym/antonym question: pick word closest in / opposite in meaning ──
+// Internally randomizes mode (syn or ant). Prompt makes the task explicit.
+function generateSynonymQuestions(count: number, used: Set<string>): Question[] {
+  const extras = loadExtras();
+  const synPairs = extras.synonyms ?? [];
+  const antPairs = extras.antonyms ?? [];
+  const all = loadTSL();
+  // Build a combined pool of {target, correctList, mode}
+  type Entry = { target: string; correct: string[]; mode: 'syn' | 'ant' };
+  const pool: Entry[] = [
+    ...synPairs.map((p) => ({ target: p[0], correct: p[1], mode: 'syn' as const })),
+    ...antPairs.map((p) => ({ target: p[0], correct: p[1], mode: 'ant' as const })),
+  ].filter((e) => !used.has(e.target.toLowerCase()));
+
+  const selected = pickRandom(pool, Math.min(count, pool.length));
+  return selected.map((e, idx) => {
+    // Pick one synonym/antonym at random as the correct option
+    const correctWord = pickRandom(e.correct, 1)[0]!;
+    // Distractors: same-POS TSL words, exclude target, correct, and other valid syn/ant
+    const targetWord = all.find((w) => w.word === e.target);
+    const targetPos = targetWord?.pos;
+    const exclude = new Set<string>([e.target.toLowerCase(), ...e.correct.map((w) => w.toLowerCase())]);
+    const candidates = all.filter(
+      (w) => !exclude.has(w.word.toLowerCase()) && (!targetPos || w.pos === targetPos),
+    );
+    const distractors = pickRandom(candidates, 3).map((w) => w.word);
+    const options = shuffle([correctWord, ...distractors]);
+    used.add(e.target.toLowerCase());
+    used.add(correctWord.toLowerCase());
+
+    const prompt = e.mode === 'syn'
+      ? `Closest in meaning to: ${e.target}`
+      : `OPPOSITE of: ${e.target}`;
+    const definition = e.mode === 'syn'
+      ? `${e.target} ≈ ${e.correct.join(', ')}`
+      : `${e.target} ↔ ${e.correct.join(', ')}`;
+
+    return withMeta({
+      id: `synant-${idx}-${e.target}`,
+      type: 'synonym' as const,
+      word: e.target,
+      prompt,
+      options,
+      correctIndex: options.indexOf(correctWord),
+      definition,
+    });
+  });
+}
+
+// ── Generate listen-comprehension question: hear English sentence, pick Chinese gist ──
+// Uses curated audioSentences (target, english_sentence, chinese_summary). Distractors
+// are 3 other Chinese summaries from different audioSentences entries, picked at random.
+function generateListenQuestions(count: number, used: Set<string>): Question[] {
+  const extras = loadExtras();
+  const pool = (extras.audioSentences ?? []).filter(
+    ([w]) => !used.has(w.toLowerCase()),
+  );
+  const selected = pickRandom(pool, Math.min(count, pool.length));
+  return selected.map(([word, sentence, summary], idx) => {
+    // Distractor pool: every other entry's summary
+    const otherSummaries = (extras.audioSentences ?? [])
+      .filter(([w]) => w.toLowerCase() !== word.toLowerCase())
+      .map(([, , s]) => s);
+    const distractors = pickRandom(otherSummaries, 3);
+    const options = shuffle([summary, ...distractors]);
+    used.add(word.toLowerCase());
+    return withMeta({
+      id: `listen-${idx}-${word}`,
+      type: 'listen' as const,
+      word,
+      prompt: '',
+      options,
+      correctIndex: options.indexOf(summary),
+      definition: sentence, // post-answer reveal shows the original English sentence
+      audioPayload: sentence, // TTS plays this
+    });
+  });
+}
+
 /**
  * Generate N questions with balanced type distribution.
- * 5 types: vocab, audio, definition, confusable, collocation
- * Ratio: ~3 vocab/audio/def + 1 confusable + 1 collocation per 10 questions
+ * 7 types: vocab, audio, fillblank (def→word), confusable, collocation, cloze (sentence→word), synonym
  */
 export function generateTSLQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'curve'): Question[] {
   if (difficulty === 'curve') {
@@ -382,18 +668,20 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const used = new Set<string>();
   const cfg = DIFFICULTY_CONFIG[difficulty];
 
-  // Confusable + collocation only for medium/hard
+  // Confusable + collocation + synonym only for medium/hard
   const confCount = cfg.confusable ? Math.min(1, count) : 0;
   const collCount = cfg.collocation ? Math.min(1, Math.max(0, count - confCount)) : 0;
-  const remaining = count - confCount - collCount;
-  const vocabCount = Math.ceil(remaining / 3);
-  const audioCount = Math.ceil(remaining / 3);
-  const fillCount = remaining - vocabCount - audioCount;
+  const synCount = cfg.confusable ? Math.min(1, Math.max(0, count - confCount - collCount)) : 0;
+  const remaining = count - confCount - collCount - synCount;
+  const vocabCount = Math.ceil(remaining / 4);
+  const audioCount = Math.ceil((remaining - vocabCount) / 3);
+  const fillCount = Math.ceil((remaining - vocabCount - audioCount) / 2);
+  const clozeCount = remaining - vocabCount - audioCount - fillCount;
 
   const confQs = confCount > 0 ? generateConfusableQuestions(confCount, used) : [];
   const collQs = collCount > 0 ? generateCollocationQuestions(collCount, used) : [];
+  const synQs = synCount > 0 ? generateSynonymQuestions(synCount, used) : [];
 
-  // Override VOCAB_ZH pool based on difficulty
   const filteredVocab = filterVocabByDifficulty(cfg.maxRank);
   const vocabQs = generateVocabQuestionsFromPool(filteredVocab, vocabCount, weakLower, used);
   for (const q of vocabQs) used.add(q.word.toLowerCase());
@@ -401,10 +689,12 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const audioQs = generateAudioQuestionsFromPool(filteredVocab, audioCount, weakLower, used);
   for (const q of audioQs) used.add(q.word.toLowerCase());
 
-  // Definition questions also filtered by rank
   const fillQs = generateDefinitionQuestions(fillCount, weakLower, used, cfg.maxRank);
+  for (const q of fillQs) used.add(q.word.toLowerCase());
 
-  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...confQs, ...collQs]);
+  const clozeQs = clozeCount > 0 ? generateClozeQuestions(clozeCount, weakLower, used, cfg.maxRank) : [];
+
+  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...clozeQs, ...confQs, ...collQs, ...synQs]);
 }
 
 /**
@@ -436,17 +726,26 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const medVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.medium.maxRank);
   const hardVocab = VOCAB_ZH; // full pool
 
-  // Per-tier type allocation. Easy is pure vocab/audio/def (no confusable
-  // or collocation — they're conceptually harder). Medium gets one of
-  // each meta type. Hard goes back to vocab/audio/def with the full pool.
-  const easyMix = splitVocabAudioDef(easySize);
-  const hardMix = splitVocabAudioDef(hardSize);
+  // Per-tier type allocation. Easy is pure vocab/audio/def/cloze.
+  // Medium adds 1 confusable + 1 collocation. Hard adds 1 synonym/antonym
+  // (the deepest test of vocabulary mastery).
+  const easyMix = splitFourWays(easySize);
 
-  // Medium: 1 confusable + 1 collocation max, rest split vocab/audio/def
-  const medConf = medSize >= 4 ? 1 : 0;
-  const medColl = medSize >= 4 ? 1 : 0;
-  const medRest = Math.max(0, medSize - medConf - medColl);
-  const medMix = splitVocabAudioDef(medRest);
+  // Medium tier: 2 of {confusable, collocation, listen} chosen at random per game
+  // so each session has variety (listen ~67% of games, others similar). Tier
+  // size stays the same — 2 meta extras + (medSize-2) base questions.
+  const medExtraTypes = shuffle<'conf' | 'coll' | 'listen'>(['conf', 'coll', 'listen']).slice(0, 2);
+  const medConf   = medSize >= 4 && medExtraTypes.includes('conf')   ? 1 : 0;
+  const medColl   = medSize >= 4 && medExtraTypes.includes('coll')   ? 1 : 0;
+  const medListen = medSize >= 4 && medExtraTypes.includes('listen') ? 1 : 0;
+  const medRest = Math.max(0, medSize - medConf - medColl - medListen);
+  const medMix = splitFourWays(medRest);
+
+  // Hard: 1 synonym + 1 audiocloze (the deepest skills — vocab mastery + listening with cloze)
+  const hardSyn = hardSize >= 3 ? 1 : 0;
+  const hardAudioCloze = hardSize >= 3 ? 1 : 0;
+  const hardRest = Math.max(0, hardSize - hardSyn - hardAudioCloze);
+  const hardMix = splitFourWays(hardRest);
 
   const tier = (name: 'easy' | 'medium' | 'hard'): Question[] => {
     const isEasy = name === 'easy';
@@ -475,25 +774,40 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
       for (const q of dqs) used.add(q.word.toLowerCase());
       out.push(...dqs);
     }
+    if (mix.cloze > 0) {
+      const cqs = generateClozeQuestions(mix.cloze, weakLower, used, maxRank);
+      for (const q of cqs) used.add(q.word.toLowerCase());
+      out.push(...cqs);
+    }
     return shuffle(out);
   };
 
   const easyQs = tier('easy');
   const medCore = tier('medium');
   const medExtras: Question[] = [];
-  if (medConf > 0) medExtras.push(...generateConfusableQuestions(medConf, used));
-  if (medColl > 0) medExtras.push(...generateCollocationQuestions(medColl, used));
+  if (medConf > 0)   medExtras.push(...generateConfusableQuestions(medConf, used));
+  if (medColl > 0)   medExtras.push(...generateCollocationQuestions(medColl, used));
+  if (medListen > 0) medExtras.push(...generateListenQuestions(medListen, used));
   const medQs = shuffle([...medCore, ...medExtras]);
-  const hardQs = tier('hard');
+
+  const hardCore = tier('hard');
+  const hardExtras: Question[] = [];
+  if (hardSyn > 0) hardExtras.push(...generateSynonymQuestions(hardSyn, used));
+  if (hardAudioCloze > 0) hardExtras.push(...generateAudioClozeQuestions(hardAudioCloze, weakLower, used, 9999));
+  const hardQs = shuffle([...hardCore, ...hardExtras]);
 
   return [...easyQs, ...medQs, ...hardQs];
 }
 
-/** Distribute n questions across vocab / audio / def in a 1:1:1-ish ratio. */
-function splitVocabAudioDef(n: number): { vocab: number; audio: number; def: number } {
-  if (n <= 0) return { vocab: 0, audio: 0, def: 0 };
-  const vocab = Math.ceil(n / 3);
-  const audio = Math.ceil((n - vocab) / 2);
-  const def = n - vocab - audio;
-  return { vocab, audio, def };
+/** Distribute n questions across vocab / audio / def / cloze in a 1:1:1:1-ish ratio.
+ *  When n isn't a multiple of 4, the leftover units are sprinkled to randomly
+ *  chosen types so no type is systematically starved. */
+function splitFourWays(n: number): { vocab: number; audio: number; def: number; cloze: number } {
+  if (n <= 0) return { vocab: 0, audio: 0, def: 0, cloze: 0 };
+  const base = Math.floor(n / 4);
+  const extras = n % 4;
+  const result = { vocab: base, audio: base, def: base, cloze: base };
+  const order = shuffle<keyof typeof result>(['vocab', 'audio', 'def', 'cloze']);
+  for (let i = 0; i < extras; i++) result[order[i]!]++;
+  return result;
 }

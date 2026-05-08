@@ -6,9 +6,13 @@ import {
   Volume2,
   Brain,
   Headphones,
+  Ear,
+  AudioLines,
   FileText,
   AlertTriangle,
   Puzzle,
+  Pencil,
+  ArrowLeftRight,
   Flame,
   Waves,
   CloudFog,
@@ -21,7 +25,7 @@ import {
 } from 'lucide-react';
 import { useGameStore, type SkillType } from '@/store/gameStore';
 import { getCharacter, getCharacterIndex } from '@/lib/characters';
-import { speakWord } from '@/lib/speak';
+import { speakWord, speakClozePair } from '@/lib/speak';
 import { useT } from '@/lib/i18n';
 import Timer from '@/components/Timer';
 import AnswerButton from '@/components/AnswerButton';
@@ -117,12 +121,20 @@ export default function GamePage() {
     return () => clearTimeout(id);
   }, [lastResult]);
 
-  // Auto-play audio prompts once per question
+  // Auto-play audio prompts once per question (audio + listen + audiocloze types)
   const spokenRef = useRef('');
   useEffect(() => {
-    if (currentQuestion?.type === 'audio' && currentQuestion.audioWord && spokenRef.current !== currentQuestion.id) {
+    if (!currentQuestion?.audioWord) return;
+    if (spokenRef.current === currentQuestion.id) return;
+    if (currentQuestion.type === 'audio' || currentQuestion.type === 'listen') {
       spokenRef.current = currentQuestion.id;
       const t = setTimeout(() => { void speakWord(currentQuestion.audioWord!); }, 300);
+      return () => clearTimeout(t);
+    }
+    if (currentQuestion.type === 'audiocloze') {
+      spokenRef.current = currentQuestion.id;
+      const [before, after] = currentQuestion.audioWord.split('|||');
+      const t = setTimeout(() => { void speakClozePair(before ?? '', after ?? ''); }, 300);
       return () => clearTimeout(t);
     }
   }, [currentQuestion]);
@@ -405,6 +417,30 @@ export default function GamePage() {
               {t('game.qType.collocation')}
             </span>
           )}
+          {currentQuestion.type === 'cloze' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-sky-300 text-sky-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Pencil className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.cloze')}
+            </span>
+          )}
+          {currentQuestion.type === 'synonym' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-violet-300 text-violet-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <ArrowLeftRight className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.synonym')}
+            </span>
+          )}
+          {currentQuestion.type === 'listen' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-orange-300 text-orange-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Ear className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.listen')}
+            </span>
+          )}
+          {currentQuestion.type === 'audiocloze' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-pink-300 text-pink-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <AudioLines className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.audiocloze')}
+            </span>
+          )}
           {isFinal && (
             <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
               <Flame className="w-3 h-3" strokeWidth={2.75} />
@@ -455,8 +491,37 @@ export default function GamePage() {
                 <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
               </div>
             )}
+            {currentQuestion.type === 'listen' && currentQuestion.audioWord && (
+              <div className="flex items-center justify-center gap-2">
+                <button onClick={() => speakWord(currentQuestion.audioWord!)}
+                  className="w-9 h-9 rounded-full bg-orange-300 border-2 border-orange-200
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(154,52,18,0.5)] text-orange-950">
+                  <Ear className="w-4 h-4" strokeWidth={2.5} />
+                </button>
+                <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
+              </div>
+            )}
+            {currentQuestion.type === 'audiocloze' && currentQuestion.audioWord && (
+              <div className="flex items-center justify-center gap-2">
+                <button onClick={() => {
+                  const [before, after] = currentQuestion.audioWord!.split('|||');
+                  void speakClozePair(before ?? '', after ?? '');
+                }}
+                  className="w-9 h-9 rounded-full bg-pink-300 border-2 border-pink-200
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(157,23,77,0.5)] text-pink-950">
+                  <AudioLines className="w-4 h-4" strokeWidth={2.5} />
+                </button>
+                <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
+              </div>
+            )}
             {currentQuestion.type === 'fillblank' && (
               <p className="text-sm font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+            )}
+            {currentQuestion.type === 'cloze' && (
+              <p className="text-sm font-bold text-white">{currentQuestion.prompt}</p>
+            )}
+            {currentQuestion.type === 'synonym' && (
+              <p className="text-sm font-bold text-white">{currentQuestion.prompt}</p>
             )}
           </div>
         ) : (
@@ -490,6 +555,33 @@ export default function GamePage() {
                   <Volume2 className="w-6 h-6" strokeWidth={2.5} />
                 </button>
                 <span className="text-sm font-medium text-white/90">{t('game.tapToHear')}</span>
+              </div>
+            )}
+            {currentQuestion.type === 'listen' && currentQuestion.audioWord && (
+              <div>
+                <p className="text-[10px] font-bold text-orange-200 uppercase tracking-[0.25em] mb-2">{t('game.qType.listenHint')}</p>
+                <div className="flex items-center justify-center gap-3">
+                  <button onClick={() => speakWord(currentQuestion.audioWord!)}
+                    className="w-16 h-16 rounded-full bg-orange-300 border-4 border-orange-200
+                      flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(154,52,18,0.5)] text-orange-950">
+                    <Ear className="w-7 h-7" strokeWidth={2.5} />
+                  </button>
+                </div>
+              </div>
+            )}
+            {currentQuestion.type === 'audiocloze' && currentQuestion.audioWord && (
+              <div>
+                <p className="text-[10px] font-bold text-pink-200 uppercase tracking-[0.25em] mb-2">{t('game.qType.audioclozeHint')}</p>
+                <div className="flex items-center justify-center gap-3">
+                  <button onClick={() => {
+                    const [before, after] = currentQuestion.audioWord!.split('|||');
+                    void speakClozePair(before ?? '', after ?? '');
+                  }}
+                    className="w-16 h-16 rounded-full bg-pink-300 border-4 border-pink-200
+                      flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(157,23,77,0.5)] text-pink-950">
+                    <AudioLines className="w-7 h-7" strokeWidth={2.5} />
+                  </button>
+                </div>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
@@ -531,6 +623,27 @@ export default function GamePage() {
                     )) : line}
                   </p>
                 ))}
+              </div>
+            )}
+            {currentQuestion.type === 'cloze' && (
+              <div>
+                <p className="text-[10px] font-bold text-sky-200 uppercase tracking-[0.25em] mb-1">{t('game.qType.clozeHint')}</p>
+                <p className="text-base sm:text-lg font-bold text-white leading-relaxed">
+                  {currentQuestion.prompt.split('___').map((part, i, arr) => (
+                    <span key={i}>
+                      {part}
+                      {i < arr.length - 1 && (
+                        <span className="inline-block w-20 mx-1 border-b-3 border-sky-300 align-middle" />
+                      )}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            )}
+            {currentQuestion.type === 'synonym' && (
+              <div>
+                <p className="text-[10px] font-bold text-violet-200 uppercase tracking-[0.25em] mb-1">{t('game.qType.synonymHint')}</p>
+                <p className="text-lg sm:text-xl font-bold text-white">{currentQuestion.prompt}</p>
               </div>
             )}
 
