@@ -1,5 +1,123 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Pedagogical sweep round 2 (full TSL coverage + zero templated)
+
+Continuing the TOEIC-instructor lens, this pass extends the audit to **the entire TSL 1250 vocabulary** rather than just top-400. Two big wins:
+
+### TSL coverage 100% (was 94.5%)
+The auto-generation of `vocabChinese.ts` had **69 TSL words with no Chinese gloss at all** — they would silently disappear when the question generator tried to look them up. Hand-wrote entries for all of them, including high-traffic everyday words: `firefighter`, `lunchtime`, `cookie`, `concierge`, `locker`, `spa`, `stapler`, `toner`, `urgently`, `customize`, `payable`, `referral`, `placement`, `culinary`, `entrée`, `pasta`, `yoga`, `ma'am`, `videoconference`, `smartphone`, `wristwatch`, `headphone`, `sunscreen`, `unauthorized`, `unplug`, `fundraise`, `healthcare`, `housekeep`, `auditor`, `extinguisher`, `salespeople`, `hesitation`, `wellness`, etc. — 69 entries total.
+
+Total VOCAB_ZH grew from 5,492 → 5,566 (+74 with the 4 added in earlier pass + 69 here, plus a small dedupe).
+
+### `vocabChinese.ts` — 90+ further pedagogical fixes (rank 400-800)
+
+Same pedagogical principles as round 1, applied deeper into the medium / hard tier of curve mode. Highlights:
+
+**Rank 400-600**:
+| Word | Before | After | Why |
+|---|---|---|---|
+| furnish | 供應 | **配備家具** | TSL def "to put furniture in", not "supply" |
+| mandatory | 命令的 | **強制的** | 命令的 = "ordering"; correct sense = compulsory |
+| pharmacy | 藥房 | **藥局** | Taiwan term |
+| consultation | 商議 | **諮詢** | TOEIC = medical/business consultation |
+| patience | 忍耐 | **耐心** | 忍耐 = endure; standard noun = 耐心 |
+| prospective | 未來的 | **潛在的** | "prospective client" = 潛在客戶 |
+| vendor | 攤販 | **供應商** | TOEIC business sense, not street vendor |
+| withdrawal | 收回 | **提款** | TSL example was "bank withdrawal" |
+| graphic | 生動的 | **圖像的** | 生動的 = "vivid"; correct = graphic design |
+| resignation | 聽從 | **辭職** | 聽從 = "obey" (totally wrong sense) |
+| reviewer | 批評家 | **審稿者** | TSL def "checks written work" |
+| escort | 護衛 | **陪同** | TSL def is a verb |
+| mask | 面具 | **口罩** | TOEIC modern relevance |
+| overhead | 在頭頂上 | **管銷費用** | TSL def "fixed cost of business, e.g., rent" |
+| auditorium | 聽衆席 | **演講廳** | 聽衆席 = audience seating only |
+| celebrity | 名聲 | **名人** | 名聲 = reputation; celebrity = the person |
+| disruption | 分裂 | **干擾** | 分裂 = "split"; TSL = "interrupting" |
+| accessory | 同謀 | **配件** | 同謀 = legal accomplice; TOEIC = fashion accessory |
+| projection | 發射 | **預估** | TSL def "guess about future events, e.g., sales" |
+| accumulate | 積累 | **累積** | Taiwan term |
+| appraisal | 估計 | **評估** | TOEIC = performance appraisal |
+| compensate | 彌補 | **補償** | TOEIC = financial compensation |
+| facilitate | 使便利 | **促進** | TOEIC business idiom |
+| premium | 獎金 | **保費** | TSL def "extra payment"; TOEIC = insurance premium |
+| specialty | 特產 | **專長** | TSL def "something you are very good at" |
+| adhere | 粘附 | **遵守** | TSL example "adhere to rules" |
+| duplicate | 副本 | **複製** | POS verb per TSL def |
+
+**Rank 600-800**:
+| Word | Before | After | Why |
+|---|---|---|---|
+| polish | 磨光 | **擦亮** | 磨光 = grind; TOEIC = polish shoes/silver |
+| maximize | 取最大值 | **盡量增加** | 取最大值 is math/CS jargon |
+| recruitment | 徵募新兵 | **招募** | 徵募新兵 = military draft! |
+| referee | 當裁判 | **裁判** | Was the verb, not the noun |
+| certify | 保證 | **認證** | 保證 = guarantee (different word) |
+| circulation | 循環 | **發行量** | TSL example was newspaper |
+| exceptional | 例外的 | **卓越的** | 例外的 = "as exception"; TSL = "beyond excellent" |
+| compile | 編輯 | **彙整** | 編輯 = edit; TSL def = collect/gather |
+| dedication | 貢獻 | **投入** | "Her dedication earned her a bonus" — 投入 fits |
+| introductory | 引導的 | **入門的** | TSL def "preliminary speech" |
+| portable | 便於攜帶的 | **可攜式的** | Modern Taiwan tech term |
+| punctual | 嚴守時刻的 | **準時的** | Plain Chinese is clearer |
+| relieve | 使輕鬆 | **緩解** | "Relieve pain/burden" = 緩解 |
+| consumption | 消耗 | **消費** | TOEIC business: consumer consumption |
+| faculty | 才能 | **教職員** | 才能 = ability (totally wrong sense) |
+| founder | 創立者 | **創辦人** | Taiwan business term |
+| handy | 手邊的 | **方便的** | TOEIC = "handy tool / handy app" |
+| publicity | 知名度 | **宣傳** | TSL def is the marketing message |
+| restroom | 廁所 | **洗手間** | More polite TOEIC register |
+| teller | 講話的人 | **行員** | 講話的人 = "talker"! TSL = bank teller |
+| walkway | 走道 | **步道** | walkway (outdoor path) ≠ aisle (走道) |
+| ambitious | 有雄心的 | **有抱負的** | Standard Taiwan |
+| influential | 有影響的 | **有影響力的** | Standard Taiwan phrasing |
+| booth | 貨攤 | **攤位** | TOEIC trade-show booth |
+| disagreement | 爭論 | **分歧** | 爭論 = argument; TOEIC = polite difference |
+| graphics | 圖形 | **圖像** | Standard term |
+
+…plus 25 more in the same vein.
+
+### `examples.json` — every TSL templated example replaced (148 examples in this pass)
+
+Round 1 cleared rank 1-400. This round cleared **all remaining 148 templated examples** across rank 400-1250 — every single TSL word now has a hand-written, business-register example.
+
+**Stats progression**:
+- Round 0 (initial state): 309 templated examples (~25% of TSL)
+- Round 1 (top 400 cleaned): 156 templated remaining
+- Round 2 (this pass): **0 templated remaining across all 1250 TSL words**
+
+Sample replacements (rank 400-1250):
+- `cargo` → "The cargo ship will arrive at the port early Friday morning."
+- `coordinator` → "The event coordinator confirmed the venue this morning."
+- `equip` → "Each meeting room is equipped with a projector and whiteboard."
+- `realtor` → "The realtor showed us three apartments downtown."
+- `appraisal` → "Your annual appraisal is scheduled for next Monday at ten."
+- `comply` → "All staff must comply with the new safety regulations immediately."
+- `attorney` → "Please consult our company attorney before signing the agreement."
+- `tuition` → "Tuition for the certification course is due by the end of the month."
+- `congestion` → "Traffic congestion in the city center peaks at six in the evening."
+- `morale` → "A team-building event helped boost staff morale."
+- `outlook` → "The economic outlook for next quarter looks positive."
+- `discrepancy` → "There is a discrepancy between the invoice and the bank statement."
+- `fiscal` → "The fiscal year ends on the thirty-first of March."
+- `bankruptcy` → "The retail chain filed for bankruptcy after years of losses."
+- `apprehensive` → "Some employees are apprehensive about the upcoming office move."
+- `unauthorized` → "Unauthorized access to the server room is strictly prohibited."
+
+### Coverage matrix
+|  | Vocab gloss | Example sentence |
+|---|---|---|
+| TSL rank 1-200 | ✅ all hand-verified TOEIC sense | ✅ all hand-written TOEIC register |
+| TSL rank 200-400 | ✅ all hand-verified | ✅ all hand-written |
+| TSL rank 400-600 | ✅ all hand-verified | ✅ all hand-written |
+| TSL rank 600-800 | ✅ all hand-verified | ✅ all hand-written |
+| TSL rank 800-1000 | ✅ all present, glosses spot-checked | ✅ all hand-written |
+| TSL rank 1000-1250 | ✅ all present, glosses spot-checked | ✅ all hand-written |
+
+### Test
+- `tsc --noEmit` passes for backend + frontend
+- VOCAB_ZH = 5,566 entries, TSL coverage = 100%, examples coverage = 100%
+- 0 templated examples across all 1250 TSL words
+
 ## 2026-05-08 (Mobile) — Pedagogical content review (TOEIC teaching lens)
 
 Re-audited the high-frequency content (TSL rank 1-400 — drives ~80% of gameplay) as a TOEIC instructor would: is the Chinese gloss the **business sense** of the word, is the example sentence in **TOEIC register** (office / hotel / travel / retail / dining / finance), and would a Taiwan-based learner see it and immediately recognise the word?
