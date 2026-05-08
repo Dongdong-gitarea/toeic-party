@@ -3092,7 +3092,7 @@
     "word": "weekday",
     "ipa": "/ˈwikˌdeɪ/",
     "pos": "noun",
-    "definition_en": "All the working days in a week, usually Monday to Friday",
+    "definition_en": "any day of the week from Monday to Friday",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/weekday?q=weekday",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/weekday",
@@ -3235,8 +3235,8 @@
     "rank": 203,
     "word": "headquarter",
     "ipa": "/ˈhɛdˌkwɔr.tɚ/",
-    "pos": "verb",
-    "definition_en": "to base the main office of an organization in a particular location",
+    "pos": "noun",
+    "definition_en": "the main office where an organisation is based",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/headquarter?q=headquarter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/headquarter",
@@ -4836,7 +4836,7 @@
     "word": "accurately",
     "ipa": "/ˈæk.jər.ɪt.li/",
     "pos": "adv",
-    "definition_en": "when something is done correctly",
+    "definition_en": "in a way that is correct and precise",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/accurately?q=accurately",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/accurately",
@@ -11924,7 +11924,7 @@
     "word": "tablet",
     "ipa": "/tæblət/",
     "pos": "noun",
-    "definition_en": "a small flat solid cake of some substance",
+    "definition_en": "a flat handheld electronic device, or a small solid pill",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/tablet?q=tablet",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/tablet",

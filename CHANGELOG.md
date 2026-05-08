@@ -1,5 +1,50 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 14: distractor semantic check + 50-question deep audit
+
+### 1. Synonym distractor semantic-overlap check — clean
+
+Built a transitive synonym/antonym graph and verified that for every syn/ant question, none of the 3 distractors are also valid syn/ant of the target (1-hop transitive). Generated 500 questions and checked. **0 issues found.** The existing exclusion logic in `generateSynonymQuestions` correctly filters all valid alternatives.
+
+### 2. Cloze with diacritics / hyphens — clean
+
+Verified `résumé`, `café`, `e-book`, `cellphone` all generate cloze prompts without leaking the answer or breaking the regex. **All 4 work correctly.**
+
+### 3. Visual 50-question audit — 6 more fixes
+
+Generated and inspected 50 random questions (30 cloze + 20 fillblank). Found:
+
+#### `headquarter` still misaligned (slipped past round 12)
+- Chinese: 總部 (noun)
+- TSL pos was: verb (after my round-12 def rewrite)
+- Mismatch: player picks 總部 (noun) but reveal shows verb-form def
+
+Fixed:
+- pos: verb → **noun**
+- def: "to base the main office..." → "the main office where an organisation is based"
+- example: "The company is headquartered in Singapore." → "Our headquarters is located in downtown Singapore."
+
+#### Three more def errors
+
+| Word | Before | After |
+|---|---|---|
+| **accurately** | "when something is done correctly" *(awkward "when X" form for an adverb)* | "in a way that is correct and precise" |
+| **weekday** | "All the working days in a week, usually Monday to Friday" *(plural-sense def for singular noun)* | "any day of the week from Monday to Friday" |
+| **tablet** | "a small flat solid cake of some substance" *(only pill sense)* | "a flat handheld electronic device, or a small solid pill" |
+
+#### Two awkward example sentences
+
+| Word | Before | After |
+|---|---|---|
+| franchise | "McDonalds has exported its franchise." *(missing apostrophe + unusual collocation)* | "The restaurant franchise has over 200 locations worldwide." |
+| pad | "Take notes on the meeting pad before the discussion ends." *(meeting pad is unusual)* | "She wrote her notes on a yellow legal pad during the interview." |
+
+### Verification
+- TS clean
+- 500-question smoke distribution healthy
+- 0 syn/ant transitive distractor overlaps
+- Cloze regex robust to diacritics and hyphens
+
 ## 2026-05-08 (Mobile) — Round 13: programmatic POS-in-example detection + visual sample audit
 
 User directive (continuing): **「不會有懷疑」**.
