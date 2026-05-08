@@ -537,6 +537,45 @@ function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLo
   });
 }
 
+// ── Generate audio-cloze: hear sentence with a gap, pick the missing word ──
+// Splits the example sentence at the target word so frontend can speak the two
+// halves with a pause between, simulating a beep/blank.
+function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+  const examples = loadExamples();
+  const all = loadTSL();
+  const eligible = all.filter((w) => {
+    if (w.rank > maxRank) return false;
+    const ex = examples[w.word.toLowerCase()];
+    if (!ex || ex.length < 10) return false;
+    return buildClozeMatcher(w.word).test(ex);
+  });
+  const selected = pickWeighted(eligible, (w) => w.word, weakLower, Math.min(count, eligible.length), excludeLower);
+  return selected.map((w, idx) => {
+    const ex = examples[w.word.toLowerCase()]!;
+    const re = buildClozeMatcher(w.word);
+    const m = ex.match(re);
+    const matchIndex = m?.index ?? 0;
+    const matchLen = m?.[0].length ?? w.word.length;
+    const before = ex.slice(0, matchIndex).trimEnd();
+    const after = ex.slice(matchIndex + matchLen).trimStart();
+    const distractors = pickClozeDistractors(w, all);
+    const options = shuffle([w.word, ...distractors]);
+    return withMeta({
+      id: `audiocloze-${idx}-${w.rank}`,
+      type: 'audiocloze' as const,
+      word: w.word,
+      // Use a delimiter that's unlikely to appear in any sentence so the
+      // frontend can split the audio payload into the two halves.
+      prompt: `${before}|||${after}`,
+      audioPayload: `${before}|||${after}`,
+      options,
+      correctIndex: options.indexOf(w.word),
+      definition: w.definition_en,
+      example: ex,
+    });
+  });
+}
+
 // ── Generate synonym/antonym question: pick word closest in / opposite in meaning ──
 // Internally randomizes mode (syn or ant). Prompt makes the task explicit.
 function generateSynonymQuestions(count: number, used: Set<string>): Question[] {
@@ -702,9 +741,10 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const medRest = Math.max(0, medSize - medConf - medColl - medListen);
   const medMix = splitFourWays(medRest);
 
-  // Hard: 1 synonym/antonym
+  // Hard: 1 synonym + 1 audiocloze (the deepest skills — vocab mastery + listening with cloze)
   const hardSyn = hardSize >= 3 ? 1 : 0;
-  const hardRest = Math.max(0, hardSize - hardSyn);
+  const hardAudioCloze = hardSize >= 3 ? 1 : 0;
+  const hardRest = Math.max(0, hardSize - hardSyn - hardAudioCloze);
   const hardMix = splitFourWays(hardRest);
 
   const tier = (name: 'easy' | 'medium' | 'hard'): Question[] => {
@@ -753,6 +793,7 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const hardCore = tier('hard');
   const hardExtras: Question[] = [];
   if (hardSyn > 0) hardExtras.push(...generateSynonymQuestions(hardSyn, used));
+  if (hardAudioCloze > 0) hardExtras.push(...generateAudioClozeQuestions(hardAudioCloze, weakLower, used, 9999));
   const hardQs = shuffle([...hardCore, ...hardExtras]);
 
   return [...easyQs, ...medQs, ...hardQs];

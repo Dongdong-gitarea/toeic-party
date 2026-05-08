@@ -1989,6 +1989,606 @@
       "discount",
       "We offer a twenty percent discount for early registration.",
       "提早報名享八折優惠"
+    ],
+    [
+      "printer",
+      "The office printer is running low on toner cartridges.",
+      "辦公室印表機碳粉快用完"
+    ],
+    [
+      "photocopy",
+      "Please make ten photocopies of the agenda before the meeting.",
+      "會議前請印十份議程"
+    ],
+    [
+      "scanner",
+      "Use the scanner to digitize all incoming invoices.",
+      "用掃描器把所有發票數位化"
+    ],
+    [
+      "stapler",
+      "The stapler on my desk has run out of staples.",
+      "我桌上的釘書機沒釘針了"
+    ],
+    [
+      "voicemail",
+      "Please leave a message after the voicemail beep.",
+      "聽到嗶聲後請留言"
+    ],
+    [
+      "conference",
+      "The video conference will start at three Singapore time.",
+      "視訊會議三點新加坡時間開始"
+    ],
+    [
+      "intercom",
+      "Use the intercom to reach the security desk.",
+      "用對講機聯絡警衛室"
+    ],
+    [
+      "extension",
+      "My extension is two-three-four-seven if you need to call.",
+      "我的分機是 2347"
+    ],
+    [
+      "breakroom",
+      "Coffee and snacks are available in the breakroom.",
+      "休息室有咖啡跟點心"
+    ],
+    [
+      "restroom",
+      "The restroom is at the end of the hallway on the right.",
+      "洗手間在走廊盡頭右邊"
+    ],
+    [
+      "itinerary",
+      "Please review your itinerary before tomorrow's departure.",
+      "請在明天出發前確認行程"
+    ],
+    [
+      "boarding",
+      "Boarding will begin in approximately twenty minutes.",
+      "大約二十分鐘後開始登機"
+    ],
+    [
+      "departure",
+      "The departure lounge is on the second floor.",
+      "出境大廳在二樓"
+    ],
+    [
+      "arrival",
+      "All international arrivals must clear customs.",
+      "所有國際抵達旅客須通關"
+    ],
+    [
+      "layover",
+      "We have a four-hour layover in Hong Kong.",
+      "在香港轉機四小時"
+    ],
+    [
+      "checkout",
+      "Checkout time is at eleven in the morning.",
+      "退房時間是早上十一點"
+    ],
+    [
+      "housekeeping",
+      "Housekeeping will clean your room every morning.",
+      "客房清潔每天早上整理"
+    ],
+    [
+      "concierge",
+      "The concierge can arrange a taxi to the airport.",
+      "禮賓員可幫您安排機場計程車"
+    ],
+    [
+      "suite",
+      "We have upgraded you to a deluxe suite at no extra charge.",
+      "免費升等到豪華套房"
+    ],
+    [
+      "valet",
+      "Valet parking is available at the main entrance.",
+      "正門口有代客泊車服務"
+    ],
+    [
+      "paycheck",
+      "Your paycheck will be deposited every other Friday.",
+      "薪水每隔週五入帳"
+    ],
+    [
+      "salary",
+      "Her starting salary is fifty thousand dollars per year.",
+      "她起薪一年五萬美元"
+    ],
+    [
+      "bonus",
+      "Top performers will receive a year-end bonus.",
+      "績優員工年底領獎金"
+    ],
+    [
+      "payroll",
+      "Submit your timesheet to payroll by Wednesday.",
+      "週三前交時數表給薪資部"
+    ],
+    [
+      "expense",
+      "Please report all business expenses with receipts.",
+      "所有公務開支須附收據申報"
+    ],
+    [
+      "receipt",
+      "Keep every receipt for tax filing in March.",
+      "收據都留著三月報稅用"
+    ],
+    [
+      "budget",
+      "The marketing budget was reduced by fifteen percent.",
+      "行銷預算被砍 15%"
+    ],
+    [
+      "profit",
+      "Net profit grew sharply in the third quarter.",
+      "第三季淨利大幅成長"
+    ],
+    [
+      "revenue",
+      "Online sales account for half of total revenue.",
+      "線上銷售佔總營收一半"
+    ],
+    [
+      "discount",
+      "Members enjoy an additional ten percent discount.",
+      "會員另享九折優惠"
+    ],
+    [
+      "customer",
+      "Excellent customer service is our top priority.",
+      "優質客戶服務是首要重點"
+    ],
+    [
+      "complaint",
+      "A complaint hotline is open twenty-four hours a day.",
+      "客訴專線 24 小時受理"
+    ],
+    [
+      "feedback",
+      "We appreciate your feedback on the new design.",
+      "我們很重視你對新設計的意見"
+    ],
+    [
+      "inquiry",
+      "Send all product inquiries to the sales team.",
+      "產品詢問請寄業務團隊"
+    ],
+    [
+      "quotation",
+      "Please provide a quotation for fifty units.",
+      "請提供五十件的報價"
+    ],
+    [
+      "order",
+      "Your order has been shipped and will arrive Friday.",
+      "訂單已出貨週五會到"
+    ],
+    [
+      "delivery",
+      "Free delivery is available for orders over fifty dollars.",
+      "滿五十美元免運費"
+    ],
+    [
+      "refund",
+      "A full refund will be processed within five business days.",
+      "五個工作天內全額退款"
+    ],
+    [
+      "return",
+      "Returns are accepted within thirty days of purchase.",
+      "購買後三十天內可退貨"
+    ],
+    [
+      "exchange",
+      "You may exchange the item for a different size.",
+      "可以換不同尺寸"
+    ],
+    [
+      "recruit",
+      "We will recruit five new engineers next quarter.",
+      "下季要招募五名新工程師"
+    ],
+    [
+      "interview",
+      "The interview is scheduled for Tuesday at two.",
+      "面試訂在週二下午兩點"
+    ],
+    [
+      "hire",
+      "The company will hire fifty graduates this year.",
+      "公司今年要僱用五十位畢業生"
+    ],
+    [
+      "promotion",
+      "Her promotion to senior manager was announced today.",
+      "她升任資深經理今天宣布"
+    ],
+    [
+      "orientation",
+      "New hire orientation begins next Monday morning.",
+      "新進員工訓練下週一早上開始"
+    ],
+    [
+      "training",
+      "All staff must complete safety training annually.",
+      "所有員工須每年完成安全訓練"
+    ],
+    [
+      "benefits",
+      "Our benefits package includes dental and vision insurance.",
+      "我們的福利包含牙齒視力保險"
+    ],
+    [
+      "vacation",
+      "You are entitled to fifteen vacation days per year.",
+      "你每年有十五天休假"
+    ],
+    [
+      "leave",
+      "Maternity leave is sixteen weeks paid in full.",
+      "產假十六週全薪"
+    ],
+    [
+      "retirement",
+      "Retirement age in our company is sixty-five.",
+      "公司退休年齡是六十五歲"
+    ],
+    [
+      "agenda",
+      "A copy of the agenda was emailed to every attendee.",
+      "議程副本已寄給每位與會者"
+    ],
+    [
+      "minutes",
+      "The meeting minutes will be circulated by Friday.",
+      "會議記錄週五前會傳閱"
+    ],
+    [
+      "attendee",
+      "Each attendee will receive a name badge upon arrival.",
+      "每位與會者報到時領取名牌"
+    ],
+    [
+      "venue",
+      "The venue is conveniently located near the train station.",
+      "場地位置鄰近火車站"
+    ],
+    [
+      "keynote",
+      "The keynote speaker is the CEO of a major bank.",
+      "主講人是某大銀行執行長"
+    ],
+    [
+      "session",
+      "The afternoon session covers digital transformation.",
+      "下午場討論數位轉型"
+    ],
+    [
+      "workshop",
+      "Sign up for the workshop on data analytics today.",
+      "今天可報名數據分析工作坊"
+    ],
+    [
+      "banquet",
+      "A formal banquet will be held on the closing night.",
+      "閉幕之夜有正式宴會"
+    ],
+    [
+      "reception",
+      "A welcome reception starts at six in the lobby.",
+      "六點大廳舉行歡迎酒會"
+    ],
+    [
+      "rehearsal",
+      "There will be a final rehearsal at five PM.",
+      "下午五點有最後一次彩排"
+    ],
+    [
+      "shipment",
+      "The shipment cleared customs and is on its way.",
+      "貨物已通關運送中"
+    ],
+    [
+      "warehouse",
+      "Our main warehouse is located thirty miles from the port.",
+      "主倉庫離港口三十英里"
+    ],
+    [
+      "inventory",
+      "Annual inventory check happens every December.",
+      "年度盤點在每年十二月"
+    ],
+    [
+      "logistics",
+      "Logistics will coordinate the multi-city tour.",
+      "物流負責多城市巡迴的協調"
+    ],
+    [
+      "supplier",
+      "Our supplier offered a five percent volume discount.",
+      "供應商給五個百分點的量大優惠"
+    ],
+    [
+      "vendor",
+      "A new vendor will be selected after the bidding closes.",
+      "招標結束後選定新供應商"
+    ],
+    [
+      "carrier",
+      "The carrier guarantees delivery within forty-eight hours.",
+      "貨運公司保證 48 小時送達"
+    ],
+    [
+      "freight",
+      "Freight charges are not included in the listed price.",
+      "標價不含運費"
+    ],
+    [
+      "cargo",
+      "The cargo plane departs every Tuesday and Thursday.",
+      "貨機每週二與週四起飛"
+    ],
+    [
+      "fleet",
+      "The delivery fleet was expanded by twenty trucks.",
+      "配送車隊新增二十輛卡車"
+    ],
+    [
+      "software",
+      "The new software is compatible with all major browsers.",
+      "新軟體相容所有主流瀏覽器"
+    ],
+    [
+      "hardware",
+      "Hardware upgrades are scheduled for next weekend.",
+      "硬體升級預定下週末"
+    ],
+    [
+      "upgrade",
+      "A free system upgrade is available for all users.",
+      "所有使用者免費系統升級"
+    ],
+    [
+      "backup",
+      "Daily backup runs automatically at midnight.",
+      "每日備份午夜自動執行"
+    ],
+    [
+      "password",
+      "Please change your password every ninety days.",
+      "密碼請每九十天更換"
+    ],
+    [
+      "firewall",
+      "The firewall blocks unauthorized network access.",
+      "防火牆阻擋未授權的網路存取"
+    ],
+    [
+      "server",
+      "The server will be down for maintenance tonight.",
+      "今晚伺服器停機維護"
+    ],
+    [
+      "network",
+      "A network outage affected the entire office this morning.",
+      "今早整個辦公室斷網"
+    ],
+    [
+      "login",
+      "Login credentials are sent to your registered email.",
+      "登入資訊寄到你登記的信箱"
+    ],
+    [
+      "download",
+      "You can download the latest report from the portal.",
+      "可從入口網站下載最新報告"
+    ],
+    [
+      "campaign",
+      "The new ad campaign launches in major markets next month.",
+      "新廣告活動下月在主要市場推出"
+    ],
+    [
+      "brand",
+      "Our brand recognition has grown thirty percent.",
+      "品牌知名度成長三成"
+    ],
+    [
+      "logo",
+      "A redesigned company logo will debut at the conference.",
+      "重新設計的公司商標在大會亮相"
+    ],
+    [
+      "slogan",
+      "The new slogan emphasises sustainability and innovation.",
+      "新口號強調永續與創新"
+    ],
+    [
+      "target",
+      "This year's sales target is twelve million dollars.",
+      "今年銷售目標一千兩百萬美元"
+    ],
+    [
+      "demographic",
+      "Our main target demographic is professionals aged twenty-five to forty.",
+      "主要客群是 25 至 40 歲專業人士"
+    ],
+    [
+      "exhibition",
+      "Our booth at the trade exhibition attracted strong interest.",
+      "我們在貿易展的攤位很受關注"
+    ],
+    [
+      "promotion",
+      "A summer promotion will boost weekend store traffic.",
+      "夏季促銷會帶動週末門市人潮"
+    ],
+    [
+      "endorsement",
+      "A celebrity endorsement could double our sales.",
+      "名人代言可能讓銷售翻倍"
+    ],
+    [
+      "testimonial",
+      "Customer testimonials are featured on the home page.",
+      "客戶見證會放在首頁"
+    ],
+    [
+      "contract",
+      "Please sign and return the contract by next Friday.",
+      "請下週五前簽好合約寄回"
+    ],
+    [
+      "lease",
+      "Our office lease was renewed for another two years.",
+      "辦公室租約再續兩年"
+    ],
+    [
+      "tenant",
+      "Each tenant must show proof of employment.",
+      "每位房客須出示工作證明"
+    ],
+    [
+      "landlord",
+      "The landlord agreed to repaint the walls before move-in.",
+      "房東同意搬入前重新油漆牆面"
+    ],
+    [
+      "premises",
+      "No food or drink is allowed on the premises.",
+      "室內禁止飲食"
+    ],
+    [
+      "amenities",
+      "The new building offers excellent amenities.",
+      "新大樓設施很完善"
+    ],
+    [
+      "mortgage",
+      "They locked in a fixed-rate mortgage at four percent.",
+      "他們鎖定四個百分點的固定利率房貸"
+    ],
+    [
+      "property",
+      "A commercial property in the suburbs sold for two million.",
+      "郊區商業房產售出兩百萬"
+    ],
+    [
+      "utility",
+      "Utility bills are split evenly between roommates.",
+      "水電費室友平均分攤"
+    ],
+    [
+      "deposit",
+      "A security deposit equal to one month's rent is required.",
+      "需付一個月租金的押金"
+    ],
+    [
+      "emergency",
+      "In an emergency, call this number immediately.",
+      "緊急情況請立即撥打此號碼"
+    ],
+    [
+      "safety",
+      "Safety briefings are mandatory for all visitors.",
+      "安全簡報是訪客必聽"
+    ],
+    [
+      "evacuation",
+      "Evacuation drills are held twice a year.",
+      "疏散演習一年舉行兩次"
+    ],
+    [
+      "hazard",
+      "A potential hazard near the loading dock has been flagged.",
+      "裝卸區附近的潛在危險已標示"
+    ],
+    [
+      "injury",
+      "Report any workplace injury to your supervisor.",
+      "工作受傷請通知主管"
+    ],
+    [
+      "insurance",
+      "Health insurance coverage starts on day one of employment.",
+      "健康保險上班第一天就生效"
+    ],
+    [
+      "claim",
+      "Insurance claims must be filed within thirty days.",
+      "保險理賠須在三十天內申請"
+    ],
+    [
+      "medication",
+      "Take this medication twice a day with food.",
+      "此藥每天兩次與食物一起服用"
+    ],
+    [
+      "prescription",
+      "Show this prescription at any participating pharmacy.",
+      "在合作藥局出示這張處方箋"
+    ],
+    [
+      "checkup",
+      "Annual checkups are covered by your health plan.",
+      "年度健檢由健康保險給付"
+    ],
+    [
+      "announcement",
+      "A special announcement will be made at three.",
+      "三點將有特別公告"
+    ],
+    [
+      "notice",
+      "A notice was posted in the lobby about the closure.",
+      "大廳已張貼閉店公告"
+    ],
+    [
+      "policy",
+      "The new return policy takes effect on the first of June.",
+      "新退貨政策六月一日生效"
+    ],
+    [
+      "regulation",
+      "A new safety regulation will be enforced next quarter.",
+      "新安全法規下季開始執行"
+    ],
+    [
+      "license",
+      "A driver's license is required to rent a car here.",
+      "在這裡租車要駕照"
+    ],
+    [
+      "permit",
+      "You need a special permit to enter the construction site.",
+      "進入工地需要特別許可證"
+    ],
+    [
+      "certificate",
+      "Each graduate receives a certificate of completion.",
+      "每位畢業生獲得結業證書"
+    ],
+    [
+      "questionnaire",
+      "Please fill out this questionnaire before the consultation.",
+      "請在諮詢前填這份問卷"
+    ],
+    [
+      "survey",
+      "Customer satisfaction survey results were very positive.",
+      "客戶滿意度調查結果非常正面"
+    ],
+    [
+      "statistics",
+      "Recent statistics show a clear upward trend.",
+      "最近數據顯示明顯上升趨勢"
     ]
   ]
 }

@@ -1,5 +1,69 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — 9th question type `audiocloze` + listen pool 81→201
+
+### 1. New question type: `audiocloze` (TOEIC Part 2/6 hybrid)
+
+Player hears a sentence with a noticeable silent gap, picks the missing English word from 4 options.
+
+```
+[AUDIO CLOZE] (TTS plays: "The ... explained how to take the new medication.")
+   ○ placement   ● pharmacist   ○ paycheck   ○ brainstorm
+```
+
+#### How the gap works
+Browser SpeechSynthesis can't insert a precise beep mid-utterance. Solution: split the sentence at the target word, call `SpeechSynthesisUtterance` for each half with a 700ms `setTimeout` between them. The natural prosody pause + the 700ms gap clearly signals "missing word" to the player.
+
+New helper `speakClozePair(before, after, opts?)` in `frontend/src/lib/speak.ts`. Sequences two TTS calls.
+
+#### Implementation
+- **Type**: added `'audiocloze'` to `QuestionType` enum (backend + frontend)
+- **Generator**: `generateAudioClozeQuestions` in `tslLoader.ts`. Reuses cloze-eligibility (TSL words whose example contains the lemma) + `pickClozeDistractors` (same POS / similar length / prefer same first letter). Sentence is split at the matched word; payload format `${before}|||${after}`.
+- **Room.ts**: forwards `audioPayload` as `audioWord` field, alongside the existing `audio` and `listen` flow.
+- **Frontend**: pink `AudioLines` badge. Auto-plays 300ms after question appears (calls `speakClozePair`). Tap-to-replay button. Same render in jump-mode.
+- **Curve mix**: placed in **hard tier** (1 audiocloze + 1 synonym + 1 base question). Audiocloze = listening + lexical inference, the deepest skill in the game.
+
+### 2. Listen pool expansion: 81 → 201 entries
+
+Added 120 more curated `[target_word, english_sentence, chinese_gist]` triples across business contexts:
+
+- **Office daily** (printer, photocopy, voicemail, conference, breakroom, …)
+- **Travel/hospitality** (itinerary, boarding, layover, housekeeping, valet, …)
+- **Finance/accounting** (paycheck, salary, bonus, budget, profit, revenue, …)
+- **Sales/customer service** (complaint, feedback, quotation, refund, return, …)
+- **HR/hiring** (recruit, interview, hire, promotion, training, vacation, leave, …)
+- **Meetings/events** (agenda, minutes, attendee, keynote, banquet, rehearsal, …)
+- **Logistics** (shipment, warehouse, supplier, vendor, freight, cargo, fleet, …)
+- **Tech/IT** (software, backup, password, firewall, server, network, login, …)
+- **Marketing** (campaign, brand, slogan, target, demographic, exhibition, endorsement, …)
+- **Real estate/contracts** (contract, lease, tenant, mortgage, property, deposit, …)
+- **Health/safety** (emergency, evacuation, hazard, insurance, prescription, checkup, …)
+
+Random sample of new entries:
+```
+[itinerary]    "Please review your itinerary before tomorrow's departure."
+                行程 → 請在明天出發前確認行程
+
+[evacuation]   "Evacuation drills are held twice a year."
+                疏散 → 疏散演習一年舉行兩次
+
+[demographic]  "Our main target demographic is professionals aged twenty-five to forty."
+                目標客群 → 主要客群是 25 至 40 歲專業人士
+```
+
+### Distribution / 500 curve questions
+```
+vocab:81  audio:72  fillblank:80  cloze:67
+confusable:28  collocation:34  synonym:50  listen:38  audiocloze:50
+```
+
+All **9 types** now fire reliably. Each game now contains 2 listening tracks (single-word audio + sentence/cloze listening) for richer ear training.
+
+### Verification
+- TS clean (backend + frontend)
+- Audio cloze samples manually verified — split sentences read naturally
+- Listen pool: 201 entries, no broken sentences
+
 ## 2026-05-08 (Mobile) — Feature: 8th question type — `listen` (sentence comprehension)
 
 User asked for sentence-level audio to fill the TOEIC Part 2/3 listening gap.
