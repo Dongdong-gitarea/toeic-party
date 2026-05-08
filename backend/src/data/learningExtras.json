@@ -1298,7 +1298,7 @@
       "handle",
       [
         "manage",
-        "cope"
+        "address"
       ]
     ],
     [
@@ -1374,8 +1374,8 @@
     [
       "submit",
       [
-        "present",
-        "deliver"
+        "send",
+        "file"
       ]
     ],
     [
@@ -1388,8 +1388,7 @@
     [
       "utilize",
       [
-        "use",
-        "employ"
+        "use"
       ]
     ],
     [
@@ -1552,13 +1551,6 @@
       "empty",
       [
         "full"
-      ]
-    ],
-    [
-      "employ",
-      [
-        "dismiss",
-        "fire"
       ]
     ],
     [

@@ -1,5 +1,80 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 9: deep stress-test of cloze + syn/ant content; another 115 template fragments swept
+
+After shipping the cloze and synonym types in rounds 7-8, I 50-sample stress-tested cloze output and discovered MORE auto-generated template fragments survived. These weren't caught in round 6 because my regex was too narrow. This round I built a sentence-shape clustering tool that found them programmatically.
+
+### 1. Found and fixed 3 more template patterns (115 examples total)
+
+Round 6 caught 4 templates × 189 examples. Round 9 catches 3 more × 115:
+
+| Template | Hits | Why broken |
+|---|---|---|
+| "We received the X from the vendor yesterday." | 60 | Vendors don't deliver people, drought, journalism, etc. |
+| "The changes were X implemented last month." | 24 | Adverbs like "afterward, anytime, downstairs" don't fit |
+| "The new X is Y for all departments." | 24 | Adjectives like "documentary, pharmaceutical" don't describe policies |
+| "The X was Y finished ahead of schedule." | 8 | "lately/downstairs/periodically finished" is wrong sense |
+| "He X agreed to the new terms." | 6 | "someday/traditionally agreed" is awkward |
+
+(Some words appeared in multiple regex matches → 115 distinct.)
+
+Hand-rewrote all 115 with natural sentences using each word's real meaning. Highlights:
+
+| Word | Before | After |
+|---|---|---|
+| drought | "We received the drought from the vendor yesterday." | "The long drought reduced the region's wheat harvest by half." |
+| internship | (same template) | "Her summer internship led to a full-time job offer." |
+| journalism | (same template) | "He has worked in financial journalism for over a decade." |
+| afterward | "The changes were afterward implemented last month." | "We had a meeting and went to dinner afterward." |
+| pharmaceutical | "The new pharmaceutical is for all departments." | "The pharmaceutical industry invests heavily in cancer research." |
+| documentary | "The new documentary is for all departments." | "The documentary about climate change won several awards." |
+| sharply | "The project was sharply finished ahead of schedule." | "Stock prices fell sharply after the earnings report." |
+
+After-fix scan: **0 remaining template patterns**. Programmatic shape-cluster tool now baseline at ≤4 per shape (no fake patterns).
+
+### 2. Sharpened 13 weak fillblank defs in rank 1000-1250
+
+Earlier rounds covered rank 1-1000. Filled the gap:
+
+| Word | Before | After |
+|---|---|---|
+| superb | "very good" | "excellent or outstanding in quality" |
+| attire | "clothing" (= same word!) | "clothing, especially for a special occasion" |
+| bulk | "in big amount" | "the largest part or main mass of something" |
+| penalize | "to punish someone" | "to impose a penalty for breaking a rule" |
+| sharply | "harshly" (= same word!) | "in a sudden and severe way" |
+| tasty | "delicious" (= same word!) | "having a strong, pleasant flavour" |
+| obligate | "to have to do" | "to legally or morally require someone to do something" |
+| query | "question, inquire" | "a question, especially a formal or official one" |
+| thrill | "excitement" (= same word!) | "a sudden feeling of strong excitement" |
+| abide | "put up with" | "to accept or tolerate something difficult" |
+| broaden | "to widen" (= same word!) | "to make wider or more inclusive" |
+| merit | "to deserve praise" | "to be worthy of recognition or reward" |
+| fork | "eating utensil" | "a small kitchen tool with prongs for picking up food" |
+
+### 3. Sharpened 4 synonym/antonym pairs
+
+Auditing the 30 syn + 25 ant pairs from round 8 spotted ambiguities:
+
+| Pair | Issue | Fix |
+|---|---|---|
+| `employ ↔ dismiss/fire` | "employ" usually means "use", not just "hire" → ambiguous antonym | Removed (already have `hire ↔ fire`) |
+| `submit ≈ present, deliver` | Loose; "deliver" too generic | `submit ≈ send, file` (file a report = submit it) |
+| `utilize ≈ use, employ` | "employ" has dual sense (use/hire) | `utilize ≈ use` only |
+| `handle ≈ manage, cope` | "cope" needs preposition "with" | `handle ≈ manage, address` |
+
+### 4. Dead code removal
+
+`backend/src/data/questions.ts`: 166 lines → 12 lines.
+- Removed `WORD_BANK` (15 hardcoded entries) — never read.
+- Removed `pickQuestionsLegacy` — never called.
+- Kept `pickQuestions` (the active export, delegates to `generateTSLQuestions`) and `Difficulty` type.
+
+### Verification
+- TS clean (backend + frontend)
+- 0 remaining template-fragment example sentences
+- 50-sample cloze re-test: every prompt reads naturally and uses the word's real meaning
+
 ## 2026-05-08 (Mobile) — Round 8: collocation conflict fix + 15 new confusable pairs + 7th question type (synonym/antonym)
 
 Three improvements from the menu in one push.
