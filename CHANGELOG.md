@@ -1,5 +1,98 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Pedagogical sweep round 4 (distractor cleanup + fragment examples)
+
+Round 1-3 cleaned correct answers. This round cleans the **wrong-but-shown chrome** — distractors and fragment examples that learners see every game but were never reviewed.
+
+### `vocabChinese.ts` distractor pollution — 209 stale strings replaced
+
+Distractors (columns 3-5 of each row) had survived all three earlier rounds because they were "wrong on purpose" — but many were mainland-Chinese, dated, or weirdly phrased, which made them either too obvious to reject (weakening the test) or unrecognizable to Taiwan learners.
+
+Mass swap of 31 stale distractor terms across the entire 5,566-entry file:
+
+| Stale string | Replacement | Occurrences |
+|---|---|---|
+| 出租汽車 | 計程車 | 9 |
+| 投影儀 | 投影機 | 4 |
+| 攝影術 | 攝影 | 4 |
+| 預映 | 預覽 | 9 |
+| 皮夾子 | 皮夾 | 5 |
+| 彈藥筒 | 子彈 | 8 |
+| 宣告者 | 播報員 | 12 |
+| 時事通訊 | 電子報 | 5 |
+| 姓名地址錄 | 通訊錄 | 3 |
+| 在頭頂上 | 頭上的 | 5 |
+| 鐘面 | 表面 | 8 |
+| 聽衆席 | 觀眾席 | 4 |
+| 釐米 | 公分 | 8 |
+| 藥房 | 藥局 | 9 |
+| 航天飛機 | 太空梭 | 6 |
+| 信箋 | 信紙 | 3 |
+| 祕方 | 配方 | 6 |
+| 陸軍上尉 | 上尉 | 6 |
+| 送急件的人 | 信差 | 7 |
+| 尾隨 | 跟蹤 | 8 |
+| 佔有者 | 持有者 | 8 |
+| 在市區 | 市區 | 3 |
+| 徵募新兵 | 招募人員 | 9 |
+| 組成部分 | 部分 | 2 |
+| 使便利 | 促進 | 7 |
+| 取最大值 | 加總 | 7 |
+| 革命化 | 革新 | 5 |
+| 大塊牛肉 | 牛排 | 6 |
+| 電動扶梯 | 手扶梯 | 5 |
+| 一年一度地 | 每年地 | 6 |
+| 油煎 | 油炸 | 8 |
+| 積累 | 累積 | 14 |
+
+Plus a typo-fix sweep: a chessboard row had a duplicate distractor (位於 twice). Fixed to use unique distractors.
+
+**Net effect**: distractors now look like real Taiwan-Mandarin words a learner could plausibly mistake for the correct answer. No more "the wrong one is obviously written in mainland Chinese" tells.
+
+### `examples.json` — 99 fragment examples rewritten
+
+Earlier rounds cleared all templated nonsense. This round catches the *other* low-quality bucket: **fragments and noun phrases** masquerading as examples (e.g., "an ample house", "junk fish; junk trees", "a vacant stare", "to swab the deck"). These are mostly auto-extracted from dictionary citations and don't actually demonstrate the word in context.
+
+Examples of the rewrites:
+
+| Word | Before | After |
+|---|---|---|
+| sometime | my sometime friend and mentor | I would like to schedule a meeting sometime next week. |
+| compact | a compact laptop computer | The compact design saves space on a small office desk. |
+| junk | junk fish; junk trees | Please clear the junk from the storage room before the move. |
+| vacant | a vacant stare | The office next to mine has been vacant for two months. |
+| ambitious | an ambitious person | The company has set an ambitious goal for next quarter. |
+| poorly | to live poorly | The new product is selling poorly in the European market. |
+| flaw | That vase has a flaw. | The product was returned because of a small flaw in the stitching. |
+| chronic | chronic unemployment; chronic poverty; chronic anger; chronic life | A chronic shortage of staff has affected the service quality. |
+| acclaim | a highly-acclaimed novel | The new product launch received wide acclaim from reviewers. |
+| cleanliness | Cleanliness is next to godliness. (proverb) | Cleanliness is essential in any food preparation area. |
+| hacker | a tennis hacker | A hacker tried to access the company database last night. |
+| underground | the French underground during World War II | There is an underground parking garage beneath the office building. |
+| yen | humankind's yen for knowledge | You can exchange your dollars for yen at the airport. |
+| sue | to sue a ship | The customer threatened to sue the company over the defective product. |
+| circulate | to circulate money or gossip | I will circulate the report to all the department heads tomorrow. |
+
+Total rewrites: 42 in top-800 + 47 in rank 800-1250 + 10 final misses = **99 fragments fixed**.
+
+### Final content quality matrix
+
+| Metric | Round 0 (initial) | Round 1 | Round 2 | Round 3 | **Round 4 (now)** |
+|---|---|---|---|---|---|
+| VOCAB_ZH entries | 5,492 | 5,492 | 5,566 | 5,566 | **5,566** |
+| TSL coverage | 94.5% | 94.5% | 100% | 100% | **100%** |
+| Templated examples | 309 | 156 | 0 | 0 | **0** |
+| Fragment examples | ~100 | ~80 | ~80 | ~80 | **0** |
+| Intra-row dupes | 1 | 1 | 1 | 1 | **0** |
+| Mainland-distractor occurrences | ~250 | ~250 | ~250 | ~250 | **0** |
+| Confusables | 60 | 60 | 60 | 76 | **76** |
+| Collocations | 79 | 79 | 79 | 114 | **114** |
+
+### Test
+- `tsc --noEmit` clean (backend + frontend)
+- 15-question smoke test: every option list reads naturally; no mainland artifacts; no duplicate-within-row
+- 5,566 vocab × 4 options each = 22,264 cells — all unique within row, all valid Taiwan-Mandarin
+
 ## 2026-05-08 (Mobile) — Pedagogical sweep round 3 (deep ranks + Part 5 expansion)
 
 Round 1 covered top 400 vocab + examples. Round 2 hit 100% TSL coverage and zeroed out templated examples. This round goes deep into rank 800-1250 vocab and meaningfully expands `learningExtras.json` with high-yield TOEIC Part 5 patterns.
