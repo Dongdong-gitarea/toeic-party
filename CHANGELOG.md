@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-05-07 (Mobile) — Examples.json sweep + content QA continued
+Following the vocab audit, did a content review on `examples.json` (1,367 example sentences).
+
+### Truly broken examples — replaced
+- `o'clock`: was `(rare, nonstandard) What o'clock is it?` (meta-commentary)
+- `caller`: was `- I've got someone on the line.` (orphan dash, doesn't mention "caller")
+- `kit`: was `1961 18 Jan, Guardian (cited after OED):` (citation header)
+- `pad`: was `May 21, 2008, Austin American-Statesman` (citation header)
+- `café`: was a Joni Mitchell song citation
+- `orientation`: was a pigeons-homing example (TOEIC-irrelevant)
+- `remind`: was empty
+
+### Wrong-spelling / wrong-word examples — fixed
+- `brake`: example used "break" (wrong word)
+- `ice-cream`: example used "ice cream" with space
+- `runner`: example used "run" not "runner"
+- `webpage`: example used "web page" with space
+- `ma'am`: example used "madam"
+- `plow`: example used "plough" (UK)
+- `liter`: example used "litre" (UK)
+
+### Templated generic sentences — replaced for top-200 high-frequency words
+Three generic auto-templates ("We received the X from the vendor yesterday", "X has been updated for this quarter", "X was reviewed during the meeting") were applied to ~310 words regardless of fit, producing nonsense like "We received the **noon** from the vendor yesterday" or "The **traveler** was reviewed during the meeting".
+
+Hand-wrote ~91 TOEIC-flavoured sentences for the most-played entries (rank ≤ 200 fully covered, plus the worst rank-200-500 cases). Examples:
+
+| word | before | after |
+|---|---|---|
+| supervisor | The supervisor has been updated for this quarter. | Speak with your supervisor before changing the schedule. |
+| noon | We received the noon from the vendor yesterday. | The lunch meeting is scheduled to start at noon. |
+| résumé | The résumé was reviewed during the meeting. | Please attach your résumé to the application form. |
+| inconvenience | We received the inconvenience from the vendor yesterday. | We apologize for any inconvenience caused by the delay. |
+| sandwich | The sandwich was reviewed during the meeting. | I usually have a sandwich and coffee for lunch. |
+| feedback | (templated) | The customer's feedback helped us improve the product. |
+
+### Stats
+- Before: 309 templated examples (22% of file)
+- After: 217 templated examples remain — all in TSL rank > 200 (low-traffic words)
+- 0 templated examples in TSL rank ≤ 200
+
+The remaining low-rank templated entries can be re-written incrementally as users surface them; they're correct (just bland) sentences, not wrong.
+
 ## 2026-05-07 (Mobile) — Vocab translation audit
 
 **Trigger**: user reported `tag → 尾隨` (should be 標籤). Did a comprehensive sweep of `vocabChinese.ts` (5,492 entries) looking for similar quality issues and applying fixes / removals.
