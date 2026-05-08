@@ -45,19 +45,30 @@ interface TSLWord {
 // Difficulty → TSL rank cutoff + whether to include confusable/collocation
 // 'curve' isn't in here — it has its own dedicated generator below that
 // stitches together easy + medium + hard tiers within a single match.
-const DIFFICULTY_CONFIG: Record<Exclude<Difficulty, 'curve'>, { maxRank: number; confusable: boolean; collocation: boolean }> = {
-  easy:   { maxRank: 400, confusable: false, collocation: false },
-  medium: { maxRank: 800, confusable: true,  collocation: true },
-  hard:   { maxRank: 9999, confusable: true, collocation: true },
+//
+// minRank in 'hard' is set so the hard tier intentionally **skips** the most
+// basic 400 TSL words (the ones every TOEIC learner already knows: airport,
+// fax, lobby, brochure, etc.). Hard tier focuses on TSL 400-1250 plus all
+// non-TSL CET/TOEFL business words — the unfamiliar end of the pool.
+const DIFFICULTY_CONFIG: Record<Exclude<Difficulty, 'curve'>, { maxRank: number; minRank: number; confusable: boolean; collocation: boolean }> = {
+  easy:   { maxRank: 400,  minRank: 0,   confusable: false, collocation: false },
+  medium: { maxRank: 800,  minRank: 0,   confusable: true,  collocation: true },
+  hard:   { maxRank: 9999, minRank: 400, confusable: true,  collocation: true },
 };
 
-// Filter VOCAB_ZH by TSL rank (words not in TSL are treated as rank 9999)
-function filterVocabByDifficulty(maxRank: number): typeof VOCAB_ZH {
-  if (maxRank >= 9999) return VOCAB_ZH;
+// Filter VOCAB_ZH by TSL rank.
+// - Words IN TSL: must satisfy minRank ≤ rank ≤ maxRank.
+// - Words NOT IN TSL (CET/TOEFL business words): only included when maxRank
+//   reaches 9999, i.e., for the hard tier where these advanced words belong.
+function filterVocabByDifficulty(maxRank: number, minRank: number = 0): typeof VOCAB_ZH {
   const tslMap = new Map(loadTSL().map((w) => [w.word.toLowerCase(), w.rank]));
   return VOCAB_ZH.filter((entry) => {
     const rank = tslMap.get(entry[0].toLowerCase());
-    return rank !== undefined && rank <= maxRank;
+    if (rank === undefined) {
+      // Non-TSL: only in hard tier (maxRank=9999)
+      return maxRank >= 9999;
+    }
+    return rank >= minRank && rank <= maxRank;
   });
 }
 
@@ -257,8 +268,8 @@ function generateAudioQuestionsFromPool(vocabPool: typeof VOCAB_ZH, count: numbe
 }
 
 // ── Generate definition match: show definition → pick correct word ──
-function generateDefinitionQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
-  const words = loadTSL().filter((w) => w.definition_en.length >= 5 && w.rank <= maxRank);
+function generateDefinitionQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999, minRank = 0): Question[] {
+  const words = loadTSL().filter((w) => w.definition_en.length >= 5 && w.rank <= maxRank && w.rank >= minRank);
   const selected = pickWeighted(words, (w) => w.word, weakLower, Math.min(count, words.length), excludeLower);
   return selected.map((w, idx) => {
     const wrongWords = pickRandom(
@@ -505,13 +516,13 @@ function buildClozeMatcher(word: string): RegExp {
   return new RegExp(`\\b(?:${sorted.join('|')})\\b`, 'i');
 }
 
-function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999, minRank = 0): Question[] {
   const examples = loadExamples();
   const all = loadTSL();
   // Eligible: word has an example AND the example contains the lemma OR a
   // standard inflected form of the word.
   const eligible = all.filter((w) => {
-    if (w.rank > maxRank) return false;
+    if (w.rank > maxRank || w.rank < minRank) return false;
     const ex = examples[w.word.toLowerCase()];
     if (!ex || ex.length < 10) return false;
     return buildClozeMatcher(w.word).test(ex);
@@ -540,11 +551,11 @@ function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLo
 // ── Generate audio-cloze: hear sentence with a gap, pick the missing word ──
 // Splits the example sentence at the target word so frontend can speak the two
 // halves with a pause between, simulating a beep/blank.
-function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999, minRank = 0): Question[] {
   const examples = loadExamples();
   const all = loadTSL();
   const eligible = all.filter((w) => {
-    if (w.rank > maxRank) return false;
+    if (w.rank > maxRank || w.rank < minRank) return false;
     const ex = examples[w.word.toLowerCase()];
     if (!ex || ex.length < 10) return false;
     return buildClozeMatcher(w.word).test(ex);
@@ -682,17 +693,17 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const collQs = collCount > 0 ? generateCollocationQuestions(collCount, used) : [];
   const synQs = synCount > 0 ? generateSynonymQuestions(synCount, used) : [];
 
-  const filteredVocab = filterVocabByDifficulty(cfg.maxRank);
+  const filteredVocab = filterVocabByDifficulty(cfg.maxRank, cfg.minRank);
   const vocabQs = generateVocabQuestionsFromPool(filteredVocab, vocabCount, weakLower, used);
   for (const q of vocabQs) used.add(q.word.toLowerCase());
 
   const audioQs = generateAudioQuestionsFromPool(filteredVocab, audioCount, weakLower, used);
   for (const q of audioQs) used.add(q.word.toLowerCase());
 
-  const fillQs = generateDefinitionQuestions(fillCount, weakLower, used, cfg.maxRank);
+  const fillQs = generateDefinitionQuestions(fillCount, weakLower, used, cfg.maxRank, cfg.minRank);
   for (const q of fillQs) used.add(q.word.toLowerCase());
 
-  const clozeQs = clozeCount > 0 ? generateClozeQuestions(clozeCount, weakLower, used, cfg.maxRank) : [];
+  const clozeQs = clozeCount > 0 ? generateClozeQuestions(clozeCount, weakLower, used, cfg.maxRank, cfg.minRank) : [];
 
   return shuffle([...vocabQs, ...audioQs, ...fillQs, ...clozeQs, ...confQs, ...collQs, ...synQs]);
 }
@@ -722,9 +733,12 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const hardSize = Math.max(1, Math.round(count * 0.3));
   const medSize = Math.max(0, count - easySize - hardSize);
 
-  const easyVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.easy.maxRank);
-  const medVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.medium.maxRank);
-  const hardVocab = VOCAB_ZH; // full pool
+  const easyVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.easy.maxRank, DIFFICULTY_CONFIG.easy.minRank);
+  const medVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.medium.maxRank, DIFFICULTY_CONFIG.medium.minRank);
+  // Hard tier: TSL rank 400-1250 + all non-TSL CET/TOEFL business words.
+  // Specifically EXCLUDES TSL rank 1-400 (basic words every TOEIC learner
+  // already knows) so the hard tier always feels challenging.
+  const hardVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.hard.maxRank, DIFFICULTY_CONFIG.hard.minRank);
 
   // Per-tier type allocation. Easy is pure vocab/audio/def/cloze.
   // Medium adds 1 confusable + 1 collocation. Hard adds 1 synonym/antonym
@@ -751,11 +765,7 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
     const isEasy = name === 'easy';
     const isMed = name === 'medium';
     const pool = isEasy ? easyVocab : isMed ? medVocab : hardVocab;
-    const maxRank = isEasy
-      ? DIFFICULTY_CONFIG.easy.maxRank
-      : isMed
-        ? DIFFICULTY_CONFIG.medium.maxRank
-        : 9999;
+    const cfg = isEasy ? DIFFICULTY_CONFIG.easy : isMed ? DIFFICULTY_CONFIG.medium : DIFFICULTY_CONFIG.hard;
     const mix = isEasy ? easyMix : isMed ? medMix : hardMix;
 
     const out: Question[] = [];
@@ -770,12 +780,12 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
       out.push(...aqs);
     }
     if (mix.def > 0) {
-      const dqs = generateDefinitionQuestions(mix.def, weakLower, used, maxRank);
+      const dqs = generateDefinitionQuestions(mix.def, weakLower, used, cfg.maxRank, cfg.minRank);
       for (const q of dqs) used.add(q.word.toLowerCase());
       out.push(...dqs);
     }
     if (mix.cloze > 0) {
-      const cqs = generateClozeQuestions(mix.cloze, weakLower, used, maxRank);
+      const cqs = generateClozeQuestions(mix.cloze, weakLower, used, cfg.maxRank, cfg.minRank);
       for (const q of cqs) used.add(q.word.toLowerCase());
       out.push(...cqs);
     }
@@ -793,7 +803,7 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const hardCore = tier('hard');
   const hardExtras: Question[] = [];
   if (hardSyn > 0) hardExtras.push(...generateSynonymQuestions(hardSyn, used));
-  if (hardAudioCloze > 0) hardExtras.push(...generateAudioClozeQuestions(hardAudioCloze, weakLower, used, 9999));
+  if (hardAudioCloze > 0) hardExtras.push(...generateAudioClozeQuestions(hardAudioCloze, weakLower, used, DIFFICULTY_CONFIG.hard.maxRank, DIFFICULTY_CONFIG.hard.minRank));
   const hardQs = shuffle([...hardCore, ...hardExtras]);
 
   return [...easyQs, ...medQs, ...hardQs];
