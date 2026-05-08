@@ -1,5 +1,84 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Fillblank ("English definition → pick the word") quality fix
+
+**Trigger**: user feedback — "有一個題目是英文意思對照回去單字的，有的也怪怪的" (the question type that maps an English definition back to a word feels off for some entries).
+
+### Root cause
+Two compounding issues in `fillblank` question generation (`tslLoader.ts:248`):
+
+1. **Hard truncation at 50 characters** cut most defs mid-thought.
+   - 324 of 1,250 TSL definitions are >50 chars and got truncated, e.g.:
+     - "a written request for payment for the goods and se…" (invoice)
+     - "the amount of money that you pay to receive a serv…" (subscription)
+     - "a man whose job it is to bring meals to your table…" (waiter)
+   - With the prompt cut off mid-sentence, the player has to guess from incomplete information.
+
+2. **Some defs were too vague to disambiguate**, e.g.:
+   - lease → "to rent" (literally identical to the word *rent*)
+   - obtain → "to get" (matches "get", "take", "have"…)
+   - depart → "to leave" (matches any leaving verb)
+   - shortly → "very soon" (matches "soon", "quickly")
+   - cab → "taxi" (literally the same word)
+   - jet → "an airplane" (= the word "airplane")
+   - tag → "a label" (= the word "label")
+   - delete → "remove" (= the word "remove")
+
+### Fix 1: bump truncation 50 → 90 chars
+
+`tslLoader.ts:248` `truncDef(w.definition_en, 50)` → `truncDef(w.definition_en, 90)`.
+- 99.1% of TSL defs (1,239 of 1,250) now display in full.
+- Only 11 defs >90 chars still truncate (and those are deeper-rank low-traffic).
+
+### Fix 2: rewrite 83 vague / weak / generic definitions
+
+Rewrote ~83 definitions that were either too short to disambiguate or used wording that just IS one of the distractor words.
+
+Sample rewrites:
+
+| Word | Before | After |
+|---|---|---|
+| lease | to rent | a long-term rental contract for property |
+| obtain | to get | to get something formally or with effort |
+| depart | to leave | to leave on a journey or flight |
+| expire | come to an end | to reach the end of a valid period |
+| shortly | very soon | in a short time from now; soon |
+| inquire | to ask about | to formally ask for information |
+| tag | a label | a small label attached to an item |
+| contractor | a builder | a person or company hired to do construction |
+| prohibit | not allowed | to officially forbid by rule or law |
+| delicious | to taste good | having a very pleasant taste |
+| delete | remove | to permanently remove digital data |
+| utility | usefulness | the quality of being useful or practical |
+| jet | an airplane | a fast airplane powered by jet engines |
+| cab | taxi | a vehicle hired for short trips; a taxi |
+| auto | a car | a road vehicle; an automobile |
+| umbrella | something, like an organization, that covers a similar range of things | a folding object held above your head to keep off rain |
+| inventory | detailed list of everything included | the complete list of stock or items a business has |
+| tactic | like a plan or scheme | a planned action used to achieve a specific goal |
+| reception | the act of greeting people | the front desk or area where guests are welcomed |
+| inference | the act of guessing something with given information | a conclusion drawn from evidence or reasoning |
+
+…plus rewrites for accustom, jog, quarterly, unfamiliar, actress, alternate, reopen, unlimited, celebrity, icy, vacant, jam, verbal, appraisal, comply, parade, satisfactory, unnecessary, applicable, generic, amuse, attorney, irritate, discontinue, insufficient, noisy, recreation, specially, subtract, authentic, handy, influential, repeatedly, contrary, outlook, dynamic, recur, bug, cautious, cord, inflate, oversee, dispatch, evenly, farewell, formally, neat, sometime, complimentary, lately, seldom, economical, sincerely, clue, upcoming, goods, logical, merchandise, baggage, convenient.
+
+### Smoke test (post-fix)
+Sample of 10 fillblank prompts now reads cleanly with no truncation:
+
+```
+1. "to leave out or not say"                               → omit
+2. "look over carefully"                                    → inspect
+3. "to explain or make clear"                               → explanatory
+4. "a packed meal to take with you and eaten in the open air" → picnic
+5. "officially tell someone some information"               → notify
+6. "a written reminder to do something"                     → memo
+7. "the front desk or area where guests are welcomed"       → reception
+8. "to formally forbid by rule or law"                       → prohibit
+```
+
+### Test
+- `tsc --noEmit` clean
+- 10-question fillblank smoke test: every prompt completes naturally, every correct answer is the unambiguous best fit
+
 ## 2026-05-08 (Mobile) — Pedagogical sweep round 5 (CET/TOEFL non-TSL business words)
 
 The earlier four rounds focused on the 1,250 TSL words. This round audits the **~4,316 non-TSL entries** (CET4 / CET6 / TOEFL business words) that surface as questions in `medium`/`hard` tier and as distractors throughout. Same TOEIC-instructor lens.

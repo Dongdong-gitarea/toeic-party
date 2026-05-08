@@ -245,7 +245,7 @@ function generateDefinitionQuestions(count: number, weakLower: Set<string>, excl
       id: `tsl-d-${idx}-${w.rank}`,
       type: 'fillblank' as const,
       word: w.word,
-      prompt: truncDef(w.definition_en, 50),
+      prompt: truncDef(w.definition_en, 90),
       options,
       correctIndex: options.indexOf(w.word),
       definition: w.definition_en,
