@@ -1,5 +1,96 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Pedagogical content review (TOEIC teaching lens)
+
+Re-audited the high-frequency content (TSL rank 1-400 — drives ~80% of gameplay) as a TOEIC instructor would: is the Chinese gloss the **business sense** of the word, is the example sentence in **TOEIC register** (office / hotel / travel / retail / dining / finance), and would a Taiwan-based learner see it and immediately recognise the word?
+
+### `vocabChinese.ts` — 74 pedagogical glosses fixed (rank 1-400)
+
+The earlier audit caught structural / mainland-Chinese / dictionary-noise issues. This pass catches "technically correct but pedagogically wrong" — translations that aren't the meaning the TOEIC test actually uses. Concrete examples:
+
+| Word | Before | After | Why |
+|---|---|---|---|
+| client | 委託人 | **客戶** | 委託人 is legal/agency-sense; TOEIC business client = 客戶. |
+| supervisor | 督導 | **主管** | 督導 = inspection-sense; TOEIC office supervisor = 主管. |
+| receipt | 發票 | **收據** | Was identical to `invoice` — broke disambiguation. |
+| reception | 招待會 | **接待處** | 招待會 is a party; TOEIC = the front desk. |
+| publish | 公佈 | **出版** | 公佈 = announce; books/articles = 出版. |
+| enclose | 圍住 | **附上** | TOEIC Part 6/7 letter-staple ("Please find enclosed…"). |
+| inventory | 詳細目錄 | **庫存** | 詳細目錄 = detailed list; TOEIC business = stock on hand. |
+| identification | 鑑定 | **身份證明** | 鑑定 = forensic identification; TSL says document-of-ID. |
+| coupon | 禮券 | **優惠券** | 禮券 = gift voucher; coupon = discount slip. |
+| appliance | 用具 | **家電** | TOEIC: kitchen/home appliance, not "utensil". |
+| renew | 重新開始 | **更新** | TOEIC = renew subscription/contract, not "restart". |
+| recycle | 循環 | **回收** | 循環 = cycle (general); TOEIC = recycling. |
+| compact | 緊密的 | **小巧的** | 緊密的 = close-knit (relationships); TOEIC = small/compact. |
+| skim | 撇去 | **瀏覽** | 撇去 = skim cream off milk; TOEIC = skim a document. |
+| recipient | 接受者 | **收件人** | TOEIC = email/letter recipient. |
+| convenience | 方便 | **便利** | 方便 is adjectival; noun form = 便利. |
+| vacancy | 空白 | **職缺** | 空白 = blank space; TOEIC = job opening / hotel room. |
+| outlet | 出口 | **暢貨中心** | 出口 = general exit; TOEIC retail = factory outlet. |
+| bargain | 討價還價 | **特價品** | TSL def is the noun "good deal"; 討價還價 is the verb. |
+| complimentary | 稱讚的 | **免費的** | TOEIC overwhelmingly = complimentary (free) breakfast. |
+| terminal | 晚期的 | **終點站** | 晚期的 = "terminal cancer"; TOEIC = airport/transit terminal. |
+| shuttle | 航天飛機 | **接駁車** | 航天飛機 = space shuttle; TOEIC = hotel shuttle bus. |
+| stationery | 信箋 | **文具** | 信箋 = letter paper; TOEIC = office supplies. |
+| recipe | 祕方 | **食譜** | 祕方 = secret formula; standard = recipe book. |
+| cartridge | 彈藥筒 | **墨水匣** | 彈藥筒 = ammunition; TOEIC = printer ink. |
+| microphone | 擴音器 | **麥克風** | 擴音器 = megaphone (loud speaker); microphone = 麥克風. |
+| occupancy | 佔有 | **入住率** | TOEIC hotel context = occupancy rate. |
+| cab | 出租汽車 | **計程車** | Mainland → Taiwan term. |
+| photography | 攝影術 | **攝影** | -術 suffix is dated. |
+| wallet | 皮夾子 | **皮夾** | -子 suffix is dated. |
+| projector | 投影儀 | **投影機** | Mainland → Taiwan term. |
+| broker | 掮客 | **經紀人** | 掮客 has slightly negative shade; standard = 經紀人. |
+
+…plus 42 more in the same vein (coordinate, exclusive, defect, captain, courier, patron, leak, drill, prediction, conditioner, enroll, orientation, specification, fitness, gym, closet, aisle, ingredient, indoor, dial, bulletin, newsletter, announcer, aspect, stadium, waitress, downtown, preview, unhappy, relocate, behalf, minimize, presenter, carrier, pet, proficiency, directory, overview, manual, replacement, availability, photocopier).
+
+### `examples.json` — 91 examples rewritten for TOEIC register
+
+The earlier sweep cleaned the worst broken stuff (citation headers, song lyrics, biology examples). This pass rewrote pedagogically wrong examples — sentences that *contain* the word but in a register or sense TOEIC never uses.
+
+Categories of wrongness fixed:
+
+- **Wrong sense in context** — `mechanic`: "This game has a mechanic..." (game design); `architect`: Aristotelian philosophy; `battery`: "battery of standard tests"; `impact`: "hatchet cut on impact"; `terminal`: "terminal cancer"; `dial`: "dialled down the rhetoric"; `cart`: NES cartridge slang; `commuter`: "He takes the commuter to..." (unidiomatic).
+- **Templated nonsense** — top-200 already cleaned; this round caught rank 200-400: `presenter`, `cater`, `dental`, `delegate`, `omit`, `inspector`, `semester`, `congratulation`, `graph`, `behalf`, `cumulative`, `overdue`, `conditioner`, `garment`, `flyer`, `profitable`, `showroom`, `vegetarian`, `administrator`, `confidential`, `incur`, `loyal`, `microphone`, `verify`, `designate`, `photocopier`, `thorough`, `headquarter`, `refreshment`, `trainee`.
+- **Fragments / archaic phrasing** — `enclose`: "to enclose lands"; `cloth`: "man of the cloth" (clergy idiom); `fare`: "Behold! A knight fares forth"; `outstanding`: "outstanding contracts"; `definite`: list of fragments; `accomplishment`: "the accomplishment of…"; `transit`: "the transit of goods through a country"; `defect`: list of fragments.
+- **Wrong word / wrong syntax** — `goods`: "The best is the enemy of the *good*"; `infer`: "She asked the staff to infer the documents"; `dine`: "The team will dine the proposal"; `inquire`: "inquire the proposal" (transitive misuse); `notify`: legalese passive; `precede`: "Cultural genocide..."; `merger`: sports clubs.
+- **Off-register / dark / slang** — `expire`: "The patient expired in hospital"; `hungry`: "My kids go to bed hungry every night because I haven't got any money"; `gym`: "On Wednesdays I hike; on Fridays I gym" (gym-as-verb slang); `delicious`: "The irony is delicious!"; `ink`: "getting a lot of ink lately" (media coverage idiom); `unreal`: "I just had an unreal hamburger"; `trash`: "I am Harry Potter trash"; `garbage`: regional joke.
+- **Examples that didn't even contain the right word** — `chef` (citation header), `lobby` (UK regional dish "lobby for tea"), `coupon` (verb usage with magazines).
+
+Concrete examples (after):
+- `enclose` → **"Please find enclosed a copy of our latest catalog."**
+- `dine` → **"We dined at the new Italian restaurant downtown."**
+- `prohibit` → **"Smoking is strictly prohibited inside the building."**
+- `outstanding` → **"Please pay the outstanding balance before the end of the month."**
+- `terminal` → **"The shuttle bus stops at every airport terminal every 15 minutes."**
+- `headquarter` → **"The company is headquartered in Singapore."**
+
+### Stats
+- Before this pass: 187 templated examples remained (rank > 200, plus 2 stragglers in top-200).
+- After this pass: **156 templated examples remain — all in TSL rank > 400** (low-traffic words that surface only in `hard` tier of curve mode).
+- Top 400 words: 0 templated, 0 broken, 0 wrong-sense for TOEIC.
+
+### `learningExtras.json` — verified clean
+Re-checked all 60 confusables and 79 collocations with a TOEIC instructor's eye:
+- Confusables — every pair is a Part 5 sentence-completion classic (affect/effect, principal/principle, complement/compliment, advise/advice, ensure/insure, stationary/stationery, eligible/illegible, eminent/imminent, depreciate/deprecate, etc.). The Chinese explanations correctly state the discriminating clue (POS, register, idiom).
+- Collocations — every entry is a real Part 5/6/7 high-frequency pattern (make a reservation, meet a deadline, exceed expectations, file a complaint, draft a memo, fill a position, raise capital, file a patent, balance the books, write off a debt, breach a contract, troubleshoot an issue, back up data, etc.). No literary or low-frequency idioms.
+
+No edits needed.
+
+### Pedagogical principles applied this round
+1. **Business-sense first** for polysemous words — TOEIC is overwhelmingly office / travel / retail / hotel / restaurant / finance.
+2. **Match TSL's English definition** — when TSL says "a book that explains how to do something" the Chinese gloss should be 手冊, not 手動的.
+3. **Taiwan-Mandarin standard** for orthography and term choice (品質 not 質量, 計程車 not 出租汽車, 麥克風 not 擴音器, 投影機 not 投影儀).
+4. **Single common rendering** — no -子 / -儀 / -術 suffixes that signal dated dictionary Chinese (皮夾 not 皮夾子, 攝影 not 攝影術).
+5. **POS-aligned with the headword** — if the TSL definition reads as a noun, the Chinese gloss should be a noun (撥打 for `dial` because TSL gives "to make a phone call by pressing the buttons", not 鐘面).
+6. **Examples in TOEIC register**: present-tense, business setting, 8-15 words, no proverbs / song lyrics / news quotes / political examples / dark scenarios / gaming slang.
+7. **Disambiguation between near-synonyms in the dataset** — `client` 客戶 vs `customer` 顧客 vs `patron` 主顧 (was: all could collide). `receipt` 收據 vs `invoice` 發票 (was: both 發票).
+
+### Test
+- `tsc --noEmit` clean for backend + frontend
+- Random sample of 50 questions generated cleanly across `easy`/`medium`/`hard`/`curve` tiers — no broken Chinese, no templated examples in top-400.
+
 ## 2026-05-07 (Mobile) — Examples.json sweep + content QA continued
 Following the vocab audit, did a content review on `examples.json` (1,367 example sentences).
 
