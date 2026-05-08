@@ -1,5 +1,81 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 10: cloze coverage gap closed (1094 → 1250) + 14 example rewrites
+
+### Discovery
+After 50-sample cloze testing in round 9, I measured the actual cloze pool size and found a major coverage gap:
+
+```
+TSL words with examples:                    1250
+  cloze-eligible (lemma exact match):       1094  ← only 87.5% reachable
+  inflected-only match (skipped):            130
+  no match at all (skipped):                  26
+```
+
+The cloze generator's regex was `\b{lemma}\b` — exact lemma form only. So an example like _"No newspaper published the victim's name."_ (target: `publish`) **was completely skipped** because the example uses `published`, not `publish`.
+
+156 of 1250 TSL words (12.5%) were unreachable as cloze targets. The deeper-rank words (less common in lemma form in real sentences) were disproportionately affected.
+
+### Fix 1: expanded cloze matcher with 13 inflection patterns
+
+`buildClozeMatcher` now generates a regex that also matches:
+- plural `-s` / `-es` and possessive `'s`
+- past `-ed` / `-d`
+- gerund `-ing`
+- comparatives `-er` / `-est`
+- adverb `-ly`
+- y→ies / y→ied (try → tries / tried; certify → certified)
+- doubled consonant for short CVC verbs (jam → jamming; slip → slipped)
+- silent-e drop for `-ing` / `-ed` (dine → dining / dined)
+- diacritic-stripped variant (résumé → resume) — for cases where the example uses an unaccented form
+
+After fix: **1248 / 1250 cloze-eligible** (the remaining 2 are résumé and café where the diacritics break Node's `\b` boundary on accented characters — both got their examples rewritten in the unaccented spelling instead).
+
+### Fix 2: rewrote 14 examples that didn't include the lemma at all
+
+These 14 had examples that mentioned a related but distinct word (e.g., target `revision` but example uses verb `revised`). Rewrote each so the example actually uses the target word:
+
+| Word | Before (didn't contain lemma) | After |
+|---|---|---|
+| revision | "What philosophy needs is to be **revised**…" | "Significant **revisions** were made to the report before final publication." |
+| equip | "Each meeting room is **equipped** with…" | "We need to **equip** every new hire with the right training and tools." |
+| statistics | "…he became just another **statistic**." (singular!) | "**Statistics** show a sharp rise in online shopping." |
+| healthcare | "I think free **health care** should also cover…" (with space!) | "The new **healthcare** plan covers every full-time employee." |
+| cooler | "Linen has made **cool** and breathable…" (just "cool"!) | "A portable **cooler** keeps drinks cold during summer picnics." |
+| forbid | "Smoking in the restaurant is **forbidden**." | "Hospital rules **forbid** food and drink inside the operating room." |
+| jeans | "She wore a tattered **jean** jacket." (singular adj!) | "These **jeans** fit perfectly and look great with a casual blazer." |
+| considerate | "**Consider** that we've had three major events…" (verb!) | "She is always **considerate** of her colleagues' tight schedules." |
+| timeline | "…disrupted the **timestream**." (different word!) | "Please review the project **timeline** before our next meeting." |
+| videoconference | "…hold a **video conference** next week." (with space!) | "We will hold a **videoconference** with the Tokyo team tomorrow." |
+| centimeter | "twenty **centimetres** deep" (UK spelling) | "twenty **centimeters** deep" |
+| favorable | "made a **favourable** impression" (UK spelling) | "left a **favorable** review of our delivery service" |
+| publicize | "scandal was **publicised**" (UK spelling) | "campaign aims to **publicize** the new product" |
+| transmit | "The contract was **transmitted**…" (CVCC double-t) | "This satellite can **transmit** signals across the entire continent." |
+| résumé | (used accented spelling, regex couldn't match) | "Please attach your **resume** to the online application." |
+| café | (used accented spelling) | "Let's grab a coffee at the **cafe** across the street." |
+
+### 100-sample cloze quality verification
+
+Ran 100 unique-word cloze samples after the fix. **0 structural issues** (no missing blanks, no duplicate options).
+
+Sample of inflected matches now firing as expected:
+
+```
+[publish] "No newspaper ___ the victim's name."          → publish
+[cruise]  "Germany ___ to a World Cup victory…"          → cruise
+[contradict] "His testimony ___ hers."                     → contradict
+```
+
+Player sees lemma form in options; the slot reads the inflected form when revealed (works because the underline rendering is the only visible change).
+
+### Distribution after round 10 (200 curve questions)
+```
+vocab: 42   audio: 34   fillblank: 33   cloze: 31
+confusable: 20   collocation: 20   synonym: 20
+```
+
+All 7 types continue to fire in the expected ratios.
+
 ## 2026-05-08 (Mobile) — Round 9: deep stress-test of cloze + syn/ant content; another 115 template fragments swept
 
 After shipping the cloze and synonym types in rounds 7-8, I 50-sample stress-tested cloze output and discovered MORE auto-generated template fragments survived. These weren't caught in round 6 because my regex was too narrow. This round I built a sentence-shape clustering tool that found them programmatically.

@@ -438,21 +438,66 @@ function pickClozeDistractors(target: TSLWord, all: TSLWord[]): string[] {
   return distractors;
 }
 
+// Build a regex that matches the lemma OR common inflected forms of `word`.
+// Handles:
+//   plural -s/-es, possessive 's, past -ed/-d, gerund -ing, comparatives -er/-est,
+//   adverb -ly, y→ied (try/tried) and y→ies (try/tries), doubled consonant
+//   forms (jam→jamming, equip→equipped) for short CVC verbs.
+function buildClozeMatcher(word: string): RegExp {
+  const stripDiacritics = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escaped = escapeRe(word);
+  const variants = new Set<string>([escaped]);
+  // Diacritic-stripped variant — matches "resume" in text when lemma is "résumé"
+  const stripped = stripDiacritics(word);
+  if (stripped !== word) variants.add(escapeRe(stripped));
+  variants.add(escaped + 's');
+  variants.add(escaped + 'es');
+  variants.add(escaped + "'s");
+  variants.add(escaped + 'ed');
+  variants.add(escaped + 'd');
+  variants.add(escaped + 'ing');
+  variants.add(escaped + 'er');
+  variants.add(escaped + 'est');
+  variants.add(escaped + 'ly');
+  // y → ies / ied (e.g. try → tried/tries, certify → certifies/certified)
+  if (word.endsWith('y') && word.length > 2 && !/[aeiou]y$/.test(word)) {
+    const stem = escaped.slice(0, -1);
+    variants.add(stem + 'ies');
+    variants.add(stem + 'ied');
+  }
+  // Doubled consonant inflection for short CVC verbs (jam/jammed, equip/equipping)
+  if (/^[a-z]*[^aeiouy][aeiouy][^aeiouwxy]$/i.test(word) && word.length <= 6) {
+    const last = word[word.length - 1]!;
+    variants.add(escaped + last + 'ed');
+    variants.add(escaped + last + 'ing');
+  }
+  // Drop trailing -e for -ing / -ed forms (e.g. dine → dined/dining)
+  if (word.endsWith('e') && word.length > 2) {
+    const stem = escaped.slice(0, -1);
+    variants.add(stem + 'ed');
+    variants.add(stem + 'ing');
+  }
+  // Sort longest-first so the regex prefers the most specific match
+  const sorted = [...variants].sort((a, b) => b.length - a.length);
+  return new RegExp(`\\b(?:${sorted.join('|')})\\b`, 'i');
+}
+
 function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
   const examples = loadExamples();
   const all = loadTSL();
-  // Eligible: word has an example AND example contains the lemma form as a whole word
+  // Eligible: word has an example AND the example contains the lemma OR a
+  // standard inflected form of the word.
   const eligible = all.filter((w) => {
     if (w.rank > maxRank) return false;
     const ex = examples[w.word.toLowerCase()];
     if (!ex || ex.length < 10) return false;
-    const re = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}\\b`, 'i');
-    return re.test(ex);
+    return buildClozeMatcher(w.word).test(ex);
   });
   const selected = pickWeighted(eligible, (w) => w.word, weakLower, Math.min(count, eligible.length), excludeLower);
   return selected.map((w, idx) => {
     const ex = examples[w.word.toLowerCase()]!;
-    const re = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}\\b`, 'i');
+    const re = buildClozeMatcher(w.word);
     // Replace first occurrence with ___
     const prompt = ex.replace(re, '___');
     const distractors = pickClozeDistractors(w, all);
