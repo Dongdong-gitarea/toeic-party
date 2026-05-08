@@ -1,5 +1,65 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — New question type: sentence cloze (+ smarter distractors)
+
+User feedback: «做 1（句子填空題型）跟 2（distractor 升級）».
+
+### Task 1 — New `cloze` question type
+A 6th question type that **uses real example sentences** as the prompt and asks the player to fill in the blank with the right English word. Reuses the 1,368 hand-curated sentences in `examples.json`.
+
+Example:
+```
+Q [CLOZE]
+   "Late payments will ___ an additional five-percent fee."
+   ○ instruct   ○ hike   ● incur   ○ inspect
+```
+
+The difference vs the existing `fillblank` (definition → word):
+- `fillblank` is abstract: "a folding object held above your head…" → umbrella
+- `cloze` is contextual: "Bring a ___ in case it pours later." → raincoat
+
+Cloze is closer to TOEIC Part 5 / 6 actual exam style.
+
+#### Implementation
+- `tslLoader.ts:generateClozeQuestions` — builds questions from TSL words whose example sentence contains the lemma. Replaces the lemma with `___`.
+- `splitFourWays` — replaces `splitVocabAudioDef`. Distributes `n` slots across vocab/audio/def/cloze in 1:1:1:1, with leftover units sprinkled randomly so no type is systematically starved (the previous bug — early experiment had cloze=0 for n=3 because of ordered ceiling division).
+- New `'cloze'` value added to `QuestionType` (backend + frontend store).
+- Frontend rendering: blue sky-tone badge with `Pencil` icon. Prompt renders the sentence with the blank shown as a wide underline (consistent with confusable/collocation styling).
+- i18n: `game.qType.cloze` = "克漏字" / "CLOZE" + hint "選出最適合空格的字" / "Fill in the blank".
+
+### Task 2 — Smarter distractors (baked into cloze)
+
+For the new cloze type, distractors are generated via `pickClozeDistractors`:
+
+1. **Same POS** (adj/adv/noun/verb) — must be grammatically plausible in the slot
+2. **Length within ±3 chars** — visually balanced option set
+3. **Prefer same first letter** — adds phonetic confusion (TOEIC-style trap)
+4. Fallback to broader same-POS pool, then any-POS within length range
+
+Sample output showing the heuristic in action:
+
+```
+"Many employees ___ to work to stay fit."
+   options: bookstore | behalf | bicycle | badge  →  bicycle
+```
+
+All 4 options start with **b**, all are short nouns. Real TOEIC-style discrimination.
+
+```
+"The phone was returned because of a manufacturing ___."
+   options: defect | deck | cellphone | delegate  →  defect
+```
+
+Three of four start with **de-**, similar lengths.
+
+### Why I didn't apply Task 2 to the existing vocab/audio types
+Those types pull distractors from the pre-curated `VOCAB_ZH` 5-tuples, which were already POS+length grouped during the original auto-generation and have been hand-cleaned across rounds 1-6. Re-deriving them dynamically would lose curation quality for marginal gain.
+
+### Verification
+- TS clean (backend + frontend)
+- Smoke test 100 curve questions: distribution `vocab:23, audio:14, fillblank:23, cloze:20, confusable:10, collocation:10` — every type fires
+- Sample cloze prompts read naturally; correct answers are unambiguous best fits
+
 ## 2026-05-08 (Mobile) — Round 6: 189 garbage template-fragment examples + 11 truncating defs
 
 ### Major content discovery

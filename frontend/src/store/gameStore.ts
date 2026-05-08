@@ -97,7 +97,7 @@ interface PlayerInfo {
 
 interface QuestionForClient {
   id: string;
-  type: 'vocab' | 'audio' | 'fillblank' | 'confusable' | 'collocation';
+  type: 'vocab' | 'audio' | 'fillblank' | 'confusable' | 'collocation' | 'cloze';
   prompt: string;
   options: string[];
   isFinal: boolean;

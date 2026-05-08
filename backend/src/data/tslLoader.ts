@@ -368,10 +368,66 @@ function generateCollocationQuestions(count: number, used: Set<string>): Questio
   });
 }
 
+// ── Generate sentence cloze: real example sentence with target word blanked out ──
+// Distractor strategy (Task 2 baked in):
+//   1. Same POS (adj/adv/noun/verb) — grammatically plausible in the slot
+//   2. Length within ±3 chars — visually similar option set
+//   3. Prefer same first letter when available — adds phonetic confusion
+function pickClozeDistractors(target: TSLWord, all: TSLWord[]): string[] {
+  const samePos = all.filter(
+    (w) => w.word !== target.word && w.pos === target.pos && Math.abs(w.word.length - target.word.length) <= 3,
+  );
+  // Try first-letter neighbors first
+  const sameInitial = samePos.filter((w) => w.word[0]?.toLowerCase() === target.word[0]?.toLowerCase());
+  const distractors: string[] = [];
+  for (const w of pickRandom(sameInitial, 2)) distractors.push(w.word);
+  // Fill the rest from broader same-POS pool
+  const remaining = samePos.filter((w) => !distractors.includes(w.word));
+  for (const w of pickRandom(remaining, 3 - distractors.length)) distractors.push(w.word);
+  // Last-resort fallback to any TSL word of same length range
+  if (distractors.length < 3) {
+    const fallback = all
+      .filter((w) => w.word !== target.word && Math.abs(w.word.length - target.word.length) <= 3 && !distractors.includes(w.word));
+    for (const w of pickRandom(fallback, 3 - distractors.length)) distractors.push(w.word);
+  }
+  return distractors;
+}
+
+function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>, maxRank = 9999): Question[] {
+  const examples = loadExamples();
+  const all = loadTSL();
+  // Eligible: word has an example AND example contains the lemma form as a whole word
+  const eligible = all.filter((w) => {
+    if (w.rank > maxRank) return false;
+    const ex = examples[w.word.toLowerCase()];
+    if (!ex || ex.length < 10) return false;
+    const re = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}\\b`, 'i');
+    return re.test(ex);
+  });
+  const selected = pickWeighted(eligible, (w) => w.word, weakLower, Math.min(count, eligible.length), excludeLower);
+  return selected.map((w, idx) => {
+    const ex = examples[w.word.toLowerCase()]!;
+    const re = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}\\b`, 'i');
+    // Replace first occurrence with ___
+    const prompt = ex.replace(re, '___');
+    const distractors = pickClozeDistractors(w, all);
+    const options = shuffle([w.word, ...distractors]);
+    return withMeta({
+      id: `cloze-${idx}-${w.rank}`,
+      type: 'cloze' as const,
+      word: w.word,
+      prompt,
+      options,
+      correctIndex: options.indexOf(w.word),
+      definition: w.definition_en,
+      example: ex,
+    });
+  });
+}
+
 /**
  * Generate N questions with balanced type distribution.
- * 5 types: vocab, audio, definition, confusable, collocation
- * Ratio: ~3 vocab/audio/def + 1 confusable + 1 collocation per 10 questions
+ * 6 types: vocab, audio, fillblank (def→word), confusable, collocation, cloze (sentence→word)
  */
 export function generateTSLQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'curve'): Question[] {
   if (difficulty === 'curve') {
@@ -386,9 +442,11 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const confCount = cfg.confusable ? Math.min(1, count) : 0;
   const collCount = cfg.collocation ? Math.min(1, Math.max(0, count - confCount)) : 0;
   const remaining = count - confCount - collCount;
-  const vocabCount = Math.ceil(remaining / 3);
-  const audioCount = Math.ceil(remaining / 3);
-  const fillCount = remaining - vocabCount - audioCount;
+  // Split remaining 1:1:1:1 across vocab / audio / fillblank / cloze
+  const vocabCount = Math.ceil(remaining / 4);
+  const audioCount = Math.ceil((remaining - vocabCount) / 3);
+  const fillCount = Math.ceil((remaining - vocabCount - audioCount) / 2);
+  const clozeCount = remaining - vocabCount - audioCount - fillCount;
 
   const confQs = confCount > 0 ? generateConfusableQuestions(confCount, used) : [];
   const collQs = collCount > 0 ? generateCollocationQuestions(collCount, used) : [];
@@ -401,10 +459,12 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const audioQs = generateAudioQuestionsFromPool(filteredVocab, audioCount, weakLower, used);
   for (const q of audioQs) used.add(q.word.toLowerCase());
 
-  // Definition questions also filtered by rank
   const fillQs = generateDefinitionQuestions(fillCount, weakLower, used, cfg.maxRank);
+  for (const q of fillQs) used.add(q.word.toLowerCase());
 
-  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...confQs, ...collQs]);
+  const clozeQs = clozeCount > 0 ? generateClozeQuestions(clozeCount, weakLower, used, cfg.maxRank) : [];
+
+  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...clozeQs, ...confQs, ...collQs]);
 }
 
 /**
@@ -436,17 +496,17 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const medVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.medium.maxRank);
   const hardVocab = VOCAB_ZH; // full pool
 
-  // Per-tier type allocation. Easy is pure vocab/audio/def (no confusable
-  // or collocation — they're conceptually harder). Medium gets one of
-  // each meta type. Hard goes back to vocab/audio/def with the full pool.
-  const easyMix = splitVocabAudioDef(easySize);
-  const hardMix = splitVocabAudioDef(hardSize);
+  // Per-tier type allocation. Easy is pure vocab/audio/def/cloze (no
+  // confusable or collocation — they're conceptually harder). Medium
+  // gets one of each meta type. Hard goes back to the 4 base types.
+  const easyMix = splitFourWays(easySize);
+  const hardMix = splitFourWays(hardSize);
 
-  // Medium: 1 confusable + 1 collocation max, rest split vocab/audio/def
+  // Medium: 1 confusable + 1 collocation max, rest split 4 ways
   const medConf = medSize >= 4 ? 1 : 0;
   const medColl = medSize >= 4 ? 1 : 0;
   const medRest = Math.max(0, medSize - medConf - medColl);
-  const medMix = splitVocabAudioDef(medRest);
+  const medMix = splitFourWays(medRest);
 
   const tier = (name: 'easy' | 'medium' | 'hard'): Question[] => {
     const isEasy = name === 'easy';
@@ -475,6 +535,11 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
       for (const q of dqs) used.add(q.word.toLowerCase());
       out.push(...dqs);
     }
+    if (mix.cloze > 0) {
+      const cqs = generateClozeQuestions(mix.cloze, weakLower, used, maxRank);
+      for (const q of cqs) used.add(q.word.toLowerCase());
+      out.push(...cqs);
+    }
     return shuffle(out);
   };
 
@@ -489,11 +554,15 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   return [...easyQs, ...medQs, ...hardQs];
 }
 
-/** Distribute n questions across vocab / audio / def in a 1:1:1-ish ratio. */
-function splitVocabAudioDef(n: number): { vocab: number; audio: number; def: number } {
-  if (n <= 0) return { vocab: 0, audio: 0, def: 0 };
-  const vocab = Math.ceil(n / 3);
-  const audio = Math.ceil((n - vocab) / 2);
-  const def = n - vocab - audio;
-  return { vocab, audio, def };
+/** Distribute n questions across vocab / audio / def / cloze in a 1:1:1:1-ish ratio.
+ *  When n isn't a multiple of 4, the leftover units are sprinkled to randomly
+ *  chosen types so no type is systematically starved. */
+function splitFourWays(n: number): { vocab: number; audio: number; def: number; cloze: number } {
+  if (n <= 0) return { vocab: 0, audio: 0, def: 0, cloze: 0 };
+  const base = Math.floor(n / 4);
+  const extras = n % 4;
+  const result = { vocab: base, audio: base, def: base, cloze: base };
+  const order = shuffle<keyof typeof result>(['vocab', 'audio', 'def', 'cloze']);
+  for (let i = 0; i < extras; i++) result[order[i]!]++;
+  return result;
 }

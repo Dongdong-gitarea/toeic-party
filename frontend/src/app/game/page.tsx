@@ -9,6 +9,7 @@ import {
   FileText,
   AlertTriangle,
   Puzzle,
+  Pencil,
   Flame,
   Waves,
   CloudFog,
@@ -405,6 +406,12 @@ export default function GamePage() {
               {t('game.qType.collocation')}
             </span>
           )}
+          {currentQuestion.type === 'cloze' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-sky-300 text-sky-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Pencil className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.cloze')}
+            </span>
+          )}
           {isFinal && (
             <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
               <Flame className="w-3 h-3" strokeWidth={2.75} />
@@ -457,6 +464,9 @@ export default function GamePage() {
             )}
             {currentQuestion.type === 'fillblank' && (
               <p className="text-sm font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
+            )}
+            {currentQuestion.type === 'cloze' && (
+              <p className="text-sm font-bold text-white">{currentQuestion.prompt}</p>
             )}
           </div>
         ) : (
@@ -531,6 +541,21 @@ export default function GamePage() {
                     )) : line}
                   </p>
                 ))}
+              </div>
+            )}
+            {currentQuestion.type === 'cloze' && (
+              <div>
+                <p className="text-[10px] font-bold text-sky-200 uppercase tracking-[0.25em] mb-1">{t('game.qType.clozeHint')}</p>
+                <p className="text-base sm:text-lg font-bold text-white leading-relaxed">
+                  {currentQuestion.prompt.split('___').map((part, i, arr) => (
+                    <span key={i}>
+                      {part}
+                      {i < arr.length - 1 && (
+                        <span className="inline-block w-20 mx-1 border-b-3 border-sky-300 align-middle" />
+                      )}
+                    </span>
+                  ))}
+                </p>
               </div>
             )}
 
