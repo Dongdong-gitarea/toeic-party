@@ -1583,5 +1583,412 @@
         "private"
       ]
     ]
+  ],
+  "audioSentences": [
+    [
+      "vacation",
+      "I am taking a two-week vacation in August.",
+      "八月要休兩週假"
+    ],
+    [
+      "client",
+      "The client requested a follow-up meeting next Tuesday.",
+      "客戶要求下週二再開會"
+    ],
+    [
+      "airport",
+      "The airport was crowded due to the holiday weekend.",
+      "假日機場很擁擠"
+    ],
+    [
+      "memo",
+      "Please send a memo to all employees about the policy change.",
+      "寄備忘錄通知政策變更"
+    ],
+    [
+      "reservation",
+      "I would like to make a dinner reservation for two at 7 PM.",
+      "想訂晚上七點兩人晚餐"
+    ],
+    [
+      "fax",
+      "Please send the signed contract by fax to our office.",
+      "請傳真已簽約合約到辦公室"
+    ],
+    [
+      "supervisor",
+      "Speak with your supervisor before changing the schedule.",
+      "改班表前要先跟主管談"
+    ],
+    [
+      "refund",
+      "If the camera is faulty, you can return it for a full refund.",
+      "相機壞了可以退全款"
+    ],
+    [
+      "workshop",
+      "The annual sales workshop will be held next Monday.",
+      "下週一辦年度業務研討會"
+    ],
+    [
+      "deadline",
+      "We must finish this report before the deadline.",
+      "報告必須在截止前完成"
+    ],
+    [
+      "invoice",
+      "The merchant received a large invoice for the goods.",
+      "商家收到大筆貨款發票"
+    ],
+    [
+      "brochure",
+      "Please pick up a brochure at the front desk.",
+      "請到櫃檯拿宣傳手冊"
+    ],
+    [
+      "accountant",
+      "The accountant prepared the quarterly financial report.",
+      "會計師準備了季度財報"
+    ],
+    [
+      "clerk",
+      "The clerk at the front desk helped me fill out the form.",
+      "櫃檯人員幫我填表"
+    ],
+    [
+      "lobby",
+      "Please wait in the hotel lobby until your room is ready.",
+      "請在飯店大廳等房間"
+    ],
+    [
+      "résumé",
+      "Please attach your resume to the online application.",
+      "線上申請要附履歷"
+    ],
+    [
+      "applicant",
+      "Our job advertisement attracted seven applicants.",
+      "徵才廣告吸引七位應徵者"
+    ],
+    [
+      "seminar",
+      "The marketing team is hosting a seminar on Thursday.",
+      "行銷部週四辦研討會"
+    ],
+    [
+      "technician",
+      "A technician will repair the equipment this afternoon.",
+      "技術員下午會來修設備"
+    ],
+    [
+      "fare",
+      "The taxi fare from the airport to downtown is about thirty dollars.",
+      "機場到市區計程車約三十元"
+    ],
+    [
+      "receipt",
+      "Please keep your receipt in case you need to return the item.",
+      "收據留好以便退貨"
+    ],
+    [
+      "subway",
+      "Take the subway to avoid the morning traffic.",
+      "搭地鐵避開早上塞車"
+    ],
+    [
+      "luggage",
+      "Each passenger may bring two pieces of luggage.",
+      "每位旅客可帶兩件行李"
+    ],
+    [
+      "shipment",
+      "The shipment is expected to arrive at the warehouse on Friday.",
+      "貨物預計週五到倉庫"
+    ],
+    [
+      "cafeteria",
+      "Lunch is served in the cafeteria from twelve to two.",
+      "十二點到兩點員工餐廳供餐"
+    ],
+    [
+      "elevator",
+      "The elevator is out of service; please use the stairs.",
+      "電梯故障請走樓梯"
+    ],
+    [
+      "lease",
+      "Our office lease expires at the end of the year.",
+      "辦公室租約年底到期"
+    ],
+    [
+      "notify",
+      "Please notify the receptionist if your meeting will run late.",
+      "會議延遲請通知接待員"
+    ],
+    [
+      "preview",
+      "Members get an exclusive preview of the new collection.",
+      "會員可搶先預覽新品"
+    ],
+    [
+      "attendant",
+      "The flight attendant served drinks during the flight.",
+      "空服員飛行中送飲料"
+    ],
+    [
+      "subscription",
+      "Your subscription will renew automatically next month.",
+      "下月自動續訂"
+    ],
+    [
+      "convenient",
+      "The hotel is conveniently located near the train station.",
+      "飯店位置鄰近火車站"
+    ],
+    [
+      "manual",
+      "Please refer to the user manual for setup instructions.",
+      "請參閱使用手冊安裝"
+    ],
+    [
+      "inventory",
+      "We need to check the inventory before placing a new order.",
+      "下單前要先盤點庫存"
+    ],
+    [
+      "outdoor",
+      "We have planned an outdoor team-building event for Saturday.",
+      "週六有戶外團建活動"
+    ],
+    [
+      "suitcase",
+      "My suitcase is too heavy to carry up the stairs.",
+      "行李箱太重抬不上樓"
+    ],
+    [
+      "destination",
+      "Our final destination is Tokyo via Hong Kong.",
+      "最終目的地是經香港到東京"
+    ],
+    [
+      "occupation",
+      "Please write your name, address, and occupation on the form.",
+      "表上填姓名地址職業"
+    ],
+    [
+      "postpone",
+      "The meeting was postponed due to the storm.",
+      "因暴風雨會議延期"
+    ],
+    [
+      "cellphone",
+      "Please silence your cellphone during the meeting.",
+      "會議中請把手機調靜音"
+    ],
+    [
+      "merchandise",
+      "All damaged merchandise will be returned to the supplier.",
+      "受損商品全退回供應商"
+    ],
+    [
+      "receptionist",
+      "The receptionist greeted every visitor with a smile.",
+      "接待員微笑迎接訪客"
+    ],
+    [
+      "dentist",
+      "I have a dentist appointment at three tomorrow.",
+      "明天三點有牙醫預約"
+    ],
+    [
+      "identification",
+      "Please show some form of identification at the gate.",
+      "到登機口請出示身分證件"
+    ],
+    [
+      "coupon",
+      "You can use this coupon for a ten percent discount.",
+      "此券可享九折優惠"
+    ],
+    [
+      "reschedule",
+      "Can we reschedule the meeting to Thursday afternoon?",
+      "可以改到週四下午開會嗎"
+    ],
+    [
+      "tactic",
+      "A planned tactic helped us close the deal quickly.",
+      "事前規劃戰術讓交易快速成交"
+    ],
+    [
+      "renovation",
+      "The lobby is closed for renovation until the end of June.",
+      "大廳整修到六月底"
+    ],
+    [
+      "upgrade",
+      "Frequent flyers can request a free upgrade to business class.",
+      "常客可免費升級商務艙"
+    ],
+    [
+      "stationery",
+      "The company ordered new stationery with the updated logo.",
+      "公司訂了印有新標誌的文具"
+    ],
+    [
+      "ambulance",
+      "Call an ambulance immediately if someone is injured.",
+      "有人受傷請立刻叫救護車"
+    ],
+    [
+      "confidential",
+      "These documents are strictly confidential.",
+      "這些文件嚴格保密"
+    ],
+    [
+      "quarterly",
+      "The board meets quarterly to review company performance.",
+      "董事會每季開會檢視業績"
+    ],
+    [
+      "warranty",
+      "This product comes with a two-year warranty.",
+      "本產品提供兩年保固"
+    ],
+    [
+      "agenda",
+      "Please review the agenda before the meeting starts.",
+      "請開會前看議程"
+    ],
+    [
+      "mortgage",
+      "They took out a thirty-year mortgage on the new house.",
+      "他們辦了三十年房貸"
+    ],
+    [
+      "inquiry",
+      "Our hotline handles inquiries twenty-four hours a day.",
+      "客服專線二十四小時受理詢問"
+    ],
+    [
+      "paycheck",
+      "Direct deposit speeds up paycheck processing.",
+      "直接匯款讓薪水更快入帳"
+    ],
+    [
+      "expertise",
+      "Her expertise in finance impressed the board.",
+      "她的金融專業讓董事會印象深刻"
+    ],
+    [
+      "budget",
+      "Marketing reduced the budget for next quarter.",
+      "行銷部下季預算被砍"
+    ],
+    [
+      "negotiate",
+      "They will negotiate the terms of the new contract.",
+      "他們要協商新合約條款"
+    ],
+    [
+      "conference",
+      "The annual conference will be held in Tokyo this March.",
+      "年度大會三月在東京舉行"
+    ],
+    [
+      "retain",
+      "Please retain your receipt for future reference.",
+      "請保留收據以備不時之需"
+    ],
+    [
+      "expire",
+      "Your membership will expire at the end of this month.",
+      "本月底會員到期"
+    ],
+    [
+      "comply",
+      "All employees must comply with the safety regulations.",
+      "所有員工須遵守安全規定"
+    ],
+    [
+      "promote",
+      "She was promoted to the position of regional manager.",
+      "她升為區經理"
+    ],
+    [
+      "profit",
+      "The business reported a significant profit this year.",
+      "公司今年盈利大幅成長"
+    ],
+    [
+      "expand",
+      "The company plans to expand into the Asian market.",
+      "公司打算進軍亞洲市場"
+    ],
+    [
+      "reimburse",
+      "The company will reimburse your travel expenses.",
+      "公司會核銷你的差旅費"
+    ],
+    [
+      "headquarters",
+      "Our headquarters is located in downtown Singapore.",
+      "總部位於新加坡市中心"
+    ],
+    [
+      "platform",
+      "The new online platform serves over a million users.",
+      "新線上平台有上百萬使用者"
+    ],
+    [
+      "tenant",
+      "The tenant signed a one-year lease today.",
+      "房客今天簽了一年租約"
+    ],
+    [
+      "inspector",
+      "The inspector checked every safety feature thoroughly.",
+      "檢查員仔細檢查每項安全設備"
+    ],
+    [
+      "donation",
+      "They were collecting donations for the elderly at Christmas.",
+      "他們為長者募聖誕節捐款"
+    ],
+    [
+      "ferry",
+      "The ferry to the island leaves every two hours.",
+      "到島上的渡輪每兩小時一班"
+    ],
+    [
+      "transit",
+      "The shipment is currently in transit from Berlin.",
+      "貨物目前從柏林運送中"
+    ],
+    [
+      "venue",
+      "The venue can accommodate up to five hundred guests.",
+      "場地最多容納五百位賓客"
+    ],
+    [
+      "advisor",
+      "Speak to a financial advisor before making the investment.",
+      "投資前先諮詢理財顧問"
+    ],
+    [
+      "dispatch",
+      "The hospital will dispatch an ambulance immediately.",
+      "醫院會立刻派救護車"
+    ],
+    [
+      "certify",
+      "These blankets have been certified as fireproof.",
+      "這些毯子經認證防火"
+    ],
+    [
+      "discount",
+      "We offer a twenty percent discount for early registration.",
+      "提早報名享八折優惠"
+    ]
   ]
 }

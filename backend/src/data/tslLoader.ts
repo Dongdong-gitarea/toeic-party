@@ -11,11 +11,13 @@ interface CollocationEntry {
   0: string; 1: string; 2: string;
 }
 type SynAntPair = [string, string[]]; // [target, [list of syn/ant]]
+type AudioSentence = [string, string, string]; // [target_word, english_sentence, chinese_summary]
 interface LearningExtras {
   confusables: ConfusablePair[];
   collocations: CollocationEntry[];
   synonyms?: SynAntPair[];
   antonyms?: SynAntPair[];
+  audioSentences?: AudioSentence[];
 }
 
 let learningExtras: LearningExtras | null = null;
@@ -584,6 +586,36 @@ function generateSynonymQuestions(count: number, used: Set<string>): Question[] 
   });
 }
 
+// ── Generate listen-comprehension question: hear English sentence, pick Chinese gist ──
+// Uses curated audioSentences (target, english_sentence, chinese_summary). Distractors
+// are 3 other Chinese summaries from different audioSentences entries, picked at random.
+function generateListenQuestions(count: number, used: Set<string>): Question[] {
+  const extras = loadExtras();
+  const pool = (extras.audioSentences ?? []).filter(
+    ([w]) => !used.has(w.toLowerCase()),
+  );
+  const selected = pickRandom(pool, Math.min(count, pool.length));
+  return selected.map(([word, sentence, summary], idx) => {
+    // Distractor pool: every other entry's summary
+    const otherSummaries = (extras.audioSentences ?? [])
+      .filter(([w]) => w.toLowerCase() !== word.toLowerCase())
+      .map(([, , s]) => s);
+    const distractors = pickRandom(otherSummaries, 3);
+    const options = shuffle([summary, ...distractors]);
+    used.add(word.toLowerCase());
+    return withMeta({
+      id: `listen-${idx}-${word}`,
+      type: 'listen' as const,
+      word,
+      prompt: '',
+      options,
+      correctIndex: options.indexOf(summary),
+      definition: sentence, // post-answer reveal shows the original English sentence
+      audioPayload: sentence, // TTS plays this
+    });
+  });
+}
+
 /**
  * Generate N questions with balanced type distribution.
  * 7 types: vocab, audio, fillblank (def→word), confusable, collocation, cloze (sentence→word), synonym
@@ -660,10 +692,14 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   // (the deepest test of vocabulary mastery).
   const easyMix = splitFourWays(easySize);
 
-  // Medium: 1 confusable + 1 collocation, rest 4-way
-  const medConf = medSize >= 4 ? 1 : 0;
-  const medColl = medSize >= 4 ? 1 : 0;
-  const medRest = Math.max(0, medSize - medConf - medColl);
+  // Medium tier: 2 of {confusable, collocation, listen} chosen at random per game
+  // so each session has variety (listen ~67% of games, others similar). Tier
+  // size stays the same — 2 meta extras + (medSize-2) base questions.
+  const medExtraTypes = shuffle<'conf' | 'coll' | 'listen'>(['conf', 'coll', 'listen']).slice(0, 2);
+  const medConf   = medSize >= 4 && medExtraTypes.includes('conf')   ? 1 : 0;
+  const medColl   = medSize >= 4 && medExtraTypes.includes('coll')   ? 1 : 0;
+  const medListen = medSize >= 4 && medExtraTypes.includes('listen') ? 1 : 0;
+  const medRest = Math.max(0, medSize - medConf - medColl - medListen);
   const medMix = splitFourWays(medRest);
 
   // Hard: 1 synonym/antonym
@@ -709,8 +745,9 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const easyQs = tier('easy');
   const medCore = tier('medium');
   const medExtras: Question[] = [];
-  if (medConf > 0) medExtras.push(...generateConfusableQuestions(medConf, used));
-  if (medColl > 0) medExtras.push(...generateCollocationQuestions(medColl, used));
+  if (medConf > 0)   medExtras.push(...generateConfusableQuestions(medConf, used));
+  if (medColl > 0)   medExtras.push(...generateCollocationQuestions(medColl, used));
+  if (medListen > 0) medExtras.push(...generateListenQuestions(medListen, used));
   const medQs = shuffle([...medCore, ...medExtras]);
 
   const hardCore = tier('hard');

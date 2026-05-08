@@ -1,5 +1,55 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Feature: 8th question type — `listen` (sentence comprehension)
+
+User asked for sentence-level audio to fill the TOEIC Part 2/3 listening gap.
+
+### How it plays
+1. Player taps the orange Ear icon (auto-plays on appear)
+2. TTS reads a full English sentence from a curated business-context pool
+3. Player picks the matching Chinese gist from 4 options
+
+```
+[LISTEN] (TTS plays: "Your subscription will renew automatically next month.")
+   ○ 十二點到兩點員工餐廳供餐
+   ● 下月自動續訂
+   ○ 徵才廣告吸引七位應徵者
+   ○ 請在飯店大廳等房間
+```
+
+### Content
+**81 hand-curated sentence pairs** in `learningExtras.json:audioSentences`:
+- Format: `[target_word, english_sentence_to_speak, chinese_summary]`
+- Mix of TSL rank 1-200 high-frequency business words
+- Sentences are full TOEIC-style (10-20 words, single clause, business context)
+- Chinese summaries are natural Taiwan-Mandarin gists (8-15 chars)
+
+Each question's 3 distractors are randomly drawn from the OTHER 80 sentences' Chinese summaries — so distractors are plausible business-English meanings but clearly different from the spoken sentence.
+
+### Implementation
+- **Backend types**: added `'listen'` to `QuestionType`. New optional `audioPayload` field on `Question` carries the full sentence (since `word` is already the target lemma).
+- **`generateListenQuestions`** in `tslLoader.ts`: picks unused entries, builds 4-option Chinese question, distractors from other audio-sentence pool.
+- **`Room.ts`**: forwards `q.audioPayload` as `audioWord` field for client (reusing existing TTS pipeline).
+- **Curve integration**: medium tier rotates 2-of-3 from `{confusable, collocation, listen}` per game, so listen appears in ~67% of games. Tier sizes unchanged.
+- **Frontend**:
+  - New orange `Ear` badge with `LISTEN` label
+  - Auto-plays sentence 300ms after question appears (same pattern as `audio` type)
+  - Tap-to-replay button (16x16 in main view, 9x9 in jump-mode)
+  - i18n: `'聽句子'` / `'LISTEN'` + hint `'聽句子，選出大意'`
+
+### Why this fills a gap
+Existing `audio` type tests **single word recognition** (TOEIC Part 1 vocabulary level only). Real TOEIC listening (Part 2/3/4) tests **sentence comprehension** with detail capture. `listen` goes one step closer — full sentence + meaning extraction.
+
+### Distribution after addition (curve mode, 500 questions)
+```
+vocab: 100   audio: 75   fillblank: 77   cloze: 98
+confusable: 30   collocation: 34   synonym: 50   listen: 36
+```
+
+### Verification
+- TS clean (backend + frontend)
+- 5 listen samples manually verified — TTS reads naturally, distractors clearly distinguishable
+
 ## 2026-05-08 (Mobile) — Round 15: 6 pos errors + 27 def normalizations
 
 ### POS errors fixed (6)

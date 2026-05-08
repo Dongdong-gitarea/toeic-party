@@ -6,6 +6,7 @@ import {
   Volume2,
   Brain,
   Headphones,
+  Ear,
   FileText,
   AlertTriangle,
   Puzzle,
@@ -119,10 +120,10 @@ export default function GamePage() {
     return () => clearTimeout(id);
   }, [lastResult]);
 
-  // Auto-play audio prompts once per question
+  // Auto-play audio prompts once per question (audio + listen types)
   const spokenRef = useRef('');
   useEffect(() => {
-    if (currentQuestion?.type === 'audio' && currentQuestion.audioWord && spokenRef.current !== currentQuestion.id) {
+    if ((currentQuestion?.type === 'audio' || currentQuestion?.type === 'listen') && currentQuestion.audioWord && spokenRef.current !== currentQuestion.id) {
       spokenRef.current = currentQuestion.id;
       const t = setTimeout(() => { void speakWord(currentQuestion.audioWord!); }, 300);
       return () => clearTimeout(t);
@@ -419,6 +420,12 @@ export default function GamePage() {
               {t('game.qType.synonym')}
             </span>
           )}
+          {currentQuestion.type === 'listen' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-orange-300 text-orange-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <Ear className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.listen')}
+            </span>
+          )}
           {isFinal && (
             <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
               <Flame className="w-3 h-3" strokeWidth={2.75} />
@@ -469,6 +476,16 @@ export default function GamePage() {
                 <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
               </div>
             )}
+            {currentQuestion.type === 'listen' && currentQuestion.audioWord && (
+              <div className="flex items-center justify-center gap-2">
+                <button onClick={() => speakWord(currentQuestion.audioWord!)}
+                  className="w-9 h-9 rounded-full bg-orange-300 border-2 border-orange-200
+                    flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_3px_0_rgba(154,52,18,0.5)] text-orange-950">
+                  <Ear className="w-4 h-4" strokeWidth={2.5} />
+                </button>
+                <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
+              </div>
+            )}
             {currentQuestion.type === 'fillblank' && (
               <p className="text-sm font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
             )}
@@ -510,6 +527,18 @@ export default function GamePage() {
                   <Volume2 className="w-6 h-6" strokeWidth={2.5} />
                 </button>
                 <span className="text-sm font-medium text-white/90">{t('game.tapToHear')}</span>
+              </div>
+            )}
+            {currentQuestion.type === 'listen' && currentQuestion.audioWord && (
+              <div>
+                <p className="text-[10px] font-bold text-orange-200 uppercase tracking-[0.25em] mb-2">{t('game.qType.listenHint')}</p>
+                <div className="flex items-center justify-center gap-3">
+                  <button onClick={() => speakWord(currentQuestion.audioWord!)}
+                    className="w-16 h-16 rounded-full bg-orange-300 border-4 border-orange-200
+                      flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(154,52,18,0.5)] text-orange-950">
+                    <Ear className="w-7 h-7" strokeWidth={2.5} />
+                  </button>
+                </div>
               </div>
             )}
             {currentQuestion.type === 'fillblank' && (
