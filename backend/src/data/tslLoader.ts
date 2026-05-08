@@ -10,9 +10,12 @@ interface ConfusablePair {
 interface CollocationEntry {
   0: string; 1: string; 2: string;
 }
+type SynAntPair = [string, string[]]; // [target, [list of syn/ant]]
 interface LearningExtras {
   confusables: ConfusablePair[];
   collocations: CollocationEntry[];
+  synonyms?: SynAntPair[];
+  antonyms?: SynAntPair[];
 }
 
 let learningExtras: LearningExtras | null = null;
@@ -285,6 +288,37 @@ function generateConfusableQuestions(count: number, used: Set<string>): Question
     'assess|access': ['Employees need a keycard to ___ the building.', 0],
     'adapt|adopt': ['The company decided to ___ a new marketing strategy.', 1],
     'adopt|adapt': ['New employees need time to ___ to the work environment.', 0],
+    // Round 7 additions — high-value TOEIC traps
+    'fewer|less': ['___ employees attended this year than last.', 0],
+    'less|fewer': ['Please use ___ paper to save the trees.', 0],
+    'amount|number': ['A large ___ of customers complained about delays.', 1],
+    'number|amount': ['The store ordered a small ___ of imported wine.', 1],
+    'between|among': ['The candidate had to choose ___ five offers.', 1],
+    'among|between': ['The agreement was signed ___ the two parties.', 1],
+    'good|well': ['She speaks Spanish very ___.', 1],
+    'well|good': ['The presentation made a ___ impression on the client.', 1],
+    'bring|take': ['Please ___ your umbrella with you when you leave.', 1],
+    'take|bring': ['Could you ___ me a cup of coffee from the kitchen?', 1],
+    'price|prize': ['The first ___ for the contest is a free vacation.', 1],
+    'prize|price': ['The ___ of gas has gone up again this month.', 1],
+    'breath|breathe': ['Please take a deep ___ before answering.', 0],
+    'breathe|breath': ['It is hard to ___ comfortably at high altitude.', 0],
+    'choose|chose': ['Yesterday the panel ___ the new logo for our brand.', 1],
+    'chose|choose': ['Customers can ___ from three colour options online.', 1],
+    'expand|expend': ['The company plans to ___ into Asian markets next year.', 0],
+    'expend|expand': ['We had to ___ extra resources to fix the bug.', 0],
+    'assistant|assistance': ['My ___ will reply to your email shortly.', 0],
+    'assistance|assistant': ['Please call us if you need any ___.', 0],
+    'emergency|emergent': ['Call this number in case of an ___.', 0],
+    'emergent|emergency': ['___ technologies are reshaping the industry.', 0],
+    'since|for': ['I have worked at this company ___ 2018.', 0],
+    'for|since': ['She has lived in Tokyo ___ ten years.', 0],
+    'boring|bored': ['The lecture was so ___ that everyone fell asleep.', 0],
+    'bored|boring': ['I felt ___ during the long meeting.', 0],
+    'interested|interesting': ['I am very ___ in your new proposal.', 0],
+    'interesting|interested': ['That was the most ___ talk of the day.', 0],
+    'statute|statue': ['A bronze ___ of the founder stands in the lobby.', 1],
+    'statue|statute': ['The new safety ___ requires monthly inspections.', 1],
   };
 
   return pairs.map((pair, idx) => {
@@ -345,13 +379,24 @@ function generateCollocationQuestions(count: number, used: Set<string>): Questio
 
     const prompt = `___ ${rest}`;
 
-    // Distractors: other collocation verbs
+    // Distractors: other collocation verbs, but exclude verbs that ALSO
+    // collocate with the same noun tail. e.g. for "hold a meeting", we
+    // skip {postpone, chair, adjourn, reschedule, …} because each is a
+    // real English collocation with "a meeting" (just a different sense)
+    // and would feel like a valid alternative answer to a learner.
+    const sameNounVerbs = new Set(
+      extras.collocations
+        .filter((c: unknown) => {
+          const ph = (c as [string, string, string])[0];
+          return ph.split(' ').slice(1).join(' ') === rest;
+        })
+        .map((c: unknown) => ((c as [string, string, string])[0]).split(' ')[0]!),
+    );
     const allVerbs = extras.collocations.map(
       (c: unknown) => ((c as [string, string, string])[0]).split(' ')[0]!
     );
-    const wrongVerbs = shuffle(
-      [...new Set(allVerbs)].filter(v => v !== keyWord)
-    ).slice(0, 3);
+    const safeVerbs = [...new Set(allVerbs)].filter((v) => v !== keyWord && !sameNounVerbs.has(v));
+    const wrongVerbs = shuffle(safeVerbs).slice(0, 3);
 
     const options = shuffle([keyWord, ...wrongVerbs]);
 
@@ -425,9 +470,58 @@ function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLo
   });
 }
 
+// ── Generate synonym/antonym question: pick word closest in / opposite in meaning ──
+// Internally randomizes mode (syn or ant). Prompt makes the task explicit.
+function generateSynonymQuestions(count: number, used: Set<string>): Question[] {
+  const extras = loadExtras();
+  const synPairs = extras.synonyms ?? [];
+  const antPairs = extras.antonyms ?? [];
+  const all = loadTSL();
+  // Build a combined pool of {target, correctList, mode}
+  type Entry = { target: string; correct: string[]; mode: 'syn' | 'ant' };
+  const pool: Entry[] = [
+    ...synPairs.map((p) => ({ target: p[0], correct: p[1], mode: 'syn' as const })),
+    ...antPairs.map((p) => ({ target: p[0], correct: p[1], mode: 'ant' as const })),
+  ].filter((e) => !used.has(e.target.toLowerCase()));
+
+  const selected = pickRandom(pool, Math.min(count, pool.length));
+  return selected.map((e, idx) => {
+    // Pick one synonym/antonym at random as the correct option
+    const correctWord = pickRandom(e.correct, 1)[0]!;
+    // Distractors: same-POS TSL words, exclude target, correct, and other valid syn/ant
+    const targetWord = all.find((w) => w.word === e.target);
+    const targetPos = targetWord?.pos;
+    const exclude = new Set<string>([e.target.toLowerCase(), ...e.correct.map((w) => w.toLowerCase())]);
+    const candidates = all.filter(
+      (w) => !exclude.has(w.word.toLowerCase()) && (!targetPos || w.pos === targetPos),
+    );
+    const distractors = pickRandom(candidates, 3).map((w) => w.word);
+    const options = shuffle([correctWord, ...distractors]);
+    used.add(e.target.toLowerCase());
+    used.add(correctWord.toLowerCase());
+
+    const prompt = e.mode === 'syn'
+      ? `Closest in meaning to: ${e.target}`
+      : `OPPOSITE of: ${e.target}`;
+    const definition = e.mode === 'syn'
+      ? `${e.target} ≈ ${e.correct.join(', ')}`
+      : `${e.target} ↔ ${e.correct.join(', ')}`;
+
+    return withMeta({
+      id: `synant-${idx}-${e.target}`,
+      type: 'synonym' as const,
+      word: e.target,
+      prompt,
+      options,
+      correctIndex: options.indexOf(correctWord),
+      definition,
+    });
+  });
+}
+
 /**
  * Generate N questions with balanced type distribution.
- * 6 types: vocab, audio, fillblank (def→word), confusable, collocation, cloze (sentence→word)
+ * 7 types: vocab, audio, fillblank (def→word), confusable, collocation, cloze (sentence→word), synonym
  */
 export function generateTSLQuestions(count: number, weakWords: string[] = [], difficulty: Difficulty = 'curve'): Question[] {
   if (difficulty === 'curve') {
@@ -438,11 +532,11 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
   const used = new Set<string>();
   const cfg = DIFFICULTY_CONFIG[difficulty];
 
-  // Confusable + collocation only for medium/hard
+  // Confusable + collocation + synonym only for medium/hard
   const confCount = cfg.confusable ? Math.min(1, count) : 0;
   const collCount = cfg.collocation ? Math.min(1, Math.max(0, count - confCount)) : 0;
-  const remaining = count - confCount - collCount;
-  // Split remaining 1:1:1:1 across vocab / audio / fillblank / cloze
+  const synCount = cfg.confusable ? Math.min(1, Math.max(0, count - confCount - collCount)) : 0;
+  const remaining = count - confCount - collCount - synCount;
   const vocabCount = Math.ceil(remaining / 4);
   const audioCount = Math.ceil((remaining - vocabCount) / 3);
   const fillCount = Math.ceil((remaining - vocabCount - audioCount) / 2);
@@ -450,8 +544,8 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
 
   const confQs = confCount > 0 ? generateConfusableQuestions(confCount, used) : [];
   const collQs = collCount > 0 ? generateCollocationQuestions(collCount, used) : [];
+  const synQs = synCount > 0 ? generateSynonymQuestions(synCount, used) : [];
 
-  // Override VOCAB_ZH pool based on difficulty
   const filteredVocab = filterVocabByDifficulty(cfg.maxRank);
   const vocabQs = generateVocabQuestionsFromPool(filteredVocab, vocabCount, weakLower, used);
   for (const q of vocabQs) used.add(q.word.toLowerCase());
@@ -464,7 +558,7 @@ export function generateTSLQuestions(count: number, weakWords: string[] = [], di
 
   const clozeQs = clozeCount > 0 ? generateClozeQuestions(clozeCount, weakLower, used, cfg.maxRank) : [];
 
-  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...clozeQs, ...confQs, ...collQs]);
+  return shuffle([...vocabQs, ...audioQs, ...fillQs, ...clozeQs, ...confQs, ...collQs, ...synQs]);
 }
 
 /**
@@ -496,17 +590,21 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   const medVocab = filterVocabByDifficulty(DIFFICULTY_CONFIG.medium.maxRank);
   const hardVocab = VOCAB_ZH; // full pool
 
-  // Per-tier type allocation. Easy is pure vocab/audio/def/cloze (no
-  // confusable or collocation — they're conceptually harder). Medium
-  // gets one of each meta type. Hard goes back to the 4 base types.
+  // Per-tier type allocation. Easy is pure vocab/audio/def/cloze.
+  // Medium adds 1 confusable + 1 collocation. Hard adds 1 synonym/antonym
+  // (the deepest test of vocabulary mastery).
   const easyMix = splitFourWays(easySize);
-  const hardMix = splitFourWays(hardSize);
 
-  // Medium: 1 confusable + 1 collocation max, rest split 4 ways
+  // Medium: 1 confusable + 1 collocation, rest 4-way
   const medConf = medSize >= 4 ? 1 : 0;
   const medColl = medSize >= 4 ? 1 : 0;
   const medRest = Math.max(0, medSize - medConf - medColl);
   const medMix = splitFourWays(medRest);
+
+  // Hard: 1 synonym/antonym
+  const hardSyn = hardSize >= 3 ? 1 : 0;
+  const hardRest = Math.max(0, hardSize - hardSyn);
+  const hardMix = splitFourWays(hardRest);
 
   const tier = (name: 'easy' | 'medium' | 'hard'): Question[] => {
     const isEasy = name === 'easy';
@@ -549,7 +647,11 @@ function generateCurvedQuestions(count: number, weakWords: string[]): Question[]
   if (medConf > 0) medExtras.push(...generateConfusableQuestions(medConf, used));
   if (medColl > 0) medExtras.push(...generateCollocationQuestions(medColl, used));
   const medQs = shuffle([...medCore, ...medExtras]);
-  const hardQs = tier('hard');
+
+  const hardCore = tier('hard');
+  const hardExtras: Question[] = [];
+  if (hardSyn > 0) hardExtras.push(...generateSynonymQuestions(hardSyn, used));
+  const hardQs = shuffle([...hardCore, ...hardExtras]);
 
   return [...easyQs, ...medQs, ...hardQs];
 }

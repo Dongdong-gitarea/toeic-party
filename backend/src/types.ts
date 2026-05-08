@@ -1,5 +1,5 @@
 export type SkillType = 'shake' | 'fog' | 'timeCut';
-export type QuestionType = 'vocab' | 'audio' | 'fillblank' | 'confusable' | 'collocation' | 'cloze';
+export type QuestionType = 'vocab' | 'audio' | 'fillblank' | 'confusable' | 'collocation' | 'cloze' | 'synonym';
 
 export interface Player {
   id: string;

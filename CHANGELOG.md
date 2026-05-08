@@ -1,5 +1,77 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 8: collocation conflict fix + 15 new confusable pairs + 7th question type (synonym/antonym)
+
+Three improvements from the menu in one push.
+
+### 1. Collocation conflict fix — silent bug
+The `___ + noun` collocation question used to pull distractor verbs from the entire verb pool. So for `___ a meeting / 開會` (answer: hold), distractors could include `postpone, chair, adjourn, reschedule` — all of which **also collocate** with "a meeting" in our data (just with different meanings). Even though the Chinese gloss disambiguates, the distractor felt like a valid alternative answer.
+
+**Fix:** in `generateCollocationQuestions`, exclude verbs that share the same noun tail as the correct answer. For `___ a meeting`, distractors are now drawn only from verbs that DON'T collocate with "a meeting" in the data.
+
+15 noun tails were affected by this bug (a meeting, a deadline, a contract, an appointment, a policy, a deal, a dispute, a warranty, a report, a position, a profit, a complaint, an issue, a reservation, "up with").
+
+### 2. Confusable pairs +15 (76 → 91)
+Added high-value TOEIC traps that were missing:
+
+| New pair | Why TOEIC tests this |
+|---|---|
+| fewer / less | countable vs uncountable noun rule |
+| amount / number | uncountable vs countable noun rule |
+| between / among | 2 things vs 3+ |
+| good / well | adjective vs adverb |
+| bring / take | direction relative to speaker |
+| price / prize | cost vs award |
+| breath / breathe | noun vs verb (different pronunciation) |
+| choose / chose | present vs past tense |
+| expand / expend | grow vs spend (same root, different meaning) |
+| assistant / assistance | person vs noun (the action) |
+| emergency / emergent | noun vs adjective |
+| since / for | time point vs duration |
+| boring / bored | -ing for things vs -ed for feelings |
+| interesting / interested | same -ing/-ed pattern |
+| statute / statue | dual confusion with stature already in data |
+
+Plus **30 new in-context sentence templates** in `CONF_SENTENCES` so each new pair surfaces as a real fillable sentence (not just "Which word means X?").
+
+### 3. 7th question type: `synonym` (synonym + antonym, randomized)
+
+A new question type that tests deeper vocab mastery — the kind of TOEIC Part 5 trap that needs you to know two words mean the same / opposite thing.
+
+```
+[SYN/ANT]
+Closest in meaning to: obtain
+○ institute   ● acquire   ○ overlook   ○ fry
+
+[SYN/ANT]
+OPPOSITE of: flexible
+○ ambitious   ○ organizer   ○ drastically   ● rigid
+```
+
+#### Data
+- 30 synonym sets in `learningExtras.json` (target → 2-4 synonyms): enhance/improve, abandon/leave, examine/inspect, etc.
+- 25 antonym sets: include/exclude, expand/shrink, employ/fire, flexible/rigid, etc.
+
+#### Implementation
+- `tslLoader.ts:generateSynonymQuestions` — randomly picks syn or ant mode per question; correct answer is one of the listed words; distractors are random TSL words of same POS, excluding all valid syn/ant
+- `'synonym'` added to `QuestionType` (backend + frontend store)
+- Placed in **hard tier** of curve mode (1 per game) — it's the deepest test, like the final-tier difficulty bump
+- Frontend: violet badge with `ArrowLeftRight` icon. Prompt rendered prominently
+- i18n: `game.qType.synonym` = "同義/反義" / "SYN/ANT" + hint
+
+### Distribution check (curve mode, 100 questions)
+```
+vocab: 13   audio: 21   fillblank: 20   cloze: 16
+confusable: 10   collocation: 10   synonym: 10
+```
+
+All 7 types fire. Synonym ≈ 10% of questions — appears once per 10-question game in the hard tier.
+
+### Verification
+- TS clean (backend + frontend)
+- Collocation distractors verified: no longer share noun tail with answer
+- Synonym samples: prompts are clear, distractors are POS-matched, correct answers are unambiguous
+
 ## 2026-05-08 (Mobile) — New question type: sentence cloze (+ smarter distractors)
 
 User feedback: «做 1（句子填空題型）跟 2（distractor 升級）».

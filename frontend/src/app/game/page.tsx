@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Puzzle,
   Pencil,
+  ArrowLeftRight,
   Flame,
   Waves,
   CloudFog,
@@ -412,6 +413,12 @@ export default function GamePage() {
               {t('game.qType.cloze')}
             </span>
           )}
+          {currentQuestion.type === 'synonym' && (
+            <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-violet-300 text-violet-950 px-1.5 py-0.5 rounded-full tracking-wider">
+              <ArrowLeftRight className="w-3 h-3" strokeWidth={2.75} />
+              {t('game.qType.synonym')}
+            </span>
+          )}
           {isFinal && (
             <span className="inline-flex items-center gap-1 text-[9px] font-bold bg-rose-400 text-rose-950 px-1.5 py-0.5 rounded-full border-2 border-rose-200 tracking-wider">
               <Flame className="w-3 h-3" strokeWidth={2.75} />
@@ -466,6 +473,9 @@ export default function GamePage() {
               <p className="text-sm font-bold text-white">&ldquo;{currentQuestion.prompt}&rdquo;</p>
             )}
             {currentQuestion.type === 'cloze' && (
+              <p className="text-sm font-bold text-white">{currentQuestion.prompt}</p>
+            )}
+            {currentQuestion.type === 'synonym' && (
               <p className="text-sm font-bold text-white">{currentQuestion.prompt}</p>
             )}
           </div>
@@ -556,6 +566,12 @@ export default function GamePage() {
                     </span>
                   ))}
                 </p>
+              </div>
+            )}
+            {currentQuestion.type === 'synonym' && (
+              <div>
+                <p className="text-[10px] font-bold text-violet-200 uppercase tracking-[0.25em] mb-1">{t('game.qType.synonymHint')}</p>
+                <p className="text-lg sm:text-xl font-bold text-white">{currentQuestion.prompt}</p>
               </div>
             )}
 
