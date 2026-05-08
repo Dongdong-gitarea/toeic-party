@@ -1,5 +1,67 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 12: POS-coherence pass — every word's pos / def / Chinese / example are now mutually consistent
+
+User directive this round: **「內容為最高準則，不會有懷疑」** — every piece of content shown to the player must be self-consistent so they never doubt the question. Round 12 is a coherence audit across the four data fields per word: TSL pos, English definition, Chinese gloss (`lookupChinese`), and example sentence.
+
+### 1. POS / def-leader mismatch — 47 fixes
+
+Detected programmatically: scan every TSL entry for noun-pos with `to ...` def, adj-pos with `a/an/the ...` def (noun-shaped), or vice versa. 86 candidates flagged, 47 needed real fixes.
+
+Highlights of clear errors:
+
+| Word | TSL pos | Before (mismatched) | After |
+|---|---|---|---|
+| reservation | noun | "to put something on hold for use later" | "the act of putting something on hold for later use" |
+| audit | noun | "to check something is correct" | "an official examination of business accounts and finances" |
+| delegate | noun | "to give others tasks to do" | "a representative chosen to act on behalf of others" |
+| revision | noun | "to change or rewrite something" | "a change or improvement made to a piece of work" |
+| brake | noun | "to stop a vehicle by pressing a pedal" | "a device for slowing or stopping a vehicle" |
+| calculation | noun | "to add, subtract, multiply, divide etc." | "a mathematical computation or careful estimate" |
+| manual | adj | "a book that explains how to do something" | "done or operated by hand, not by machine" *(then re-aligned to noun, see #2)* |
+| oval | adj | "A shape that looks like an egg" | "having a shape like an elongated circle, like an egg" |
+| explanatory | adj | "to explain or make clear" | "intended to make something clearer" |
+
+…plus 38 others including sunny, innovative, thorough, optional, protective, knowledgeable, generous, realistic, loyal, mechanical, promotional, residential, graphic, costly, managerial, enthusiastic, superior, overhead, administrative, headquarter, malfunction.
+
+### 2. Cross-field sense alignment — 7 deeper realignments
+
+Fixing the def alone wasn't enough when the four fields disagreed about WHICH SENSE of a polysemous word the question is testing. Re-aligned 7 to fully match:
+
+| Word | Issue | Fix |
+|---|---|---|
+| **intern** | TSL def "to work as a trainee" but example was "The US government interned thousands of Japanese-Americans during WW2" — that's the **imprison** sense, totally different word. | New example: "The summer intern joined our marketing team last week." Pos→noun. Def→noun-form. |
+| **cruise** | Chinese 遊輪 (cruise ship, noun) but TSL pos verb and example "Germany cruised to a World Cup victory" (verb). | All four fields aligned to noun: "a sea voyage on a large ship for pleasure"; example "They booked a one-week cruise to the Caribbean." |
+| **lounge** | Chinese 休息室 (noun) but TSL pos verb. | Pos→noun. Def→noun-form. Example uses noun. |
+| **eager** | TSL pos was **noun** (clearly wrong — eager is adj). | Pos→adj. |
+| **manual** | Chinese 手冊 (noun: a manual book) but TSL pos adj. | Pos→noun. Def→noun-form. Example "user manual" already noun. |
+| **alternate** | Chinese 替代的 (adj) but TSL pos verb. | Pos→adj. Def→adj-form. |
+| **asleep** | TSL pos was **adv** (asleep is predicative adj). | Pos→adj. |
+| **editorial** | Chinese 編輯的 (adj) but the natural example uses noun ("an editorial on the new tax policy"). | Reframed def to adj sense + new example: "The editorial team meets every Monday morning." |
+
+### 3. Self-audit of my own rewrites in rounds 6/9/11
+
+Sample-checked 30 of the ~300 examples I had hand-rewritten in earlier rounds. Found **3** that drifted from the correct sense:
+
+| Word | Issue | Fix |
+|---|---|---|
+| **assembly** | My example used "factory assembly line" (production sense), but Chinese 集會 = gathering of people. | "The school held a special assembly to honor the graduating students." |
+| **documentary** | TSL pos was adj but Chinese 紀錄片 is noun. | Pos→noun. (Existing def "a film about a real life or event" already matches noun.) |
+| **fleet** | Def restricted to ships, but Chinese 車隊 = vehicle fleet, and my example used trucks. | Broadened def to "a group of ships, planes, or vehicles operated by one organisation". |
+
+### Why this matters
+Before round 12, a player answering vocab question for `intern` would see:
+- Word: intern
+- Correct Chinese: 實習生 (trainee)
+- Reveal sentence: "The US government interned thousands of Japanese-Americans during WW2"
+
+That's two **different words** sharing one spelling. The reveal would actively confuse a learner who answered correctly. Same kind of trap was lurking in 50+ other words. All caught and fixed.
+
+### Verification
+- TS clean (backend + frontend)
+- 300-question smoke test: all 7 types fire in healthy proportions
+- POS-vs-def-leader scan now baseline (remaining mismatches are dual-POS words like `manual` or `audit` where Chinese settles which sense)
+
 ## 2026-05-08 (Mobile) — Round 11: silent give-away bug + 33 weak defs + NON_TOEIC prune + accessory wrong-sense
 
 ### 1. Silent cloze give-away bug — 14 examples mentioned the target word twice

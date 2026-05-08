@@ -100,7 +100,7 @@
     "word": "reservation",
     "ipa": "/ˌrɛz.ərˈveɪ.ʃən/",
     "pos": "noun",
-    "definition_en": "to put something on hold for use later, e.g., car, hotel room",
+    "definition_en": "the act of putting something on hold for later use, e.g., a car or hotel room",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/reservation?q=reservation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/reservation",
@@ -867,8 +867,8 @@
     "rank": 55,
     "word": "manual",
     "ipa": "/ˈmæn.ju.əl/",
-    "pos": "adj",
-    "definition_en": "a book that explains how to do something",
+    "pos": "noun",
+    "definition_en": "a book of instructions for using a product or doing a task",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/manual?q=manual",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/manual",
@@ -932,7 +932,7 @@
     "word": "oval",
     "ipa": "/ˈoʊ.vəl/",
     "pos": "adj",
-    "definition_en": "A shape that looks like an egg",
+    "definition_en": "having a shape like an elongated circle, like an egg",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/oval?q=oval",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/oval",
@@ -1300,7 +1300,7 @@
     "word": "replacement",
     "ipa": "/rɪˈpleɪs.mənt/",
     "pos": "noun",
-    "definition_en": "to put something/someone in place of something/someone else",
+    "definition_en": "the act of putting something or someone in place of another",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/replacement?q=replacement",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/replacement",
@@ -1412,7 +1412,7 @@
     "word": "explanatory",
     "ipa": "/ɪkˈsplæn.əˌtɔr.i/",
     "pos": "adj",
-    "definition_en": "to explain or make clear",
+    "definition_en": "intended to make something clearer",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/explanatory?q=explanatory",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/explanatory",
@@ -1635,8 +1635,8 @@
     "rank": 103,
     "word": "cruise",
     "ipa": "/kruz/",
-    "pos": "verb",
-    "definition_en": "a long, relaxing holiday on a ship",
+    "pos": "noun",
+    "definition_en": "a sea voyage on a large ship for pleasure",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/cruise?q=cruise",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/cruise",
@@ -1988,7 +1988,7 @@
     "word": "sunny",
     "ipa": "/ˈsʌn.i/",
     "pos": "adj",
-    "definition_en": "a day with no clouds or rain just sunshine",
+    "definition_en": "bright with sunlight; cheerful",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/sunny?q=sunny",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/sunny",
@@ -2740,7 +2740,7 @@
     "word": "innovative",
     "ipa": "/ˈɪn.əˌveɪ.tɪv/",
     "pos": "adj",
-    "definition_en": "to be creative and come up with new ideas",
+    "definition_en": "introducing new ideas or methods",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/innovative?q=innovative",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/innovative",
@@ -2980,7 +2980,7 @@
     "word": "audit",
     "ipa": "/ˈɔ.dɪt/",
     "pos": "noun",
-    "definition_en": "to check something is correct, usually related to accounts in business",
+    "definition_en": "an official examination of business accounts and finances",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/audit?q=audit",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/audit",
@@ -3236,7 +3236,7 @@
     "word": "headquarter",
     "ipa": "/ˈhɛdˌkwɔr.tɚ/",
     "pos": "verb",
-    "definition_en": "the main office of an organization",
+    "definition_en": "to base the main office of an organization in a particular location",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/headquarter?q=headquarter",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/headquarter",
@@ -3380,7 +3380,7 @@
     "word": "administrative",
     "ipa": "/ædˈmɪn.əˌstreɪ.tɪv/",
     "pos": "adj",
-    "definition_en": "to do with the management of an office",
+    "definition_en": "relating to the management or running of an organization",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/administrative?q=administrative",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/administrative",
@@ -4180,7 +4180,7 @@
     "word": "thorough",
     "ipa": "/ˈθɜr.oʊ,/",
     "pos": "adj",
-    "definition_en": "to be carefully and completely done",
+    "definition_en": "complete in every detail; very careful",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/thorough?q=thorough",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/thorough",
@@ -4259,7 +4259,7 @@
     "rank": 267,
     "word": "lounge",
     "ipa": "/laʊndʒ/",
-    "pos": "verb",
+    "pos": "noun",
     "definition_en": "a comfortable public sitting room in a hotel or airport",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/lounge?q=lounge",
@@ -4372,7 +4372,7 @@
     "word": "delegate",
     "ipa": "/ˈdɛl.ɪ.gɪt/",
     "pos": "noun",
-    "definition_en": "to give others tasks to do",
+    "definition_en": "a representative chosen to act on behalf of others",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/delegate?q=delegate",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/delegate",
@@ -4660,7 +4660,7 @@
     "word": "leak",
     "ipa": "/lik/",
     "pos": "noun",
-    "definition_en": "to drip water or other liquid",
+    "definition_en": "a small hole or crack through which liquid or gas escapes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/leak?q=leak",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/leak",
@@ -4899,8 +4899,8 @@
     "rank": 307,
     "word": "intern",
     "ipa": "/ˈɪn.tɜrn/",
-    "pos": "verb",
-    "definition_en": "a student or trainee who is doing a job, often without pay, to get work experience",
+    "pos": "noun",
+    "definition_en": "a student or trainee working briefly to gain experience",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/intern?q=intern",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/intern",
@@ -5060,7 +5060,7 @@
     "word": "behalf",
     "ipa": "/bɪˈhæf/",
     "pos": "noun",
-    "definition_en": "to speak or do something for someone else, e.g., on behalf of…",
+    "definition_en": "the interest or representation of someone, e.g., \"on behalf of\"",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/behalf?q=behalf",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/behalf",
@@ -5092,7 +5092,7 @@
     "word": "optional",
     "ipa": "/ˈɒp.ʃə.nl/",
     "pos": "adj",
-    "definition_en": "a choice, something you do not have to do",
+    "definition_en": "available as a choice; not required",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/optional?q=optional",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/optional",
@@ -5140,7 +5140,7 @@
     "word": "protective",
     "ipa": "/prəˈtɛk.tɪv/",
     "pos": "adj",
-    "definition_en": "to want to keep safe",
+    "definition_en": "wanting or designed to keep something safe from harm",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/protective?q=protective",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/protective",
@@ -5284,7 +5284,7 @@
     "word": "drill",
     "ipa": "/drɪl/",
     "pos": "noun",
-    "definition_en": "to bore a hole into something",
+    "definition_en": "a tool with a rotating tip used to bore holes",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/drill?q=drill",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/drill",
@@ -5524,7 +5524,7 @@
     "word": "knowledgeable",
     "ipa": "/ˈnɒl.ɪ.dʒə.bəl/",
     "pos": "adj",
-    "definition_en": "to know much about a topic",
+    "definition_en": "having or showing a lot of knowledge about a topic",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/knowledgeable?q=knowledgeable",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/knowledgeable",
@@ -5892,7 +5892,7 @@
     "word": "generous",
     "ipa": "/ˈdʒɛn.ər.əs/",
     "pos": "adj",
-    "definition_en": "to give willingly and freely",
+    "definition_en": "willing to give freely and not stingy",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/generous?q=generous",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/generous",
@@ -6116,7 +6116,7 @@
     "word": "realistic",
     "ipa": "/ˌri.əˈlɪs.tɪk/",
     "pos": "adj",
-    "definition_en": "to be reasonable or be close to real life",
+    "definition_en": "practical and reasonable; close to what is actually achievable",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/realistic?q=realistic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/realistic",
@@ -6276,7 +6276,7 @@
     "word": "loyal",
     "ipa": "/ˈlɔɪ.əl/",
     "pos": "adj",
-    "definition_en": "to stay true or faithful",
+    "definition_en": "firm in supporting a person, brand, or cause",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/loyal?q=loyal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/loyal",
@@ -6483,7 +6483,7 @@
     "rank": 406,
     "word": "nap",
     "ipa": "/næp/",
-    "pos": "verb",
+    "pos": "noun",
     "definition_en": "a short sleep, often taken during the daytime",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/nap?q=nap",
@@ -6580,7 +6580,7 @@
     "word": "appreciation",
     "ipa": "/əprˌiʃieɪʃən/",
     "pos": "noun",
-    "definition_en": "to show thanks for something or someone",
+    "definition_en": "the recognition and enjoyment of something's good qualities",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/appreciation?q=appreciation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/appreciation",
@@ -6740,7 +6740,7 @@
     "word": "mechanical",
     "ipa": "/məkænɪkəl/",
     "pos": "adj",
-    "definition_en": "to do with machines",
+    "definition_en": "relating to or operated by machines",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/mechanical?q=mechanical",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/mechanical",
@@ -6772,7 +6772,7 @@
     "word": "promotional",
     "ipa": "/prəmoʊʃənəl/",
     "pos": "adj",
-    "definition_en": "to do with encouraging sales",
+    "definition_en": "relating to advertising or encouraging sales",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/promotional?q=promotional",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/promotional",
@@ -6804,7 +6804,7 @@
     "word": "residential",
     "ipa": "/rˌɛzɪdɛnʃəl/",
     "pos": "adj",
-    "definition_en": "an area where people live",
+    "definition_en": "relating to areas where people live, not businesses",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/residential?q=residential",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/residential",
@@ -7108,7 +7108,7 @@
     "word": "malfunction",
     "ipa": "/mælfʌŋkʃən/",
     "pos": "verb",
-    "definition_en": "a breakdown or failure in the system",
+    "definition_en": "to fail to operate correctly",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/malfunction?q=malfunction",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/malfunction",
@@ -7140,7 +7140,7 @@
     "word": "patience",
     "ipa": "/peɪʃəns/",
     "pos": "noun",
-    "definition_en": "to accept suffering without getting angry",
+    "definition_en": "the ability to accept delay or difficulty without getting upset",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/patience?q=patience",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/patience",
@@ -7188,7 +7188,7 @@
     "word": "revision",
     "ipa": "/rivɪʒən/",
     "pos": "noun",
-    "definition_en": "to change or rewrite something",
+    "definition_en": "a change or improvement made to a piece of work",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/revision?q=revision",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/revision",
@@ -7316,7 +7316,7 @@
     "word": "brake",
     "ipa": "/breɪk/",
     "pos": "noun",
-    "definition_en": "to stop a vehicle by pressing a pedal",
+    "definition_en": "a device for slowing or stopping a vehicle",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/brake?q=brake",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/brake",
@@ -7332,7 +7332,7 @@
     "word": "calculation",
     "ipa": "/kˌælkyəleɪʃən/",
     "pos": "noun",
-    "definition_en": "to add, subtract, multiply, divide etc.",
+    "definition_en": "a mathematical computation or careful estimate",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/calculation?q=calculation",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/calculation",
@@ -7364,7 +7364,7 @@
     "word": "costly",
     "ipa": "/kɑstli/",
     "pos": "adj",
-    "definition_en": "to be expensive, to be of a high price",
+    "definition_en": "expensive; involving a high price or cost",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/costly?q=costly",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/costly",
@@ -7412,7 +7412,7 @@
     "word": "graphic",
     "ipa": "/græfɪk/",
     "pos": "adj",
-    "definition_en": "to do with a picture or image",
+    "definition_en": "using or relating to pictures, images, or design",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/graphic?q=graphic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/graphic",
@@ -7428,7 +7428,7 @@
     "word": "inexperience",
     "ipa": "/ˌɪnɪkspɪriəns/",
     "pos": "noun",
-    "definition_en": "to not have much practice with something",
+    "definition_en": "a lack of practice or skill in something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/inexperience?q=inexperience",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/inexperience",
@@ -7667,7 +7667,7 @@
     "rank": 480,
     "word": "alternate",
     "ipa": "/ɔltɜnət/",
-    "pos": "verb",
+    "pos": "adj",
     "definition_en": "one of two or more available options",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/alternate?q=alternate",
@@ -7700,7 +7700,7 @@
     "word": "escort",
     "ipa": "/ɛskɔrt/",
     "pos": "noun",
-    "definition_en": "to go with someone",
+    "definition_en": "a person or group accompanying another for protection or company",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/escort?q=escort",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/escort",
@@ -7860,7 +7860,7 @@
     "word": "superior",
     "ipa": "/supɪriɜ/",
     "pos": "adj",
-    "definition_en": "the leader, someone higher than you in rank",
+    "definition_en": "higher in rank, quality, or importance",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/superior?q=superior",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/superior",
@@ -8084,7 +8084,7 @@
     "word": "overhead",
     "ipa": "/oʊvɜhɛd/",
     "pos": "adj",
-    "definition_en": "the fixed cost of a business, e.g., rent",
+    "definition_en": "situated above one's head, or relating to fixed business costs",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/overhead?q=overhead",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/overhead",
@@ -8324,7 +8324,7 @@
     "word": "enthusiastic",
     "ipa": "/ɪnθˌuziæstɪk/",
     "pos": "adj",
-    "definition_en": "to show excitement for something",
+    "definition_en": "showing strong excitement and interest",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/enthusiastic?q=enthusiastic",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/enthusiastic",
@@ -8404,7 +8404,7 @@
     "word": "managerial",
     "ipa": "/mˌænɪdʒɪriəl/",
     "pos": "adj",
-    "definition_en": "to do with management or supervision",
+    "definition_en": "relating to management or supervision",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/managerial?q=managerial",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/managerial",
@@ -9124,7 +9124,7 @@
     "word": "editorial",
     "ipa": "/ˌɛdətɔriəl/",
     "pos": "adj",
-    "definition_en": "a newspaper article written by the editor",
+    "definition_en": "relating to the writing or editing of a publication",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/editorial?q=editorial",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/editorial",
@@ -9460,7 +9460,7 @@
     "word": "bankrupt",
     "ipa": "/bæŋkrəpt/",
     "pos": "noun",
-    "definition_en": "to have no more money",
+    "definition_en": "a person legally unable to pay their debts",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/bankrupt?q=bankrupt",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/bankrupt",
@@ -9555,8 +9555,8 @@
     "rank": 598,
     "word": "eager",
     "ipa": "/igɜ/",
-    "pos": "noun",
-    "definition_en": "to be excited to help or do something",
+    "pos": "adj",
+    "definition_en": "showing strong interest or desire to do something",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/eager?q=eager",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/eager",
@@ -9844,7 +9844,7 @@
     "word": "removal",
     "ipa": "/rɪmuvəl/",
     "pos": "noun",
-    "definition_en": "to take away and put in another place",
+    "definition_en": "the act of taking something away from where it was",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/removal?q=removal",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/removal",
@@ -10067,7 +10067,7 @@
     "rank": 630,
     "word": "documentary",
     "ipa": "/dˌɑkyəmɛntɜi/",
-    "pos": "adj",
+    "pos": "noun",
     "definition_en": "a film about a real life or event",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/documentary?q=documentary",
@@ -12019,7 +12019,7 @@
     "rank": 752,
     "word": "asleep",
     "ipa": "/əslip/",
-    "pos": "adv",
+    "pos": "adj",
     "definition_en": "not awake, in sleep",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/asleep?q=asleep",
@@ -15684,7 +15684,7 @@
     "word": "fleet",
     "ipa": "/flit/",
     "pos": "noun",
-    "definition_en": "a group of ships travelling together",
+    "definition_en": "a group of ships, planes, or vehicles operated by one organisation",
     "refs": {
       "oup": "https://www.oxfordlearnersdictionaries.com/definition/english/fleet?q=fleet",
       "cup": "https://dictionary.cambridge.org/dictionary/learner-english/fleet",
