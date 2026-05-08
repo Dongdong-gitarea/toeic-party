@@ -1,5 +1,45 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Hard tier no longer recycles basic TSL words (rank 1-400 excluded)
+
+User feedback after first play: 「目前直接開始玩，好像還是蠻容易看到學過的單字」.
+
+Diagnosis: in curve mode 70%+ of questions came from TSL rank 1-800, and the hard tier had **no minimum rank** so it kept pulling familiar basic words (airport, lobby, fax, brochure, …) that any TOEIC learner already knows.
+
+### Fix: add `minRank` to `DIFFICULTY_CONFIG.hard`
+
+```ts
+hard: { maxRank: 9999, minRank: 400, ... }
+```
+
+Hard tier now pulls from **TSL rank 400-1250 + all 4,314 non-TSL CET/TOEFL business words**. Rank 1-400 (the most-known basics) are deliberately excluded so the hard tier consistently feels challenging.
+
+Easy and medium tiers remain unchanged — they still include rank 1-400 as warm-up.
+
+### Verification (50 games, 500 hard-tier questions)
+
+Before: hard tier ≈ random uniform over rank 1-9999
+
+After:
+- rank 1-400: **3%** (residual from synonym question targets; acceptable)
+- rank 400-800: 27%
+- rank 800-1250: 29%
+- non-TSL CET/TOEFL: **41%** ← these are the words a player has likely never seen
+
+### Implementation
+- `DIFFICULTY_CONFIG` now carries both `maxRank` and `minRank` per difficulty
+- `filterVocabByDifficulty(maxRank, minRank)` updated:
+  - TSL words: must satisfy `minRank ≤ rank ≤ maxRank`
+  - Non-TSL words: included only when `maxRank ≥ 9999` (= hard tier)
+- `generateDefinitionQuestions / generateClozeQuestions / generateAudioClozeQuestions` accept new optional `minRank` parameter
+- Curve mode hard tier now uses filtered pool (was: `hardVocab = VOCAB_ZH` raw)
+- Standalone hard mode also benefits
+
+### Verification
+- TS clean (backend + frontend)
+- 50-game smoke: hard tier distribution shifted dramatically toward unfamiliar advanced vocab
+- Easy tier still 100% rank 1-400 as designed (warm-up confidence builder)
+
 ## 2026-05-08 (Mobile) — Pass B: TSL rank 500-1000 hand-curated TOEIC review
 
 Continuation of Pass A. Same line-by-line audit method, same 4-field consistency (pos / def / Chinese / example) — applied to the next 500 most-tested words.
