@@ -575,9 +575,12 @@ function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excl
       id: `audiocloze-${idx}-${w.rank}`,
       type: 'audiocloze' as const,
       word: w.word,
-      // Use a delimiter that's unlikely to appear in any sentence so the
-      // frontend can split the audio payload into the two halves.
-      prompt: `${before}|||${after}`,
+      // Visible prompt: sentence with the blank shown as ___. Player gets the
+      // text context AND the audio playback (audioPayload below) to combine
+      // listening + reading practice — closer to TOEIC Part 6 difficulty.
+      prompt: `${before} ___ ${after}`.replace(/\s+/g, ' ').trim(),
+      // The audio side splits on a delimiter so the frontend can speak the
+      // two halves of the sentence separately with a noticeable pause.
       audioPayload: `${before}|||${after}`,
       options,
       correctIndex: options.indexOf(w.word),

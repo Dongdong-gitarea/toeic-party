@@ -572,15 +572,26 @@ export default function GamePage() {
             {currentQuestion.type === 'audiocloze' && currentQuestion.audioWord && (
               <div>
                 <p className="text-[10px] font-bold text-pink-200 uppercase tracking-[0.25em] mb-2">{t('game.qType.audioclozeHint')}</p>
+                <p className="text-base sm:text-lg font-bold text-white leading-relaxed mb-3">
+                  {currentQuestion.prompt.split('___').map((part, i, arr) => (
+                    <span key={i}>
+                      {part}
+                      {i < arr.length - 1 && (
+                        <span className="inline-block w-20 mx-1 border-b-3 border-pink-300 align-middle" />
+                      )}
+                    </span>
+                  ))}
+                </p>
                 <div className="flex items-center justify-center gap-3">
                   <button onClick={() => {
                     const [before, after] = currentQuestion.audioWord!.split('|||');
                     void speakClozePair(before ?? '', after ?? '');
                   }}
-                    className="w-16 h-16 rounded-full bg-pink-300 border-4 border-pink-200
+                    className="w-12 h-12 rounded-full bg-pink-300 border-4 border-pink-200
                       flex items-center justify-center active:scale-95 cursor-pointer shadow-[0_5px_0_rgba(157,23,77,0.5)] text-pink-950">
-                    <AudioLines className="w-7 h-7" strokeWidth={2.5} />
+                    <AudioLines className="w-5 h-5" strokeWidth={2.5} />
                   </button>
+                  <span className="text-xs font-medium text-white/80">{t('game.tapToHear')}</span>
                 </div>
               </div>
             )}
