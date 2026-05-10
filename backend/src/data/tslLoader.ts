@@ -60,16 +60,24 @@ const DIFFICULTY_CONFIG: Record<Exclude<Difficulty, 'curve'>, { maxRank: number;
 // - Words IN TSL: must satisfy minRank ≤ rank ≤ maxRank.
 // - Words NOT IN TSL (CET/TOEFL business words): only included when maxRank
 //   reaches 9999, i.e., for the hard tier where these advanced words belong.
+//
+// Memoized: each (maxRank, minRank) pair produces a fixed pool. Caching
+// avoids re-filtering 5566 entries every game (curve mode triggers 3 calls).
+const filterCache = new Map<string, typeof VOCAB_ZH>();
 function filterVocabByDifficulty(maxRank: number, minRank: number = 0): typeof VOCAB_ZH {
-  const tslMap = new Map(loadTSL().map((w) => [w.word.toLowerCase(), w.rank]));
-  return VOCAB_ZH.filter((entry) => {
-    const rank = tslMap.get(entry[0].toLowerCase());
+  const key = `${maxRank}|${minRank}`;
+  const cached = filterCache.get(key);
+  if (cached) return cached;
+  const tslMap = getTslByWord();
+  const result = VOCAB_ZH.filter((entry) => {
+    const rank = tslMap.get(entry[0].toLowerCase())?.rank;
     if (rank === undefined) {
-      // Non-TSL: only in hard tier (maxRank=9999)
       return maxRank >= 9999;
     }
     return rank >= minRank && rank <= maxRank;
   });
+  filterCache.set(key, result);
+  return result;
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -130,8 +138,13 @@ function pickWeighted<T>(
     ? pool.filter((p) => !excludeLower.has(getWord(p).toLowerCase()))
     : pool;
   if (weakLower.size === 0) return pickRandom(available, n);
-  const weakPool = available.filter((p) => weakLower.has(getWord(p).toLowerCase()));
-  const otherPool = available.filter((p) => !weakLower.has(getWord(p).toLowerCase()));
+  // Single-pass partition (was: 2 filter() calls each computing toLowerCase).
+  const weakPool: T[] = [];
+  const otherPool: T[] = [];
+  for (const p of available) {
+    if (weakLower.has(getWord(p).toLowerCase())) weakPool.push(p);
+    else otherPool.push(p);
+  }
   // Only bias when weak pool is large enough to avoid repetition
   if (weakPool.length < 10) return pickRandom(available, n);
   // Cap at 30% weak (was 70% — too aggressive, caused same words every game)
@@ -198,15 +211,23 @@ function isToeicWord(word: string): boolean {
   return !NON_TOEIC.has(word.toLowerCase());
 }
 
+// Memoized TSL lookup — built once on first call, reused thereafter. Without
+// this, lookupDef/lookupPos did a linear scan over 1,250 words, called up to
+// ~30+ times per game generation (per question's withMeta call).
+let tslByWord: Map<string, TSLWord> | null = null;
+function getTslByWord(): Map<string, TSLWord> {
+  if (tslByWord) return tslByWord;
+  tslByWord = new Map(loadTSL().map((w) => [w.word.toLowerCase(), w]));
+  return tslByWord;
+}
+
 function lookupDef(word: string): string {
-  const w = loadTSL().find((t) => t.word.toLowerCase() === word.toLowerCase());
-  return w?.definition_en ?? '';
+  return getTslByWord().get(word.toLowerCase())?.definition_en ?? '';
 }
 
 // Look up TSL part-of-speech for a word
 export function lookupPos(word: string): string {
-  const w = loadTSL().find((t) => t.word.toLowerCase() === word.toLowerCase());
-  return w?.pos ?? '';
+  return getTslByWord().get(word.toLowerCase())?.pos ?? '';
 }
 
 // Attach pos + example onto a Question, looked up by the headword.
@@ -221,11 +242,10 @@ function withMeta<T extends { word: string }>(q: T): T & {
   };
 }
 
-// ── Generate vocab (English → Chinese) ──
-function generateVocabQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  return generateVocabQuestionsFromPool(VOCAB_ZH, count, weakLower, excludeLower);
-}
-
+// ── Generate vocab (English → Chinese) — pool-based generator ──
+// Callers always pass a filtered pool (curve mode tier or full VOCAB_ZH for
+// flat-difficulty mode), so the previous unused `generateVocabQuestions`
+// wrapper has been removed.
 function generateVocabQuestionsFromPool(vocabPool: typeof VOCAB_ZH, count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
   const toeicPool = vocabPool.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
   const pool = toeicPool.length >= count ? toeicPool : vocabPool;
@@ -244,11 +264,7 @@ function generateVocabQuestionsFromPool(vocabPool: typeof VOCAB_ZH, count: numbe
   });
 }
 
-// ── Generate audio (hear word → pick Chinese meaning) from vocab bank ──
-function generateAudioQuestions(count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
-  return generateAudioQuestionsFromPool(VOCAB_ZH, count, weakLower, excludeLower);
-}
-
+// ── Generate audio (hear word → pick Chinese meaning) — pool-based generator ──
 function generateAudioQuestionsFromPool(vocabPool: typeof VOCAB_ZH, count: number, weakLower: Set<string>, excludeLower: Set<string>): Question[] {
   const toeicPool = vocabPool.filter((e) => isToeicWord(e[0]) || weakLower.has(e[0].toLowerCase()));
   const pool = toeicPool.length >= count ? toeicPool : vocabPool;

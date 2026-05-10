@@ -1,5 +1,37 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Code optimizations (no content change)
+
+User asked for automatic code-level optimizations. Found and applied:
+
+### 1. Memoized TSL word lookup (perf)
+`lookupDef` / `lookupPos` previously did `loadTSL().find((t) => t.word.toLowerCase() === word.toLowerCase())` — an O(1,250) linear scan on every call. Each game generation calls these ~30+ times via `withMeta`.
+
+Built a module-level `Map<lowercased word, TSLWord>` once on first call (`getTslByWord()`), all subsequent lookups are O(1).
+
+### 2. Memoized `filterVocabByDifficulty` (perf)
+The filter function rebuilt a tslMap (1,250 entries) every call AND re-filtered all 5,566 VOCAB_ZH entries. With 3 difficulty tiers per game, that's 3×5,566 = 16,698 ops per game. Now cached by `(maxRank, minRank)` key — first call does the work, every subsequent call returns the cached array.
+
+### 3. Single-pass partition in `pickWeighted` (micro-perf)
+Previously called `available.filter(...)` twice with opposite predicates — toLowerCase() computed twice per item. Now single for-loop partitions into weakPool and otherPool in one pass.
+
+### 4. Removed dead wrapper functions
+`generateVocabQuestions` and `generateAudioQuestions` were both 1-line wrappers around their `…FromPool` siblings, but never called from anywhere — only the FromPool versions are used. Deleted both.
+
+### 5. Removed unused import
+`useMemo` imported but never used in `frontend/src/app/practice/page.tsx`.
+
+### Other findings (no action needed)
+- 0 console.log in frontend (only legitimate ops logging in backend)
+- 0 TODO/FIXME markers
+- Only 1 `as any` in entire codebase (very clean type safety)
+- Aliased imports `Settings as SettingsIcon` / `X as XIcon` — initial scan flagged them as unused but they ARE used via the alias. False positive.
+
+### Verification
+- TS clean (backend + frontend)
+- 100-game perf: 17.3ms per game generation (well under 1 frame budget)
+- 300-question smoke distribution healthy across all 9 types
+
 ## 2026-05-08 (Mobile) — `audiocloze` UX fix — show sentence text + audio (was: audio only)
 
 User feedback: 「這個遊戲的玩法好像有點怪，是直接聽英文，要猜到中間單字？但沒有顯示文字這樣嗎？」
