@@ -1,5 +1,39 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — `audiocloze` UX fix — show sentence text + audio (was: audio only)
+
+User feedback: 「這個遊戲的玩法好像有點怪，是直接聽英文，要猜到中間單字？但沒有顯示文字這樣嗎？」
+
+The pure-audio version was too hard:
+1. Player has to parse the entire spoken sentence
+2. Identify exactly where the gap was
+3. Hold the context in memory
+4. Pick correct word from 4 options
+…all without any text reference. TTS quality varies on mobile browsers, making it brutal.
+
+### Fix
+`audiocloze` now displays the sentence text **with a visible blank** (same render as the regular text-only `cloze` type), AND plays the split audio. Player gets:
+- **Reading**: the sentence in front of them with `___` for the gap
+- **Listening**: TTS pronouncing both halves with a 700ms pause at the blank
+
+This shifts the difficulty from "pure listening transcription" to "TOEIC Part 6 style cloze + bonus pronunciation reinforcement" — much more tractable while still training listening.
+
+### Implementation
+- Backend `generateAudioClozeQuestions`:
+  - `prompt`: now `"${before} ___ ${after}"` (visible to player, with blank)
+  - `audioPayload`: still `"${before}|||${after}"` (delimiter for TTS split)
+- Frontend audiocloze render: sentence text rendered with pink underline blank (same pattern as cloze) + smaller Ear button below for replay
+- i18n hint updated: 「邊讀邊聽，選出空格中的字」 / "Read and listen, then pick the missing word"
+
+### Differentiation from existing types
+- `cloze` (blue Pencil): read sentence → pick word. **No audio.**
+- `audiocloze` (pink AudioLines): read sentence + hear it spoken → pick word. **Audio is bonus reinforcement.**
+
+### Verification
+- TS clean
+- 5 samples confirm: blank shows visibly in prompt, audio split still works
+- Sample: `"Could you ___ the meeting time once more?"` → clarify
+
 ## 2026-05-08 (Mobile) — Hard tier no longer recycles basic TSL words (rank 1-400 excluded)
 
 User feedback after first play: 「目前直接開始玩，好像還是蠻容易看到學過的單字」.
