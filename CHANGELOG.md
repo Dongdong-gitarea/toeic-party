@@ -1,5 +1,41 @@
 # Changelog
 
+## 2026-05-12 (Mobile) — Round 15: +1,306 non-TSL examples — **100% COVERAGE**
+
+**Milestone.** Every word in the entire 5,523-entry vocab pool now has an English example sentence. From a 2.7% baseline 14 rounds ago, the journey is complete.
+
+### Coverage progression
+| Round | Coverage | Total examples |
+|---|---|---|
+| Initial | 2.7% (118 / 4314) | 1,368 |
+| Round 12 | 54.7% (2,361) | 4,981 |
+| Round 13 | 62.6% (2,702) | 5,594 |
+| Round 14 | 69.6% (3,004) | 6,223 |
+| **Round 15** | **100.0% (5,523 / 5,523)** | **7,529** |
+
+### What was added (~1,306 new business-context sentences)
+
+Final sweep of every remaining gap across all letters. Hand-curated with TOEIC-style office register; avoids giveaway phrasing (target word never repeats inside its own example).
+
+Heavy letters knocked out:
+- **C** (282 missing → 0): full alphabet from cafe→cylinder
+- **D** (156 → 0): daily→dynamite
+- **E–H** (230 → 0): includes etiquette, evolution, fragrance, geography, hospitality, hypothesis
+- **I–N** (213 → 0): isolation, juvenile, kindergarten, leisurely, marathon, melancholy, nowadays
+- **O–P** (152 → 0): observatory, ointment, outskirts, panorama, perseverance, prosperous, psychiatrist
+- **Q–Z** (206 → 0): quaint, restoration, satire, syllabus, theatrical, ultraviolet, vineyard, withstand, zoology
+- **A–B finisher** (82 → 0): abolition, adolescence, baptism, businesslike
+
+### Player impact
+- **Every cloze/audiocloze question** now has a real example sentence — no fallback strings
+- **Question generation never misses** due to missing example data
+- Examples pool **7,529** entries — over **5.5x** the original 1,368
+
+### Verification
+- TS clean
+- jq length confirms 7,529 entries
+- find_missing.ts confirms 0 missing across all 5,523 vocab words
+
 ## 2026-05-08 (Mobile) — Round 14: +629 non-TSL examples (62.6% → 69.6%)
 
 **Approaching 70% mark.** Finished T-Z alphabet pass.
