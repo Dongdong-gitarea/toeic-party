@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 8: +320 non-TSL examples (19.2% → 23.9%)
+
+Continued non-TSL example coverage drive — focus on D-E words this round.
+
+### Coverage progression
+| Round | Coverage | Total examples |
+|---|---|---|
+| Initial | 2.7% (118 / 4314) | 1,368 |
+| Round 1 | 6.2% (269) | 1,587 |
+| Round 5 | 9.3% (401) | 1,764 |
+| Round 6 | 13.6% (588) | 2,019 |
+| Round 7 | 19.2% (829) | 2,313 |
+| **Round 8** | **23.9% (1,030)** | **2,633** |
+
+### What was added (320 new business-context sentences)
+
+**D-words**: damage, dare, data, database, daunting, dawn, day, daytime, dead, deal, dear, death, debate, debit, debt, decade, decay, deceased, deceive, decent, deception, decide, decisive, declaration, declare, decline, decoration, decree, deduce, deeply, deer, defeat, defence, defend, deficit, define, definition, defy, degree, delay, deliberately, delicate, delicious, delight, delighted, deliver, demanding, democracy, democratic, demolish, demonstration, denial, denounce, dense, department, departure, depict, deploy, deposit, depression, deprive, deputy, derive, descend, descent, describe, description, desert, deserve, design, designate, desire, desk, desolate, despair, desperate, despite, destination, destiny, destroy, destruction, detail, detect, detective, deter, detergent, determination, determine, devastate, develop, development, devote, devotion, diabetes, diagnose, diagnosis, diary, dictate, dictionary, differ, difference, different, differentiate, difficult, difficulty, dig, digestion, dignity, dilemma, dilute, dim, dimension, diminish, dinner, dip, diploma, direct, direction, directly, directive, director, directory, dirty, disability, disabled, disadvantage, disagree, disappear, disappoint, disaster, discharge, discipline, disclose, discomfort, discount, discourage, discover, discovery, discreet, discretion, discuss, discussion, dish, dismay, dismiss, disorder, dispel, display, displease, disprove, dispute, dissolve, distance, distant, distinct, distinction, distinctive, distort, distress, distribute, district, disturb, disturbance, dive, diverse, diversify, diversity, divide, divine, division, divorce, dock, doctor, doctorate, doctrine, dollar, dome, domestic, dominate, dominant, donor, doomed, door, doorway, dose, dot, double, doubt, down, downplay, downtown, dozen, draft, drag, drama, dramatic, dramatically, draw, drawer, drawing, dream, dress, drift, drink, drip, drive, driver, drop, drown, drug, dry, duck, due, duly, dump, durable, during, dusk, dust, duty, dynasty
+
+**E-words**: each, eager, earn, earnings, east, eastern, easy, eat, eccentric, echo, eclipse, ecology, economic, economy, eco-system, edge, edible, edition, editor, educate, education, effect, efficiency, effort, egg, eighteen, either, elaborate, elder, elderly, elect, election, electric, electricity, electronic, electronics, elegance, element, elementary, elephant, elite, eloquent, else, elsewhere, embark, embarrass, embassy, embed, embrace, embroidery, emerge, emergence, emergency, emigrate, eminent, emission, emotion, emotional, emphasis, emphasize, empire, employ, employee, employer, employment, empower, empty, enable, encompass, encounter, encourage, endanger, endeavor, endless, endorse, endure, enemy, energy, enforce, enforcement, engage, engineer, enhance, enjoyment, enlarge, enlighten, enormous, enough, enrich, enrol, enroll, enrollment, ensue, enter, enterprise, entertain, entertainment, enthusiasm, enthusiast, entire, entirely, entitle, entity, entrance, entrust, entry, envelop, envelope, environment, environmental, envisage, envoy, envy, epic, episode, equal, equally, equator, equip, equipment, equity, equivalent, era, erect, erode, errand, error, erupt, escape, escort, especially, essay, essence, essential, establish, estate, esteem, estimate, eternal, eternity, ethical, ethics, ethnic, evaluate, evaluation, even, evening, event, eventual, eventually, ever, evergreen, every, everybody, everyday, everyone, everything, evidence, evil, evolve, exact, exactly, examination, examine, example, exceed, excel, excellence, excellent, except, exception, exceptional, excess, excessive, exchange, excite, excited, exciting, exclude, exclusion, exclusive, exclusively, excursion, excuse, execute, execution, executive, exemplify, exempt, exercise
+
+### Player impact
+**1,030 non-TSL words** now have example sentences — eligible for cloze and audiocloze question types in hard tier (up from 588 last round). Hard-tier rotation pool nearly **9x** the original baseline of 118 words.
+
+### Verification
+- TS clean
+- Coverage milestone: nearly a quarter of all 4,314 non-TSL business words now have examples
+
 ## 2026-05-08 (Mobile) — Round 7: +294 non-TSL examples (13.6% → 19.2%)
 
 Continued example coverage drive. Coverage **doubled-and-more** vs the starting baseline:
