@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 6: +255 non-TSL examples (9.3% → 13.6%)
+
+Continuing example coverage for non-TSL CET/TOEFL business words so they can appear as cloze / audiocloze (not just plain vocab) when picked by the hard tier.
+
+### Coverage progression
+| Round | Coverage | Total examples |
+|---|---|---|
+| Initial (pre-cleanup) | 2.7% (118 / 4314) | 1,368 |
+| Round 1 (after PR #28) | 6.2% (269) | 1,587 |
+| Round 5 (after PR #29) | 9.3% (401) | 1,764 |
+| **Round 6 (this PR)** | **13.6% (588)** | **2,019** |
+
+### What was added (255 new business-context sentences)
+
+**A-words** (akin, allocation, alongside, alteration, alternative, altitude, ambiguity, ambition, ambulance, analogy, analyst, anticipation, anxiety, apartment, appealing, appearance, applause, area, arena, articulate, ascertain, assertion, available, average, await, awareness, aware, …)
+
+**B-words** (baby, background, badge, balance, ban, banner, barrier, base, basic, basis, basket, beam, behaviour, belief, beneficiary, bias, bid, bill, binding, blank, blanket, blueprint, board, boast, bold, bond, book, boost, border, borrow, boss, bottle, boy, branch, brand, breakdown, breakthrough, brief, briefcase, broad, broadcast, broken, brother, budget, build, building, built, bunch, burden, bureau, business, busy, buyer, …)
+
+**C-words** (cable, calculate, calendar, call, calm, camera, campaign, campus, cancel, candidate, capacity, capital, captain, car, card, care, career, cargo, carrier, carry, case, cash, casual, category, cause, caution, cease, celebrate, central, century, certain, certainly, certainty, chain, chair, chairman, challenge, chamber, champion, chance, change, channel, chapter, character, charge, chart, check, chief, child, choice, choose, citizen, city, civil, claim, class, classical, clean, clear, clearly, click, climate, clinical, close, closely, closet, closure, cloth, clothing, cloud, club, coach, coastal, code, coffee, coincide, colleague, collect, college, colour, column, comment, commercial, commit, commitment, committee, common, communicate, community, company, compare, comparison, compelling, compensation, complete, complex, …)
+
+### Player impact
+- Words appearing in hard tier (rank 400+ TSL and 4,314 non-TSL) now have **example sentences for 13.6%** of the non-TSL pool, up from 2.7%
+- These words can now be tested as `cloze` (read sentence, fill blank) and `audiocloze` (listen, fill blank), not just `vocab` (English → Chinese)
+- Hard-tier question type diversity for advanced words has substantially improved
+
+### Verification
+- TS clean
+- 588 non-TSL words now eligible for cloze/audiocloze generation
+
 ## 2026-05-08 (Mobile) — Round 5 + Pass C: 177 more non-TSL examples + TSL rank 1000-1250 review
 
 ### Round 5: +177 non-TSL example sentences
