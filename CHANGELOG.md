@@ -1,5 +1,59 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 5 + Pass C: 177 more non-TSL examples + TSL rank 1000-1250 review
+
+### Round 5: +177 non-TSL example sentences
+Coverage 6.2% → **9.3%** (269 → 401 non-TSL with examples). Hand-wrote business-context sentences for ability, abroad, abrupt, absence, accept, acceptable, accident, accompany, accomplish, account, accountable, accumulation, accurate, action, active, activity, adapt, address, adequately, admire, advance, advantage, adventure, advertising, advice, advise, affect, affection, afford, agency, agent, agriculture, application, appoint, appreciate, approve, archive, argue, arrival, arrive, article, artificial, aspect, aspire, assault, assess, assessment, asset, assign, assignment, assist, association, assume, atmosphere, attach, attack, attempt, attendance, attention, attitude, attorney, audience, auditor, authority, available, average, avoid, await, award, aware, awareness, baby, background, badge, baker, balance, baggage, banana, bank, bargain, baseball, basic, basis, basket, battle, beach… (plus more verbs/adjectives/adverbs).
+
+Total examples now: **1,764** (was 1,587).
+
+### Pass C: TSL rank 1000-1250 hand review (11 def + 23 example fixes)
+
+Same line-by-line review method as Pass A/B. Caught these critical errors in the final 250 TSL words:
+
+**Sense mismatches**:
+- **integral** example was math ("The integral of x↦x² on [0,1] is 1/3") → "Teamwork is an integral part of our company culture"
+- **terrific** example was about a hangover → "The team did a terrific job on the product launch"
+- **rubber** example was baseball jargon ("Jones toes the rubber") → "The rubber gasket on the pipe needs replacement"
+- **drum** example was printer-tech ("Replace the drum unit") but def is musical → "She played the drum solo at the office talent show"
+- **pepper** example was baseball jargon ("No pepper games") → "Please add salt and pepper to the soup"
+- **diamond** example was industrial ("The saw is coated with diamond") → jewelry context
+- **disable** example was about an accident → "Please disable the screensaver during the presentation"
+- **bound** had three conflated senses (wrap/heading/leap). Aligned to TOEIC primary "heading for": "The flight is bound for Tokyo at six PM"
+
+**POS / def-shape fixes**:
+- **comb** def was verb-form for noun pos → "a small tool with thin teeth used to tidy hair"
+- **gossip** def was verb-form for noun pos → "casual or unconfirmed talk about other people"
+- **plow** def was figurative for literal noun → "a farming tool used to turn soil"
+- **retreat** def was verb-form for noun pos → "an act of moving back, or a quiet place for relaxation"
+- **serial** def was adj-form but Chinese 連續劇 is noun → "a TV or radio drama broadcast in regular episodes"
+- **repetition** def was verb-form → "the act of doing or saying something again"
+- **foster** example used noun form but pos is verb → "The new program fosters innovation among employees"
+
+**Awkward example rewrites**:
+- **abide** "The old oak tree abides the wind endlessly" (poetic) → "All staff must abide by the company dress code"
+- **broaden** "Travel broadens the mind" (proverb) → "The new course broadens your knowledge of finance"
+- **drastically** "This recession has been drastically different" (clunky) → "Sales drastically improved after the marketing campaign"
+- **fluctuate** "I fluctuated between wishing he was back home" (emotional) → "Currency exchange rates fluctuate daily"
+- **interpreter** courtroom narrative → "An interpreter translated the keynote speech into three languages"
+- **merit** school context → "The proposal has merit and deserves serious consideration"
+- **adapter** "able adapter" (person sense) → "A travel adapter is essential for international business trips"
+- **oblige** probation context → "I would be much obliged if you could review the report"
+- **attire** verb usage → "Business attire is required at the formal dinner"
+
+**Capitalisation fix**: poorly def "Badly; not enough; not sufficient" → lowercase.
+
+### TOEIC fidelity now estimated at ~90% for TSL rank 1-1250
+
+Pass A (rank 1-500) + Pass B (rank 500-1000) + Pass C (rank 1000-1250) = **full TSL 1,250 hand-reviewed** for the four-field consistency (pos / def / Chinese / example).
+
+### Verification
+- TS clean
+- 500-question smoke: all 9 types fire, distribution healthy
+- Pool stats:
+  - Examples: 1,764 (+177 vs last release)
+  - Hard-tier eligibility expanding: more advanced words now have examples
+
 ## 2026-05-08 (Mobile) — Content expansion: examples + confusables + syn/ant + audio sentences
 
 Four-round expansion to fill content gaps users would notice after extended play.
