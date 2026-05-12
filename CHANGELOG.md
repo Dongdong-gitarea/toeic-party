@@ -1,5 +1,76 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Content expansion: examples + confusables + syn/ant + audio sentences
+
+Four-round expansion to fill content gaps users would notice after extended play.
+
+### Round 1: Non-TSL example sentences (+151)
+The hard tier now pulls 41% from non-TSL CET/TOEFL business words, but only 2.7% of those had example sentences — meaning they could only appear as plain vocab/audio questions (English → Chinese), never as cloze/audiocloze.
+
+Hand-wrote 151 TOEIC-style example sentences for high-priority business words covering:
+- Meetings/operations (agenda, minutes, attachment, quotation, tentative…)
+- HR (seniority, absenteeism, dismissal, severance, retention…)
+- Finance/accounting (ledger, remittance, amortize, deductible, expenditure…)
+- Sales/marketing (demographic, endorsement, testimonial, affiliate…)
+- Tech/IT (authentication, encryption, bandwidth, compatibility…)
+- Legal (litigation, arbitration, indemnity, jurisdiction, stipulation…)
+- Real estate (mortgage, sublet, occupant, proprietor…)
+- Plus general business verbs/adjectives (accelerate, accommodate, acquire, etc.)
+
+Non-TSL example coverage: **2.7% → 6.2%** (118 → 269).
+Total examples: **1,368 → 1,587**.
+
+### Round 2: Confusable pairs (+30, total 91 → 121)
+Added 30 high-value TOEIC trap pairs plus 32 new in-context sentence templates:
+- access/excess, specific/specify, concentrate/concentration
+- effective/efficient, adapt/adopt, compliment/complement
+- imply/infer, advice/advise, device/devise
+- practice/practise, license/licence, stationery/stationary
+- canvas/canvass, affect/effect, lay/lie
+- suit/suite, altar/alter, birth/berth
+- cite/sight, emigrate/immigrate, flair/flare
+- precede/proceed, quiet/quit, waiver/waver
+- than/then, allusion/illusion, ascent/assent
+- continual/continuous, historic/historical, comprise/compose
+
+### Round 3: Synonym + antonym sets (+35, total 54 → 89)
+**Synonyms** (+20, 30 → 50): accomplish, allocate, analyse, announce, assist, boost, cease, choose, commence, confirm, consume, contact, decline, defer, emphasize, enhance, execute, forbid, initiate, preserve.
+
+**Antonyms** (+15, 24 → 39): admit/deny, advance/retreat, ascend/descend, attract/repel, authorize/forbid, begin/end, borrow/lend, create/destroy, discover/conceal, employ/dismiss, expand/shrink, gain/lose, hire/fire, rise/fall, unite/divide.
+
+### Round 4: Audio sentence pool (+201, total 201 → 402)
+Doubled the listen + audiocloze pool. 201 new triples covering:
+- Office routines (briefing, debrief, huddle, hot-desk, paperless…)
+- Tech/IT (cloud, server, firewall, malware, phishing, breach…)
+- Finance (invoice, reconcile, audit, fiscal, equity, surplus…)
+- Sales (lead, prospect, pitch, closing, upsell, niche, portfolio…)
+- Marketing (campaign, outreach, rebrand, tagline, influencer, conversion…)
+- Operations (supply-chain, outsource, vendor, procurement, expedite…)
+- HR (onboarding, headcount, layoff, severance, promotion, demotion…)
+- Customer service (hotline, ticket, queue, escalate, resolve, compensate…)
+- Hospitality (itinerary, boarding, layover, checkin, valet, minibar, suite…)
+- Health/wellness (checkup, symptom, diagnosis, therapy, dosage, ergonomic…)
+- Education (certification, curriculum, module, enrollment, scholarship…)
+- Real estate (mortgage, sublet, eviction, deposit, lease, amenities…)
+- Legal/policy (compliance, terms, proprietary, copyright, trademark…)
+- Business action verbs (negotiate, merger, expansion, restructure, streamline…)
+
+### Combined player-facing impact
+- Hard tier advanced words now have 4 question types each (vocab + audio + cloze + audiocloze) when they have an example
+- Confusable rotation pool 33% larger — less feeling of "I've seen this"
+- Synonym/antonym rotation pool 65% larger
+- Listen + audiocloze rotation pool 100% larger — more variety in 2 listening tracks per game
+
+### Verification
+- TS clean (backend + frontend)
+- 500-question smoke: distribution healthy across all 9 types
+- Pool stats after expansion:
+  - Examples: 1,587 (was 1,368)
+  - Confusables: 121 (was 91)
+  - Synonyms: 50 (was 30)
+  - Antonyms: 39 (was 24)
+  - Audio sentences: 402 (was 201)
+
 ## 2026-05-08 (Mobile) — Code optimizations (no content change)
 
 User asked for automatic code-level optimizations. Found and applied:
