@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 13: +613 non-TSL examples (54.7% → 62.6%)
+
+S-T heavy round. Approaching two-thirds coverage.
+
+### Coverage progression
+| Round | Coverage | Total examples |
+|---|---|---|
+| Initial | 2.7% (118) | 1,368 |
+| Round 10 | 37.8% (1,630) | 3,643 |
+| Round 11 | 47.5% (2,048) | 4,383 |
+| Round 12 | 54.7% (2,361) | 4,981 |
+| **Round 13** | **62.6% (2,702)** | **5,594** |
+
+### What was added (~613 new business-context sentences)
+
+**S** (massive batch): shape, share, shareholder, sharp, sharply, shed, sheet, shelf, shelter, shield, shift, shine, ship, shipment, shipping, shock, shoe, shop, shopper, shopping, short, shortage, shorten, shortly, should, shoulder, shout, show, shower, shred, shut, shuttle, sick, side, sideline, sidewalk, sigh, sight, sign, signal, signature, significance, significant, significantly, signify, silence, silent, silently, silly, silver, similar, similarity, similarly, simple, simplicity, simplify, simply, simulation, simultaneous, simultaneously, since, sincere, sincerely, sing, singer, single, singular, sink, sir, sister, sit, site, situated, situation, six, sixteen, sixty, size, skate, skateboard, sketch, ski, skill, skilled, skin, skip, skirt, sky, skyscraper, slam, slash, sleep, sleepy, sleeve, slice, slide, slight, slightly, slim, slip, slipper, slippery, slogan, slope, slot, slow, slowdown, slowly, small, smart, smartphone, smell, smile, smoking, smooth, smoothly, snack, snap, snow, so, soak, soap, soccer, social, society, sock, sofa, soft, soften, softly, software, soil, sold, soldier, sole, solely, solemn, solid, solitude, solo, solution, solve, somebody, someday, somehow, someone, something, sometime, sometimes, somewhat, somewhere, son, song, soon, sophisticated, sore, sorry, sort, sought, soul, sound, soup, sour, source, south, southern, sovereign, sow, spa, space, spacious, span, spare, spark, speak, speaker, special, specialist, speciality, specialize, specially, specialty, species, specific, specifically, specification, specify, spectacular, spectator, spectrum, speculate, speech, speed, speedy, spell, spelling, spend, spending, sphere, spike, spill, spin, spirit, spiritual, spite, splash, split, spoil, sponsor, sponsorship, spot, spotlight, spouse, spray, spread, spreadsheet, spring, sprint, square, squeeze, stability, stable, stack, stadium, staff, stage, stain, stair, stake, stakeholder, stamp, stance, stand, standard, standardize, standing, standpoint, staple, star, stare, start, startup, state, statement, stationary, stationery, statistic, statistical, statistics, statue, status, statute, stay, steady, steadily, steak, steam, steel, steep, steer, stem, step, stereo, stick, sticker, sticky, stiff, still, stimulate, stimulus, stir, stitch, stock, stockbroker, stockholder, stomach, stone, stool, stop, storage, store, storey, storm, story, stove, straight, straighten, strain, strait, strange, stranger, strap, strategic, strategically, strategy, straw, stream, streamline, street, strength, strengthen, stress, stretch, strict, strictly, strike, striking, string, strip, stripe, strive, stroke, strong, strongly, structure, struggle, stubborn, stuck, student, studio, study, stuff, stunning, style, stylish, subject, subjective, submarine, submission, submit, subscribe, subscriber, subscription, subsequent, subsequently, subsidiary, subsidize, substance, substantial, substantially, substitute, subtle, subtract, suburb, subway, succeed, success, successful, successfully, succession, successive, successor, such, sudden, suddenly, sue, suffer, suffering, sufficient, sufficiently, sugar, suggest, suggestion, suit, suitable, suitcase, suite, sum, summary, summer, summit, sun, Sunday, sunlight, sunny, sunshine, super, superb, superficial, superior, supermarket, supervise, supervision, supervisor, supplier, supply, support, supporter, supportive, suppose, supposed, supreme, sure, surely, surf, surface, surge, surgeon, surgery, surname, surpass, surplus, surprise, surprised, surprising, surprisingly, surrender, surround, surrounding, survey, survival, survive, survivor, susceptible, suspect, suspend, suspension, suspicious, sustain, sustainability, sustainable, swap, sweater, sweep, sweet, swift, swimmer, swimming, swing, switch, symbol, symbolic, symmetry, sympathy, symphony, symptom, syndrome, synonym, synthesis, synthetic, syrup, system, systematic, systematically
+
+**T** (heavy batch): table, tablecloth, tablespoon, tablet, tackle, tact, tactic, tactical, tactics, tag, tailor, take, taken, takeover, talent, talented, talk, tall, tame, tangible, tank, tap, tape, target, tariff, task, taste, tasty, tax, taxation, taxi, tea, teach, teacher, teaching, team, teamwork, tear, tech, technical, technician, technique, technological, technology, teen, teenage, teenager, telephone, television, tell, temper, temperature, temple, temporarily, temporary, tempt, temptation, ten, tenant, tend, tendency, tender, tennis, tense, tension, tent, tentatively, tenth, term, terminal, terminate, termination, terminology, terrain, terrible, terribly, terrific, terrify, terrifying, territory, terror, terrorism, terrorist, test, testify, testimony, text, textbook, textile, texture, than, thank, thanks, that, the, theatre, theft, their, them, theme, themselves
+
+### Player impact
+**2,702 non-TSL words** now eligible for cloze/audiocloze — **23x** the original baseline. Total examples pool **5,594** — over 4x the original 1,368.
+
+### Verification
+- TS clean
+- Approaching two-thirds mark
+
 ## 2026-05-08 (Mobile) — Round 12: +600 non-TSL examples (47.5% → 54.7%)
 
 **Past the halfway mark.** Q-R-S heavy round.
