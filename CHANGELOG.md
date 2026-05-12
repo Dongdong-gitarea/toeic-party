@@ -1,5 +1,67 @@
 # Changelog
 
+## 2026-05-12 (Desktop) — Language audit: OCR typos + Chinese gloss fixes
+
+Second-pass language audit on a stable content base. Found three classes of
+real issues — none destroyed UX but each was a small content quality leak.
+
+### 1. OCR-style typo keys in vocab (HIGH impact, 14 entries)
+The non-TSL CET/TOEFL import contained transcription errors that nobody had
+caught. Each entry has a correct Chinese gloss but the **English key was
+garbled** — so it would appear in vocab/audio questions with no sensible
+English. Renamed to the proper form (Chinese was already correct):
+
+- `fught` → `flight` (gloss also retuned 航程 → 班機)
+- `amenna` → `antenna` (gloss 觸鬚 → 天線 for TOEIC business context)
+- `fiea` → `flea`
+- `etemity` → `eternity`
+- `tumpike` → `turnpike`
+- `briefmg` → `briefing`
+- `amobiography` → `autobiography`
+
+And 7 entries with a stray POS suffix in the key (`hardly ad`, `painfully ad`, etc.):
+- 5 renamed (`distinctively ad` → `distinctively`, `generously`, `happily`,
+  `hardly`, `painfully`)
+- 2 deleted as duplicates (`overnight ad`, `subsequently ad` — bare form
+  already existed)
+
+### 2. Off-target Chinese glosses (MEDIUM, 9 entries)
+Spot-checked random samples and found a handful where the Chinese sense
+didn't match the most useful TOEIC sense of the English word:
+
+| word | was | now | reason |
+|---|---|---|---|
+| `circle` | 循環 (cycle) | 圓圈 | basic shape sense |
+| `groom` | 馬夫 (stable hand) | 新郎 | wedding sense |
+| `picnic` | 郊遊 (outing) | 野餐 | direct equivalent |
+| `reporter` | 報告者 (literal) | 記者 | natural Chinese |
+| `check-out` | 檢查 (inspect!) | 退房 | hotel/TOEIC sense |
+| `shed` | 使流出 (cause to flow) | 棚屋 | concrete noun sense |
+| `chalk` | 白堊 (geology) | 粉筆 | school sense |
+| `extreme` | 盡頭的 (terminal) | 極端的 | common adj sense |
+| `mark` | 痕跡 (trace) | 標記 | TOEIC sense |
+| `overthrow` | 打翻 (knock over) | 推翻 | political sense |
+| `gang` | 惡少幫 (archaic) | 幫派 | modern |
+| `concede` | 讓與 (legal cede) | 讓步 | common sense |
+
+### 3. Cloze giveaways (HIGH, 4 examples)
+Examples where the target word/inflection appeared twice — player could see
+the answer in the prompt:
+- `found`: "The founder found a clear gap…" (founder/found both match)
+- `hearing`: "A hearing aid is available for guests with limited hearing."
+- `pile`: "A pile of work piled up…"
+- `talent`: "Top talent attracts more top talent…"
+
+### 4. Apostrophe consistency (LOW, 52 entries)
+Mixed straight (`'`) and curly (`'`) apostrophes across the file. Normalized
+all 52 curly to straight for uniform rendering.
+
+### Verification
+- TS clean
+- 3-game smoke test confirms generators still work
+- Total fixes: 14 vocab key renames + 12 Chinese gloss updates + 4 example
+  rewrites + 52 apostrophe normalizations
+
 ## 2026-05-12 (Desktop) — Playtest pass: cloze inflection + 21 broken examples
 
 Simulated 50+ games as a player and found two real content quality issues:
