@@ -1,5 +1,35 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 9: +400 non-TSL examples (23.9% → 29.6%)
+
+Continued example coverage drive. Coverage approaching the **11x baseline** mark.
+
+### Coverage progression
+| Round | Coverage | Total examples |
+|---|---|---|
+| Initial | 2.7% (118 / 4314) | 1,368 |
+| Round 1 | 6.2% (269) | 1,587 |
+| Round 5 | 9.3% (401) | 1,764 |
+| Round 6 | 13.6% (588) | 2,019 |
+| Round 7 | 19.2% (829) | 2,313 |
+| Round 8 | 23.9% (1,030) | 2,633 |
+| **Round 9** | **29.6% (1,277)** | **3,033** |
+
+### What was added (400 new business-context sentences)
+
+Focused on **E-F-G-H** words this round:
+
+**E-F transition**: exhaust, exhibit, exhibition, exist, existence, existing, exit, expand, expansion, expect, expectation, expense, expensive, experience, experienced, experiment, expert, expertise, expiration, expire, explain, explanation, explicit, explode, exploit, explore, explorer, explosion, explosive, export, expose, exposure, express, expression, extend, extension, extensive, extent, external, extinguisher, extra, extraordinary, extravagant, extreme, extremely, eye, eyewitness, fabric, fabricate, face, facility, fact, factor, factory, faculty, fail, failure, faint, fair, fairly, fairness, faith, faithful, fake, fall, false, falsehood, fame, familiar, familiarize, family, famine, famous, fan, fancy, fantastic, fantasy, far, farewell, farm, farmer, farming, fascinate, fascinating, fashion, fashionable, fast, fasten, fate, fatigue, fault, faulty, favor, favorable, favorite, fear, feast, feature, federal, fee, feel, feeling, fellow, fellowship, female, fence, ferment, ferocious, ferry, fertile, festival, festive, fetch, fever, few, fewer, fibre, fiction, field, fierce, fifteen, fifty, fight, figurative, figure, file, fill, film, filter, final, finalize, finally, finance, financial, financially, find, finding, fine, finger, finish, fire, firefighter, firmly, first, firstly, fiscal, fish, fisherman, fishing, fit, fitness, five, fix, fixture, flag, flagship, flame, flap, flash, flashlight, flat, flavor, flawless, fled, flee, fleet, flesh, flexibility, flexible, flick, flight, flip, float, flock, flood, flooding, flour, flourish, flow, flower, fluctuate, fluently, flush, fly, fog, foil, fold, folder, folk
+
+**F-G-H**: follow, follower, following, fond, food, fool, foolish, foot, football, footprint, forbid, force, forecast, foreign, forget, forgive, fork, form, formal, formality, formation, former, formerly, formula, formulate, fort, forth, forthcoming, fortunate, fortunately, fortune, forum, forward, fossil, foster, foul, found, foundation, founder, four, fragile, fragment, frame, framework, frank, frankly, free, freedom, freeze, frequency, frequent, frequently, fresh, fridge, friend, friendly, friendship, frighten, frightened, frightening, from, front, frontier, frost, frown, frozen, fruit, fruitful, frustrate, frustration, fuel, fulfil, full, fully, fun, function, functional, fund, fundamental, fundamentally, funeral, funny, fur, furious, furnish, furniture, further, furthermore, fuse, gain, galaxy, gallery, gamble, game, gap, garage, garbage, garden, garlic, gas, gasoline, gate, gather, gathering, gauge, gear, gender, gene, general, generally, generation, generate, generosity, generous, genius, gentle, gentleman, gently, genuine, genuinely, gesture, get, giant, gift, gigantic, give, glad, glance, glass, gleam, global, globally, globe, glorious, glory, glow, glue, go, goal, gold, golden, golf, good, goodbye, goodness, goods, gorgeous, gossip, govern, government, governor, grace, graceful, gracious, grade, gradual, gradually, graduate, graduation, grain, gram, grammar, grand, grandchild, grandeur, grandparent, granite, grant, graph, graphic, graphics, grasp, grateful, gravity, gray, great, greatly, green, greenhouse, greet, greeting, grey, grief, grim, grin, grip, grocery, gross, ground, group, grow, growth, guarantee, guard, guess, guest, guidance, guide, guideline, gulf, gum, gun, gust, gut, gym, habit, habitat, hair, haircut, half, hall, halt, ham, hand, handful, handle, handsome, handwriting, handy, hang, happen, happily, happiness, happy, harassment, harbor, hard, harden
+
+### Player impact
+**1,277 non-TSL words** now eligible for cloze/audiocloze. Hard tier rotation is now 10-11x the original baseline of 118 words.
+
+### Verification
+- TS clean
+- 1,277 non-TSL words with examples (was 1,030 last round, 118 originally)
+
 ## 2026-05-08 (Mobile) — Round 8: +320 non-TSL examples (19.2% → 23.9%)
 
 Continued non-TSL example coverage drive — focus on D-E words this round.
