@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-05-08 (Mobile) — Round 7: +294 non-TSL examples (13.6% → 19.2%)
+
+Continued example coverage drive. Coverage **doubled-and-more** vs the starting baseline:
+
+| Round | Coverage | Total examples |
+|---|---|---|
+| Initial | 2.7% (118 / 4314) | 1,368 |
+| Round 1 | 6.2% (269) | 1,587 |
+| Round 5 | 9.3% (401) | 1,764 |
+| Round 6 | 13.6% (588) | 2,019 |
+| **Round 7** | **19.2% (829)** | **2,313** |
+
+### What was added (294 new business-context sentences)
+
+**A-words finished**: against, airline, airmail, air-tight, airway, album, alienate, alive, allied, alone, alphabet, analects, anecdote, anonymous, anymore, antibody, anybody, apart, apparent, apparently, appeal, appear, attainment, attraction, attractive, audio-visual, author, autobiography, automatically, autumn, awaken, awkwardly
+
+**B-words**: bachelor, badminton, bargaining, bar-code, barber, barbershop, bare, barely, bark, based, basin, bath, bathe, bathtub, battle, beat, beautify, beauty, beckon, beef, beer, behave, behavior, behind, believe, belongings, benefit, beside, besides, best, bestseller, better, beware, beyond, billion, billionaire, biological, biscuit, bitter, bitterly, biweekly, bizarre, black, blackboard, blameworthy, bland, blaze, bleak, bless, blessing, blind, blink, bloc, blood, blue, blueprint, blunder, blur, blush, board, boat, bodyguard, boil, boldly, bolt, bomb, boom, bore, bored, boring, born, boulevard, bounce, boycott, brace, brain, brave, bravery, breach, bread, break, breakfast, break-up, breast, breath, breathe, breathtaking, breed, breeze, brew, brick, bride, bridegroom, brighten, bring, brisk, brook, brutal, brutality, bubble, bucket, bull, bullet, bully, bunch, bundle, burst, busily, butcher
+
+**C-words**: cab, cabbage, cabin, cabinet, cable, cake, calm, camera, camp, canal, cancel, cancer, candle, candy, cane, cap, capable, capacity, capitalist, capsule, capture, card, cardboard, careful, carriage, carrot, cast, castle, cat, catalog, catalogue, catastrophe, category, cathedral, caution, cautious, cavity, ceiling, cellular, cement, cereal, ceremony, chairperson, chalk, chapter, cheap, cheaply, cheat, cheek, cherish, chess, chip, choke, chop, chord, chorus, chronic, chuckle, citizen, civic, civil, civilian, civilization, clarification, clarity, clash, classification, climb, cling, cluster, coach, coal, coalition, coastal, coffin, coherent, coil, collaborative, collide, colon, comb, combat, comic, commander, commemorate, commence, commentary, commercial, common, communicate, communism, compact, comparative, compass, compassion, compelling, compensation, compile, complete, completely, complex, complexity, compliant, complimentary, comply, component, compose, composer, composite, composition, compound, comprehend, comprise, compulsory, computation, computing, concede, conceive, concentrate, concept, concern, concerning, concert, concession, concise, concrete, condemn, condense, condition, condominium, conduct, confer, conference, confess, confide, configuration, confine, confirm, conflict, conform, confront, confused, confusion, congestion, connect, connection, conquer, conscience, conscious, consciousness, consensus, consent, consequence, consequently, conservation, conservative, considerable, considerably, consideration, consist, consistent, console, conspicuous, constant, constantly, constellation, constitute, constitution, constraint, construct, construction, consult, consultant, consume, consumer, consumption, contact, contagious, contain, container, contaminate, contemporary, contempt, contend, content, contention, contest, context, continent, continual, continually, continue, continuity, continuous, contour, contradict, contrary, contribute, contribution, contributor, control, controller, controversial, controversy, convene, convention, conversation, conversely, conversion, convert, convey, convict, conviction, convince, cooperate, cooperation, cooperative, coordinate, coordination, cope, core, corner, corporate, corporation, correspond, corruption, cost, cost-effective, cosy, cottage, cotton, couch, cough, council, counsel, counter, counterpart, countless, country
+
+### Player impact
+Hard-tier rotation now has 19.2% of advanced (non-TSL) business words with examples — eligible for cloze and audiocloze question types. Question type variety for hard-tier advanced words has more than **7x** since the initial baseline (2.7%).
+
+### Verification
+- TS clean
+- 829 non-TSL words eligible for cloze/audiocloze (was 588 before this round)
+
 ## 2026-05-08 (Mobile) — Round 6: +255 non-TSL examples (9.3% → 13.6%)
 
 Continuing example coverage for non-TSL CET/TOEFL business words so they can appear as cloze / audiocloze (not just plain vocab) when picked by the hard tier.
