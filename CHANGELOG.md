@@ -1,5 +1,46 @@
 # Changelog
 
+## 2026-05-12 (Desktop) — Playtest pass: cloze inflection + 21 broken examples
+
+Simulated 50+ games as a player and found two real content quality issues:
+
+### 1. Cloze grammar mismatch (HIGH impact)
+When an example used an inflected form (e.g. "biographies", "decorated"), the
+generator showed the bare lemma as the answer — player would fill in "many
+biography" or "Both paper and plastic can be recycle". Affected ~8% of cloze
+questions (105 TSL examples).
+
+**Fix** (`backend/src/data/tslLoader.ts`):
+- `buildClozeMatcher` regex uses non-capturing groups, so `m[1]` was undefined;
+  the inflected-form detection silently fell back to the lemma every time.
+  Switched to `m[0]`.
+- Added `inflectLike(distractor, lemma, matched)` helper. When the example uses
+  plural / past / gerund / adverb of the lemma, applies the SAME suffix
+  (with English orthography rules: y→ies, e-drop, s/x/z/ch/sh→es) to each
+  distractor. Both cloze and audiocloze options now stay grammatically uniform.
+
+### 2. 21 broken / fragment examples (MEDIUM impact)
+Old dictionary-style fragments and a few sentences that didn't contain the
+target word at all:
+- Completely off-target: `pee`, `project`, `success`, `surgery`, `reflection`,
+  `pirate`, `boarding`, `résumé`
+- Dictionary fragments (no period, no full sentence): `appointment`,
+  `appreciate`, `compromise`, `customary`, `executive`, `legitimate`,
+  `manufacture`, `launch`, `premises`, `budget`
+- Too short to give context: `superb`, `prescribe`, `testimony`
+- Compound-word typo: `outdated` example used `wordprocessing` → `word-processing`
+
+Rewrote each as a natural full sentence with the target word in the right form.
+
+### Verification
+- TS clean
+- 200-game simulation: inflected cloze samples now show correct grammar
+  (e.g. `lemma=remodel correct=remodeled` with distractors `interfered /
+  resumed / reproduced`)
+- Sweep of all 7,529 examples: only 6 minor "word-not-in-example" remain
+  (irregular verb `drive`→`drove` + 5 part-of-speech-suffix keys like
+  `hardly ad` which the cloze matcher already filters out)
+
 ## 2026-05-12 (Mobile) — Round 15: +1,306 non-TSL examples — **100% COVERAGE**
 
 **Milestone.** Every word in the entire 5,523-entry vocab pool now has an English example sentence. From a 2.7% baseline 14 rounds ago, the journey is complete.

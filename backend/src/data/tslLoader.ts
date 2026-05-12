@@ -520,6 +520,38 @@ function pickClozeDistractors(target: TSLWord, all: TSLWord[]): string[] {
   return distractors;
 }
 
+// When an example uses an inflected form (e.g. "biographies", "decorated"), the
+// correct option must match grammatically. This inflects a same-POS distractor
+// with the same suffix the matched form uses, so the option set stays uniform
+// and the answer doesn't leak via plurality alone.
+function inflectLike(distractor: string, lemma: string, matched: string): string {
+  const m = matched.toLowerCase();
+  const l = lemma.toLowerCase();
+  const d = distractor;
+  const yToIesPlural = l.endsWith('y') && l.length > 2 && !/[aeiou]y$/.test(l) && m === l.slice(0, -1) + 'ies';
+  if (m === l + 's' || m === l + 'es' || yToIesPlural) {
+    if (/(s|x|z|ch|sh)$/i.test(d)) return d + 'es';
+    if (d.endsWith('y') && d.length > 2 && !/[aeiou]y$/i.test(d)) return d.slice(0, -1) + 'ies';
+    return d + 's';
+  }
+  const yToIedPast = l.endsWith('y') && l.length > 2 && !/[aeiou]y$/.test(l) && m === l.slice(0, -1) + 'ied';
+  const eDropPast = l.endsWith('e') && m === l + 'd';
+  if (m === l + 'ed' || eDropPast || yToIedPast) {
+    if (d.endsWith('e')) return d + 'd';
+    if (d.endsWith('y') && d.length > 2 && !/[aeiou]y$/i.test(d)) return d.slice(0, -1) + 'ied';
+    return d + 'ed';
+  }
+  const eDropIng = l.endsWith('e') && m === l.slice(0, -1) + 'ing';
+  if (m === l + 'ing' || eDropIng) {
+    if (d.endsWith('e') && d.length > 2) return d.slice(0, -1) + 'ing';
+    return d + 'ing';
+  }
+  if (m === l + 'ly') return d + 'ly';
+  if (m === l + "'s") return d + "'s";
+  if (m === l + 'er') return d + 'er';
+  return d;
+}
+
 // Build a regex that matches the lemma OR common inflected forms of `word`.
 // Handles:
 //   plural -s/-es, possessive 's, past -ed/-d, gerund -ing, comparatives -er/-est,
@@ -580,17 +612,26 @@ function generateClozeQuestions(count: number, weakLower: Set<string>, excludeLo
   return selected.map((w, idx) => {
     const ex = examples[w.word.toLowerCase()]!;
     const re = buildClozeMatcher(w.word);
+    const m = ex.match(re);
+    const matched = m?.[0] ?? w.word;
     // Replace first occurrence with ___
     const prompt = ex.replace(re, '___');
-    const distractors = pickClozeDistractors(w, all);
-    const options = shuffle([w.word, ...distractors]);
+    const baseDistractors = pickClozeDistractors(w, all);
+    // If the example uses an inflected form, show the inflected form as the
+    // answer and apply the same inflection to each distractor.
+    const sameForm = matched.toLowerCase() === w.word.toLowerCase();
+    const correct = sameForm ? w.word : matched;
+    const distractors = sameForm
+      ? baseDistractors
+      : baseDistractors.map((d) => inflectLike(d, w.word, matched));
+    const options = shuffle([correct, ...distractors]);
     return withMeta({
       id: `cloze-${idx}-${w.rank}`,
       type: 'cloze' as const,
       word: w.word,
       prompt,
       options,
-      correctIndex: options.indexOf(w.word),
+      correctIndex: options.indexOf(correct),
       definition: w.definition_en,
       example: ex,
     });
@@ -618,8 +659,14 @@ function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excl
     const matchLen = m?.[0].length ?? w.word.length;
     const before = ex.slice(0, matchIndex).trimEnd();
     const after = ex.slice(matchIndex + matchLen).trimStart();
-    const distractors = pickClozeDistractors(w, all);
-    const options = shuffle([w.word, ...distractors]);
+    const matched = m?.[0] ?? w.word;
+    const sameForm = matched.toLowerCase() === w.word.toLowerCase();
+    const correct = sameForm ? w.word : matched;
+    const baseDistractors = pickClozeDistractors(w, all);
+    const distractors = sameForm
+      ? baseDistractors
+      : baseDistractors.map((d) => inflectLike(d, w.word, matched));
+    const options = shuffle([correct, ...distractors]);
     return withMeta({
       id: `audiocloze-${idx}-${w.rank}`,
       type: 'audiocloze' as const,
@@ -632,7 +679,7 @@ function generateAudioClozeQuestions(count: number, weakLower: Set<string>, excl
       // two halves of the sentence separately with a noticeable pause.
       audioPayload: `${before}|||${after}`,
       options,
-      correctIndex: options.indexOf(w.word),
+      correctIndex: options.indexOf(correct),
       definition: w.definition_en,
       example: ex,
     });
